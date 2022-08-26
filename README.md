@@ -2,9 +2,15 @@
 
 # A mathematical Fourier Series machine
 
-1. Approximates any function (real, complex even discontinous) in terms of Sines and Cosines
+1. Approximates any function (real, complex and even discontinous) in terms of Sines and Cosines
 2. External Functions supported (in form of SVG vector data)
 3. Many options and customisations
+
+# Usage
+
+1. Install Java on your computer and add it to the path
+2. Copy folder "out\artifacts\complex_jar" to your computer
+2. click "launch.bat"
 
 #  Define external path functions
 
