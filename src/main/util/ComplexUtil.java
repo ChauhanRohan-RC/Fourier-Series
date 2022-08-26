@@ -1,0 +1,204 @@
+package main.util;
+
+import main.models.function.ComplexFunctionI;
+import main.models.function.ComplexDomainFunctionI;
+import main.models.ComplexSum;
+import org.apache.commons.math3.complex.Complex;
+import org.jetbrains.annotations.NotNull;
+
+
+public class ComplexUtil {
+
+    public static final double PI = Math.PI;
+    public static final double HALF_PI = PI / 2;
+    public static final double TWo_PI = PI * 2;
+
+    public static final int SIMPSON_13_N_MIN = 2;       // Must be even
+    public static final int SIMPSON_13_N_DEFAULT = 100;
+
+    public static final int SIMPSON_38_N_MIN = 3;       // must be multiple of 3
+    public static final int SIMPSON_38_N_DEFAULT = 51;
+
+    public static final int SIMPSON_13_N_DEFAULT_FOURIER = 100000;          // TODO: accuracy
+    public static final boolean FOURIER_TRANSFORM_CLOCKWISE = true;
+
+    private ComplexUtil() {
+    }
+
+
+    public static double constraint(double min, double max, double value) {
+        return Math.max(min, Math.min(max, value));
+    }
+
+    public static float constraint(float min, float max, float value) {
+        return Math.max(min, Math.min(max, value));
+    }
+
+    public static long constraint(long min, long max, long value) {
+        return Math.max(min, Math.min(max, value));
+    }
+
+    public static int constraint(int min, int max, int value) {
+        return Math.max(min, Math.min(max, value));
+    }
+
+    public static double map(double val, double s0, double e0, double s1, double e1) {
+        return s1 + (((val - s0) / (e0 - s0)) * (e1  - s1));
+    }
+
+    @NotNull
+    public static Complex interpolateLinear(@NotNull Complex p0, @NotNull Complex p1, float i) {
+        final double i_ = 1 - i;
+        return new Complex((i_ * p0.getReal()) + (i * p1.getReal()), (i_ * p0.getImaginary()) + (i * p1.getImaginary()));
+    }
+
+
+    public static int getDirection(boolean clockwise) {
+        return clockwise? 1: -1;
+    }
+
+
+    /**
+     * Integrates a complex function using Simpson 1/3 rule
+     * In most cases, it is more accurate than Simpson 3/8 and far more than Trapezoid
+     *
+     * It uses a quadratic (degree 2) interpolation
+     *
+     * @param f function to integrate
+     * @param a lower limit
+     * @param b upper limit
+     * @param n number of intervals integration range will be divided in, must be EVEN (0 or -ve to use default)
+     *
+     * @see #simpson38(ComplexFunctionI, double, double, int)
+     * */
+    @NotNull
+    public static Complex simpson13(final @NotNull ComplexFunctionI f, final double a, final double b, int n) {
+        // N
+        if (n <= 0) {
+            n = SIMPSON_13_N_DEFAULT;
+        } else if (n < SIMPSON_13_N_MIN) {
+            n = SIMPSON_13_N_MIN;
+        }
+
+        if ((n % 2) != 0) {
+            n++; /* must be even */
+        }
+
+        // main.Main
+        final double h = (b - a) / n;
+        final ComplexSum s = new ComplexSum();
+
+        // 1. End Points
+        s.add(f.compute(a));
+        s.add(f.compute(b));
+
+        // 2. Odd Points
+        for (int i=1; i < n; i+=2) {
+            s.add(f.compute(a + (i * h)), 4);
+        }
+
+        // 3. Even Points
+        for (int i=2; i < n; i+=2) {
+            s.add(f.compute(a + (i * h)), 2);
+        }
+
+        s.mult(h / 3);
+        return s.toComplex();
+    }
+
+    @NotNull
+    public static Complex simpson13(final @NotNull ComplexFunctionI f, final double a, final double b) {
+        return simpson13(f, a, b, 0);
+    }
+
+
+    /**
+     * Integrates a complex function using Simpson 3/8 rule
+     * In most cases, it is less accurate than Simpson 1/3 but can be twice as accurate in some cases
+     *
+     * It uses a cubic (degree 3) interpolation
+     *
+     * @param f function to integrate
+     * @param a lower limit
+     * @param b upper limit
+     * @param n number of intervals integration range will be divided in, must be MULTIPLE OF 3 (0 or -ve to use default)
+     *
+     * @see #simpson13(ComplexFunctionI, double, double, int)
+     * */
+    @NotNull
+    public static Complex simpson38(final @NotNull ComplexFunctionI f, final double a, final double b, int n) {
+        // N
+        if (n <= 0) {
+            n = SIMPSON_38_N_DEFAULT;
+        } else if (n < SIMPSON_38_N_MIN) {
+            n = SIMPSON_38_N_MIN;
+        }
+
+        int r = n % 3;
+        if (r != 0) {
+            n += (3 - r);           // must be a multiple of 3
+        }
+
+        // main.Main
+        final double h = (b - a) / n;
+        final ComplexSum s = new ComplexSum();
+
+        // 1. End Points
+        s.add(f.compute(a));
+        s.add(f.compute(b));
+
+        // 2. Mid Points
+        double x = a;
+        for (int i=1; i < n; i++) {
+            x += h;
+            s.add(f.compute(x), (i % 3) != 0? 3: 2);
+        }
+
+        s.mult(h * 0.375 /* 3/8 */);
+        return s.toComplex();
+    }
+
+    @NotNull
+    public static Complex simpson38(final @NotNull ComplexFunctionI f, final double a, final double b) {
+        return simpson38(f, a, b, 0);
+    }
+
+    @NotNull
+    public static ComplexFunctionI fourierTransformIntegrand(@NotNull ComplexFunctionI f, double frequency, boolean clockwise) {
+        final double pre = getDirection(clockwise) * 2 * Math.PI * frequency;
+        return t -> f.compute(t).multiply(new Complex(0,pre * t).exp());
+    }
+
+    @NotNull
+    public static ComplexFunctionI fourierTransformIntegrand(@NotNull ComplexFunctionI f, double frequency) {
+        return fourierTransformIntegrand(f, frequency, FOURIER_TRANSFORM_CLOCKWISE);
+    }
+
+
+
+    // Must be complimentary of coefficient direction
+    public static int getFourierSeriesRotorTipDirection() {
+        return getDirection(!FOURIER_TRANSFORM_CLOCKWISE);
+    }
+
+    @NotNull
+    public static Complex fourierSeriesCoefficient(@NotNull ComplexFunctionI f, double frequency, double a, double b, int n) {
+        return simpson13(fourierTransformIntegrand(f, frequency), a, b, n > 0? n: SIMPSON_13_N_DEFAULT_FOURIER).divide(b - a);
+    }
+
+    @NotNull
+    public static Complex fourierS67eriesCoefficient(@NotNull ComplexFunctionI f, double frequency, double a, double b) {
+        return fourierSeriesCoefficient(f, frequency, a, b, 0);
+    }
+
+    @NotNull
+    public static Complex fourierSeriesCoefficient(@NotNull ComplexDomainFunctionI f, double frequency, int n) {
+        return fourierSeriesCoefficient(f, frequency, f.getDomainStart(), f.getDomainEnd(), n);
+    }
+
+    @NotNull
+    public static Complex fourierSeriesCoefficient(@NotNull ComplexDomainFunctionI f, double frequency) {
+        return fourierSeriesCoefficient(f, frequency,0);
+    }
+
+}
