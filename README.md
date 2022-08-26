@@ -6,6 +6,11 @@
 2. External Functions supported (in form of SVG vector data)
 3. Many options and customisations
 
+# Demo
+
+1. https://www.youtube.com/watch?v=eFbR1_0GCGw
+2. https://www.youtube.com/watch?v=8WbKhzp2rGw
+
 # Usage
 
 1. Install Java on your computer and add it to the path
@@ -17,9 +22,3 @@
 1. create a file inside EXT_FUNCTIONS dir
 2. copy path data inside file
 3. use | (logical or) character as delimier to define multiple path data as single function
-
-
-# Demo
-
-1. https://www.youtube.com/watch?v=eFbR1_0GCGw
-2. https://www.youtube.com/watch?v=8WbKhzp2rGw
