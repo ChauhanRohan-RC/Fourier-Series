@@ -1,14 +1,20 @@
 package main.models.rotor;
 
+import main.R;
 import main.models.function.ComplexDomainFunctionI;
 import main.models.function.ComplexDomainFunctionWrapper;
+import main.util.ComplexUtil;
 import main.util.Listeners;
-import main.util.async.*;
+import main.util.Log;
+import main.util.async.Async;
+import main.util.async.CRun;
+import main.util.async.CancellationProvider;
+import main.util.async.Canceller;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import main.util.ComplexUtil;
-import main.util.Log;
 
+import java.io.FileWriter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -19,6 +25,8 @@ import java.util.function.Consumer;
 public class StandardRotorStateManager extends ComplexDomainFunctionWrapper implements RotorStateManager {
 
     public static final String TAG = "StandardRotorStateManager";
+    public static final boolean SYNCHRONISE_ROTORS_BATCH_LOAD = false;
+
     public static final int DEFAULT_INITIAL_ROTOR_COUNT = 200;
 
     public static final int MAX_ROTORS_LOAD_PER_THREAD = 80;
@@ -59,6 +67,11 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
         this(f, -1);
     }
 
+
+    @Override
+    public boolean isNoOp() {
+        return false;
+    }
 
     @Override
     public int getDefaultInitialRotorCount() {
@@ -218,8 +231,7 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
         onRotorCountUpdated(prev, newCount, notify);
     }
 
-    protected void onLoaded(int count, int start, boolean cancelled, boolean setAfterLoad) {
-
+    protected void onLoaded(int count, int start, boolean cancelled, boolean setAfterLoad, boolean notifyLoadEnded) {
         // Notify full loads
         if (start == 0) {
             final int pending = mPendingRotorCount;
@@ -230,7 +242,12 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
                 }
             }
 
-            notifyListeners(l -> l.onRotorsLoadFinished(StandardRotorStateManager.this, count, cancelled));
+            notifyListeners(l -> {
+                l.onRotorsLoadFinished(StandardRotorStateManager.this, count, cancelled);
+                if (notifyLoadEnded) {
+                    l.onRotorsLoadingChanged(false);
+                }
+            });
         }
     }
 
@@ -238,15 +255,19 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
 
     private void doLoadRotorStates(int count, int start, @Nullable CancellationProvider c) {
         double frequency;
-        for (int i = start; i < count && (c == null || !c.isCancelled()); i++) {
+        for (int i = start; i < (start + count) && (c == null || !c.isCancelled()); i++) {
             frequency = getRotorFrequency(i, count);
             if (containsRotorState(frequency))
                 continue;
 
-            synchronized (mStore) {
-                if (containsRotorState(frequency))
-                    return;
+            if (SYNCHRONISE_ROTORS_BATCH_LOAD) {
+                synchronized (mStore) {
+                    if (containsRotorState(frequency))
+                        return;
 
+                    mStore.put(frequency, createRotorState(frequency));
+                }
+            } else {
                 mStore.put(frequency, createRotorState(frequency));
             }
         }
@@ -261,34 +282,46 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
 //        }
 
         mIsLoading = true;
+        notifyListeners(l -> l.onRotorsLoadingChanged(true));
 
-        final int range = count - start;
+        final int chunkSize = MAX_ROTORS_LOAD_PER_THREAD;
         final LinkedList<Callable<Object>> tasks = new LinkedList<>();
+//        final LinkedList<Runnable> tasks = new LinkedList<>();
 
-        for (int i=0; i < range / MAX_ROTORS_LOAD_PER_THREAD; i++) {
-            final int _s = start + (i * MAX_ROTORS_LOAD_PER_THREAD);
-            tasks.add(Executors.callable(() -> doLoadRotorStates(MAX_ROTORS_LOAD_PER_THREAD, _s, c)));
+        for (int i=0; i < count / chunkSize; i++) {
+            final int _s = start + (i * chunkSize);
+//            tasks.add()
+            tasks.add(Executors.callable(() -> doLoadRotorStates(chunkSize, _s, c)));
         }
 
         // last
-        final int left = range % MAX_ROTORS_LOAD_PER_THREAD;
+        final int left = count % chunkSize;
         if (left > 0) {
-            tasks.add(Executors.callable(() -> doLoadRotorStates(left, count - left, c)));
+            tasks.add(Executors.callable(() -> doLoadRotorStates(left, start + count - left, c)));
         }
 
         final long startMs = System.currentTimeMillis();
         try {
             Async.THREAD_POOL_EXECUTOR.invokeAll(tasks);
+//            for (Future<Object> f: fts) {
+//                if (!f.isDone())
+//                    f.get();
+//            }
+//            for (Callable<Object> task: tasks) {
+//                task.call();
+//            }
         } catch (Throwable ignored) {
         }
 
-        mIsLoading = false;
+//        mIsLoading = false;
+//        notifyListeners(l -> l.onRotorsLoadingChanged(false));
         final boolean cancelled = c != null && c.isCancelled();
         if (!cancelled) {
-            Log.d(TAG, range + " fourier series coefficients loaded in " + (System.currentTimeMillis() - startMs) + "ms");
+            Log.d(TAG, count + " fourier series coefficients loaded in " + (System.currentTimeMillis() - startMs) + "ms");
         }
 
-        onLoaded(count, start, cancelled, setAfterLoad);
+        mIsLoading = false;
+        onLoaded(count, start, cancelled, setAfterLoad, true);
     }
 
     protected void loadSync(int count, @Nullable CancellationProvider c, boolean setAfterLoad) {
@@ -306,7 +339,7 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
         loadSync(count, c, false);
     }
 
-                            @NotNull
+    @NotNull
     private Canceller loadAsyncInternal(final int count, final int start, boolean setAfterLoad) {
 //        if (cancelPrev) {
 //            cancelLoad(true);      // cancel prev
@@ -361,6 +394,5 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
 
         return loadAsync(count, true);
     }
-
 
 }

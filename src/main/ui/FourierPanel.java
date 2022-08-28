@@ -193,6 +193,10 @@ public class FourierPanel extends JPanel {
 
         void onDomainTravelSpeedChanged(int percent);
 
+        void onRotorStateManagerChanged(@Nullable RotorStateManager old, @NotNull RotorStateManager _new);
+
+        void onRotorsLoadingChanged(boolean isLoading);
+
         default void onEndBehaviourChanged(@NotNull EndBehaviour old, @NotNull EndBehaviour _new) { }
 
         default void onPointsJoiningEnabledChanged(boolean pointsJoiningEnabled) { }
@@ -244,6 +248,11 @@ public class FourierPanel extends JPanel {
 
 
     private final RotorStateManager.Listener mRotorStateListener = new RotorStateManager.Listener() {
+
+        @Override
+        public void onRotorsLoadingChanged(boolean isLoading) {
+            FourierPanel.this.forEachPanelListener(l -> l.onRotorsLoadingChanged(isLoading));
+        }
 
         @Override
         public void onRotorsLoadFinished(@NotNull RotorStateProvider manager, int count, boolean cancelled) {
@@ -439,6 +448,7 @@ public class FourierPanel extends JPanel {
         }
 
         syncRotorStateManagerInternal(true);
+        forEachPanelListener(l -> l.onRotorStateManagerChanged(old, _new));
     }
 
     public final void setRotorStateManager(@NotNull RotorStateManager rotorStateManager) {
@@ -962,7 +972,7 @@ public class FourierPanel extends JPanel {
         /* ...........................  HUD .....................................*/
 
         // 1. Status
-        final String statusText = R.getStatusText(mRotorStateManager.isLoading());
+        final String statusText = R.getStatusText(mRotorStateManager.isLoading(), mRotorStateManager.getPendingRotorCount());
         if (!(statusText == null || statusText.isEmpty())) {
             g.setColor(FG);
             g.setFont(g.getFont().deriveFont(18f));

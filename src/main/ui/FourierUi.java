@@ -16,6 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class FourierUi extends JFrame implements FourierPanel.PanelListener, Ui 
 
     public static final boolean DEFAULT_FULLSCREEN = false;
     public static final boolean DEFAULT_CONTROLS_VISIBLE = true;
+    public static final boolean AUTO_PLAY_ON_ROTOR_STATE_MANAGER_CHANGE = true;
 
     private static final Dimension MINIMUM_SIZE = new Dimension(400, 400);
 
@@ -42,7 +44,6 @@ public class FourierUi extends JFrame implements FourierPanel.PanelListener, Ui 
     final JLabel speedText;
     final JSlider speedSlider;
 
-    final List<FunctionProviderI> providers;
     final JLabel functionLabel;
     final JComboBox<FunctionProviderI> functionComboBox;
 
@@ -70,6 +71,7 @@ public class FourierUi extends JFrame implements FourierPanel.PanelListener, Ui 
     final JButton downButton;
 
     final JButton toggleControlsButton;
+    private final JComponent[] funcDependentComps;              // Ui components that depend on function
 
     public FourierUi() {
         this(null, 0 /* First */);
@@ -78,15 +80,13 @@ public class FourierUi extends JFrame implements FourierPanel.PanelListener, Ui 
     public FourierUi(@Nullable String title, int initialProviderIndex) {
         super(title == null || title.isEmpty()? MAIN_TITLE : title);
 
-        providers = Providers.ALL_PROVIDERS;
-
         panel = new FourierPanel(new RotorStateManager.NoOp());
 
         // Function
         functionLabel = new JLabel(R.getFunctionProviderLabelText());
         functionLabel.setToolTipText(R.getFunctionProviderTooltipText());
 
-        functionComboBox = new JComboBox<>(providers.toArray(new FunctionProviderI[0]));
+        functionComboBox = new JComboBox<>(Providers.ALL_PROVIDERS.toArray(new FunctionProviderI[0]));
         functionComboBox.setToolTipText(R.getFunctionProviderTooltipText());
 
         pointsJoinCheck = new JCheckBox(R.getPointsJoiningText());
@@ -175,6 +175,24 @@ public class FourierUi extends JFrame implements FourierPanel.PanelListener, Ui 
         toggleControlsButton = new JButton(R.getToggleControlsText(DEFAULT_CONTROLS_VISIBLE));
         toggleControlsButton.setToolTipText(R.getToggleControlsTooltipText(DEFAULT_CONTROLS_VISIBLE));
 
+        // Ui components that depend on function
+        funcDependentComps = new JComponent[]{
+                playToggle,
+                resetButton,
+                hueCycleCheckBox,
+                rotorCountSlider,
+                rotorCountText,
+                speedSlider,
+                speedText,
+                scaleIncButton,
+                scaleDecButton,
+                scaleText,
+                upButton,
+                downButton,
+                leftButton,
+                rightButton,
+                resetScaleAndDragButton
+        };
 
 
         // Layout
@@ -339,7 +357,14 @@ public class FourierUi extends JFrame implements FourierPanel.PanelListener, Ui 
         // Listeners
         panel.addPanelListener(this);
 
-        rotorCountSlider.addChangeListener(ev -> setRotorCount(rotorCountSlider.getValue()));
+        rotorCountSlider.addChangeListener(ev -> {
+            final int val = rotorCountSlider.getValue();
+            if (rotorCountSlider.getValueIsAdjusting()) {
+                updateRotorCountText(val);
+            } else {
+                setRotorCount(val);
+            }
+        });
         speedSlider.addChangeListener(ev -> setSpeedPercent(speedSlider.getValue(), false));
         playToggle.addItemListener(e -> setPlay(!playToggle.isSelected()));
         resetButton.addActionListener(e -> reset(false));
@@ -474,12 +499,16 @@ public class FourierUi extends JFrame implements FourierPanel.PanelListener, Ui 
         return panel.togglePlay();
     }
 
+    public void updateRotorCountText(int count) {
+        rotorCountText.setText(R.getRotorCountText(count));
+    }
+
     public void updateRotorCountUi(int count) {
         if (rotorCountSlider.getValue() != count) {
             rotorCountSlider.setValue(count);
         }
 
-        rotorCountText.setText(R.getRotorCountText(count));
+        updateRotorCountText(count);
     }
 
     public void setRotorCount(int count) {
@@ -607,7 +636,7 @@ public class FourierUi extends JFrame implements FourierPanel.PanelListener, Ui 
             setFunction(func);
             mCurProvider = provider;
             done = true;
-            setPlay(true);
+//            setPlay(true);
         } catch (Providers.NoOpProviderException ignored) {
             setPlay(false);
             setRotorStateManager(new RotorStateManager.NoOp());
@@ -618,13 +647,18 @@ public class FourierUi extends JFrame implements FourierPanel.PanelListener, Ui 
             Log.e(TAG, msg, t);
             post = () -> showErrorDialog(msg + "\nError Code: " + t.getMessage());
 
-            if (mCurProvider == null) {
-                final ComplexDomainFunctionI fallbackFunc = Providers.FALLBACK_PROVIDER.getFunction();
-                assert fallbackFunc != null: "Fallback provider is broken!!";
-                setFunction(fallbackFunc);
-                mCurProvider = Providers.FALLBACK_PROVIDER;
-                setPlay(true);
-            }
+//            if (mCurProvider == null) {
+//                final ComplexDomainFunctionI fallbackFunc = Providers.FALLBACK_PROVIDER.getFunction();
+//                assert fallbackFunc != null: "Fallback provider is broken!!";
+//                setFunction(fallbackFunc);
+//                mCurProvider = Providers.FALLBACK_PROVIDER;
+//                setPlay(true);
+//            }
+
+            // Just stop when failed
+            setPlay(false);
+            setRotorStateManager(new RotorStateManager.NoOp());
+            mCurProvider = Providers.NoopProvider.getSingleton();
         }
 
 
@@ -641,10 +675,10 @@ public class FourierUi extends JFrame implements FourierPanel.PanelListener, Ui 
     }
 
     public boolean setFunctionProvider(int index) {
-        if (index < 0 || index >= providers.size())
+        if (index < 0 || index >= functionComboBox.getItemCount())
             return false;
 
-        return setFunctionProvider(providers.get(index));
+        return setFunctionProvider(functionComboBox.getItemAt(index));
     }
 
 
@@ -673,7 +707,7 @@ public class FourierUi extends JFrame implements FourierPanel.PanelListener, Ui 
     }
 
     public void syncResetScaleAndDragButton() {
-        final boolean hasScaleOrDrag = panel.hasScaleOrDrag();
+        final boolean hasScaleOrDrag = !panel.getRotorStateManager().isNoOp() && panel.hasScaleOrDrag();
         resetScaleAndDragButton.setEnabled(hasScaleOrDrag);
         resetScaleAndDragButton.setVisible(hasScaleOrDrag);
         update();
@@ -737,6 +771,25 @@ public class FourierUi extends JFrame implements FourierPanel.PanelListener, Ui 
         updateRotorCountUi(panel.getConstrainedRotorCount());
     }
 
+
+    private void setFuncDependentComponentsEnabled(boolean enabled) {
+        for (JComponent c: funcDependentComps) {
+            c.setEnabled(enabled);
+        }
+    }
+
+    @Override
+    public void onRotorStateManagerChanged(@Nullable RotorStateManager old, @NotNull RotorStateManager s) {
+        final boolean good = !s.isNoOp();
+        setFuncDependentComponentsEnabled(good);
+        setPlay(good && AUTO_PLAY_ON_ROTOR_STATE_MANAGER_CHANGE);
+    }
+
+    @Override
+    public void onRotorsLoadingChanged(boolean isLoading) {
+        setFuncDependentComponentsEnabled(!isLoading);
+    }
+
     @Override
     public void onDomainTravelSpeedChanged(int percent) {
         setSpeedPercent(percent, true);
@@ -758,7 +811,6 @@ public class FourierUi extends JFrame implements FourierPanel.PanelListener, Ui 
     }
 
 
-
     public void setRotorStateManager(@NotNull RotorStateManager rotorStateManager) {
         panel.setRotorStateManager(rotorStateManager);
     }
@@ -771,6 +823,60 @@ public class FourierUi extends JFrame implements FourierPanel.PanelListener, Ui 
         setFunction(f, -1);
     }
 
+
+    public final void considerDumpRotorStatesToFile() {
+        final RotorStateManager sm = panel.getRotorStateManager();
+        final String err;
+
+        if (sm.isNoOp()) {
+            err = "No function selected yet!";
+        } else if (sm.isLoading()) {
+            err = "Rotor States are still loading!";
+        } else if (sm.getRotorCount() < 1) {
+            err = "Nothing loaded yet!";
+        } else {
+            err = null;
+        }
+
+        if (R.notEmpty(err)) {          // Invalid save request
+            showErrorDialog("INVALID SAVE REQUEST\nError: " + err);
+            return;
+        }
+
+        sm.dumpRotorStatesToFileAsync(mCurProvider != null? mCurProvider.getDisplayTitle(): null, (Path file) -> {
+            if (file == null) {         // Failed
+                showErrorDialog("ROTOR STATES SAVE FAILED\nSee log for error details...");
+            } else {
+                showInfoDialog("Rotor States saved to\n" + file.toString());
+            }
+        });
+    }
+
+    public final void considerLoadRotorStatesFromFile() {
+        R.ensureRotorStatesDumpDir();
+
+        FileDialog dialog = new FileDialog(this, "Load Rotor States from file");
+        dialog.setMode(FileDialog.LOAD);
+        dialog.setDirectory(R.DIR_ROTOR_STATE_DUMPS.toString());
+        dialog.setFile("*" + R.ROTOR_STATES_DUMP_FILE_EXT);
+        dialog.setVisible(true);
+
+        final String fileName = dialog.getFile();
+        if (R.notEmpty(fileName)) {
+            Path file = Path.of(dialog.getDirectory(), dialog.getFile());
+            Log.d(TAG, "FIle -> " + file);
+
+            RotorStateManager.loadFunctionFromRotorStatesFileAsync(file, fp -> {
+                if (fp != null) {
+                    functionComboBox.addItem(fp);
+                    functionComboBox.setSelectedItem(fp);
+                    showInfoDialog("Synthetic Rotor States Function loaded\nFunction: " + fp.getDisplayTitle());
+                } else {
+                    showErrorDialog("Failed to load Rotor States!");
+                }
+            });
+        }
+    }
 
 
     /* Actions */
@@ -798,7 +904,10 @@ public class FourierUi extends JFrame implements FourierPanel.PanelListener, Ui 
         RESET_FULL(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK)),
 
         TOGGLE_FULLSCREEN(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK)),
-        TOGGLE_CONTROLS(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK));
+        TOGGLE_CONTROLS(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK)),
+
+        DUMP_ROTOR_STATES_TO_FILE(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK)),
+        LOAD_ROTOR_STATES_FROM_FILE(KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_DOWN_MASK));
 
         @Nullable
         public final KeyStroke keyStroke;
@@ -840,6 +949,8 @@ public class FourierUi extends JFrame implements FourierPanel.PanelListener, Ui 
                 case RESET_FULL -> panel.reset(true);
                 case TOGGLE_FULLSCREEN -> toggleFullscreen();
                 case TOGGLE_CONTROLS -> toggleControlsVisibility();
+                case DUMP_ROTOR_STATES_TO_FILE -> considerDumpRotorStatesToFile();
+                case LOAD_ROTOR_STATES_FROM_FILE -> considerLoadRotorStatesFromFile();
             }
         }
 

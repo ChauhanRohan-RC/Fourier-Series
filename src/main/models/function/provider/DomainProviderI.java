@@ -21,11 +21,11 @@ public interface DomainProviderI extends ColorProviderI {
     }
 
     default double getDomainRangeTravelMsMin() {             // Fastest speed
-        return 200;
+        return 500;
     }
 
     default double getDomainRangeTravelMsMax() {
-        return 5000;                                           // slowest speed
+        return 10000;                                           // slowest speed
     }
 
     @Override

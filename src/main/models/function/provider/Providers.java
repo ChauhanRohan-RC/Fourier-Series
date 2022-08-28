@@ -21,8 +21,6 @@ public class Providers {
 
     /* ......................... No-op provider ........................... */
 
-    public static final String NOOP_PROVIDER_NAME = "--select--";
-
     public static class NoOpProviderException extends Exception {
 
         public NoOpProviderException() {
@@ -65,7 +63,7 @@ public class Providers {
 
         @Override
         public @NotNull String getDisplayTitle() {
-            return NOOP_PROVIDER_NAME;
+            return R.DISPLAY_NAME_FUNCTION_NOOP;
         }
 
         @Override

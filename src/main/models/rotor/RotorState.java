@@ -28,11 +28,15 @@ public class RotorState {
     @Nullable
     private Double mCoefficientArg;
 
-    public RotorState(double frequency, @NotNull Complex coefficient) {
+    public RotorState(double frequency, @NotNull Complex coefficient, int direction) {
         mFrequency = frequency;
         mCoefficient = coefficient;
         mCoefficientAbs = coefficient.abs();
-        mTipPreMultiplier = ComplexUtil.getFourierSeriesRotorTipDirection() * 2 * Math.PI * frequency;
+        mTipPreMultiplier = direction * 2 * Math.PI * frequency;
+    }
+
+    public RotorState(double frequency, @NotNull Complex coefficient) {
+        this(frequency, coefficient, ComplexUtil.getFourierSeriesRotorTipDirection());
     }
 
     public final double getFrequency() {
@@ -94,4 +98,7 @@ public class RotorState {
     public int hashCode() {
         return (31 * Double.hashCode(mFrequency)) + mCoefficient.hashCode();
     }
+
+
+
 }

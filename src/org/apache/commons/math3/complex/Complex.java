@@ -28,6 +28,7 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
 import org.apache.commons.math3.util.Precision;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -1273,12 +1274,24 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @param realPart Real part.
      * @return a Complex instance.
      */
+    @NotNull
     public static Complex valueOf(double realPart) {
         if (Double.isNaN(realPart)) {
             return NaN;
         }
         return new Complex(realPart);
     }
+
+
+    @NotNull
+    public static Complex polar(double r, double theta) {
+        if (Double.isNaN(r) || Double.isNaN(theta)) {
+            return NaN;
+        }
+
+        return new Complex(r * FastMath.cos(theta), r * FastMath.sin(theta));
+    }
+
 
     /**
      * Resolve the transient fields in a deserialized Complex Object.

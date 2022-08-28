@@ -4,6 +4,8 @@
 
 1. Approximates any function (real, complex and even discontinous) in terms of Sines and Cosines
 2. External Functions supported (in form of SVG vector data)
+3. Save Rotor States to a file
+4. Load a Synthetic Function from saved Rotor States
 3. Many options and customisations
 
 # Demo
@@ -22,3 +24,8 @@
 1. create a file inside EXT_FUNCTIONS dir
 2. copy path data inside file
 3. use | (logical or) character as delimier to define multiple path data as single function
+
+# Save-Load Rotors
+
+1. CTRL-S: Save Rotor States to a file
+2. CTRL-L: Load a Synthetic Function from saved Rotor States
