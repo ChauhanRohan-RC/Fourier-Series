@@ -1,0 +1,18 @@
+package provider;
+
+import app.R;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import rotor.RotorState;
+
+import java.util.Map;
+
+public record FunctionMeta(@NotNull FunctionType functionType, @NotNull String displayName, int initialRotorCount, @Nullable Map<Double, RotorState> preloadedRotorStates) {
+
+    public static final FunctionMeta NOOP = new FunctionMeta(FunctionType.NO_OP, R.DISPLAY_NAME_FUNCTION_NOOP);
+
+    public FunctionMeta(@NotNull FunctionType functionType, @NotNull String displayName) {
+        this(functionType, displayName, -1, null);
+    }
+
+}

@@ -1,0 +1,577 @@
+package rotor;
+
+import app.R;
+import function.RotorStatesFunction;
+import function.definition.ColorHandler;
+import function.definition.ColorProviderI;
+import function.definition.DomainProviderI;
+
+import models.Wrapper;
+import org.apache.commons.math3.complex.Complex;
+import org.apache.commons.math3.util.FastMath;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import provider.*;
+import util.CollectionUtil;
+import util.Format;
+import util.Log;
+import util.async.Async;
+import util.async.CancellationProvider;
+import util.async.Consumer;
+import util.main.ComplexUtil;
+
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
+
+public interface RotorStateManager extends RotorFrequencyProviderI, RotorStateProvider, DomainProviderI, ColorHandler {
+
+    String TAG = "RotorStateManager";
+    @NotNull
+    RotorFrequencyProviderE DEFAULT_ROTOR_FREQUENCY_PROVIDER = RotorFrequencyProviderE.CENTERING_INT;
+
+    String ROTOR_STATE_SAVE_FREQ_TO_COEFF_DELIMITER = ":";   // frequency to coefficient delimiter
+    String ROTOR_STATE_SAVE_COEFF_DELIMITER = ",";           // coefficient real and imaginary part delimiter
+    Charset ROTOR_STATES_SAVE_ENCODING = StandardCharsets.UTF_8;
+
+
+    enum LoadCallResult {
+
+        /**
+         * Load Queued
+         * */
+        QUEUED,
+
+        /**
+         * Load intercepted by any one of the registered interceptors
+         * */
+        INTERCEPTED,
+
+        /**
+         * Load not required, due to Rotor States already loaded, or a bigger load is ongoing
+         * */
+        REDUNDANT
+
+    }
+
+    interface Listener {
+
+        /**
+         * Called before loading rotor states.
+         * Can be called on any thread
+         *
+         * @return true to cancel load, false to continue with this load
+         * */
+        default boolean onInterceptRotorsLoad(@NotNull RotorStateManager manager, int loadCount) {
+            return false;
+        }
+
+        void onRotorsLoadIntercepted(@NotNull RotorStateManager manager, int loadCount);
+
+        void onRotorsLoadingChanged(@NotNull RotorStateManager manager, boolean isLoading);
+
+        void onRotorsLoadFinished(@NotNull RotorStateManager manager, int count, boolean cancelled);
+
+        void onRotorsCountChanged(@NotNull RotorStateManager manager, int prevCount, int newCount);
+
+        void onRotorsFrequencyProviderChanged(@NotNull RotorStateManager manager, @NotNull RotorFrequencyProviderE old, @NotNull RotorFrequencyProviderE _new);
+    }
+
+
+    @NotNull
+    FunctionMeta getFunctionMeta();
+
+    default boolean isNoOp() {
+        return getFunctionMeta().functionType() == FunctionType.NO_OP;
+    }
+
+    int getDefaultInitialRotorCount();
+
+    /**
+     * @return current rotor count
+     * */
+    int getRotorCount();
+
+    /**
+     * @return pending rotor count if loading, or -1 if not loading
+     * */
+    int getPendingRotorCount();
+
+    void considerInitialize();
+
+    /**
+     * Actual Frequency of a rotor
+     *
+     * @param index rotor index
+     * @param count total rotor count
+     *
+     * @return Actual Frequency of a rotor
+     * */
+    @Override
+    double getRotorFrequency(int index, int count);
+
+    /**
+     * Set {@link RotorFrequencyProviderE RotorFrequencyProvider}, or {@code null} for default provider
+     * <br>
+     * @param frequencyProvider new rotors frequency provider, or {@code null} to set default
+     *
+     * @see #getInternalRotorFrequencyProvider()
+     * */
+    void setInternalRotorFrequencyProvider(@Nullable RotorFrequencyProviderE frequencyProvider);
+
+    /**
+     * Internal {@link RotorFrequencyProviderE RotorFrequencyProvider} of this manager<br>
+     * <br>
+     * <strong>
+     *  A manager may choose to <b>ignore or transform</b> frequencies as provided by internal provider.
+     *  The actual frequencies of rotors are controlled by {@link #getRotorFrequency(int, int)}.
+     * </strong>
+     * <br>
+     *
+     * @return internal rotor frequency provider
+     *
+     * @see #getRotorFrequency(int, int)
+     * @see #setInternalRotorFrequencyProvider(RotorFrequencyProviderE)
+     * */
+    @NotNull
+    RotorFrequencyProviderE getInternalRotorFrequencyProvider();
+
+    @Nullable
+    Map<Double, RotorState> getAllRotorStatesCopy();
+
+    @Nullable
+    List<RotorState> getSortedRotorStates(@Nullable Comparator<? super RotorState> comparator);
+
+    void addListener(@NotNull Listener l);
+
+    boolean removeListener(@NotNull Listener l);
+
+    boolean containsListener(@NotNull Listener l);
+
+    default void ensureListener(@NotNull Listener l) {
+        if (!containsListener(l)) {
+            addListener(l);
+        }
+    }
+
+    boolean isLoading();
+
+    void cancelLoad(boolean interrupt);
+
+    void loadSync(int count, @Nullable CancellationProvider c, @Nullable Consumer<LoadCallResult> callResultCallback);
+
+    @NotNull
+    LoadCallResult loadAsync(int count);
+
+    void setRotorCountSync(int count, @Nullable CancellationProvider c, @Nullable Consumer<LoadCallResult> callResultCallback);
+
+    @NotNull
+    LoadCallResult setRotorCountAsync(int count);
+
+    double getAllRotorsMagnitudeScaleSum();
+
+
+
+    /* Dump Rotor States */
+
+    default void dumpRotorStatesToFileAsync(@NotNull Path file, @Nullable Consumer<Path> callback) {
+        dumpRotorStatesToFileAsync(file, getFunctionMeta().displayName(), callback);
+    }
+
+    default void dumpRotorStatesToFileAsync(@NotNull Path file, @Nullable String funcName, @Nullable Consumer<Path> callback) {
+        Async.execute(() -> dumpRotorStatesToFile(file, funcName), callback);
+    }
+
+    @Nullable
+    default Path dumpRotorStatesToFile(@NotNull Path file) {
+        return dumpRotorStatesToFile(file, getFunctionMeta().displayName());
+    }
+
+    @Nullable
+    default Path dumpRotorStatesToFile(@NotNull Path file, @Nullable String funcName) {
+//        final Path file = R.createRotorStatesDumpFile(funcName);
+//        if (file == null)
+//            return null;
+
+        try {
+            Files.writeString(file, dumpRotorStates(funcName), ROTOR_STATES_SAVE_ENCODING);
+        } catch (Throwable t) {
+            Log.e(TAG, "Failed to dump rotor states of FUNCTION <" + (Format.isEmpty(funcName)? R.DISPLAY_NAME_FUNCTION_UNKNOWN: funcName) + "> to FILE <" + file.toString() + ">", t);
+            return null;
+        }
+
+        return file;
+    }
+
+
+    @NotNull
+    default CharSequence dumpRotorStates() {
+        return dumpRotorStates(getFunctionMeta().displayName());
+    }
+
+    // TODO: use json for dumping rotor states
+    @NotNull
+    default CharSequence dumpRotorStates(@Nullable String funcName) {
+        if (Format.isEmpty(funcName)) {
+            funcName = R.DISPLAY_NAME_FUNCTION_UNKNOWN;
+        }
+
+        final List<RotorState> states = getSortedRotorStates(RotorState.COMPARATOR_FREQ_ASC);
+        final int count = CollectionUtil.size(states);
+
+//        final int count = getRotorCount();
+
+        final StringBuilder sb = new StringBuilder();
+        sb.append(R.COMMENT_TOKEN)
+                .append(" .......................  Rotor States  .......................\n\n")
+                .append(R.COMMENT_TOKEN)
+                .append(" Save Time: ")
+                .append(new Date())
+                .append("\n")
+                .append(R.COMMENT_TOKEN)
+                .append(" Function: ")
+                .append(funcName)
+                .append("\n")
+                .append(R.COMMENT_TOKEN)
+                .append(" Domain Start: ")
+                .append(getDomainStart())
+                .append("\n")
+                .append(R.COMMENT_TOKEN)
+                .append(" Domain End: ")
+                .append(getDomainEnd())
+                .append("\n")
+                .append(R.COMMENT_TOKEN)
+                .append(" Domain Travel Time (ms-min): ")
+                .append(getDomainAnimationDurationMsMin())
+                .append("\n")
+                .append(R.COMMENT_TOKEN)
+                .append(" Domain Travel Time (ms-max): ")
+                .append(getDomainAnimationDurationMsMax())
+                .append("\n")
+                .append(R.COMMENT_TOKEN)
+                .append(" Domain Travel Time (ms-default): ")
+                .append(getDomainAnimationDurationMsDefault())
+                .append("\n")
+                .append(R.COMMENT_TOKEN)
+                .append(" Rotors Count: ")
+                .append(count)
+                .append("\n\n")
+                .append(R.COMMENT_TOKEN)
+                .append(" Rotor States (Frequency ")
+                .append(ROTOR_STATE_SAVE_FREQ_TO_COEFF_DELIMITER)
+                .append(" magnitude")
+                .append(ROTOR_STATE_SAVE_COEFF_DELIMITER)
+                .append(" phase)")
+                .append("\n");
+
+        if (CollectionUtil.notEmpty(states)) {
+            for (RotorState state: states) {
+                sb.append("\n")
+                        .append(state.getFrequency())
+                        .append("   ")
+                        .append(ROTOR_STATE_SAVE_FREQ_TO_COEFF_DELIMITER)            // Delimiter 1
+                        .append("   ")
+                        .append(state.getMagnitudeScale())
+                        .append(ROTOR_STATE_SAVE_COEFF_DELIMITER)                    // Delimiter 2
+                        .append("  ")
+                        .append(state.getCoefficientArgument());
+            }
+        }
+
+        return sb;
+    }
+
+
+    /* Load Rotor States */
+
+    @Nullable
+    static FunctionProviderI loadRotorStatesFunction(@NotNull String s, @NotNull String defaultName) {
+        if (Format.isEmpty(s))
+            return null;
+
+        final Wrapper<String> name = new Wrapper<>(null);
+        final Wrapper.Doub
+                dStart = new Wrapper.Doub(0),
+                dEnd = new Wrapper.Doub(1);
+
+        final Wrapper.Long msDef = new Wrapper.Long(-1),
+                msMin = new Wrapper.Long(-1),
+                msMax = new Wrapper.Long(-1);
+
+        final Map<Double, RotorState> states = new HashMap<>();
+
+        s.lines().forEachOrdered(line -> {
+            line = Format.removeAllWhiteSpaces(line);
+
+            int comment_token_i = line.indexOf(R.COMMENT_TOKEN);
+            if (comment_token_i != -1) {
+                final String commented = line.substring(comment_token_i + 1);
+                if (Format.notEmpty(commented)) {
+                    final int idx = commented.indexOf(':');
+                    if (idx != -1) {
+                        final String[] meta = commented.split(":");
+                        if (meta != null && meta.length == 2 && Format.notEmpty(meta[0])) {
+                            switch (meta[0].toLowerCase()) {
+                                case "function" -> name.set(meta[1]);
+                                case "domainstart" -> {
+                                    try {
+                                        dStart.set(Double.parseDouble(meta[1]));
+                                    } catch (Throwable ignored) {
+                                    }
+                                } case "domainend" -> {
+                                    try {
+                                        dEnd.set(Double.parseDouble(meta[1]));
+                                    } catch (Throwable ignored) {
+                                    }
+                                } case "domaintraveltime(ms-default)" -> {
+                                    try {
+                                        msDef.set(Long.parseLong(meta[1]));
+                                    } catch (Throwable ignored) {
+                                    }
+                                } case "domaintraveltime(ms-min)" -> {
+                                    try {
+                                        msMin.set(Long.parseLong(meta[1]));
+                                    } catch (Throwable ignored) {
+                                    }
+                                } case "domaintraveltime(ms-max)" -> {
+                                    try {
+                                        msMax.set(Long.parseLong(meta[1]));
+                                    } catch (Throwable ignored) {
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                line = line.substring(0, comment_token_i);
+            }
+
+//            line = line.replaceAll("\n", "");
+
+            if (!line.isEmpty()) {
+                final String[] dat = line.split(ROTOR_STATE_SAVE_FREQ_TO_COEFF_DELIMITER);
+                String[] coeff;
+
+                if (dat != null && dat.length == 2 && Format.notEmpty(dat[0]) && Format.notEmpty(dat[1]) && (coeff = dat[1].split(ROTOR_STATE_SAVE_COEFF_DELIMITER)) != null && coeff.length == 2) {
+                    try {
+                        final double freq = Double.parseDouble(dat[0]);
+                        final Complex fsCoeff = ComplexUtil.polar(Double.parseDouble(coeff[0]), Double.parseDouble(coeff[1]));
+
+                        states.put(freq, new RotorState(freq, fsCoeff));
+                    } catch (Throwable ignored) {
+                        Log.e("Failed to parse rotor state: " + line);
+                    }
+                } else {
+                    Log.e("Failed to parse rotor state: " + line);
+                }
+            }
+        });
+
+        if (states.isEmpty())
+            return null;
+
+        if (Format.isEmpty(name.get())) {
+            name.set(defaultName);
+        }
+
+        Log.d(TAG, String.format("Loaded Rotor States Function -> Name: %s, Domain Start: %f, Domain End: %f", name.get(), dStart.get(), dEnd.get()));
+
+        final FunctionMeta meta = new FunctionMeta(
+                FunctionType.EXTERNAL_ROTOR_STATE,
+                R.createExternalRotorStatesFunctionDisplayTitle(name.get()),
+                states.size(),
+                Collections.unmodifiableMap(states)
+        );
+
+        return new BaseFunctionProvider(meta, () -> new RotorStatesFunction(states.values(), dStart.get(), dEnd.get(), msDef.get(), msMin.get(), msMax.get()));
+    }
+
+
+    @Nullable
+    static FunctionProviderI loadFunctionFromRotorStatesFile(@NotNull Path file) {
+        if (Files.isRegularFile(file)) {
+            try {
+                final String s = Files.readString(file, ROTOR_STATES_SAVE_ENCODING);
+                final FunctionProviderI fp = loadRotorStatesFunction(s, file.getFileName().toString());
+                if (fp == null) {
+                    throw new Exception("Parse Error");
+                }
+
+                return fp;
+            } catch (Throwable t) {
+                Log.e(TAG, "Failed to load Rotor States from file <" + file + ">", t);
+            }
+        }
+
+        return null;
+    }
+
+    static void loadFunctionFromRotorStatesFileAsync(@NotNull Path file, @NotNull Consumer<FunctionProviderI> callback) {
+        Async.execute(RotorStateManager::loadFunctionFromRotorStatesFile, callback, file);
+    }
+
+
+
+
+
+    /* No-op Manager */
+
+    class NoOp implements RotorStateManager {
+
+        @Override
+        public @NotNull FunctionMeta getFunctionMeta() {
+            return FunctionMeta.NOOP;
+        }
+
+        @Override
+        public boolean isNoOp() {
+            return true;
+        }
+
+        @Override
+        public double getRotorFrequency(int index, int count) {
+            return 0;
+        }
+
+        @Override
+        public void setInternalRotorFrequencyProvider(@Nullable RotorFrequencyProviderE frequencyProvider) {
+            /* no-op */
+        }
+
+        @Override
+        @NotNull
+        public RotorFrequencyProviderE getInternalRotorFrequencyProvider() {
+            return DEFAULT_ROTOR_FREQUENCY_PROVIDER;
+        }
+
+        @Override
+        @NotNull
+        public RotorState getRotorState(int index) {
+            return RotorState.ZERO;
+        }
+
+        @Override
+        public @Nullable Map<Double, RotorState> getAllRotorStatesCopy() {
+            return null;
+        }
+
+        @Override
+        public @Nullable List<RotorState> getSortedRotorStates(@Nullable Comparator<? super RotorState> comparator) {
+            return null;
+        }
+
+        @Override
+        public int getDefaultInitialRotorCount() {
+            return 0;
+        }
+
+        @Override
+        public int getRotorCount() {
+            return 0;
+        }
+
+        @Override
+        public int getPendingRotorCount() {
+            return -1;
+        }
+
+        @Override
+        public double getAllRotorsMagnitudeScaleSum() {
+            return 0;
+        }
+
+        @Override
+        public void considerInitialize() {
+
+        }
+
+        @Override
+        public double getDomainStart() {
+            return 0;
+        }
+
+        @Override
+        public double getDomainEnd() {
+            return 0;
+        }
+
+        @Override
+        public long getDomainAnimationDurationMsDefault() {
+            return 0;
+        }
+
+        @Override
+        public long getDomainAnimationDurationMsMin() {
+            return 0;
+        }
+
+        @Override
+        public long getDomainAnimationDurationMsMax() {
+            return 0;
+        }
+
+        @Override
+        public void addListener(@Nullable RotorStateManager.Listener l) { }
+
+        @Override
+        public boolean removeListener(@NotNull RotorStateManager.Listener l) {
+            return false;
+        }
+
+        @Override
+        public boolean containsListener(@NotNull RotorStateManager.Listener l) {
+            return false;
+        }
+
+
+        @Override
+        public boolean isLoading() {
+            return false;
+        }
+
+        @Override
+        public void cancelLoad(boolean interrupt) { }
+
+        @Override
+        public void loadSync(int count, @Nullable CancellationProvider c, @Nullable Consumer<LoadCallResult> callResultCallback) {
+            if (callResultCallback != null) {
+                callResultCallback.consume(LoadCallResult.REDUNDANT);
+            }
+        }
+
+        @Override
+        public @NotNull LoadCallResult loadAsync(int count) {
+            return LoadCallResult.REDUNDANT;
+        }
+
+        @Override
+        public void setRotorCountSync(int count, @Nullable CancellationProvider c, @Nullable Consumer<LoadCallResult> callResultCallback) {
+            if (callResultCallback != null) {
+                callResultCallback.consume(LoadCallResult.REDUNDANT);
+            }
+        }
+
+        @Override
+        public @NotNull LoadCallResult setRotorCountAsync(int count) {
+            return LoadCallResult.REDUNDANT;
+        }
+
+        @Override
+        public @Nullable ColorProviderI getColorProvider() {
+            return null;
+        }
+
+        @Override
+        public ColorHandler setColorProvider(@Nullable ColorProviderI colorProvider) {
+            return this;
+        }
+
+        @Override
+        public ColorHandler hueCycle(float hueStart, float hueEnd) {
+            return this;
+        }
+    }
+}

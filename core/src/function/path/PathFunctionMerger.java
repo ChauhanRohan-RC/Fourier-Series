@@ -1,0 +1,267 @@
+package function.path;
+
+import function.definition.ColorHandler;
+import function.definition.ColorProviderI;
+import function.graphic.GraphicFunction;
+import org.apache.batik.parser.ParseException;
+import org.apache.commons.math3.complex.Complex;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.awt.*;
+import java.awt.geom.PathIterator;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
+
+public class PathFunctionMerger extends GraphicFunction implements ColorHandler {
+
+    public static final String TAG = "PathFunctionMerger";
+
+    public static final ColorProviderI COLOR_PROVIDER_CONTINUITY_LINK = ColorProviderI.TRANSPARENT;
+
+
+    @NotNull
+    private final Rectangle2D mBounds;
+    @NotNull
+    private final PathFunction[] mSegments;
+    private final long msDef, msMin, msMax;
+
+
+
+    public PathFunctionMerger(@NotNull PathFunction[] segments, @NotNull Rectangle2D bounds, float zoom, boolean center) throws IllegalArgumentException {
+        super(zoom, center);
+        if (segments == null || segments.length == 0)
+            throw new IllegalArgumentException("No PathFunctions provided to PathFunctionMerger!!");
+
+        mBounds = bounds;
+        mSegments = segments;
+
+        long _msDef = 0, _msMin = 0, _msMax = 0;
+        for (PathFunction f: mSegments) {
+            _msDef += f.getDomainAnimationDurationMsDefault();
+            _msMin += f.getDomainAnimationDurationMsMin();
+            _msMax += f.getDomainAnimationDurationMsMax();
+        }
+
+        msDef = _msDef; msMin = _msMin; msMax = _msMax;
+    }
+
+
+    public final int getSegmentsCount() {
+        return mSegments.length;
+    }
+
+    @NotNull
+    public final PathFunction getSegment(int index) {
+        return mSegments[index];
+    }
+
+
+    public final int getContinuityLinksCount() {
+        int count = 0;
+        for (PathFunction f: mSegments) {
+            if (f.isContinuityLink())
+                count++;
+        }
+
+        return count;
+    }
+
+    public final int getCountExceptContinuityLinks() {
+        return getSegmentsCount() - getContinuityLinksCount();
+    }
+
+    public PathFunctionMerger hueCycle(boolean excludeContinuityLinks, float hueStart, float hueEnd) {
+        final float hueRange = hueEnd - hueStart;
+        final float huePart = hueRange / (excludeContinuityLinks? getCountExceptContinuityLinks(): getSegmentsCount());
+
+        float hueStartPart = hueStart;
+        for (PathFunction f: mSegments) {
+            if (excludeContinuityLinks && f.isContinuityLink())
+                continue;
+
+            f.setColorProvider(new HueCycle(f, hueStartPart, hueStartPart + huePart));
+            hueStartPart += huePart;
+        }
+
+        return this;
+    }
+
+    @Override
+    public PathFunctionMerger hueCycle(float hueStart, float hueEnd) {
+        return hueCycle(true, hueStart, hueEnd);
+    }
+
+    public PathFunctionMerger hueCycle(boolean excludeContinuityLinks) {
+        return hueCycle(excludeContinuityLinks, 0, 1);
+    }
+
+    @NotNull
+    public PathFunctionMerger setColorProvider(@Nullable ColorProviderI colorProvider, boolean excludeContinuityLinks) {
+        for (PathFunction f: mSegments) {
+            if (excludeContinuityLinks && f.isContinuityLink())
+                continue;
+
+            f.setColorProvider(colorProvider);
+        }
+
+        return this;
+    }
+
+    @NotNull
+    public PathFunctionMerger setColorProvider(@Nullable ColorProviderI colorProvider) {
+        return setColorProvider(colorProvider, true);
+    }
+
+    @Override
+    public @Nullable ColorProviderI getColorProvider() {
+        return null;
+    }
+
+
+    @Override
+    @NotNull
+    public final Rectangle2D getBounds() {
+        return mBounds;
+    }
+
+    @Override
+    public final double getDomainStart() {
+        return 0;
+    }
+
+    @Override
+    public final double getDomainEnd() {
+        return mSegments.length;
+    }
+
+    @Override
+    public final long getDomainAnimationDurationMsDefault() {
+        return msDef;
+    }
+
+    @Override
+    public final long getDomainAnimationDurationMsMin() {
+        return msMin;
+    }
+
+    @Override
+    public final long getDomainAnimationDurationMsMax() {
+        return msMax;
+    }
+
+    @Override
+    @NotNull
+    public final Complex compute(double d) {
+        if (d > mSegments.length) {
+            d %= mSegments.length;
+        }
+
+        int i = (int) d;
+        if (i >= mSegments.length) {
+            i = mSegments.length - 1;           // last
+        }
+
+        return applyTransform(mSegments[i].compute(d - i));
+    }
+
+    @Override
+    public @Nullable Color getColor(double d) {
+        if (d > mSegments.length) {
+            d %= mSegments.length;
+        }
+
+        int i = (int) d;
+        if (i >= mSegments.length) {
+            i = mSegments.length - 1;           // last
+        }
+
+        return mSegments[i].getColor(d - i);
+    }
+
+
+
+    @NotNull
+    public static PathFunction createContinuityLink(@NotNull Point2D start, @NotNull Point2D end) {
+        return new LinePath(start, end)
+                .setIsContinuityLink(true)
+                .setColorProvider(COLOR_PROVIDER_CONTINUITY_LINK);
+    }
+
+    @NotNull
+    public static List<PathFunction> parse(@NotNull PathIterator itr) {
+        final List<PathFunction> segments = new ArrayList<>();
+        PathFunction last = null;
+
+        boolean firstMoveTo = true;
+        Point2D firstMovePoint = null;
+
+        Point2D startPoint = new Point2D.Double(0, 0);
+        final double[] coords = new double[6];
+
+        for (; !itr.isDone(); itr.next()) {
+            switch (itr.currentSegment(coords)) {
+                case PathIterator.SEG_MOVETO -> {
+                    startPoint = new Point2D.Double(coords[0], coords[1]);
+                    if (firstMoveTo) {
+                        firstMovePoint = startPoint;
+                        firstMoveTo = false;
+                    }
+
+                    if (!(last == null || last.endPoint().equals(startPoint))) {
+                        last = createContinuityLink(last.endPoint(), startPoint);     // for continuity
+                        segments.add(last);
+                    }
+
+                    last = null;
+                }
+                case PathIterator.SEG_LINETO -> {
+                    last = new LinePath(last != null? last.endPoint(): startPoint, new Point2D.Double(coords[0], coords[1]));
+                    segments.add(last);
+                }
+                case PathIterator.SEG_QUADTO -> {
+                    last = new QuadCurvePath(last != null ? last.endPoint() : startPoint, new Point2D.Double(coords[0], coords[1]), new Point2D.Double(coords[2], coords[3]));
+                    segments.add(last);
+                }
+                case PathIterator.SEG_CUBICTO -> {
+                    last = new CubicCurvePath(last != null ? last.endPoint() : startPoint, new Point2D.Double(coords[0], coords[1]), new Point2D.Double(coords[2], coords[3]), new Point2D.Double(coords[4], coords[5]));
+                    segments.add(last);
+                }
+                case PathIterator.SEG_CLOSE -> {
+                    if (last != null) {
+                        last = new LinePath(last.endPoint(), startPoint);
+                        segments.add(last);
+                    }
+
+//                    last = null;
+                }
+            }
+        }
+
+
+        // Close last end and first start
+        if (!(firstMovePoint == null || last == null || last.endPoint().equals(firstMovePoint))) {
+            last = createContinuityLink(last.endPoint(), firstMovePoint);     // for continuity
+            segments.add(last);
+        }
+
+        return segments;
+    }
+
+    @NotNull
+    public static PathFunctionMerger create(@NotNull PathIterator itr, @NotNull Rectangle2D bounds, float zoom, boolean center) throws ParseException {
+        List<PathFunction> segments = parse(itr);
+        if (segments.isEmpty())
+            throw new ParseException(new Exception("Path is empty!!"));
+
+        return new PathFunctionMerger(segments.toArray(new PathFunction[0]), bounds, zoom, center);
+    }
+
+    @NotNull
+    public static PathFunctionMerger create(@NotNull Shape shape, float zoom, boolean center) throws ParseException {
+        return create(shape.getPathIterator(null), shape.getBounds(), zoom, center);
+    }
+
+}

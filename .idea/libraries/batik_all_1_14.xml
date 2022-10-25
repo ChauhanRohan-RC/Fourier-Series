@@ -1,9 +1,44 @@
 <component name="libraryTable">
   <library name="batik-all-1.14">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../external libs/batik-all-1.14.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-all-1.14.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-anim/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-awt-util/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-bridge/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-codec/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-constants/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-css/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-dom/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-ext/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-extension/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-gui-util/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-gvt/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-i18n/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-parser/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-script/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-slideshow/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-svg-dom/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-svgbrowser/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-svggen/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-svgpp/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-svgrasterizer/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-swing/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-test-old/src/test/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-test-svg/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-test-swing/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-test/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-transcoder/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-ttf2svg/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-util/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-util/src/test/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/batik-xml/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/contrib/rasterizertask/sources" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/documentation-sources/content/demo" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/samples/tests/resources/java/sources" />
+      <root url="jar://$PROJECT_DIR$/libs/batik-src-1.14.zip!/batik-1.14/test-resources" />
+    </SOURCES>
   </library>
 </component>

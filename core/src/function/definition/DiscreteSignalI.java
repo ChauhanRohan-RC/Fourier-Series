@@ -1,0 +1,36 @@
+package function.definition;
+
+import org.apache.commons.math3.complex.Complex;
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * A derived implementation of {@link DiscreteFunctionI} that has a real 1-Dimensional output
+ *
+ * @see DiscreteFunctionI
+ * @see SignalFunctionI
+ * */
+public interface DiscreteSignalI extends DiscreteFunctionI, SignalFunctionI {
+
+    /**
+     * @param index sample index
+     * @return signal intensity for a particular sample
+     * */
+    double getSignalIntensitySampleAt(int index);
+
+    @Override
+    default @NotNull Complex getSampleAt(int index) {
+        return new Complex(getSignalIntensitySampleAt(index), 0);
+    }
+
+    @Override
+    @NotNull
+    default Complex compute(double input) {
+        return DiscreteFunctionI.super.compute(input);
+    }
+
+    @Override
+    default double getSignalIntensity(double input) {
+        return DiscreteFunctionI.super.compute(input).getReal();
+    }
+
+}
