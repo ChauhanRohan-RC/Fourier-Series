@@ -6,9 +6,9 @@ import function.definition.ColorHandler;
 import function.definition.ColorProviderI;
 import function.definition.DomainProviderI;
 
+import json.Json;
 import models.Wrapper;
 import org.apache.commons.math3.complex.Complex;
-import org.apache.commons.math3.util.FastMath;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import provider.*;
@@ -20,6 +20,7 @@ import util.async.CancellationProvider;
 import util.async.Consumer;
 import util.main.ComplexUtil;
 
+import java.io.Reader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -138,11 +139,37 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
     @NotNull
     RotorFrequencyProviderE getInternalRotorFrequencyProvider();
 
-    @Nullable
-    Map<Double, RotorState> getAllRotorStatesCopy();
+    void forEachRotorState(@NotNull Consumer<RotorState> consumer);
+
+    default void copyAllRotorStates(@NotNull Collection<RotorState> dest) {
+        forEachRotorState(dest::add);
+    }
+
+    default void copyAllRotorStates(@NotNull Map<? super Double, ? super RotorState> dest) {
+        forEachRotorState(state -> dest.put(state.getFrequency(), state));
+    }
+
+    @NotNull
+    default Map<Double, RotorState> getRotorStatesMapCopy() {
+        final Map<Double, RotorState> map = new HashMap<>();
+        copyAllRotorStates(map);
+        return map;
+    }
 
     @Nullable
-    List<RotorState> getSortedRotorStates(@Nullable Comparator<? super RotorState> comparator);
+    default List<RotorState> getRotorStatesListCopy() {
+        final ArrayList<RotorState> states = new ArrayList<>();
+        copyAllRotorStates(states);
+        return states;
+    }
+
+    @Nullable
+    default List<RotorState> getSortedRotorStates(@Nullable Comparator<? super RotorState> comparator) {
+        final ArrayList<RotorState> states = new ArrayList<>();
+        copyAllRotorStates(states);
+        states.sort(comparator);
+        return states;
+    }
 
     void addListener(@NotNull Listener l);
 
@@ -177,7 +204,7 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
     /* Dump Rotor States */
 
     default void dumpRotorStatesToFileAsync(@NotNull Path file, @Nullable Consumer<Path> callback) {
-        dumpRotorStatesToFileAsync(file, getFunctionMeta().displayName(), callback);
+        dumpRotorStatesToFileAsync(file, null, callback);
     }
 
     default void dumpRotorStatesToFileAsync(@NotNull Path file, @Nullable String funcName, @Nullable Consumer<Path> callback) {
@@ -186,7 +213,7 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
 
     @Nullable
     default Path dumpRotorStatesToFile(@NotNull Path file) {
-        return dumpRotorStatesToFile(file, getFunctionMeta().displayName());
+        return dumpRotorStatesToFile(file, null);
     }
 
     @Nullable
@@ -208,202 +235,218 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
 
     @NotNull
     default CharSequence dumpRotorStates() {
-        return dumpRotorStates(getFunctionMeta().displayName());
+        return dumpRotorStates(null);
     }
 
-    // TODO: use json for dumping rotor states
+    @NotNull
+    default FunctionState createFunctionState(@Nullable String funcName) {
+        return FunctionState.from(this, funcName);
+    }
+
     @NotNull
     default CharSequence dumpRotorStates(@Nullable String funcName) {
-        if (Format.isEmpty(funcName)) {
-            funcName = R.DISPLAY_NAME_FUNCTION_UNKNOWN;
-        }
+        final FunctionState functionState = createFunctionState(funcName);
+        return Json.get().gson.toJson(functionState, FunctionState.class);
 
-        final List<RotorState> states = getSortedRotorStates(RotorState.COMPARATOR_FREQ_ASC);
-        final int count = CollectionUtil.size(states);
-
-//        final int count = getRotorCount();
-
-        final StringBuilder sb = new StringBuilder();
-        sb.append(R.COMMENT_TOKEN)
-                .append(" .......................  Rotor States  .......................\n\n")
-                .append(R.COMMENT_TOKEN)
-                .append(" Save Time: ")
-                .append(new Date())
-                .append("\n")
-                .append(R.COMMENT_TOKEN)
-                .append(" Function: ")
-                .append(funcName)
-                .append("\n")
-                .append(R.COMMENT_TOKEN)
-                .append(" Domain Start: ")
-                .append(getDomainStart())
-                .append("\n")
-                .append(R.COMMENT_TOKEN)
-                .append(" Domain End: ")
-                .append(getDomainEnd())
-                .append("\n")
-                .append(R.COMMENT_TOKEN)
-                .append(" Domain Travel Time (ms-min): ")
-                .append(getDomainAnimationDurationMsMin())
-                .append("\n")
-                .append(R.COMMENT_TOKEN)
-                .append(" Domain Travel Time (ms-max): ")
-                .append(getDomainAnimationDurationMsMax())
-                .append("\n")
-                .append(R.COMMENT_TOKEN)
-                .append(" Domain Travel Time (ms-default): ")
-                .append(getDomainAnimationDurationMsDefault())
-                .append("\n")
-                .append(R.COMMENT_TOKEN)
-                .append(" Rotors Count: ")
-                .append(count)
-                .append("\n\n")
-                .append(R.COMMENT_TOKEN)
-                .append(" Rotor States (Frequency ")
-                .append(ROTOR_STATE_SAVE_FREQ_TO_COEFF_DELIMITER)
-                .append(" magnitude")
-                .append(ROTOR_STATE_SAVE_COEFF_DELIMITER)
-                .append(" phase)")
-                .append("\n");
-
-        if (CollectionUtil.notEmpty(states)) {
-            for (RotorState state: states) {
-                sb.append("\n")
-                        .append(state.getFrequency())
-                        .append("   ")
-                        .append(ROTOR_STATE_SAVE_FREQ_TO_COEFF_DELIMITER)            // Delimiter 1
-                        .append("   ")
-                        .append(state.getMagnitudeScale())
-                        .append(ROTOR_STATE_SAVE_COEFF_DELIMITER)                    // Delimiter 2
-                        .append("  ")
-                        .append(state.getCoefficientArgument());
-            }
-        }
-
-        return sb;
+//        final List<RotorState> states = getSortedRotorStates(RotorState.COMPARATOR_FREQ_ASC);
+//        final int count = CollectionUtil.size(states);
+//
+////        final int count = getRotorCount();
+//
+//        final StringBuilder sb = new StringBuilder();
+//        sb.append(R.COMMENT_TOKEN)
+//                .append(" .......................  Rotor States  .......................\n\n")
+//                .append(R.COMMENT_TOKEN)
+//                .append(" Save Time: ")
+//                .append(new Date())
+//                .append("\n")
+//                .append(R.COMMENT_TOKEN)
+//                .append(" Function: ")
+//                .append(funcName)
+//                .append("\n")
+//                .append(R.COMMENT_TOKEN)
+//                .append(" Domain Start: ")
+//                .append(getDomainStart())
+//                .append("\n")
+//                .append(R.COMMENT_TOKEN)
+//                .append(" Domain End: ")
+//                .append(getDomainEnd())
+//                .append("\n")
+//                .append(R.COMMENT_TOKEN)
+//                .append(" Domain Travel Time (ms-min): ")
+//                .append(getDomainAnimationDurationMsMin())
+//                .append("\n")
+//                .append(R.COMMENT_TOKEN)
+//                .append(" Domain Travel Time (ms-max): ")
+//                .append(getDomainAnimationDurationMsMax())
+//                .append("\n")
+//                .append(R.COMMENT_TOKEN)
+//                .append(" Domain Travel Time (ms-default): ")
+//                .append(getDomainAnimationDurationMsDefault())
+//                .append("\n")
+//                .append(R.COMMENT_TOKEN)
+//                .append(" Rotors Count: ")
+//                .append(count)
+//                .append("\n\n")
+//                .append(R.COMMENT_TOKEN)
+//                .append(" Rotor States (Frequency ")
+//                .append(ROTOR_STATE_SAVE_FREQ_TO_COEFF_DELIMITER)
+//                .append(" magnitude")
+//                .append(ROTOR_STATE_SAVE_COEFF_DELIMITER)
+//                .append(" phase)")
+//                .append("\n");
+//
+//        if (CollectionUtil.notEmpty(states)) {
+//            for (RotorState state: states) {
+//                sb.append("\n")
+//                        .append(state.getFrequency())
+//                        .append("   ")
+//                        .append(ROTOR_STATE_SAVE_FREQ_TO_COEFF_DELIMITER)            // Delimiter 1
+//                        .append("   ")
+//                        .append(state.getMagnitudeScale())
+//                        .append(ROTOR_STATE_SAVE_COEFF_DELIMITER)                    // Delimiter 2
+//                        .append("  ")
+//                        .append(state.getCoefficientArgument());
+//            }
+//        }
+//
+//        return sb;
     }
 
 
     /* Load Rotor States */
 
     @Nullable
-    static FunctionProviderI loadRotorStatesFunction(@NotNull String s, @NotNull String defaultName) {
-        if (Format.isEmpty(s))
-            return null;
-
-        final Wrapper<String> name = new Wrapper<>(null);
-        final Wrapper.Doub
-                dStart = new Wrapper.Doub(0),
-                dEnd = new Wrapper.Doub(1);
-
-        final Wrapper.Long msDef = new Wrapper.Long(-1),
-                msMin = new Wrapper.Long(-1),
-                msMax = new Wrapper.Long(-1);
-
-        final Map<Double, RotorState> states = new HashMap<>();
-
-        s.lines().forEachOrdered(line -> {
-            line = Format.removeAllWhiteSpaces(line);
-
-            int comment_token_i = line.indexOf(R.COMMENT_TOKEN);
-            if (comment_token_i != -1) {
-                final String commented = line.substring(comment_token_i + 1);
-                if (Format.notEmpty(commented)) {
-                    final int idx = commented.indexOf(':');
-                    if (idx != -1) {
-                        final String[] meta = commented.split(":");
-                        if (meta != null && meta.length == 2 && Format.notEmpty(meta[0])) {
-                            switch (meta[0].toLowerCase()) {
-                                case "function" -> name.set(meta[1]);
-                                case "domainstart" -> {
-                                    try {
-                                        dStart.set(Double.parseDouble(meta[1]));
-                                    } catch (Throwable ignored) {
-                                    }
-                                } case "domainend" -> {
-                                    try {
-                                        dEnd.set(Double.parseDouble(meta[1]));
-                                    } catch (Throwable ignored) {
-                                    }
-                                } case "domaintraveltime(ms-default)" -> {
-                                    try {
-                                        msDef.set(Long.parseLong(meta[1]));
-                                    } catch (Throwable ignored) {
-                                    }
-                                } case "domaintraveltime(ms-min)" -> {
-                                    try {
-                                        msMin.set(Long.parseLong(meta[1]));
-                                    } catch (Throwable ignored) {
-                                    }
-                                } case "domaintraveltime(ms-max)" -> {
-                                    try {
-                                        msMax.set(Long.parseLong(meta[1]));
-                                    } catch (Throwable ignored) {
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                line = line.substring(0, comment_token_i);
-            }
-
-//            line = line.replaceAll("\n", "");
-
-            if (!line.isEmpty()) {
-                final String[] dat = line.split(ROTOR_STATE_SAVE_FREQ_TO_COEFF_DELIMITER);
-                String[] coeff;
-
-                if (dat != null && dat.length == 2 && Format.notEmpty(dat[0]) && Format.notEmpty(dat[1]) && (coeff = dat[1].split(ROTOR_STATE_SAVE_COEFF_DELIMITER)) != null && coeff.length == 2) {
-                    try {
-                        final double freq = Double.parseDouble(dat[0]);
-                        final Complex fsCoeff = ComplexUtil.polar(Double.parseDouble(coeff[0]), Double.parseDouble(coeff[1]));
-
-                        states.put(freq, new RotorState(freq, fsCoeff));
-                    } catch (Throwable ignored) {
-                        Log.e("Failed to parse rotor state: " + line);
-                    }
-                } else {
-                    Log.e("Failed to parse rotor state: " + line);
-                }
-            }
-        });
-
-        if (states.isEmpty())
-            return null;
-
-        if (Format.isEmpty(name.get())) {
-            name.set(defaultName);
+    static FunctionProviderI loadRotorStatesFunction(@NotNull Reader json, @NotNull String defaultName) {
+        try {
+            return Json.get().gson.fromJson(json, FunctionState.class).toProvider(defaultName);
+        } catch (Throwable t) {
+            Log.e(TAG, "Failed to load Function STate from json", t);
         }
 
-        Log.d(TAG, String.format("Loaded Rotor States Function -> Name: %s, Domain Start: %f, Domain End: %f", name.get(), dStart.get(), dEnd.get()));
+        return null;
 
-        final FunctionMeta meta = new FunctionMeta(
-                FunctionType.EXTERNAL_ROTOR_STATE,
-                R.createExternalRotorStatesFunctionDisplayTitle(name.get()),
-                states.size(),
-                Collections.unmodifiableMap(states)
-        );
 
-        return new BaseFunctionProvider(meta, () -> new RotorStatesFunction(states.values(), dStart.get(), dEnd.get(), msDef.get(), msMin.get(), msMax.get()));
+//        final Wrapper<String> name = new Wrapper<>(null);
+//        final Wrapper.Doub
+//                dStart = new Wrapper.Doub(0),
+//                dEnd = new Wrapper.Doub(1);
+//
+//        final Wrapper.Long msDef = new Wrapper.Long(-1),
+//                msMin = new Wrapper.Long(-1),
+//                msMax = new Wrapper.Long(-1);
+//
+//        final Map<Double, RotorState> states = new HashMap<>();
+//
+//        json.lines().forEachOrdered(line -> {
+//            line = Format.removeAllWhiteSpaces(line);
+//
+//            int comment_token_i = line.indexOf(R.COMMENT_TOKEN);
+//            if (comment_token_i != -1) {
+//                final String commented = line.substring(comment_token_i + 1);
+//                if (Format.notEmpty(commented)) {
+//                    final int idx = commented.indexOf(':');
+//                    if (idx != -1) {
+//                        final String[] meta = commented.split(":");
+//                        if (meta != null && meta.length == 2 && Format.notEmpty(meta[0])) {
+//                            switch (meta[0].toLowerCase()) {
+//                                case "function" -> name.set(meta[1]);
+//                                case "domainstart" -> {
+//                                    try {
+//                                        dStart.set(Double.parseDouble(meta[1]));
+//                                    } catch (Throwable ignored) {
+//                                    }
+//                                } case "domainend" -> {
+//                                    try {
+//                                        dEnd.set(Double.parseDouble(meta[1]));
+//                                    } catch (Throwable ignored) {
+//                                    }
+//                                } case "domaintraveltime(ms-default)" -> {
+//                                    try {
+//                                        msDef.set(Long.parseLong(meta[1]));
+//                                    } catch (Throwable ignored) {
+//                                    }
+//                                } case "domaintraveltime(ms-min)" -> {
+//                                    try {
+//                                        msMin.set(Long.parseLong(meta[1]));
+//                                    } catch (Throwable ignored) {
+//                                    }
+//                                } case "domaintraveltime(ms-max)" -> {
+//                                    try {
+//                                        msMax.set(Long.parseLong(meta[1]));
+//                                    } catch (Throwable ignored) {
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                line = line.substring(0, comment_token_i);
+//            }
+//
+////            line = line.replaceAll("\n", "");
+//
+//            if (!line.isEmpty()) {
+//                final String[] dat = line.split(ROTOR_STATE_SAVE_FREQ_TO_COEFF_DELIMITER);
+//                String[] coeff;
+//
+//                if (dat != null && dat.length == 2 && Format.notEmpty(dat[0]) && Format.notEmpty(dat[1]) && (coeff = dat[1].split(ROTOR_STATE_SAVE_COEFF_DELIMITER)) != null && coeff.length == 2) {
+//                    try {
+//                        final double freq = Double.parseDouble(dat[0]);
+//                        final Complex fsCoeff = ComplexUtil.polar(Double.parseDouble(coeff[0]), Double.parseDouble(coeff[1]));
+//
+//                        states.put(freq, new RotorState(freq, fsCoeff));
+//                    } catch (Throwable ignored) {
+//                        Log.e("Failed to parse rotor state: " + line);
+//                    }
+//                } else {
+//                    Log.e("Failed to parse rotor state: " + line);
+//                }
+//            }
+//        });
+//
+//        if (states.isEmpty())
+//            return null;
+//
+//        if (Format.isEmpty(name.get())) {
+//            name.set(defaultName);
+//        }
+//
+//        Log.d(TAG, String.format("Loaded Rotor States Function -> Name: %s, Domain Start: %f, Domain End: %f", name.get(), dStart.get(), dEnd.get()));
+//
+//        final FunctionMeta meta = new FunctionMeta(
+//                FunctionType.EXTERNAL_ROTOR_STATE,
+//                R.createExternalRotorStatesFunctionDisplayTitle(name.get()),
+//                states.size(),
+//                Collections.unmodifiableMap(states)
+//        );
+//
+//        return new BaseFunctionProvider(meta, () -> new RotorStatesFunction(states.values(), dStart.get(), dEnd.get(), msDef.get(), msMin.get(), msMax.get()));
     }
 
 
     @Nullable
     static FunctionProviderI loadFunctionFromRotorStatesFile(@NotNull Path file) {
         if (Files.isRegularFile(file)) {
-            try {
-                final String s = Files.readString(file, ROTOR_STATES_SAVE_ENCODING);
-                final FunctionProviderI fp = loadRotorStatesFunction(s, file.getFileName().toString());
-                if (fp == null) {
-                    throw new Exception("Parse Error");
-                }
 
-                return fp;
+            try (Reader reader = Files.newBufferedReader(file, ROTOR_STATES_SAVE_ENCODING)) {
+                return loadRotorStatesFunction(reader, file.getFileName().toString());
             } catch (Throwable t) {
                 Log.e(TAG, "Failed to load Rotor States from file <" + file + ">", t);
             }
+
+//            try {
+//                final String s = Files.readString(file, ROTOR_STATES_SAVE_ENCODING);
+//                final FunctionProviderI fp = loadRotorStatesFunction(s, file.getFileName().toString());
+//                if (fp == null) {
+//                    throw new Exception("Parse Error");
+//                }
+//
+//                return fp;
+//            } catch (Throwable t) {
+//                Log.e(TAG, "Failed to load Rotor States from file <" + file + ">", t);
+//            }
         }
 
         return null;
@@ -454,13 +497,8 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
         }
 
         @Override
-        public @Nullable Map<Double, RotorState> getAllRotorStatesCopy() {
-            return null;
-        }
-
-        @Override
-        public @Nullable List<RotorState> getSortedRotorStates(@Nullable Comparator<? super RotorState> comparator) {
-            return null;
+        public void forEachRotorState(@NotNull Consumer<RotorState> consumer) {
+            /* no-op */
         }
 
         @Override

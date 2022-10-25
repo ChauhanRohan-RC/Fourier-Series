@@ -1182,10 +1182,9 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         }
 
         if (Format.notEmpty(err)) {          // Invalid save request
-            showErrorMessageDialog("INVALID SAVE REQUEST\nError: " + err, null);
+            showErrorMessageDialog("Invalid Save Request\nError: " + err, null);
             return;
         }
-
 
         final ChooserConfig config = ChooserConfig.saveFileSingle()
                 .setDialogTitle("Save Rotor States to file")
@@ -1205,10 +1204,11 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
         // TODO: show snackbar saving
         sm.dumpRotorStatesToFileAsync(outPath, (Path file) -> {
+            final String title = sm.getFunctionMeta().displayName();
             if (file == null) {         // Failed
-                showErrorMessageDialog("ROTOR STATES SAVE FAILED\nSee log for error details...", null);
+                showErrorMessageDialog("FAILED to save rotor states. See log for error details\n\nFunction: " + title, null);
             } else {
-                showInfoMessageDialog("Rotor States saved\nLocation: " + file, null);
+                showInfoMessageDialog("Rotor States saved\n\nFunction:" + title + "\nFile: " + file, null);
             }
         });
     }
@@ -1237,9 +1237,9 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         RotorStateManager.loadFunctionFromRotorStatesFileAsync(file.toPath(), fp -> {
             if (fp != null) {
                 functionProviders.ensureAddSelect(fp);
-                showInfoMessageDialog("Synthetic Rotor States Function loaded\nFunction: " + fp.getFunctionMeta().displayName(), null);
+                showInfoMessageDialog("Synthetic Rotor States Function loaded\n\nFunction: " + fp.getFunctionMeta().displayName() + "\nFile: " + file.getPath(), null);
             } else {
-                showErrorMessageDialog("Failed to load Rotor States!", null);
+                showErrorMessageDialog("Failed to load Rotor States. FIle might be corrupted or of invalid format\n\nFile: " + file.getPath(), null);
             }
         });
     }

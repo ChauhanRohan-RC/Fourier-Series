@@ -63,10 +63,16 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
         mInitialRotorCount = initialRotorCount > 0? initialRotorCount: DEFAULT_INITIAL_ROTOR_COUNT;
         mStore = new HashMap<>(Math.max((int) (mInitialRotorCount * 1.4), 20));
 
+        // Meta
+        final RotorFrequencyProviderE frequencyProviderE = functionMeta.frequencyProvider();
+        if (frequencyProviderE != null) {
+            mRotorFrequencyProvider = frequencyProviderE;
+        }
+
         // Preloaded States
-        final Map<Double, RotorState> preloadedStates = functionMeta.preloadedRotorStates();
+        final Collection<RotorState> preloadedStates = functionMeta.preloadedRotorStates();
         if (CollectionUtil.notEmpty(preloadedStates)) {
-            mStore.putAll(preloadedStates);
+            preloadedStates.forEach(s -> mStore.put(s.getFrequency(), s));
         }
 
 //        setRotorCountAsync(mInitialRotorCount);
@@ -147,33 +153,43 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
     }
 
 
+//    @Override
+//    @NotNull
+//    public Map<Double, RotorState> copyRotorStates() {
+//        synchronized (mStore) {
+//            return new HashMap<>(mStore);
+//        }
+//    }
+
+
     @Override
-    @NotNull
-    public Map<Double, RotorState> getAllRotorStatesCopy() {
+    public void forEachRotorState(@NotNull Consumer<RotorState> consumer) {
         synchronized (mStore) {
-            return new HashMap<>(mStore);
+            mStore.forEach((k, v) -> consumer.consume(v));
         }
     }
 
     @Override
-    @Nullable
-    public List<RotorState> getSortedRotorStates(@Nullable Comparator<? super RotorState> comparator) {
-        final ArrayList<RotorState> states;
+    public void copyAllRotorStates(@NotNull Collection<RotorState> dest) {
         synchronized (mStore) {
-            states = new ArrayList<>(mStore.values());
+            dest.addAll(mStore.values());
         }
+    }
 
-        states.sort(comparator);
-        return states;
+    @Override
+    public void copyAllRotorStates(@NotNull Map<? super Double, ? super RotorState> dest) {
+        synchronized (mStore) {
+            dest.putAll(mStore);
+        }
     }
 
     @NotNull
     protected RotorState createRotorState(double frequency) {
         final RotorState state = new RotorState(frequency, ComplexUtil.fourierSeriesCoefficient(getBaseFunction(), frequency));
 
-        if (Log.DEBUG) {
-            Log.v("RotorState", "Freq: " + frequency + ", coefficient: " + state.getCoefficient());
-        }
+//        if (Log.DEBUG) {
+//            Log.v("RotorState", "Freq: " + frequency + ", coefficient: " + state.getCoefficient());
+//        }
 
         return state;
     }

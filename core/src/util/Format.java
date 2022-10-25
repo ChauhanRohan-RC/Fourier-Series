@@ -24,6 +24,11 @@ public class Format {
     }
 
     @NotNull
+    public static String toString(CharSequence seq) {
+        return isEmpty(seq)? "": seq.toString();
+    }
+
+    @NotNull
     public static Pattern getWhiteSpacePattern() {
         if (sWhiteSpacePattern == null) {
             sWhiteSpacePattern = Pattern.compile("\\s");;

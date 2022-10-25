@@ -1,0 +1,51 @@
+package json;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.google.gson.*;
+import java.lang.reflect.Type;
+
+
+/**
+ * Type Adapter for GSON that enables Interface references to deserialize
+ * It serializes object by storing its Class name in {@link GsonTypeAdapter#CLASS_NAME_KEY} that is used to deserialize it properly
+ *
+ * @see JsonParsable
+ * */
+public class GsonTypeAdapter<T> implements JsonSerializer<T>, JsonDeserializer<T> {
+    public static String CLASS_NAME_KEY = "CLASSNAME";
+    public static String DATA_KEY = "DATA";
+
+    /**
+     * Packs Class name and Data of supplied Object in JsonObject for future deserialization
+     * */
+    @Override
+    public JsonElement serialize(@NotNull T o, Type type, @NotNull JsonSerializationContext jsonSerializationContext) {
+        final JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(CLASS_NAME_KEY, o.getClass().getName());
+        jsonObject.add(DATA_KEY, jsonSerializationContext.serialize(o));
+        return jsonObject;
+    }
+
+
+    /**
+     * Extracts Class<?> using class name stored in {@link GsonTypeAdapter#CLASS_NAME_KEY} and uses it to deserialize the JsonObject
+     *
+     * @throws JsonParseException in case of Parsing exception or Class could not be loaded by {@link GsonTypeAdapter#getClass(String)}
+     *  */
+    @Override
+    public T deserialize(@NotNull JsonElement jsonElement, Type type, @NotNull JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+        final JsonObject jsonObject = jsonElement.getAsJsonObject();
+        return jsonDeserializationContext.deserialize(jsonObject.get(DATA_KEY), getClass(jsonObject.getAsJsonPrimitive(CLASS_NAME_KEY).getAsString()));
+    }
+
+    /** Utility method for fetching Class<?> object from class name */
+    @NotNull
+    private static Class<?> getClass(@NotNull String className) {
+        try {
+            return Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            throw new JsonParseException(e.getMessage());
+        }
+    }
+}

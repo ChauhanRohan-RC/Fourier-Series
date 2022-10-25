@@ -3,8 +3,9 @@
     <output-path>$PROJECT_DIR$/out/artifacts/core_jar</output-path>
     <root id="archive" name="core.jar">
       <element id="module-output" name="core" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/libs/commons-math3-3.6.1.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/libs/batik-all-1.14.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/commons-math3-3.6.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/gson/gson-2.10.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/libs/org.jetbrains.annotations.19.0.0.jar" path-in-jar="/" />
     </root>
   </artifact>

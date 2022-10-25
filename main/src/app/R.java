@@ -58,7 +58,7 @@ public class R {
     /* External Files */
     public static final boolean LOAD_EXTERNAL_PATH_FUNCTIONS_ON_START = false;
 
-    public static final String ROTOR_STATE_DUMP_FILE_EXTENSION = ".rs";
+    public static final String ROTOR_STATE_DUMP_FILE_EXTENSION = ".json";
     public static final String ROTOR_STATE_DUMP_FILE_DESCRIPTION = "Rotor States";
     public static final FileFilter ROTOR_STATE_DUMP_FILE_FILTER = new OpenFileFilter(ROTOR_STATE_DUMP_FILE_EXTENSION, ROTOR_STATE_DUMP_FILE_DESCRIPTION);
 
@@ -306,6 +306,18 @@ public class R {
     }
 
 
+
+    /* ENUMS */
+
+    @NotNull
+    public static String dumpEnum(@Nullable Enum<?> value) {
+        return value != null? value.toString(): "";
+    }
+
+    @Nullable
+    public static <T extends Enum<T>> T loadEnum(@NotNull Class<T> clazz, @Nullable String name) {
+        return Format.isEmpty(name)? null: Enum.valueOf(clazz, name);
+    }
 
 
     /* ......................  Strings ............................. */
