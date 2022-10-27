@@ -68,6 +68,15 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
 
         void onRotorsCountChanged(@NotNull RotorStateManager manager, int prevCount, int newCount);
 
+
+
+
+        default boolean onInterceptRotorFrequencyProvider(@NotNull RotorStateManager manager, @Nullable RotorFrequencyProviderI old, @Nullable RotorFrequencyProviderI _new) {
+            return false;
+        }
+
+        void onRotorsFrequencyProviderIntercepted(@NotNull RotorStateManager manager, @Nullable RotorFrequencyProviderI rotorFrequencyProvider);
+
         /**
          * Called when rotor frequency provider is changed.
          * if The old provider is null, it means that the manager was previously using its default provider.

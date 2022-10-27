@@ -13,17 +13,37 @@ import java.util.List;
 
 public enum ActionInfo {
 
-    DRAG_UP(String.valueOf(Format.ARROW_UP), "Drag Up", true, KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.CTRL_DOWN_MASK)),
-    DRAG_DOWN(String.valueOf(Format.ARROW_DOWN), "Drag Down", true, KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.CTRL_DOWN_MASK)),
-    DRAG_LEFT(String.valueOf(Format.ARROW_LEFT), "Drag Left", true, KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.CTRL_DOWN_MASK)),
-    DRAG_RIGHT(String.valueOf(Format.ARROW_RIGHT), "Drag Right", true, KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.CTRL_DOWN_MASK)),
+    CANCEL_RUNNING_TASKS("Cancel",
+            "Cancel running operations",
+            false,
+            KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0)),
+
+    DRAG_UP(String.valueOf(Format.ARROW_UP),
+            "Drag Up",
+            true,
+            KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.CTRL_DOWN_MASK)),
+
+    DRAG_DOWN(String.valueOf(Format.ARROW_DOWN),
+            "Drag Down",
+            true,
+            KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.CTRL_DOWN_MASK)),
+
+    DRAG_LEFT(String.valueOf(Format.ARROW_LEFT),
+            "Drag Left",
+            true,
+            KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.CTRL_DOWN_MASK)),
+
+    DRAG_RIGHT(String.valueOf(Format.ARROW_RIGHT),
+            "Drag Right",
+            true,
+            KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.CTRL_DOWN_MASK)),
 
     SCALE_UP(R.getScaleText(true), R.getScaleShortDescription(true), true, KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.SHIFT_DOWN_MASK)),
     SCALE_DOWN(R.getScaleText(false), R.getScaleShortDescription(false), true, KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.SHIFT_DOWN_MASK)),
 
     PLAY(R.getPlayPauseText(false), R.getPlayPauseShortDescription(false), true, null),
     PAUSE(R.getPlayPauseText(true), R.getPlayPauseShortDescription(true), true, KeyStroke.getKeyStroke(KeyEvent.VK_PAUSE, 0)),
-    STOP(R.getStopText(), R.getStopShortDescription(), true, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0)),
+    STOP(R.getStopText(), R.getStopShortDescription(), true, null),
     TOGGLE_PLAY_PAUSE(R.getPlayPauseText(false), R.getPlayPauseShortDescription(false), true, KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0)),
 
     TOGGLE_POINTS_JOIN(R.getPointsJoiningText(), R.getPointsJoiningShortDescription(), true, KeyStroke.getKeyStroke(KeyEvent.VK_J, InputEvent.CTRL_DOWN_MASK)),
@@ -49,12 +69,12 @@ public enum ActionInfo {
     CLEAR_EXTERNAL_ROTOR_STATE_FUNCTIONS("Clear All", "Remove all loaded rotor state functions", false, null),
 
     LOAD_EXTERNAL_PATH_FUNCTIONS("Load Files", "Load Path Functions", false, KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK)),
-    LOAD_EXTERNAL_PATH_FUNCTIONS_FROM_DIR("Scan Folder", "Scan Path Functions from Folder", false,  KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.SHIFT_DOWN_MASK)),
+    LOAD_EXTERNAL_PATH_FUNCTIONS_FROM_DIR("Scan Folder", "Scan Path Functions from Folder", false, KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.SHIFT_DOWN_MASK)),
     CLEAR_EXTERNAL_PATH_FUNCTIONS("Clear External", "Remove all external path functions", false, null),
     CLEAR_INTERNAL_PATH_FUNCTIONS("Clear Internal", "Remove all internal path functions", false, null),
     RESET_PATH_FUNCTIONS("Reset", "Reset all path functions to initial state", false, null),
 
-    LOAD_EXTERNAL_PROGRAMMATIC_FUNCTION("Load", "Load external Programmatic Function", false, KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.SHIFT_DOWN_MASK)),
+    LOAD_EXTERNAL_PROGRAMMATIC_FUNCTION("Load Project", "Load external Programmatic Function", false, KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.SHIFT_DOWN_MASK)),
     CLEAR_EXTERNAL_PROGRAMMATIC_FUNCTIONS("Clear External", "Remove all external programmatic functions", false, null),
     CLEAR_INTERNAL_PROGRAMMATIC_FUNCTIONS("Clear Internal", "Remove all internal programmatic functions", false, null),
     RESET_PROGRAMMATIC_FUNCTIONS("Reset", "Reset all programmatic functions to initial state", false, null),

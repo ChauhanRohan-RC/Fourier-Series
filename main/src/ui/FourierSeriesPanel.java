@@ -42,8 +42,9 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
     public static final float ROTORS_FRAME_WIDTH_RATIO_WAVE = 0.38f;        // as a ratio of width
     public static final float ROTORS_FRAME_WIDTH_RATIO_GRAPH = 0.35f;       // as a ratio of width (on;y when not graphing in center)
 
-    public static final int MIN_ROTOR_COUNT = 1;
-    public static final int MAX_ROTOR_COUNT = 1000;
+    public static final int ROTOR_COUNT_MIN = 0;
+    public static final int ROTOR_COUNT_MAX = 1000;
+    public static final int ROTOR_COUNT_SLIDER_LABEL_INCREMENT = 200;
 
     public static final float ROTORS_ZOOM_SCALE = 0.48f;
     public static final float ROTORS_ZOOM_SCALE_CENTER = 0.75f;
@@ -229,16 +230,37 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
         @Override
         public void onRotorsLoadingChanged(@NotNull RotorStateManager manager, boolean isLoading) {
             Log.d(TAG, "LOADING: " + isLoading);
-            setPlay(!isLoading);
+//            if (isLoading) {
+//                setPlay(false);
+//            }
+
+            update();
         }
 
         @Override
         public void onRotorsLoadFinished(@NotNull RotorStateManager manager, int count, boolean cancelled) {
+            Log.d(TAG, "onRotorsLoadFinished: count: " + count + ", cancelled: " + cancelled);
+//            if (!cancelled) {
+//                reset(false);
+//                setPlay(true);
+//            }
         }
 
         @Override
         public void onRotorsCountChanged(@NotNull RotorStateManager manager, int prevCount, int newCount) {
             reset(false);
+            setPlay(true);
+        }
+
+
+        @Override
+        public boolean onInterceptRotorFrequencyProvider(@NotNull RotorStateManager manager, @Nullable RotorFrequencyProviderI old, @Nullable RotorFrequencyProviderI _new) {
+            return RotorStateManager.Listener.super.onInterceptRotorFrequencyProvider(manager, old, _new);
+        }
+
+        @Override
+        public void onRotorsFrequencyProviderIntercepted(@NotNull RotorStateManager manager, @Nullable RotorFrequencyProviderI rotorFrequencyProvider) {
+
         }
 
         @Override
@@ -379,7 +401,7 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
     }
 
     public void setRotorCount(int rotorCount) {
-        mRotorStateManager.setRotorCountAsync(ComplexUtil.constraint(MIN_ROTOR_COUNT, MAX_ROTOR_COUNT, rotorCount));      // async
+        mRotorStateManager.setRotorCountAsync(ComplexUtil.constraint(ROTOR_COUNT_MIN, ROTOR_COUNT_MAX, rotorCount));      // async
     }
 
     public int getRotorCount() {
@@ -387,7 +409,7 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
     }
 
     public int getConstrainedRotorCount() {
-        return ComplexUtil.constraint(MIN_ROTOR_COUNT, MAX_ROTOR_COUNT, getRotorCount());
+        return ComplexUtil.constraint(ROTOR_COUNT_MIN, ROTOR_COUNT_MAX, getRotorCount());
     }
 
 
@@ -790,8 +812,6 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
     }
 
 
-
-
     @NotNull
     protected WavePoint createWavePoint(@NotNull Complex sum, double input, double baseRadius) {
         return new WavePoint(sum.divide(baseRadius), mRotorStateManager.getColor(input));
@@ -841,7 +861,7 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
     }
 
     protected boolean shouldDrawRotors() {
-        return (isPlaying() || isDrawingWave()) && !mRotorStateManager.isLoading();
+        return (isPlaying() || isDrawingWave()) && mRotorStateManager.getRotorCount() > 0;
     }
 
     @Override
@@ -1024,6 +1044,9 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
         }
 
         if (play) {
+            if (mRotorStateManager.isNoOp() || mRotorStateManager.getRotorCount() == 0)
+                return;
+
             if (mDomainAnimator.isEnded()) {
                 mDomainAnimator.reset();
             }

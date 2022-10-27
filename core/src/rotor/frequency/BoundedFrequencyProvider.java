@@ -2,6 +2,8 @@ package rotor.frequency;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 public class BoundedFrequencyProvider implements RotorFrequencyProviderI {
 
     public static final double DEFAULT_START = 0;
@@ -60,5 +62,20 @@ public class BoundedFrequencyProvider implements RotorFrequencyProviderI {
                 "frequencyStart=" + frequencyStart +
                 ", frequencyEnd=" + frequencyEnd +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        BoundedFrequencyProvider that = (BoundedFrequencyProvider) o;
+        return that.frequencyStart == frequencyStart && Objects.equals(frequencyEnd, that.frequencyEnd);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(frequencyStart, frequencyEnd);
     }
 }

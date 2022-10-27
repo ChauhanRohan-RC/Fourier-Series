@@ -1,5 +1,7 @@
 package rotor.frequency;
 
+import java.util.Objects;
+
 public class IndexFrequencyProvider implements RotorFrequencyProviderI {
 
     public static final double DEFAULT_INDEX_MULTIPLIER = 1;
@@ -33,5 +35,20 @@ public class IndexFrequencyProvider implements RotorFrequencyProviderI {
         return "IndexFrequencyProvider{" +
                 "indexMultiplier=" + indexMultiplier +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        IndexFrequencyProvider that = (IndexFrequencyProvider) o;
+        return that.indexMultiplier == indexMultiplier;
+    }
+
+    @Override
+    public int hashCode() {
+        return Double.hashCode(indexMultiplier);
     }
 }

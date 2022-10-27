@@ -1,5 +1,7 @@
 package rotor.frequency;
 
+import java.util.Objects;
+
 public class CenteringFrequencyProvider implements RotorFrequencyProviderI {
 
     public static final double DEFAULT_FREQUENCY_MULTIPLIER = 1;
@@ -42,6 +44,20 @@ public class CenteringFrequencyProvider implements RotorFrequencyProviderI {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        CenteringFrequencyProvider that = (CenteringFrequencyProvider) o;
+        return that.frequencyMultiplier == frequencyMultiplier;
+    }
+
+    @Override
+    public int hashCode() {
+        return Double.hashCode(frequencyMultiplier);
+    }
 
     //    @NotNull
 //    public JsonElement toJson() {

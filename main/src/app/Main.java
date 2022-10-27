@@ -1,11 +1,6 @@
 package app;
 
-import function.definition.ComplexDomainFunctionI;
-import function.definition.SignalFunctionI;
-import provider.FunctionMeta;
-import provider.FunctionType;
 import provider.Providers;
-import provider.SimpleFunctionProvider;
 import rotor.frequency.BoundedFrequencyProvider;
 import rotor.frequency.CenteringFrequencyProvider;
 import rotor.frequency.RotorFrequencyProviderI;
@@ -28,8 +23,6 @@ public class Main {
 //            final FourierUi ui = new FourierUi(null, initialFuncProviderIndex);
 //        });
 //    }
-
-
 
     // TODO: Main production launcher
 

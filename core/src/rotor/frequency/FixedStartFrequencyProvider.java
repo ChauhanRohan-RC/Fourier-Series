@@ -46,4 +46,19 @@ public class FixedStartFrequencyProvider implements RotorFrequencyProviderI {
                 ", frequencyStep=" + frequencyStep +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        FixedStartFrequencyProvider that = (FixedStartFrequencyProvider) o;
+        return that.startFrequency == startFrequency && that.frequencyStep == frequencyStep;
+    }
+
+    @Override
+    public int hashCode() {
+        return 31 * Double.hashCode(startFrequency) + Double.hashCode(frequencyStep);
+    }
 }

@@ -93,10 +93,13 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
     /* Menu */
     final JMenuBar menuBar;
-    final JMenu menuRotorStates;
+
     final JMenu menuFunctions;
     final JMenu menuPathFunctions;
     final JMenu menuPrograms;
+    final JMenu menuFrequency;
+    final JMenu menuRotorStates;
+    final JMenu menuView;
 
     @NotNull
     private final FunctionProvidersListener mFunctionProvidersListener = new FunctionProvidersListener();
@@ -135,9 +138,9 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         final int rotorCount = fsPanel.getConstrainedRotorCount();
         rotorCountText = new JLabel(R.getRotorCountText(rotorCount));
 
-        rotorCountSlider = new JSlider(SwingConstants.HORIZONTAL, FourierSeriesPanel.MIN_ROTOR_COUNT, FourierSeriesPanel.MAX_ROTOR_COUNT, rotorCount);
+        rotorCountSlider = new JSlider(SwingConstants.HORIZONTAL, FourierSeriesPanel.ROTOR_COUNT_MIN, FourierSeriesPanel.ROTOR_COUNT_MAX, rotorCount);
         rotorCountSlider.setToolTipText(R.getRotorCountSliderShortDescription());
-        rotorCountSlider.setLabelTable(rotorCountSlider.createStandardLabels(FourierSeriesPanel.MAX_ROTOR_COUNT - FourierSeriesPanel.MIN_ROTOR_COUNT, FourierSeriesPanel.MIN_ROTOR_COUNT));
+        rotorCountSlider.setLabelTable(rotorCountSlider.createStandardLabels(FourierSeriesPanel.ROTOR_COUNT_SLIDER_LABEL_INCREMENT, FourierSeriesPanel.ROTOR_COUNT_MIN));
         rotorCountSlider.setPaintLabels(true);
 
         // Speed
@@ -209,21 +212,10 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
         toggleControlsButton = new JButton(controlUia);
 
-
         /* Menu */
 
         menuBar = new JMenuBar();
         setJMenuBar(menuBar);
-
-        // Rotor States menu
-        menuRotorStates = new JMenu("Rotor States");
-        menuBar.add(menuRotorStates);
-        menuRotorStates.add(uia(ActionInfo.CONFIGURE_ROTOR_FREQUENCY_PROVIDER));
-        menuRotorStates.addSeparator();
-        menuRotorStates.add(uia(ActionInfo.DUMP_ROTOR_STATES_TO_FILE));
-        menuRotorStates.add(uia(ActionInfo.LOAD_ROTOR_STATES_FROM_FILE));
-        menuRotorStates.addSeparator();
-        menuRotorStates.add(uia(ActionInfo.CLEAR_EXTERNAL_ROTOR_STATE_FUNCTIONS));
 
         // Functions Menu
         menuFunctions = new JMenu("Functions");
@@ -249,6 +241,26 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         menuPathFunctions.addSeparator();
         menuPathFunctions.add(uia(ActionInfo.RESET_PATH_FUNCTIONS));
 
+        // Frequency Menu
+        menuFrequency = new JMenu("Frequency");
+        menuBar.add(menuFrequency);
+        menuFrequency.add(uia(ActionInfo.CONFIGURE_ROTOR_FREQUENCY_PROVIDER));
+
+        // Rotor States menu
+        menuRotorStates = new JMenu("Rotor States");
+        menuBar.add(menuRotorStates);
+        menuRotorStates.add(uia(ActionInfo.DUMP_ROTOR_STATES_TO_FILE));
+        menuRotorStates.add(uia(ActionInfo.LOAD_ROTOR_STATES_FROM_FILE));
+        menuRotorStates.addSeparator();
+        menuRotorStates.add(uia(ActionInfo.CLEAR_EXTERNAL_ROTOR_STATE_FUNCTIONS));
+
+        // View menu
+        menuView = new JMenu("View");
+        menuBar.add(menuView);
+        menuView.add(uia(ActionInfo.TOGGLE_MENUBAR));
+        menuView.add(uia(ActionInfo.TOGGLE_CONTROLS));
+        menuView.addSeparator();
+        menuView.add(uia(ActionInfo.TOGGLE_FULLSCREEN));
 
         // Ui components that depend on function
         funcDependentComps = new JComponent[] {
@@ -519,10 +531,10 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
 
     protected void onFullscreenChanged(boolean fullscreen) {
-        update();
+//        update();
 
         uia(ActionInfo.TOGGLE_FULLSCREEN)
-//                .setName(R.getFullscreenText(fullscreen))
+                .setName(R.getFullscreenText(fullscreen))
                 .setShortDescription(R.getFullscreenShortDescription(fullscreen))
                 .setSelected(fullscreen);
     }
@@ -546,7 +558,6 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
     public final void toggleFullscreen() {
         setFullscreen(!mFullscreen);
     }
-
 
 
     protected void onControlsVisibilityChanged(boolean controlsVisible) {
@@ -612,7 +623,6 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         setMenuBarVisibleInternal(newState);
         return newState;
     }
-
 
     public void setPlay(boolean play) {
         fsPanel.setPlay(play);
@@ -759,11 +769,12 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
     public void syncFunctionProviders() {
         final EnumMap<FunctionType, Integer> stats = functionProviders.getStats();
+        final RotorStateManager manager = fsPanel.getRotorStateManager();
 
         final boolean allNoop = stats.isEmpty() || (stats.size() == 1 && stats.containsKey(FunctionType.NO_OP));
-        final boolean noopOrloading = fsPanel.getRotorStateManager().isNoOp() || fsPanel.getRotorStateManager().isLoading();
+        final boolean noopOrloading = manager.isNoOp();
 
-        syncFunctionDependentOps(!(allNoop || noopOrloading));
+        syncFunctionDependentOps(!(allNoop || noopOrloading), manager.getRotorCount() > 0);
         uia(ActionInfo.CLEAR_EXTERNAL_ROTOR_STATE_FUNCTIONS).setEnabled(stats.containsKey(FunctionType.EXTERNAL_ROTOR_STATE));
         uia(ActionInfo.CLEAR_INTERNAL_PROGRAMMATIC_FUNCTIONS).setEnabled(stats.containsKey(FunctionType.INTERNAL_PROGRAM));
         uia(ActionInfo.CLEAR_EXTERNAL_PROGRAMMATIC_FUNCTIONS).setEnabled(stats.containsKey(FunctionType.EXTERNAL_PROGRAM));
@@ -1040,15 +1051,30 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
     }
 
 
-    private void syncFunctionDependentOps(boolean enabled) {
+    private void syncFunctionDependentOps(boolean hasFunction, boolean hasRotors) {
+        final boolean hasBoth = hasFunction && hasRotors;
+
         for (JComponent c: funcDependentComps) {
-            c.setEnabled(enabled);
+            if (c == rotorCountSlider) {
+                c.setEnabled(hasFunction);
+                continue;
+            }
+
+            c.setEnabled(hasBoth);
         }
 
         ActionInfo.sharedValues()
                 .stream()
                 .filter(a -> a.functionDependent)
-                .forEach(a -> uia(a).setEnabled(enabled));
+                .forEach(a -> uia(a).setEnabled(hasBoth));
+    }
+
+    private void syncFunctionDependentOps() {
+        final RotorStateManager manager = fsPanel.getRotorStateManager();
+
+        final boolean hasFunction = !(manager.isNoOp());
+        final boolean hasRotors = manager.getRotorCount() > 0;
+        syncFunctionDependentOps(hasFunction, hasRotors);
     }
 
     @Override
@@ -1057,9 +1083,8 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
             old.removeListener(this);
         sm.ensureListener(this);
 
-        final boolean good = !sm.isNoOp();
-        syncFunctionDependentOps(good);
-        setPlay(good && AUTO_PLAY_ON_ROTOR_STATE_MANAGER_CHANGE);
+        syncFunctionProviders();
+        setPlay(AUTO_PLAY_ON_ROTOR_STATE_MANAGER_CHANGE);
     }
 
     @Override
@@ -1122,22 +1147,26 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
     }
 
 
+    private boolean confirmModifyExternalRotorStatesFunctions() {
+        final int option = JOptionPane.showConfirmDialog(this,
+                """
+                        This function is only backed by existing Rotor States (created using IFT)
+                        Loading any more rotor states or changing Frequency Provider is HIGHLY EXPENSIVE and TIME TAKING (possibly several minutes)
+                        Do you wish to continue?""",
+                "Load Rotor States",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+
+        return (option == JOptionPane.OK_OPTION);
+    }
+
     @Override
     public boolean onInterceptRotorsLoad(@NotNull RotorStateManager manager, int loadCount) {
         final boolean extRotorStates = manager.getFunctionMeta().functionType() == FunctionType.EXTERNAL_ROTOR_STATE;
         if (extRotorStates) {
             final int initialCount = manager.getFunctionMeta().initialRotorCount();
             if (initialCount < loadCount) {
-                final int option = JOptionPane.showConfirmDialog(this,
-                        """
-                                This function is only backed by existing Rotor States (created using IFT)
-                                Loading any more rotor states might be USELESS and HIGHLY TIME CONSUMING
-                                Do you wish to continue?""",
-                        "Load Rotor States",
-                        JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.WARNING_MESSAGE);
-
-                return !(option == JOptionPane.OK_OPTION);
+                return !confirmModifyExternalRotorStatesFunctions();
             }
         }
 
@@ -1151,17 +1180,32 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
     @Override
     public void onRotorsLoadingChanged(@NotNull RotorStateManager manager, boolean isLoading) {
-        syncFunctionDependentOps(!isLoading);
+        syncFunctionDependentOps();
     }
 
     @Override
     public void onRotorsLoadFinished(@NotNull RotorStateManager manager, int count, boolean cancelled) {
-
     }
 
     @Override
     public void onRotorsCountChanged(@NotNull RotorStateManager manager, int prevCount, int newCount) {
         updateRotorCountUi(fsPanel.getConstrainedRotorCount());
+    }
+
+
+    @Override
+    public boolean onInterceptRotorFrequencyProvider(@NotNull RotorStateManager manager, @Nullable RotorFrequencyProviderI old, @Nullable RotorFrequencyProviderI _new) {
+        final boolean extRotorStates = manager.getFunctionMeta().functionType() == FunctionType.EXTERNAL_ROTOR_STATE;
+        if (extRotorStates && !Objects.equals(old, _new)) {
+            return !confirmModifyExternalRotorStatesFunctions();
+        }
+
+        return RotorStateManager.Listener.super.onInterceptRotorFrequencyProvider(manager, old, _new);
+    }
+
+    @Override
+    public void onRotorsFrequencyProviderIntercepted(@NotNull RotorStateManager manager, @Nullable RotorFrequencyProviderI rotorFrequencyProvider) {
+
     }
 
     @Override
@@ -1464,6 +1508,13 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         }
     }
 
+    public void cancelRunningTasks() {
+        if (fsPanel.isPlaying()) {
+            fsPanel.stop();
+        }
+
+        fsPanel.getRotorStateManager().cancelLoad(true);
+    }
 
 
 
@@ -1553,6 +1604,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         @Override
         public void onAction(@NotNull UiAction action, @NotNull ActionEvent e) {
             switch (action.info) {
+                case CANCEL_RUNNING_TASKS -> cancelRunningTasks();
                 case DRAG_UP -> fsPanel.dragYByUnit(false);
                 case DRAG_DOWN -> fsPanel.dragYByUnit(true);
                 case DRAG_LEFT -> fsPanel.dragXByUnit(false);

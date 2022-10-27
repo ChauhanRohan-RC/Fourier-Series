@@ -129,6 +129,10 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
         mListeners.dispatchOnMainThread(l -> l.onRotorsFrequencyProviderChanged(StandardRotorStateManager.this, old, _new));
     }
 
+    protected void onRotorFrequencyProviderIntercepted(@Nullable RotorFrequencyProviderI rotorFrequencyProvider) {
+        mListeners.dispatchOnMainThread(l -> l.onRotorsFrequencyProviderIntercepted(StandardRotorStateManager.this, rotorFrequencyProvider));
+    }
+
     @Override
     @NotNull
     public RotorFrequencyProviderI getManagerDefaultRotorFrequencyProvider() {
@@ -141,11 +145,28 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
         return mRotorFrequencyProvider;
     }
 
+
+    private boolean doInterceptRotorFrequencyProvider(@Nullable RotorFrequencyProviderI old, @Nullable RotorFrequencyProviderI _new) {
+        if (mListeners.listenersCount() > 0) {
+            for (Listener l: mListeners.iterationCopy()) {
+                if (l.onInterceptRotorFrequencyProvider(StandardRotorStateManager.this, old, _new))
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
     public final void setRotorFrequencyProvider(@Nullable RotorFrequencyProviderI rotorFrequencyProvider) {
-        if (Objects.equals(mRotorFrequencyProvider, rotorFrequencyProvider))
+        final RotorFrequencyProviderI old = mRotorFrequencyProvider;
+        if (Objects.equals(old, rotorFrequencyProvider))
             return;
 
-        final RotorFrequencyProviderI old = mRotorFrequencyProvider;
+        if (doInterceptRotorFrequencyProvider(old, rotorFrequencyProvider)) {
+            onRotorFrequencyProviderIntercepted(rotorFrequencyProvider);
+            return;
+        }
+
         mRotorFrequencyProvider = rotorFrequencyProvider;
         onRotorFrequencyProviderChanged(old, rotorFrequencyProvider);
     }
@@ -290,7 +311,7 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
         getAllRotorsMagnitudeScaleSum();
 
         if (notify) {
-            mListeners.dispatchOnMainThread(l -> l.onRotorsCountChanged(StandardRotorStateManager.this, newCount, prevCount));
+            mListeners.dispatchOnMainThread(l -> l.onRotorsCountChanged(StandardRotorStateManager.this, prevCount, newCount));
         }
     }
 
@@ -307,7 +328,7 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
         // Notify full loads
         if (startIndex == 0) {
             final int pending = mPendingRotorCount;
-            if (pending > 0 && pending <= totalLoadCount) {
+            if (pending >= 0 && pending <= totalLoadCount) {
                 mPendingRotorCount = -1;
                 if (setAfterLoad && !cancelled) {
                     updateRotorsCount(pending, true);
@@ -371,8 +392,9 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
         }
 
         final long startMs = System.currentTimeMillis();
-        try {
-            Async.THREAD_POOL_EXECUTOR.invokeAll(tasks);
+        if (!tasks.isEmpty()) {
+            try {
+                Async.THREAD_POOL_EXECUTOR.invokeAll(tasks);
 //            for (Future<Object> f: fts) {
 //                if (!f.isDone())
 //                    f.get();
@@ -380,8 +402,10 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
 //            for (Callable<Object> task: tasks) {
 //                task.call();
 //            }
-        } catch (Throwable ignored) {
+            } catch (Throwable ignored) {
+            }
         }
+
 
 //        mIsLoading = false;
 //        notifyListeners(l -> l.onRotorsLoadingChanged(false));

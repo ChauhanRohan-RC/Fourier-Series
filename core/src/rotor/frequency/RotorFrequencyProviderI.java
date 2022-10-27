@@ -15,6 +15,13 @@ public interface RotorFrequencyProviderI extends JsonParsable {
     double getRotorFrequency(int index, int count);
 
 
+    String toString();
+
+    boolean equals(Object o);
+
+    int hashCode();
+
+
 //    /**
 //     * Internal logic-based Frequency of a rotor (without any post processing)
 //     *
