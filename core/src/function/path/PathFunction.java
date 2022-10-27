@@ -13,10 +13,10 @@ import java.awt.geom.Point2D;
 
 public abstract class PathFunction implements ComplexDomainFunctionI, ColorHandler {
 
-    private boolean mIsContinuityLink;
+    private boolean isContinuityLink;
 
     @Nullable
-    private ColorProviderI mColorProvider;
+    private ColorProviderI colorProvider;
 
     @Override
     public final double getDomainStart() {
@@ -77,12 +77,12 @@ public abstract class PathFunction implements ComplexDomainFunctionI, ColorHandl
     @Nullable
     @Override
     public ColorProviderI getColorProvider() {
-        return mColorProvider;
+        return colorProvider;
     }
 
     @Override
     public PathFunction setColorProvider(@Nullable ColorProviderI colorProvider) {
-        mColorProvider = colorProvider;
+        this.colorProvider = colorProvider;
         return this;
     }
 
@@ -93,17 +93,17 @@ public abstract class PathFunction implements ComplexDomainFunctionI, ColorHandl
 
 
     public boolean isContinuityLink() {
-        return mIsContinuityLink;
+        return isContinuityLink;
     }
 
     public PathFunction setIsContinuityLink(boolean isContinuityLink) {
-        mIsContinuityLink = isContinuityLink;
+        this.isContinuityLink = isContinuityLink;
         return this;
     }
 
     @Override
     @Nullable
     public Color getColor(double input) {
-        return mColorProvider != null? mColorProvider.getColor(input): null;
+        return colorProvider != null? colorProvider.getColor(input): null;
     }
 }

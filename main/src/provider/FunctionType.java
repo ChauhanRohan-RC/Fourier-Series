@@ -4,25 +4,25 @@ import org.jetbrains.annotations.NotNull;
 
 public enum FunctionType {
 
-    NO_OP("No-Op"),
+    NO_OP("No-Op", false),
 
-    INTERNAL_PROGRAM("Internal Program"),
+    INTERNAL_PROGRAM("Internal Program", true),
 
-    INTERNAL_PATH("Internal Path"),
+    INTERNAL_PATH("Internal Path", true),
 
-    EXTERNAL_PROGRAM("External Program"),
+    EXTERNAL_PROGRAM("External Program", false),
 
-    EXTERNAL_PATH("External Path"),
+    EXTERNAL_PATH("External Path", true),
 
-    EXTERNAL_ROTOR_STATE("External Rotor State");
-
-
+    EXTERNAL_ROTOR_STATE("External Rotor State", false);
 
     @NotNull
     public final String displayName;
+    public final boolean serializable;
 
-    FunctionType(@NotNull String displayName) {
+    FunctionType(@NotNull String displayName, boolean serializable) {
         this.displayName = displayName;
+        this.serializable = serializable;
     }
 }
 

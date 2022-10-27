@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import rotor.RotorState;
 import rotor.RotorStateManager;
 import rotor.frequency.RotorFrequencyProviderI;
+import util.Format;
 import util.Listeners;
 import util.Log;
 import util.async.Consumer;
@@ -240,10 +241,10 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
         @Override
         public void onRotorsLoadFinished(@NotNull RotorStateManager manager, int count, boolean cancelled) {
             Log.d(TAG, "onRotorsLoadFinished: count: " + count + ", cancelled: " + cancelled);
-//            if (!cancelled) {
-//                reset(false);
-//                setPlay(true);
-//            }
+            if (!cancelled) {
+                reset(false);
+                setPlay(true);
+            }
         }
 
         @Override
@@ -265,7 +266,6 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
 
         @Override
         public void onRotorsFrequencyProviderChanged(@NotNull RotorStateManager manager, @Nullable RotorFrequencyProviderI old, @Nullable RotorFrequencyProviderI _new) {
-            stop();
             reset(false);
         }
     };
@@ -892,7 +892,7 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
 
         // 1. Status
         final String statusText = R.getStatusText(mRotorStateManager.isLoading(), mRotorStateManager.getPendingRotorCount());
-        if (!(statusText == null || statusText.isEmpty())) {
+        if (Format.notEmpty(statusText)) {
             g.setColor(FG);
             g.setFont(g.getFont().deriveFont(18f));
             g.drawString(statusText, 8, height - 18);

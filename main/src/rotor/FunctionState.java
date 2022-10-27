@@ -1,8 +1,11 @@
 package rotor;
 
 import app.R;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 import function.RotorStatesFunction;
+import function.definition.ComplexDomainFunctionI;
 import function.definition.DomainProviderI;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
@@ -16,6 +19,8 @@ import java.lang.reflect.Type;
 import java.util.*;
 
 public class FunctionState {
+
+    public static final boolean FUNCTION_SERIALIZATION_ENABLED = true;
 
     public static final Comparator<Double> FREQUENCY_COMPARATOR = Double::compare;             // ascending frequencies
 
@@ -36,10 +41,12 @@ public class FunctionState {
     }
 
     @NotNull
-    public static FunctionState from(@NotNull RotorStateManager manager, @Nullable String funcName) {
+    public static FunctionState from(@NotNull RotorStateManager manager, @Nullable String funcName, @Nullable ComplexDomainFunctionI function) {
         if (Format.isEmpty(funcName)) {
             funcName = manager.getFunctionMeta().displayName();
         }
+
+        final FunctionType functionType = manager.getFunctionMeta().functionType();
 
         final SortedMap<Double, RotorCoefficient> states = new TreeMap<>(FREQUENCY_COMPARATOR);
         manager.forEachRotorState(state -> states.put(state.getFrequency(), new RotorCoefficient(state)));
@@ -47,6 +54,8 @@ public class FunctionState {
         return new FunctionState(
                 System.currentTimeMillis(),
                 funcName,
+                functionType,
+                function,
                 manager,
                 manager.getManagerDefaultRotorFrequencyProvider(),          // should use function default
                 manager.getManagerRotorFrequencyProvider(),
@@ -55,10 +64,6 @@ public class FunctionState {
         );
     }
 
-    @NotNull
-    public static FunctionState from(@NotNull RotorStateManager manager) {
-        return from(manager, null);
-    }
 
     private static final Type TYPE_ROTOR_STATES_MAP = new TypeToken<Map<Double, RotorCoefficient>>(){ }.getType();
 
@@ -78,6 +83,16 @@ public class FunctionState {
 
     public final long saveTimestamp;
     public final String functionName;
+    @Nullable
+    public final FunctionType functionType;
+
+    @Expose(serialize = false, deserialize = false)
+    @Nullable
+    private transient final ComplexDomainFunctionI function;
+
+    @SerializedName("_function")
+    @Nullable
+    private final ComplexDomainFunctionI serializedFunction;
 
     public final double domainStart;
     public final double domainEnd;
@@ -98,6 +113,8 @@ public class FunctionState {
 
     public FunctionState(long saveTimestamp,
                          String functionName,
+                         @Nullable FunctionType functionType,
+                         @Nullable ComplexDomainFunctionI function,
                          double domainStart,
                          double domainEnd,
                          int numericalIntegrationIntervalCount,
@@ -106,10 +123,13 @@ public class FunctionState {
                          long domainAnimationMillsMin,
                          long domainAnimationMillsMax,
                          long domainAnimationMillsDefault,
-                         int rotorCount, @NotNull Map<Double, RotorCoefficient> allRotorStates) {
+                         int rotorCount,
+                         @NotNull Map<Double, RotorCoefficient> allRotorStates) {
 
         this.saveTimestamp = saveTimestamp;
         this.functionName = functionName;
+        this.functionType = functionType;
+        this.function = function;
         this.domainStart = domainStart;
         this.domainEnd = domainEnd;
         this.numericalIntegrationIntervalCount = numericalIntegrationIntervalCount;
@@ -120,10 +140,18 @@ public class FunctionState {
         this.domainAnimationMillsDefault = domainAnimationMillsDefault;
         this.rotorCount = rotorCount;
         this.allRotorStates = allRotorStates;
+
+        if (FUNCTION_SERIALIZATION_ENABLED && functionType != null && functionType.serializable) {
+            this.serializedFunction = function;
+        } else {
+            this.serializedFunction = null; // cannot serialize
+        }
     }
 
     public FunctionState(long saveTimestamp,
                          String functionName,
+                         @Nullable FunctionType functionType,
+                         @Nullable ComplexDomainFunctionI function,
                          @NotNull DomainProviderI domainProvider,
                          @Nullable RotorFrequencyProviderI defaultFrequencyProvider,
                          @Nullable RotorFrequencyProviderI frequencyProvider,
@@ -132,6 +160,8 @@ public class FunctionState {
 
         this(saveTimestamp,
                 functionName,
+                functionType,
+                function,
                 domainProvider.getDomainStart(),
                 domainProvider.getDomainEnd(),
                 domainProvider.getNumericalIntegrationIntervalCount(),
@@ -144,8 +174,22 @@ public class FunctionState {
                 allRotorStates);
     }
 
+    @Nullable
+    public ComplexDomainFunctionI getSerializedFunction() {
+        return serializedFunction;
+    }
+
+    @Nullable
+    public ComplexDomainFunctionI getFunction() {
+        if (function == null) {
+            return serializedFunction;
+        }
+
+        return function;
+    }
+
     @NotNull
-    public FunctionProviderI toProvider(@NotNull String defaultName) {
+    public SimpleFunctionProvider toProvider(@NotNull String defaultName) {
         String name = this.functionName;
         if (Format.isEmpty(name)) {
             name = defaultName;
@@ -156,6 +200,19 @@ public class FunctionState {
                 .map(e -> new RotorState(e.getKey(), e.getValue().toComplex()))
                 .toList();
 
+        final ComplexDomainFunctionI func = getFunction();
+        if (functionType != null && func != null) {
+            final FunctionMeta meta = new FunctionMeta(
+                    functionType,
+                    functionName,
+                    frequencyProvider,
+                    rotorCount,
+                    states
+            );
+
+            return new SimpleFunctionProvider(meta, func);
+        }
+
         final FunctionMeta meta = new FunctionMeta(
                 FunctionType.EXTERNAL_ROTOR_STATE,
                 R.createExternalRotorStatesFunctionDisplayTitle(name),
@@ -165,14 +222,15 @@ public class FunctionState {
         );
 
         return new SimpleFunctionProvider(meta, new RotorStatesFunction(
+                func,
+                states,
                 domainStart,
                 domainEnd,
                 numericalIntegrationIntervalCount,
                 domainAnimationMillsDefault,
                 domainAnimationMillsMin,
                 domainAnimationMillsMax,
-                defaultFrequencyProvider,
-                states)
+                defaultFrequencyProvider)
         );
     }
 

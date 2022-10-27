@@ -555,7 +555,6 @@ public class R {
     public static String getFullscreenShortDescription(boolean isFullscreen) {
         return (isFullscreen? "Exit": "Enter") + " Fullscreen [Ctrl-F]";
     }
-    
 
     @Nullable
     public static String getStatusText(boolean loading, int pendingRotorCount) {

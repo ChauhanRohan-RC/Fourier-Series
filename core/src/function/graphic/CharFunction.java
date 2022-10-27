@@ -14,7 +14,7 @@ public abstract class CharFunction extends GraphicFunction implements ColorHandl
     private Rectangle2D.Double mBounds;
 
     @Nullable
-    private ColorProviderI mColorProvider;
+    private ColorProviderI colorProvider;
 
     protected CharFunction(float zoom, boolean center) {
         super(zoom, center);
@@ -47,12 +47,12 @@ public abstract class CharFunction extends GraphicFunction implements ColorHandl
     @Nullable
     @Override
     public ColorProviderI getColorProvider() {
-        return mColorProvider;
+        return colorProvider;
     }
 
     @Override
     public CharFunction setColorProvider(@Nullable ColorProviderI colorProvider) {
-        mColorProvider = colorProvider;
+        this.colorProvider = colorProvider;
         return this;
     }
 
@@ -65,7 +65,7 @@ public abstract class CharFunction extends GraphicFunction implements ColorHandl
 
     @Override
     public @Nullable Color getColor(double input) {
-        return mColorProvider != null? mColorProvider.getColor(input): null;
+        return colorProvider != null? colorProvider.getColor(input): null;
     }
 
     @Override

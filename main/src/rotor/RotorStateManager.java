@@ -1,6 +1,7 @@
 package rotor;
 
 import app.R;
+import function.ComplexDomainFunctionWrapper;
 import function.definition.ColorHandler;
 import function.definition.ColorProviderI;
 import function.definition.ComplexDomainFunctionI;
@@ -17,6 +18,7 @@ import util.Log;
 import util.async.Async;
 import util.async.CancellationProvider;
 import util.async.Consumer;
+import util.main.ComplexUtil;
 
 import java.io.Reader;
 import java.nio.file.Files;
@@ -250,7 +252,12 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
 
     @NotNull
     default FunctionState createFunctionState(@Nullable String funcName) {
-        return FunctionState.from(this, funcName);
+        ComplexDomainFunctionI function = null;
+        if (this instanceof ComplexDomainFunctionI func) {
+            function = ComplexUtil.getBaseFunction(func);
+        }
+
+        return FunctionState.from(this, funcName, function);
     }
 
     @NotNull

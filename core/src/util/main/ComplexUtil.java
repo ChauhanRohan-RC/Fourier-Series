@@ -1,5 +1,6 @@
 package util.main;
 
+import function.ComplexDomainFunctionWrapper;
 import function.definition.ComplexFunctionI;
 import function.definition.ComplexDomainFunctionI;
 import models.ComplexSum;
@@ -90,6 +91,17 @@ public class ComplexUtil {
         final double _t = 1 - t;
         return new Complex((_t * p0.getReal()) + (t * p1.getReal()), (_t * p0.getImaginary()) + (t * p1.getImaginary()));
     }
+
+
+    @NotNull
+    public static ComplexDomainFunctionI getBaseFunction(@NotNull ComplexDomainFunctionI function) {
+        while (function instanceof ComplexDomainFunctionWrapper wrapper) {
+            function = wrapper.getBaseFunction();
+        }
+
+        return function;
+    }
+
 
 
     public static int getDirection(boolean clockwise) {

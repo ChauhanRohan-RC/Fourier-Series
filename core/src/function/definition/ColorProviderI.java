@@ -11,7 +11,7 @@ public interface ColorProviderI {
 
     Color COLOR_TRANSPARENT = new Color(0, 0, 0, 0);
 
-    ColorProviderI TRANSPARENT = in -> COLOR_TRANSPARENT;
+    Static TRANSPARENT = staticColor(COLOR_TRANSPARENT);
 
     @NotNull
     static Static staticColor(@Nullable Color color) {
@@ -27,11 +27,11 @@ public interface ColorProviderI {
             this.color = color;
         }
 
-        public void setColor(Color color) {
+        public void setColor(@Nullable Color color) {
             this.color = color;
         }
 
-        public Color getColor() {
+        public @Nullable Color getColor() {
             return color;
         }
 
@@ -39,7 +39,6 @@ public interface ColorProviderI {
         public @Nullable Color getColor(double input) {
             return color;
         }
-
 
     }
 

@@ -7,21 +7,21 @@ import org.jetbrains.annotations.NotNull;
 public class SimpleFunctionProvider extends AbstractFunctionProvider {
 
     @NotNull
-    private final ComplexDomainFunctionI mFunction;
+    private final ComplexDomainFunctionI function;
 
     public SimpleFunctionProvider(@NotNull FunctionMeta meta, @NotNull ComplexDomainFunctionI function) {
         super(meta);
-        mFunction = function;
+        this.function = function;
     }
 
     @Override
     @NotNull
     protected ComplexDomainFunctionI loadFunction() throws ParseException {
-        return mFunction;
+        return function;
     }
 
     @Override
     public @NotNull ComplexDomainFunctionI getFunction() {
-        return mFunction;
+        return function;
     }
 }

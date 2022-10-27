@@ -2,6 +2,7 @@ package function.graphic;
 
 import function.definition.ColorHandler;
 import function.definition.ColorProviderI;
+import function.path.PathFunction;
 import util.main.ComplexUtil;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
@@ -128,7 +129,16 @@ public class CharMerger extends CharFunction implements ColorHandler {
     }
 
     @Override
-    public @Nullable ColorProviderI getColorProvider() {
+    @Nullable
+    public ColorProviderI getColorProvider() {
+        ColorProviderI colorProvider;
+        for (CharFunction func: functions) {
+            colorProvider = func.getColorProvider();
+            if (colorProvider != null) {
+                return colorProvider;
+            }
+        }
+
         return null;
     }
 

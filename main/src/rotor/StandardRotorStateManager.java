@@ -542,4 +542,8 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
         return loadAsync(count, true);
     }
 
+    @Override
+    public @NotNull FunctionState createFunctionState(@Nullable String funcName) {
+        return FunctionState.from(this, funcName, getBaseFunction());
+    }
 }

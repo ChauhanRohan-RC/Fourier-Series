@@ -2,6 +2,7 @@ package ui;
 
 import animation.animator.AbstractAnimator;
 import app.R;
+import function.RotorStatesFunction;
 import function.definition.ComplexDomainFunctionI;
 import models.Size;
 import org.jetbrains.annotations.NotNull;
@@ -559,7 +560,6 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         setFullscreen(!mFullscreen);
     }
 
-
     protected void onControlsVisibilityChanged(boolean controlsVisible) {
         uia(ActionInfo.TOGGLE_CONTROLS)
                 .setName(R.getToggleControlsText(controlsVisible))
@@ -1083,6 +1083,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
             old.removeListener(this);
         sm.ensureListener(this);
 
+        setHueCycleEnabled(fsPanel.isHueCycleEnabled());
         syncFunctionProviders();
         setPlay(AUTO_PLAY_ON_ROTOR_STATE_MANAGER_CHANGE);
     }
@@ -1283,7 +1284,14 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         RotorStateManager.loadFunctionFromRotorStatesFileAsync(file.toPath(), fp -> {
             if (fp != null) {
                 functionProviders.ensureAddSelect(fp);
-                showInfoMessageDialog("Synthetic Rotor States Function loaded\n\nFunction: " + fp.getFunctionMeta().displayName() + "\nFile: " + file.getPath(), null);
+
+                final String displayName = fp.getFunctionMeta().displayName();
+                final FunctionType type = fp.getFunctionMeta().functionType();
+                final ComplexDomainFunctionI func = fp.getFunction();
+                final boolean hasDefinition = (type != FunctionType.EXTERNAL_ROTOR_STATE) || (func instanceof RotorStatesFunction && ((RotorStatesFunction) func).hasBaseFunction());
+
+                final String msg = String.format("Rotor States Function loaded\nFile: %s\nFunction: %s (%s)\nHas Definition: %s", file.getPath(), displayName, type, hasDefinition);
+                showInfoMessageDialog(msg, null);
             } else {
                 showErrorMessageDialog("Failed to load Rotor States. FIle might be corrupted or of invalid format\n\nFile: " + file.getPath(), null);
             }

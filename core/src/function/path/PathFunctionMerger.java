@@ -7,11 +7,8 @@ import org.apache.batik.parser.ParseException;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import rotor.frequency.CenteringFrequencyProvider;
-import rotor.frequency.RotorFrequencyProviderI;
-import util.Log;
-import util.main.ComplexUtil;
 
+import javax.swing.text.Segment;
 import java.awt.*;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
@@ -27,10 +24,10 @@ public class PathFunctionMerger extends GraphicFunction implements ColorHandler 
 
 
     @NotNull
-    private final Rectangle2D mBounds;
+    private final Rectangle2D bounds;
     @NotNull
-    private final PathFunction[] mSegments;
-    private final long msDef, msMin, msMax;
+    private final PathFunction[] segments;
+    private final long animDurationDefault, animDurationMin, animDurationMax;
 
 
     public PathFunctionMerger(@NotNull PathFunction[] segments, @NotNull Rectangle2D bounds, float zoom, boolean center) throws IllegalArgumentException {
@@ -38,33 +35,33 @@ public class PathFunctionMerger extends GraphicFunction implements ColorHandler 
         if (segments == null || segments.length == 0)
             throw new IllegalArgumentException("No PathFunctions provided to PathFunctionMerger!!");
 
-        mBounds = bounds;
-        mSegments = segments;
+        this.bounds = bounds;
+        this.segments = segments;
 
         long _msDef = 0, _msMin = 0, _msMax = 0;
-        for (PathFunction f: mSegments) {
+        for (PathFunction f: this.segments) {
             _msDef += f.getDomainAnimationDurationMsDefault();
             _msMin += f.getDomainAnimationDurationMsMin();
             _msMax += f.getDomainAnimationDurationMsMax();
         }
 
-        msDef = _msDef; msMin = _msMin; msMax = _msMax;
+        animDurationDefault = _msDef; animDurationMin = _msMin; animDurationMax = _msMax;
     }
 
 
     public final int getSegmentsCount() {
-        return mSegments.length;
+        return segments.length;
     }
 
     @NotNull
     public final PathFunction getSegment(int index) {
-        return mSegments[index];
+        return segments[index];
     }
 
 
     public final int getContinuityLinksCount() {
         int count = 0;
-        for (PathFunction f: mSegments) {
+        for (PathFunction f: segments) {
             if (f.isContinuityLink())
                 count++;
         }
@@ -81,7 +78,7 @@ public class PathFunctionMerger extends GraphicFunction implements ColorHandler 
         final float huePart = hueRange / (excludeContinuityLinks? getCountExceptContinuityLinks(): getSegmentsCount());
 
         float hueStartPart = hueStart;
-        for (PathFunction f: mSegments) {
+        for (PathFunction f: segments) {
             if (excludeContinuityLinks && f.isContinuityLink())
                 continue;
 
@@ -103,7 +100,7 @@ public class PathFunctionMerger extends GraphicFunction implements ColorHandler 
 
     @NotNull
     public PathFunctionMerger setColorProvider(@Nullable ColorProviderI colorProvider, boolean excludeContinuityLinks) {
-        for (PathFunction f: mSegments) {
+        for (PathFunction f: segments) {
             if (excludeContinuityLinks && f.isContinuityLink())
                 continue;
 
@@ -120,6 +117,17 @@ public class PathFunctionMerger extends GraphicFunction implements ColorHandler 
 
     @Override
     public @Nullable ColorProviderI getColorProvider() {
+        ColorProviderI colorProvider;
+        for (PathFunction segment: segments) {
+            if (segment.isContinuityLink())
+                continue;
+
+            colorProvider = segment.getColorProvider();
+            if (colorProvider != null) {
+                return colorProvider;
+            }
+        }
+
         return null;
     }
 
@@ -127,7 +135,7 @@ public class PathFunctionMerger extends GraphicFunction implements ColorHandler 
     @Override
     @NotNull
     public final Rectangle2D getBounds() {
-        return mBounds;
+        return bounds;
     }
 
     @Override
@@ -137,51 +145,51 @@ public class PathFunctionMerger extends GraphicFunction implements ColorHandler 
 
     @Override
     public final double getDomainEnd() {
-        return mSegments.length;
+        return segments.length;
     }
 
     @Override
     public final long getDomainAnimationDurationMsDefault() {
-        return msDef;
+        return animDurationDefault;
     }
 
     @Override
     public final long getDomainAnimationDurationMsMin() {
-        return msMin;
+        return animDurationMin;
     }
 
     @Override
     public final long getDomainAnimationDurationMsMax() {
-        return msMax;
+        return animDurationMax;
     }
 
     @Override
     @NotNull
     public final Complex compute(double d) {
-        if (d > mSegments.length) {
-            d %= mSegments.length;
+        if (d > segments.length) {
+            d %= segments.length;
         }
 
         int i = (int) d;
-        if (i >= mSegments.length) {
-            i = mSegments.length - 1;           // last
+        if (i >= segments.length) {
+            i = segments.length - 1;           // last
         }
 
-        return applyTransform(mSegments[i].compute(d - i));
+        return applyTransform(segments[i].compute(d - i));
     }
 
     @Override
     public @Nullable Color getColor(double d) {
-        if (d > mSegments.length) {
-            d %= mSegments.length;
+        if (d > segments.length) {
+            d %= segments.length;
         }
 
         int i = (int) d;
-        if (i >= mSegments.length) {
-            i = mSegments.length - 1;           // last
+        if (i >= segments.length) {
+            i = segments.length - 1;           // last
         }
 
-        return mSegments[i].getColor(d - i);
+        return segments[i].getColor(d - i);
     }
 
 

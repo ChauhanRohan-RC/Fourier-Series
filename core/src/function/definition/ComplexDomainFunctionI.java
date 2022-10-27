@@ -4,9 +4,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import rotor.frequency.CenteringFrequencyProvider;
 import rotor.frequency.RotorFrequencyProviderI;
+import util.json.JsonParsable;
 import util.main.ComplexUtil;
 
-public interface ComplexDomainFunctionI extends ComplexFunctionI, DomainProviderI {
+public interface ComplexDomainFunctionI extends ComplexFunctionI, DomainProviderI, JsonParsable {
 
     @Nullable
     default RotorFrequencyProviderI getFunctionDefaultFrequencyProvider() {
