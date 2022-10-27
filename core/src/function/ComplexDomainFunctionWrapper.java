@@ -6,6 +6,7 @@ import function.definition.ComplexDomainFunctionI;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import rotor.frequency.RotorFrequencyProviderI;
 
 import java.awt.*;
 
@@ -30,6 +31,15 @@ public class ComplexDomainFunctionWrapper implements ComplexDomainFunctionI, Col
     public @NotNull Complex compute(double input) {
         return base.compute(input);
     }
+
+    @Override
+    public @Nullable RotorFrequencyProviderI getFunctionDefaultFrequencyProvider() {
+        return base.getFunctionDefaultFrequencyProvider();
+    }
+
+
+
+    /* COlors */
 
     public ComplexDomainFunctionWrapper setColorProviderOverride(@Nullable ColorProviderI colorProviderOverride) {
         this.colorProviderOverride = colorProviderOverride;
@@ -70,10 +80,23 @@ public class ComplexDomainFunctionWrapper implements ComplexDomainFunctionI, Col
     }
 
     @Override
+    public ColorHandler transparent() {
+        return ColorHandler.super.transparent();
+    }
+
+    @Override
+    public ColorHandler hueCycle() {
+        return ColorHandler.super.hueCycle();
+    }
+
+    @Override
     @Nullable
     public Color getColor(double input) {
         return colorProviderOverride != null? colorProviderOverride.getColor(input): base.getColor(input);
     }
+
+
+    /* DOmain */
 
     @Override
     public double getDomainStart() {
@@ -91,6 +114,11 @@ public class ComplexDomainFunctionWrapper implements ComplexDomainFunctionI, Col
     }
 
     @Override
+    public int getNumericalIntegrationIntervalCount() {
+        return base.getNumericalIntegrationIntervalCount();
+    }
+
+    @Override
     public long getDomainAnimationDurationMsDefault() {
         return base.getDomainAnimationDurationMsDefault();
     }
@@ -103,5 +131,15 @@ public class ComplexDomainFunctionWrapper implements ComplexDomainFunctionI, Col
     @Override
     public long getDomainAnimationDurationMsMax() {
         return base.getDomainAnimationDurationMsMax();
+    }
+
+    @Override
+    public float durationMsToDomainAnimationSpeedFraction(long durationMs) {
+        return base.durationMsToDomainAnimationSpeedFraction(durationMs);
+    }
+
+    @Override
+    public long domainAnimationSpeedFractionToDurationMs(float fraction) {
+        return base.domainAnimationSpeedFractionToDurationMs(fraction);
     }
 }

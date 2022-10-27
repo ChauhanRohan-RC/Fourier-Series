@@ -6,6 +6,7 @@ import function.definition.ComplexDomainFunctionI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import provider.FunctionMeta;
+import rotor.frequency.RotorFrequencyProviderI;
 import util.CollectionUtil;
 import util.Listeners;
 import util.Log;
@@ -27,7 +28,9 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
     @NotNull
     private final FunctionMeta functionMeta;
     @NotNull
-    private RotorFrequencyProviderE mRotorFrequencyProvider = DEFAULT_ROTOR_FREQUENCY_PROVIDER;
+    private final RotorFrequencyProviderI mDefaultRotorFrequencyProvider;
+    @Nullable
+    private volatile RotorFrequencyProviderI mRotorFrequencyProvider;
     @NotNull
     private final Map<Double, RotorState> mStore;
     private final int mInitialRotorCount;
@@ -41,6 +44,7 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
     @NotNull
     private final Listeners<Listener> mListeners = new Listeners<>();
     private boolean mInitPending = true;
+    private boolean mInvalidated;
 
     private static void checkRotorCount(int rotorCount) {
         if (rotorCount < 0)
@@ -64,9 +68,16 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
         mStore = new HashMap<>(Math.max((int) (mInitialRotorCount * 1.4), 20));
 
         // Meta
-        final RotorFrequencyProviderE frequencyProviderE = functionMeta.frequencyProvider();
-        if (frequencyProviderE != null) {
-            mRotorFrequencyProvider = frequencyProviderE;
+        RotorFrequencyProviderI defaultFreqProvider = getFunctionDefaultFrequencyProvider();
+        if (defaultFreqProvider == null) {
+            defaultFreqProvider = ComplexDomainFunctionI.getDefaultFrequencyProvider(getDomainRange());
+        }
+
+        mDefaultRotorFrequencyProvider = defaultFreqProvider;
+
+        final RotorFrequencyProviderI frequencyProvider = functionMeta.frequencyProvider();
+        if (frequencyProvider != null) {
+            mRotorFrequencyProvider = frequencyProvider;
         }
 
         // Preloaded States
@@ -113,34 +124,30 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
     }
 
 
-    protected void onRotorFrequencyProviderChanged(@NotNull RotorFrequencyProviderE old, @NotNull RotorFrequencyProviderE _new) {
-        cancelLoad(true);
+    protected void onRotorFrequencyProviderChanged(@Nullable RotorFrequencyProviderI old, @Nullable RotorFrequencyProviderI _new) {
+        reloadAsync();
         mListeners.dispatchOnMainThread(l -> l.onRotorsFrequencyProviderChanged(StandardRotorStateManager.this, old, _new));
     }
 
     @Override
-    public final void setInternalRotorFrequencyProvider(@Nullable RotorFrequencyProviderE rotorFrequencyProvider) {
-        if (rotorFrequencyProvider == null) {
-            rotorFrequencyProvider = DEFAULT_ROTOR_FREQUENCY_PROVIDER;
-        }
-
-        if (mRotorFrequencyProvider == rotorFrequencyProvider)
-            return;
-
-        final RotorFrequencyProviderE old = mRotorFrequencyProvider;
-        mRotorFrequencyProvider = rotorFrequencyProvider;
-        onRotorFrequencyProviderChanged(old, rotorFrequencyProvider);
+    @NotNull
+    public RotorFrequencyProviderI getManagerDefaultRotorFrequencyProvider() {
+        return mDefaultRotorFrequencyProvider;
     }
 
-    @NotNull
     @Override
-    public final RotorFrequencyProviderE getInternalRotorFrequencyProvider() {
+    @Nullable
+    public RotorFrequencyProviderI getManagerRotorFrequencyProvider() {
         return mRotorFrequencyProvider;
     }
 
-    @Override
-    public final double getRotorFrequency(int index, int count) {
-        return mRotorFrequencyProvider.getRotorFrequency(index, count) / getDomainRange();
+    public final void setRotorFrequencyProvider(@Nullable RotorFrequencyProviderI rotorFrequencyProvider) {
+        if (Objects.equals(mRotorFrequencyProvider, rotorFrequencyProvider))
+            return;
+
+        final RotorFrequencyProviderI old = mRotorFrequencyProvider;
+        mRotorFrequencyProvider = rotorFrequencyProvider;
+        onRotorFrequencyProviderChanged(old, rotorFrequencyProvider);
     }
 
     @Nullable
@@ -188,7 +195,7 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
         final RotorState state = new RotorState(frequency, ComplexUtil.fourierSeriesCoefficient(getBaseFunction(), frequency));
 
 //        if (Log.DEBUG) {
-//            Log.v("RotorState", "Freq: " + frequency + ", coefficient: " + state.getCoefficient());
+//            Log.v("RotorState", "Freq: " + frequency + ", mag: " + state.getMagnitudeScale());
 //        }
 
         return state;
@@ -470,6 +477,18 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
         return loadAsync(loadCount, false);
     }
 
+    @Override
+    public void reloadAsync() {
+        final int count = mRotorCount;
+        if (count == 0)
+            return;
+
+        cancelLoad(true);
+        mPendingRotorCount = count;
+        loadAsyncInternal(0, count, true);
+    }
+
+
 
     private boolean shouldNotSetNewRotorCount(int newCount) {
         checkRotorCount(newCount);
@@ -486,7 +505,6 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
             }
             return;
         }
-
 
         loadSync(count, c, true, callResultCallback);
     }

@@ -31,7 +31,7 @@ public class Format {
     @NotNull
     public static Pattern getWhiteSpacePattern() {
         if (sWhiteSpacePattern == null) {
-            sWhiteSpacePattern = Pattern.compile("\\s");;
+            sWhiteSpacePattern = Pattern.compile("\\s");
         }
 
         return sWhiteSpacePattern;

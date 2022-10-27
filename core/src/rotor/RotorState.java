@@ -33,7 +33,7 @@ public class RotorState implements Comparable<RotorState> {
     private final Complex mCoefficient;
 
     private final double mCoefficientAbs;
-    private final double mTipPreMultiplier;
+    private final double mTipCoefficient;
 
     @Nullable
     private Double mCoefficientArg;
@@ -42,7 +42,8 @@ public class RotorState implements Comparable<RotorState> {
         mFrequency = frequency;
         mCoefficient = coefficient;
         mCoefficientAbs = coefficient.abs();
-        mTipPreMultiplier = direction * 2 * Math.PI * frequency;
+
+        mTipCoefficient = ComplexUtil.getFourierExpTermPowerCoefficient(direction, frequency);
     }
 
     public RotorState(double frequency, @NotNull Complex coefficient) {
@@ -80,7 +81,7 @@ public class RotorState implements Comparable<RotorState> {
 
     @NotNull
     public final Complex getTip(double input) {
-        return new Complex(0, mTipPreMultiplier * input).exp().multiply(mCoefficient);
+        return new Complex(0, mTipCoefficient * input).exp().multiply(mCoefficient);
     }
 
     @NotNull

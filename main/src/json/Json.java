@@ -3,8 +3,10 @@ package json;
 import com.google.gson.*;
 import org.jetbrains.annotations.NotNull;
 
-import org.jetbrains.annotations.Nullable;
 import rotor.FunctionState;
+import rotor.frequency.RotorFrequencyProviderI;
+import util.json.GsonTypeAdapter;
+import util.json.JsonParsable;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
@@ -32,9 +34,12 @@ public class Json implements JsonSerializationContext, JsonDeserializationContex
 
     private Json() {
         final GsonBuilder gsonBuilder = new GsonBuilder()
+                .setPrettyPrinting()
+                .serializeNulls()
+                .setLenient()
                 .registerTypeAdapter(Serializable.class, new GsonTypeAdapter<>())
                 .registerTypeAdapter(JsonParsable.class, new GsonTypeAdapter<>())
-                .registerTypeAdapter(FunctionState.class, new FunctionState.GsonAdapter());
+                .registerTypeAdapter(RotorFrequencyProviderI.class, new GsonTypeAdapter<>());
 
         gson = gsonBuilder.create();
     }
@@ -53,6 +58,6 @@ public class Json implements JsonSerializationContext, JsonDeserializationContex
     @SuppressWarnings("unchecked")
     @Override
     public <R> R deserialize(JsonElement json, Type typeOfT) throws JsonParseException {
-        return (R) gson.fromJson(json, typeOfT);
+        return gson.fromJson(json, typeOfT);
     }
 }

@@ -3,16 +3,13 @@ package ui;
 import animation.animator.AbstractAnimator;
 import app.R;
 import function.definition.ComplexDomainFunctionI;
-import function.definition.DiscreteFunctionI;
-import function.definition.DiscreteSignal;
-import function.definition.DiscreteSignalI;
 import models.Size;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import provider.*;
-import rotor.RotorFrequencyProviderE;
 import rotor.RotorStateManager;
 import rotor.StandardRotorStateManager;
+import rotor.frequency.RotorFrequencyProviderI;
 import ui.action.ActionInfo;
 import ui.action.UiAction;
 import util.ExternalJava;
@@ -21,7 +18,6 @@ import util.Format;
 import util.Log;
 import util.async.Canceller;
 import util.async.Consumer;
-import util.main.ComplexUtil;
 
 import javax.swing.*;
 import javax.swing.Timer;
@@ -54,7 +50,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
     @NotNull
     private final Timer looper;
-    final FourierSeriesPanel panel;
+    final FourierSeriesPanel fsPanel;
     private boolean mFullscreen = DEFAULT_FULLSCREEN;
 
     final JPanel controlPanel;
@@ -121,8 +117,8 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
         looper = Ui.createLooper(null);
 
-        panel = new FourierSeriesPanel(new RotorStateManager.NoOp());
-        looper.addActionListener(Ui.actionListener(panel));
+        fsPanel = new FourierSeriesPanel(new RotorStateManager.NoOp());
+        looper.addActionListener(Ui.actionListener(fsPanel));
 
         // Function
         functionProviders = new FunctionProviders(Providers.ALL_INTERNAL_FUNCTIONS, -1);
@@ -132,11 +128,11 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         functionComboBox = new JComboBox<>(functionProviders);
         functionComboBox.setToolTipText(R.getFunctionProviderShortDescription());
 
-        pointsJoinCheck = new JCheckBox(uia(ActionInfo.TOGGLE_POINTS_JOIN).setSelected(panel.isPointsJoiningEnabled()));
-        hueCycleCheckBox = new JCheckBox(uia(ActionInfo.TOGGLE_HUE_CYCLE).setSelected(panel.isHueCycleEnabled()));
+        pointsJoinCheck = new JCheckBox(uia(ActionInfo.TOGGLE_POINTS_JOIN).setSelected(fsPanel.isPointsJoiningEnabled()));
+        hueCycleCheckBox = new JCheckBox(uia(ActionInfo.TOGGLE_HUE_CYCLE).setSelected(fsPanel.isHueCycleEnabled()));
 
         // Rotor Count
-        final int rotorCount = panel.getConstrainedRotorCount();
+        final int rotorCount = fsPanel.getConstrainedRotorCount();
         rotorCountText = new JLabel(R.getRotorCountText(rotorCount));
 
         rotorCountSlider = new JSlider(SwingConstants.HORIZONTAL, FourierSeriesPanel.MIN_ROTOR_COUNT, FourierSeriesPanel.MAX_ROTOR_COUNT, rotorCount);
@@ -145,7 +141,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         rotorCountSlider.setPaintLabels(true);
 
         // Speed
-        final int speed = panel.getDomainAnimationSpeedPercent();
+        final int speed = fsPanel.getDomainAnimationSpeedPercent();
         speedText = new JLabel(R.getSpeedPercentText(speed));
 
         speedSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 100, speed);
@@ -154,8 +150,8 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         speedSlider.setPaintLabels(true);
 
         // Play/Pause Toggle
-        final boolean playing = panel.isPlaying();
-        final UiAction togglePlayAction = uia(ActionInfo.TOGGLE_PLAY_PAUSE)
+        final boolean playing = fsPanel.isPlaying();
+        final Action togglePlayAction = uia(ActionInfo.TOGGLE_PLAY_PAUSE)
                 .setName(R.getPlayPauseText(playing))
                 .setShortDescription(R.getPlayPauseShortDescription(playing))
                 .setSelected(!playing);
@@ -167,36 +163,36 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         resetScaleAndDragButton = new JButton(uia(ActionInfo.RESET_SCALE_DRAG));
 
         // Ops
-        final boolean drawingWave = panel.isDrawingWave();
-        final UiAction waveUia = uia(ActionInfo.TOGGLE_WAVE)
+        final boolean drawingWave = fsPanel.isDrawingWave();
+        final Action waveUia = uia(ActionInfo.TOGGLE_WAVE)
                 .setName(R.getWaveToggleText(drawingWave))
                 .setShortDescription(R.getWaveToggleShortDescription(drawingWave))
                 .setSelected(drawingWave);
 
         waveCheck = new JCheckBox(waveUia);
 
-        final UiAction graphInCenterUia = uia(ActionInfo.TOGGLE_GRAPH_CENTER)
-                .setSelected(panel.isGraphCenterEnabled());
+        final Action graphInCenterUia = uia(ActionInfo.TOGGLE_GRAPH_CENTER)
+                .setSelected(fsPanel.isGraphCenterEnabled());
         graphInCenterUia.setEnabled(!drawingWave);
         graphInCenterCheck = new JCheckBox(graphInCenterUia);
 
-        invertXCheck = new JCheckBox(uia(ActionInfo.INVERT_X).setSelected(panel.isXInverted()));
-        invertYCheck = new JCheckBox(uia(ActionInfo.INVERT_Y).setSelected(panel.isYInverted()));
+        invertXCheck = new JCheckBox(uia(ActionInfo.INVERT_X).setSelected(fsPanel.isXInverted()));
+        invertYCheck = new JCheckBox(uia(ActionInfo.INVERT_Y).setSelected(fsPanel.isYInverted()));
 
-        final UiAction autoTrackUia = uia(ActionInfo.TOGGLE_AUTO_TRACK)
-                .setSelected(panel.isAutoTrackInCenterEnabled());
-        autoTrackUia.setEnabled(panel.isGraphingInCenter());
+        final Action autoTrackUia = uia(ActionInfo.TOGGLE_AUTO_TRACK)
+                .setSelected(fsPanel.isAutoTrackInCenterEnabled());
+        autoTrackUia.setEnabled(fsPanel.isGraphingInCenter());
         autoTrackInCenterCheckBox = new JCheckBox(autoTrackUia);
 
         endBehaviourLabel = new JLabel(R.getRepeatModeLabelText());
         endBehaviourLabel.setToolTipText(R.getRepeatModeShortDescription());
 
         repeatModeComboBox = new JComboBox<>(AbstractAnimator.RepeatMode.values());
-        repeatModeComboBox.setSelectedIndex(panel.getRepeatMode().ordinal());
+        repeatModeComboBox.setSelectedIndex(fsPanel.getRepeatMode().ordinal());
         repeatModeComboBox.setToolTipText(R.getRepeatModeShortDescription());
 
         // Transforms
-        scaleText = new JLabel(R.getScaleText(panel.getScale()));
+        scaleText = new JLabel(R.getScaleText(fsPanel.getScale()));
         scaleIncButton = new JButton(uia(ActionInfo.SCALE_UP));
         scaleDecButton = new JButton(uia(ActionInfo.SCALE_DOWN));
 
@@ -206,7 +202,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         downButton = new JButton(uia(ActionInfo.DRAG_DOWN));
 
         // Toggle Controls
-        final UiAction controlUia = uia(ActionInfo.TOGGLE_CONTROLS)
+        final Action controlUia = uia(ActionInfo.TOGGLE_CONTROLS)
                 .setName(R.getToggleControlsText(DEFAULT_CONTROLS_VISIBLE))
                 .setShortDescription(R.getToggleControlsShortDescription(DEFAULT_CONTROLS_VISIBLE))
                 .setSelected(DEFAULT_CONTROLS_VISIBLE);
@@ -222,11 +218,12 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         // Rotor States menu
         menuRotorStates = new JMenu("Rotor States");
         menuBar.add(menuRotorStates);
+        menuRotorStates.add(uia(ActionInfo.CONFIGURE_ROTOR_FREQUENCY_PROVIDER));
+        menuRotorStates.addSeparator();
         menuRotorStates.add(uia(ActionInfo.DUMP_ROTOR_STATES_TO_FILE));
         menuRotorStates.add(uia(ActionInfo.LOAD_ROTOR_STATES_FROM_FILE));
         menuRotorStates.addSeparator();
         menuRotorStates.add(uia(ActionInfo.CLEAR_EXTERNAL_ROTOR_STATE_FUNCTIONS));
-
 
         // Functions Menu
         menuFunctions = new JMenu("Functions");
@@ -414,18 +411,18 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         setMinimumSize(MINIMUM_SIZE);
         setLayout(new BorderLayout(0, 0));
         add(controlScrollPane, BorderLayout.SOUTH);
-        add(panel, BorderLayout.CENTER);
+        add(fsPanel, BorderLayout.CENTER);
 
         // Listeners
-        panel.ensurePanelListener(this);
-        panel.getRotorStateManager().ensureListener(this);
+        fsPanel.ensurePanelListener(this);
+        fsPanel.getRotorStateManager().ensureListener(this);
 
         rotorCountSlider.addChangeListener(ev -> {
             final int val = rotorCountSlider.getValue();
             if (ignoreAdjustingRotorCountValue() && rotorCountSlider.getValueIsAdjusting()) {
                 updateRotorCountText(val);
             } else {
-                setRotorCount(val);;
+                setRotorCount(val);
             }
         });
 
@@ -434,7 +431,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
             if (ignoreAdjustingSpeedValue() && speedSlider.getValueIsAdjusting()) {
                 updateSpeedText(val);
             } else {
-                setSpeedPercent(val);;
+                setSpeedPercent(val);
             }
         });
 
@@ -493,8 +490,14 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 ////        functionProviders.ensureAddSelect(new SimpleFunctionProvider(new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Test Discrete Signal"), signal));
 //
 //        Log.d(TAG, "FT at " + freq + ": " + ComplexUtil.fourierSeriesCoefficient(signal, freq));
+
+
     }
 
+    @NotNull
+    public FourierSeriesPanel getFourierSeriesPanel() {
+        return fsPanel;
+    }
 
     @NotNull
     public UiAction uia(@NotNull ActionInfo info) {
@@ -612,7 +615,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
 
     public void setPlay(boolean play) {
-        panel.setPlay(play);
+        fsPanel.setPlay(play);
 
         uia(ActionInfo.TOGGLE_PLAY_PAUSE)
                 .setName(R.getPlayPauseText(play))
@@ -621,11 +624,11 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
     }
 
     public boolean isPlaying() {
-        return panel.isPlaying();
+        return fsPanel.isPlaying();
     }
 
     public boolean togglePlay() {
-        return panel.togglePlay();
+        return fsPanel.togglePlay();
     }
 
     public void updateRotorCountText(int count) {
@@ -645,8 +648,8 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
     }
 
     public void setRotorCount(int count) {
-        panel.setRotorCount(count);
-        updateRotorCountUi(panel.getConstrainedRotorCount());
+        fsPanel.setRotorCount(count);
+        updateRotorCountUi(fsPanel.getConstrainedRotorCount());
     }
 
     public boolean ignoreAdjustingSpeedValue() {
@@ -668,8 +671,8 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
     private void setSpeedPercent(int percent, boolean fromPanel) {
         if (!fromPanel) {
-            panel.setDomainAnimationSpeedPercent(percent);
-            percent = panel.getDomainAnimationSpeedPercent();
+            fsPanel.setDomainAnimationSpeedPercent(percent);
+            percent = fsPanel.getDomainAnimationSpeedPercent();
         }
 
         updateSpeedUi(percent);
@@ -681,17 +684,17 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
     private void updateOpsState() {
         uia(ActionInfo.TOGGLE_GRAPH_CENTER)
-                .setEnabled(!panel.isDrawingWave());
+                .setEnabled(!fsPanel.isDrawingWave());
 //        graphInCenterCheck.setVisible(graph);
 
         uia(ActionInfo.TOGGLE_AUTO_TRACK)
-                .setEnabled(panel.isGraphingInCenter());
+                .setEnabled(fsPanel.isGraphingInCenter());
 
 //        autoTrackInCneterCheckBox.setVisible(graphInCenter);
     }
 
     public void setDrawingAsWave(boolean drawingAsWave) {
-        panel.setDrawAsWave(drawingAsWave);
+        fsPanel.setDrawAsWave(drawingAsWave);
 
         uia(ActionInfo.TOGGLE_WAVE)
                 .setName(R.getWaveToggleText(drawingAsWave))
@@ -702,7 +705,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
     }
 
     public boolean isDrawingAsWave() {
-        return panel.isDrawingWave();
+        return fsPanel.isDrawingWave();
     }
 
     public boolean toggleDrawASWave() {
@@ -712,39 +715,39 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
     }
 
     public void setInvertX(boolean invertX) {
-        panel.setInvertX(invertX);
+        fsPanel.setInvertX(invertX);
         uia(ActionInfo.INVERT_X).setSelected(invertX);
     }
 
     public void setInvertY(boolean invertY) {
-        panel.setInvertY(invertY);
+        fsPanel.setInvertY(invertY);
         uia(ActionInfo.INVERT_Y).setSelected(invertY);
     }
 
     public void setGraphInCenter(boolean graphInCenter) {
-        panel.setGraphInCenter(graphInCenter);
+        fsPanel.setGraphInCenter(graphInCenter);
         uia(ActionInfo.TOGGLE_GRAPH_CENTER).setSelected(graphInCenter);
         updateOpsState();
     }
 
     public void setPointsJoiningEnabled(boolean enabled) {
-        panel.setJoinPointsEnabled(enabled);
+        fsPanel.setJoinPointsEnabled(enabled);
         uia(ActionInfo.TOGGLE_POINTS_JOIN).setSelected(enabled);
     }
 
     public void setHueCycleEnabled(boolean enabled) {
-        panel.setHueCycleEnabled(enabled);
+        fsPanel.setHueCycleEnabled(enabled);
         uia(ActionInfo.TOGGLE_HUE_CYCLE).setSelected(enabled);
     }
 
     public void setAutoTrackInCenter(boolean autoTrackInCenter) {
-        panel.setAutoTrackInCenter(autoTrackInCenter);
+        fsPanel.setAutoTrackInCenter(autoTrackInCenter);
         uia(ActionInfo.TOGGLE_AUTO_TRACK).setSelected(autoTrackInCenter);
     }
 
     private void setRepeatMode(@Nullable AbstractAnimator.RepeatMode repeatMode) {
-        panel.setRepeatMode(repeatMode);
-        final AbstractAnimator.RepeatMode rm = panel.getRepeatMode();
+        fsPanel.setRepeatMode(repeatMode);
+        final AbstractAnimator.RepeatMode rm = fsPanel.getRepeatMode();
 
         if (repeatModeComboBox.getSelectedItem() != rm) {
             repeatModeComboBox.setSelectedItem(rm);
@@ -758,7 +761,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         final EnumMap<FunctionType, Integer> stats = functionProviders.getStats();
 
         final boolean allNoop = stats.isEmpty() || (stats.size() == 1 && stats.containsKey(FunctionType.NO_OP));
-        final boolean noopOrloading = panel.getRotorStateManager().isNoOp() || panel.getRotorStateManager().isLoading();
+        final boolean noopOrloading = fsPanel.getRotorStateManager().isNoOp() || fsPanel.getRotorStateManager().isLoading();
 
         syncFunctionDependentOps(!(allNoop || noopOrloading));
         uia(ActionInfo.CLEAR_EXTERNAL_ROTOR_STATE_FUNCTIONS).setEnabled(stats.containsKey(FunctionType.EXTERNAL_ROTOR_STATE));
@@ -963,7 +966,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
     public void setScale(double scale, boolean fromPanel) {
         if (!fromPanel) {
-            panel.setScale(scale);
+            fsPanel.setScale(scale);
         }
 
         syncScaleAndDrag();
@@ -974,20 +977,20 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
     }
 
     public boolean incrementScaleByUnit() {
-        return panel.incrementScaleByUnit();
+        return fsPanel.incrementScaleByUnit();
     }
 
     public boolean decrementScaleByUnit() {
-        return panel.decrementScaleByUnit();
+        return fsPanel.decrementScaleByUnit();
     }
 
     public void syncScaleAndDrag() {
-        final double scale = panel.getScale();
+        final double scale = fsPanel.getScale();
         scaleText.setText(R.getScaleText(scale));
-        uia(ActionInfo.SCALE_UP).setEnabled(scale < panel.getMaximumScale());
-        uia(ActionInfo.SCALE_DOWN).setEnabled(scale > panel.getMinimumScale());
+        uia(ActionInfo.SCALE_UP).setEnabled(scale < fsPanel.getMaximumScale());
+        uia(ActionInfo.SCALE_DOWN).setEnabled(scale > fsPanel.getMinimumScale());
 
-        final boolean hasScaleOrDrag = !panel.getRotorStateManager().isNoOp() && panel.hasScaleOrDrag();
+        final boolean hasScaleOrDrag = !fsPanel.getRotorStateManager().isNoOp() && fsPanel.hasScaleOrDrag();
 
         uia(ActionInfo.RESET_SCALE_DRAG).setEnabled(hasScaleOrDrag);
 
@@ -998,11 +1001,11 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
 
     public void reset(boolean scaleAndDrag) {
-        panel.reset(scaleAndDrag);
+        fsPanel.reset(scaleAndDrag);
     }
 
     public void resetScaleAndDrag() {
-        panel.resetScaleAndDrag();
+        fsPanel.resetScaleAndDrag();
     }
 
 
@@ -1090,7 +1093,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 //    }
 
     public void setRotorStateManager(@NotNull RotorStateManager rotorStateManager) {
-        panel.setRotorStateManager(rotorStateManager);      // TODO: load interceptor
+        fsPanel.setRotorStateManager(rotorStateManager);      // TODO: load interceptor
     }
 
     //    public void setFunction(@NotNull ComplexDomainFunctionI f, int initialRotorCount) {
@@ -1158,17 +1161,16 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
     @Override
     public void onRotorsCountChanged(@NotNull RotorStateManager manager, int prevCount, int newCount) {
-        updateRotorCountUi(panel.getConstrainedRotorCount());
+        updateRotorCountUi(fsPanel.getConstrainedRotorCount());
     }
 
     @Override
-    public void onRotorsFrequencyProviderChanged(@NotNull RotorStateManager manager, @NotNull RotorFrequencyProviderE old, @NotNull RotorFrequencyProviderE _new) {
+    public void onRotorsFrequencyProviderChanged(@NotNull RotorStateManager manager, @Nullable RotorFrequencyProviderI old, @Nullable RotorFrequencyProviderI _new) {
 
     }
 
-
     public final void dumpRotorStatesToFile() {
-        final RotorStateManager sm = panel.getRotorStateManager();
+        final RotorStateManager sm = fsPanel.getRotorStateManager();
         final String err;
 
         if (sm.isNoOp()) {
@@ -1372,7 +1374,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
 
     public void askLoadExternalProgrammaticFunctions() {
-        final ExternalProgramDialog dialog = new ExternalProgramDialog(this, null);
+        final ExternalProgramPanel dialog = new ExternalProgramPanel(this, null);
         final ExternalJava.Location location = dialog.showDialog();
 
         if (location == null)
@@ -1445,6 +1447,20 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
             final String removedMsg = (removed > 0? String.valueOf(removed): "No") + " " + type.displayName + " function" + (removed > 1? "s":"") + " removed";
             showInfoMessageDialog(removedMsg, null);
+        }
+    }
+
+    public final void configureFrequencyProvider() {
+        final RotorStateManager manager = fsPanel.getRotorStateManager();
+        if (manager.isNoOp()) {
+            showErrorMessageDialog("No function selected yet\nSelect a function to configure frequency provider", null);
+            return;
+        }
+
+        final FrequencyProviderSelectorPanel panel = new FrequencyProviderSelectorPanel(manager.getManagerRotorFrequencyProviderOrDefault(), manager.getManagerDefaultRotorFrequencyProvider());
+        final RotorFrequencyProviderI freqProvider = panel.showDialog(this);
+        if (freqProvider != null) {
+            manager.setRotorFrequencyProvider(freqProvider);
         }
     }
 
@@ -1537,27 +1553,27 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         @Override
         public void onAction(@NotNull UiAction action, @NotNull ActionEvent e) {
             switch (action.info) {
-                case DRAG_UP -> panel.dragYByUnit(false);
-                case DRAG_DOWN -> panel.dragYByUnit(true);
-                case DRAG_LEFT -> panel.dragXByUnit(false);
-                case DRAG_RIGHT -> panel.dragXByUnit(true);
-                case SCALE_UP -> panel.incrementScaleByUnit();
-                case SCALE_DOWN -> panel.decrementScaleByUnit();
+                case DRAG_UP -> fsPanel.dragYByUnit(false);
+                case DRAG_DOWN -> fsPanel.dragYByUnit(true);
+                case DRAG_LEFT -> fsPanel.dragXByUnit(false);
+                case DRAG_RIGHT -> fsPanel.dragXByUnit(true);
+                case SCALE_UP -> fsPanel.incrementScaleByUnit();
+                case SCALE_DOWN -> fsPanel.decrementScaleByUnit();
                 case PLAY -> setPlay(true);
                 case PAUSE -> setPlay(false);
-                case STOP -> panel.stop();
+                case STOP -> fsPanel.stop();
                 case TOGGLE_PLAY_PAUSE -> togglePlay();
-                case TOGGLE_POINTS_JOIN -> panel.togglePointsJoining();
-                case TOGGLE_HUE_CYCLE -> panel.toggleHueCycle();
-                case TOGGLE_WAVE -> panel.toggleDrawAsWave();
-                case INVERT_X -> panel.toggleInvertX();
-                case INVERT_Y -> panel.toggleInvertY();
-                case TOGGLE_GRAPH_CENTER -> panel.toggleGraphInCenter();
-                case TOGGLE_AUTO_TRACK -> panel.toggleAutoTrackInCenter();
-                case RESET_MAIN -> panel.reset(false);
-                case RESET_SCALE -> panel.resetScale(true);
+                case TOGGLE_POINTS_JOIN -> fsPanel.togglePointsJoining();
+                case TOGGLE_HUE_CYCLE -> fsPanel.toggleHueCycle();
+                case TOGGLE_WAVE -> fsPanel.toggleDrawAsWave();
+                case INVERT_X -> fsPanel.toggleInvertX();
+                case INVERT_Y -> fsPanel.toggleInvertY();
+                case TOGGLE_GRAPH_CENTER -> fsPanel.toggleGraphInCenter();
+                case TOGGLE_AUTO_TRACK -> fsPanel.toggleAutoTrackInCenter();
+                case RESET_MAIN -> fsPanel.reset(false);
+                case RESET_SCALE -> fsPanel.resetScale(true);
                 case RESET_SCALE_DRAG -> resetScaleAndDrag();
-                case RESET_FULL -> panel.reset(true);
+                case RESET_FULL -> fsPanel.reset(true);
                 case TOGGLE_FULLSCREEN -> toggleFullscreen();
                 case TOGGLE_CONTROLS -> toggleControlsVisibility();
                 case TOGGLE_MENUBAR -> toggleMenuBarVisible();
@@ -1573,6 +1589,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
                 case CLEAR_INTERNAL_PROGRAMMATIC_FUNCTIONS -> confirmRemoveAllFunctionProviders(FunctionType.INTERNAL_PROGRAM);
                 case CLEAR_EXTERNAL_PROGRAMMATIC_FUNCTIONS -> confirmRemoveAllFunctionProviders(FunctionType.EXTERNAL_PROGRAM);
                 case RESET_PROGRAMMATIC_FUNCTIONS -> confirmResetProgrammaticFunctions();
+                case CONFIGURE_ROTOR_FREQUENCY_PROVIDER -> configureFrequencyProvider();
             }
         }
     }

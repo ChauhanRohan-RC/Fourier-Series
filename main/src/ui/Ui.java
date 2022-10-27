@@ -3,10 +3,13 @@ package ui;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import util.Format;
+import util.async.Consumer;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.HierarchyListener;
 import java.io.File;
 
 public interface Ui {
@@ -39,6 +42,20 @@ public interface Ui {
         return createLooper(action, DEFAULT_LOOPER_DELAY_MS);
     }
 
+    static void extractDialog(@NotNull Component component, @NotNull Consumer<Dialog> dialogConsumer, boolean oneShot) {
+        component.addHierarchyListener(new HierarchyListener() {
+            @Override
+            public void hierarchyChanged(HierarchyEvent e) {
+                final Window window = SwingUtilities.getWindowAncestor(component);
+                if (window instanceof final Dialog dialog) {
+                    dialogConsumer.consume(dialog);
+                    if (oneShot) {
+                        component.removeHierarchyListener(this);
+                    }
+                }
+            }
+        });
+    }
 
     /* Abstract */
 

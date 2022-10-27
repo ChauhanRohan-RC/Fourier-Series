@@ -1,10 +1,9 @@
-package json;
+package util.json;
 
 import org.jetbrains.annotations.NotNull;
 
 import com.google.gson.*;
 import java.lang.reflect.Type;
-
 
 /**
  * Type Adapter for GSON that enables Interface references to deserialize
@@ -13,8 +12,8 @@ import java.lang.reflect.Type;
  * @see JsonParsable
  * */
 public class GsonTypeAdapter<T> implements JsonSerializer<T>, JsonDeserializer<T> {
-    public static String CLASS_NAME_KEY = "CLASSNAME";
-    public static String DATA_KEY = "DATA";
+    public static String CLASS_NAME_KEY = "_class_name";
+    public static String DATA_KEY = "_data";
 
     /**
      * Packs Class name and Data of supplied Object in JsonObject for future deserialization
@@ -39,7 +38,9 @@ public class GsonTypeAdapter<T> implements JsonSerializer<T>, JsonDeserializer<T
         return jsonDeserializationContext.deserialize(jsonObject.get(DATA_KEY), getClass(jsonObject.getAsJsonPrimitive(CLASS_NAME_KEY).getAsString()));
     }
 
-    /** Utility method for fetching Class<?> object from class name */
+    /**
+     * Utility method for fetching Class<?> object from class name
+     * */
     @NotNull
     private static Class<?> getClass(@NotNull String className) {
         try {

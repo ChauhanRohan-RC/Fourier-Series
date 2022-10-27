@@ -10,10 +10,11 @@ import models.Triangle;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import rotor.RotorFrequencyProviderE;
 import rotor.RotorState;
 import rotor.RotorStateManager;
+import rotor.frequency.RotorFrequencyProviderI;
 import util.Listeners;
+import util.Log;
 import util.async.Consumer;
 import util.main.ComplexUtil;
 
@@ -227,6 +228,8 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
 
         @Override
         public void onRotorsLoadingChanged(@NotNull RotorStateManager manager, boolean isLoading) {
+            Log.d(TAG, "LOADING: " + isLoading);
+            setPlay(!isLoading);
         }
 
         @Override
@@ -239,7 +242,8 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
         }
 
         @Override
-        public void onRotorsFrequencyProviderChanged(@NotNull RotorStateManager manager, @NotNull RotorFrequencyProviderE old, @NotNull RotorFrequencyProviderE _new) {
+        public void onRotorsFrequencyProviderChanged(@NotNull RotorStateManager manager, @Nullable RotorFrequencyProviderI old, @Nullable RotorFrequencyProviderI _new) {
+            stop();
             reset(false);
         }
     };

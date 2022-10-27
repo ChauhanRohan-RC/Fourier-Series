@@ -1,19 +1,19 @@
 package app;
 
-import animation.animator.AbstractAnimator;
-import animation.animator.Animator;
-import animation.animator.DoubleAnimator;
-import animation.interpolator.Interpolator;
-import org.jetbrains.annotations.NotNull;
+import function.definition.ComplexDomainFunctionI;
+import function.definition.SignalFunctionI;
+import provider.FunctionMeta;
+import provider.FunctionType;
 import provider.Providers;
+import provider.SimpleFunctionProvider;
+import rotor.frequency.BoundedFrequencyProvider;
+import rotor.frequency.CenteringFrequencyProvider;
+import rotor.frequency.RotorFrequencyProviderI;
 import ui.FourierUi;
-import ui.Ui;
-import util.Format;
+import ui.FrequencyProviderSelectorPanel;
 import util.Log;
 import util.async.Async;
-
-import javax.swing.*;
-import java.nio.file.Path;
+import util.main.ComplexUtil;
 
 public class Main {
 
@@ -46,56 +46,16 @@ public class Main {
     // TODO: Test launcher
 
     private static void launchTest(String[] args) {
-//
-//
-//        final AbstractAnimator<Double> anim = new DoubleAnimator(0, 100)
-//                .addAnimationListener(new Animator.AnimationListenerAdapter<>() {
-//                    @Override
-//                    public void onStarted(@NotNull Animator<Double> animator, boolean resumed) {
-//                        Log.d(TAG, "onStarted: resumed = " + resumed);
-//                    }
-//
-//                    @Override
-//                    public void onRepeat(@NotNull Animator<Double> animator) {
-//                        Log.d(TAG, "onRepeat: " + animator.getCurrentRepetitionCount());
-//                    }
-//
-//                    @Override
-//                    public void onPaused(@NotNull Animator<Double> animator) {
-//                        Log.d(TAG, "onPause:");
-//                    }
-//
-//                    @Override
-//                    public void onEnd(@NotNull Animator<Double> animator, AbstractAnimator.@NotNull EndMode endMode) {
-//                        Log.d(TAG, "onEnd: mode = " + endMode);
-//                    }
-//
-//                    @Override
-//                    public void onReset(@NotNull Animator<Double> animator) {
-//                        Log.d(TAG, "onReset:");
-//                    }
-//
-//                    @Override
-//                    public void onAnimationUpdate(@NotNull Animator<Double> animator) {
-//
-//                    }
-//                }).addAnimationListener(new Animator.AnimationListenerAdapter<Double>() {
-//                    @Override
-//                    public void onAnimationUpdate(@NotNull Animator<Double> animator) {
-//                        Log.d(TAG, "onAnimationUpdate: " + animator.getCurrentValue());
-//                    }
-//                }).setDurationMs(10000)
-//                .setInterpolator(Interpolator.ACCELERATE_DECELERATE)
-//                .setRepeatMode(AbstractAnimator.RepeatMode.CYCLE)
-//                .setRepeatCount(-1);
-//
-////        Async.uiPost(anim::forceFinish, 1700);
-//
-//        Ui.createLooper(anim, 100).start();
-//
-//        anim.start();
-    }
+        R.init();
 
+        final FrequencyProviderSelectorPanel panel = new FrequencyProviderSelectorPanel(
+                new BoundedFrequencyProvider(4d, 10d),
+                new CenteringFrequencyProvider(ComplexUtil.TWo_PI)
+        );
+
+        final RotorFrequencyProviderI fp = panel.showDialog(null);
+        Log.d(TAG, "Provider: " + fp);
+    }
 
     public static void main(String[] args) {
 //        launchTest(args);

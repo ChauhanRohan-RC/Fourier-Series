@@ -7,6 +7,10 @@ import org.apache.batik.parser.ParseException;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import rotor.frequency.CenteringFrequencyProvider;
+import rotor.frequency.RotorFrequencyProviderI;
+import util.Log;
+import util.main.ComplexUtil;
 
 import java.awt.*;
 import java.awt.geom.PathIterator;
@@ -27,7 +31,6 @@ public class PathFunctionMerger extends GraphicFunction implements ColorHandler 
     @NotNull
     private final PathFunction[] mSegments;
     private final long msDef, msMin, msMax;
-
 
 
     public PathFunctionMerger(@NotNull PathFunction[] segments, @NotNull Rectangle2D bounds, float zoom, boolean center) throws IllegalArgumentException {
@@ -180,7 +183,6 @@ public class PathFunctionMerger extends GraphicFunction implements ColorHandler 
 
         return mSegments[i].getColor(d - i);
     }
-
 
 
     @NotNull

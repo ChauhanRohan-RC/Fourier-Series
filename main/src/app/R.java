@@ -16,8 +16,8 @@ import util.async.Consumer;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileVisitResult;
 import java.nio.file.FileVisitor;
@@ -25,7 +25,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -67,6 +66,7 @@ public class R {
     public static final FileFilter PATH_DATA_FILE_FILTER = new OpenFileFilter(PATH_DATA_FILE_EXTENSION, PATH_DATA_FILE_DESCRIPTION);
 
     public static final boolean DEFAULT_VALIDATE_EXTERNAL_FILES = true;
+    public static final Charset ENCODING = StandardCharsets.UTF_8;
 
     /* Dir Structure */
     public static final Path DIR_MAIN = Path.of("").toAbsolutePath();
@@ -433,6 +433,17 @@ public class R {
     public static String getToggleMenuBarShortDescription(boolean menuVisible) {
         return (menuVisible? "Hide": "Show") + " Menu [Ctrl-M]";
     }
+
+    @NotNull
+    public static String getConfigureRotorFrequencyProviderText() {
+        return "Configure Frequency Provider";
+    }
+
+    @NotNull
+    public static String getConfigureRotorFrequencyProviderShortDescription() {
+        return "Configure how frequencies for rotors are chosen";
+    }
+
 
     @NotNull
     public static String getPlayPauseText(boolean playing) {

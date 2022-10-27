@@ -13,7 +13,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class ExternalProgramDialog {
+public class ExternalProgramPanel extends JPanel {
 
     public static final String DEFAULT_INFO = "# Load externally defined Programmatic Functions (Java)\n\n" +
                                               "1. Select project folder (classpath)\n" +
@@ -25,7 +25,6 @@ public class ExternalProgramDialog {
 
     @Nullable
     private final Component parent;
-    private final JPanel rootPanel;
     private final JTextArea infoLabel;
 
     private final JPanel dirPanel;
@@ -38,15 +37,15 @@ public class ExternalProgramDialog {
     private final JTextField srcEntry;
     private final JButton srcBrowseButton;
 
-    public ExternalProgramDialog(@Nullable Component parent, @Nullable String info) {
+    public ExternalProgramPanel(@Nullable Component parent, @Nullable String info) {
         this.parent = parent;
 
-        dirLabel = new JLabel("Project Folder ");
+        dirLabel = new JLabel("   Project Folder ");
         dirEntry = new JTextField(R.DIR_EXTERNAL_PROGRAMS.toString());
         dirEntry.setPreferredSize(ENTRY_DIMENSION.getSize());
         dirBrowseButton = new JButton("Browse");
 
-        srcLabel = new JLabel("Function Source");
+        srcLabel = new JLabel("Function Source ");
         srcEntry = new JTextField();
         srcEntry.setPreferredSize(ENTRY_DIMENSION.getSize());
         srcBrowseButton = new JButton("Browse");
@@ -58,21 +57,20 @@ public class ExternalProgramDialog {
         infoLabel.setWrapStyleWord(true);
 
         /* Packing */
-        rootPanel = new JPanel();
-        rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.Y_AXIS));
-        rootPanel.add(infoLabel);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        add(infoLabel);
 
         dirPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 5, 4));
         dirPanel.add(dirLabel);
         dirPanel.add(dirEntry);
         dirPanel.add(dirBrowseButton);
-        rootPanel.add(dirPanel);
+        add(dirPanel);
 
         srcPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 5, 4));
         srcPanel.add(srcLabel);
         srcPanel.add(srcEntry);
         srcPanel.add(srcBrowseButton);
-        rootPanel.add(srcPanel);
+        add(srcPanel);
 
         /* Listeners */
         dirBrowseButton.addActionListener(e -> browseDir());
@@ -237,7 +235,7 @@ public class ExternalProgramDialog {
     public ExternalJava.Location showDialog() {
         R.ensureExternalProgramsDir();
 
-        final int option = JOptionPane.showConfirmDialog(parent, rootPanel, "Load Programmtic Function", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        final int option = JOptionPane.showConfirmDialog(parent, this, "Load Programmtic Function", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
         if (option == JOptionPane.OK_OPTION) {
 
             String err = null;

@@ -5,7 +5,6 @@ import function.definition.ComplexDomainFunctionI;
 import models.ComplexSum;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
-import util.Log;
 
 
 public class ComplexUtil {
@@ -20,8 +19,10 @@ public class ComplexUtil {
     public static final int SIMPSON_38_N_MIN = 3;       // must be multiple of 3
     public static final int SIMPSON_38_N_DEFAULT = 51;
 
-    public static final int SIMPSON_13_N_DEFAULT_FOURIER = 100000;          // TODO: accuracy
+    /* Fourier Transform */
     public static final boolean FOURIER_TRANSFORM_CLOCKWISE = true;
+    public static final boolean FOURIER_TRANSFORM_USE_TWO_PI = false;
+    public static final int FOURIER_TRANSFORM_SIMPSON_13_N_DEFAULT = 100000;          // TODO: accuracy
 
     private ComplexUtil() {
     }
@@ -199,9 +200,32 @@ public class ComplexUtil {
         return simpson38(f, a, b, 0);
     }
 
+
+
+    /* ........................................ Fourier Transform ................................ */
+
+    /**
+     * gets constant part of power of Fourier Transform exponential term
+     * <br>
+     * Typically, the exponential term is <code>e<sup>-2.pi.f.t</sup></code>
+     * then, constant part of power (independent of t) is -2.pi.f
+     *
+     * @param direction directional factor, usually given by {@link #getDirection(boolean)}
+     * @param frequency the winding frequency
+     * @return constant part of power of Fourier Transform exponential term
+     * */
+    public static double getFourierExpTermPowerCoefficient(int direction, double frequency) {
+        double pre = direction * frequency;
+        if (FOURIER_TRANSFORM_USE_TWO_PI) {
+            pre *= TWo_PI;
+        }
+
+        return pre;
+    }
+
     @NotNull
     public static ComplexFunctionI fourierTransformIntegrand(@NotNull ComplexFunctionI f, double frequency, boolean clockwise) {
-        final double pre = getDirection(clockwise) * 2 * Math.PI * frequency;
+        final double pre = getFourierExpTermPowerCoefficient(getDirection(clockwise), frequency);
         return t -> f.compute(t).multiply(new Complex(0,pre * t).exp());
     }
 
@@ -211,6 +235,7 @@ public class ComplexUtil {
     }
 
 
+    /* ................................. Fourier Series ................................... */
 
     // Must be complimentary of coefficient direction
     public static int getFourierSeriesRotorTipDirection() {
@@ -219,7 +244,7 @@ public class ComplexUtil {
 
     @NotNull
     public static Complex fourierTransform(@NotNull ComplexFunctionI f, double frequency, double a, double b, int n) {
-        return simpson13(fourierTransformIntegrand(f, frequency), a, b, n > 0? n: SIMPSON_13_N_DEFAULT_FOURIER);
+        return simpson13(fourierTransformIntegrand(f, frequency), a, b, n > 0? n: FOURIER_TRANSFORM_SIMPSON_13_N_DEFAULT);
     }
 
     @NotNull

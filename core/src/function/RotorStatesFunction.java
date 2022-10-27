@@ -2,9 +2,11 @@ package function;
 
 import function.definition.ComplexDomainFunctionI;
 import models.ComplexSum;
+import org.jetbrains.annotations.Nullable;
 import rotor.RotorState;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
+import rotor.frequency.RotorFrequencyProviderI;
 
 import java.util.Collection;
 
@@ -15,42 +17,49 @@ public class RotorStatesFunction implements ComplexDomainFunctionI {
 
     @NotNull
     private final Collection<RotorState> states;
-    private final double
-            dStart,
-            dEnd;
+    private final double domainStart;
+    private final double domainEnd;
+    private final int numericalIntegrationIntervalCount;
 
-    private final long travleMsDefault,
-            travelMsMin,
-            travelMsMax;
+    private final long domainAnimMsDefault,
+            domainAnimMsMin,
+            domainAnimMsMax;
 
-    public RotorStatesFunction(@NotNull Collection<RotorState> states,
-                               double domainStart,
+    @Nullable
+    private final RotorFrequencyProviderI defaultFrequencyProvider;
+
+    public RotorStatesFunction(double domainStart,
                                double domainEnd,
-                               long travleMsDefault,
-                               long travelMsMin,
-                               long travelMsMax) {
+                               int numericalIntegrationIntervalCount,
+                               long domainAnimMsDefault,
+                               long domainAnimMsMin,
+                               long domainAnimMsMax,
+                               @Nullable RotorFrequencyProviderI defaultFrequencyProvider,
+                               @NotNull Collection<RotorState> states) {
 
+        this.domainStart = domainStart;
+        this.domainEnd = domainEnd;
+        this.numericalIntegrationIntervalCount = numericalIntegrationIntervalCount;
+        this.domainAnimMsDefault = domainAnimMsDefault;
+        this.domainAnimMsMin = domainAnimMsMin;
+        this.domainAnimMsMax = domainAnimMsMax;
+        this.defaultFrequencyProvider = defaultFrequencyProvider;
         this.states = states;
-        dStart = domainStart;
-        dEnd = domainEnd;
-        this.travleMsDefault = travleMsDefault;
-        this.travelMsMin = travelMsMin;
-        this.travelMsMax = travelMsMax;
     }
 
     @Override
-    public long getDomainAnimationDurationMsDefault() {
-        return travleMsDefault > 0? travleMsDefault: ComplexDomainFunctionI.super.getDomainAnimationDurationMsDefault();
+    public double getDomainStart() {
+        return domainStart;
     }
 
     @Override
-    public long getDomainAnimationDurationMsMin() {
-        return travelMsMin > 0? travelMsMin: ComplexDomainFunctionI.super.getDomainAnimationDurationMsMin();
+    public double getDomainEnd() {
+        return domainEnd;
     }
 
     @Override
-    public long getDomainAnimationDurationMsMax() {
-        return travelMsMax > 0? travelMsMax: ComplexDomainFunctionI.super.getDomainAnimationDurationMsMax();
+    public int getNumericalIntegrationIntervalCount() {
+        return numericalIntegrationIntervalCount;
     }
 
     @Override
@@ -65,12 +74,22 @@ public class RotorStatesFunction implements ComplexDomainFunctionI {
     }
 
     @Override
-    public double getDomainStart() {
-        return dStart;
+    public @Nullable RotorFrequencyProviderI getFunctionDefaultFrequencyProvider() {
+        return defaultFrequencyProvider;
     }
 
     @Override
-    public double getDomainEnd() {
-        return dEnd;
+    public long getDomainAnimationDurationMsDefault() {
+        return domainAnimMsDefault > 0? domainAnimMsDefault : ComplexDomainFunctionI.super.getDomainAnimationDurationMsDefault();
+    }
+
+    @Override
+    public long getDomainAnimationDurationMsMin() {
+        return domainAnimMsMin > 0? domainAnimMsMin : ComplexDomainFunctionI.super.getDomainAnimationDurationMsMin();
+    }
+
+    @Override
+    public long getDomainAnimationDurationMsMax() {
+        return domainAnimMsMax > 0? domainAnimMsMax : ComplexDomainFunctionI.super.getDomainAnimationDurationMsMax();
     }
 }

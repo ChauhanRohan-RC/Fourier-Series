@@ -1,28 +1,24 @@
 package rotor;
 
 import app.R;
-import function.RotorStatesFunction;
 import function.definition.ColorHandler;
 import function.definition.ColorProviderI;
+import function.definition.ComplexDomainFunctionI;
 import function.definition.DomainProviderI;
-
 import json.Json;
-import models.Wrapper;
-import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import provider.*;
-import util.CollectionUtil;
+import provider.FunctionMeta;
+import provider.FunctionProviderI;
+import provider.FunctionType;
+import rotor.frequency.RotorFrequencyProviderI;
 import util.Format;
 import util.Log;
 import util.async.Async;
 import util.async.CancellationProvider;
 import util.async.Consumer;
-import util.main.ComplexUtil;
 
 import java.io.Reader;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -30,13 +26,8 @@ import java.util.*;
 public interface RotorStateManager extends RotorFrequencyProviderI, RotorStateProvider, DomainProviderI, ColorHandler {
 
     String TAG = "RotorStateManager";
-    @NotNull
-    RotorFrequencyProviderE DEFAULT_ROTOR_FREQUENCY_PROVIDER = RotorFrequencyProviderE.CENTERING_INT;
-
-    String ROTOR_STATE_SAVE_FREQ_TO_COEFF_DELIMITER = ":";   // frequency to coefficient delimiter
-    String ROTOR_STATE_SAVE_COEFF_DELIMITER = ",";           // coefficient real and imaginary part delimiter
-    Charset ROTOR_STATES_SAVE_ENCODING = StandardCharsets.UTF_8;
-
+//    String ROTOR_STATE_SAVE_FREQ_TO_COEFF_DELIMITER = ":";   // frequency to coefficient delimiter
+//    String ROTOR_STATE_SAVE_COEFF_DELIMITER = ",";           // coefficient real and imaginary part delimiter
 
     enum LoadCallResult {
 
@@ -77,7 +68,15 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
 
         void onRotorsCountChanged(@NotNull RotorStateManager manager, int prevCount, int newCount);
 
-        void onRotorsFrequencyProviderChanged(@NotNull RotorStateManager manager, @NotNull RotorFrequencyProviderE old, @NotNull RotorFrequencyProviderE _new);
+        /**
+         * Called when rotor frequency provider is changed.
+         * if The old provider is null, it means that the manager was previously using its default provider.
+         *
+         * @param manager the states manager
+         * @param old old rotor frequency provider
+         * @param _new new rotor frequency provider
+         * */
+        void onRotorsFrequencyProviderChanged(@NotNull RotorStateManager manager, @Nullable RotorFrequencyProviderI old, @Nullable RotorFrequencyProviderI _new);
     }
 
 
@@ -103,41 +102,41 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
     void considerInitialize();
 
     /**
-     * Actual Frequency of a rotor
-     *
-     * @param index rotor index
-     * @param count total rotor count
-     *
-     * @return Actual Frequency of a rotor
-     * */
-    @Override
-    double getRotorFrequency(int index, int count);
-
-    /**
-     * Set {@link RotorFrequencyProviderE RotorFrequencyProvider}, or {@code null} for default provider
-     * <br>
-     * @param frequencyProvider new rotors frequency provider, or {@code null} to set default
-     *
-     * @see #getInternalRotorFrequencyProvider()
-     * */
-    void setInternalRotorFrequencyProvider(@Nullable RotorFrequencyProviderE frequencyProvider);
-
-    /**
-     * Internal {@link RotorFrequencyProviderE RotorFrequencyProvider} of this manager<br>
-     * <br>
-     * <strong>
-     *  A manager may choose to <b>ignore or transform</b> frequencies as provided by internal provider.
-     *  The actual frequencies of rotors are controlled by {@link #getRotorFrequency(int, int)}.
-     * </strong>
-     * <br>
-     *
-     * @return internal rotor frequency provider
-     *
-     * @see #getRotorFrequency(int, int)
-     * @see #setInternalRotorFrequencyProvider(RotorFrequencyProviderE)
+     * @return default frequency provider for this manager
      * */
     @NotNull
-    RotorFrequencyProviderE getInternalRotorFrequencyProvider();
+    RotorFrequencyProviderI getManagerDefaultRotorFrequencyProvider();
+
+    /**
+     * @return frequency provider set by {@link #setRotorFrequencyProvider(RotorFrequencyProviderI)}
+     * */
+    @Nullable
+    RotorFrequencyProviderI getManagerRotorFrequencyProvider();
+
+    @NotNull
+    default RotorFrequencyProviderI getManagerRotorFrequencyProviderOrDefault() {
+        RotorFrequencyProviderI fp = getManagerRotorFrequencyProvider();
+        if (fp == null) {
+            fp = getManagerDefaultRotorFrequencyProvider();
+        }
+
+        return fp;
+    }
+
+    @Override
+    default double getRotorFrequency(int index, int count) {
+        return getManagerRotorFrequencyProviderOrDefault().getRotorFrequency(index, count);
+    }
+
+    /**
+     * sets the rotor Frequency Provider for this manager. Passing {@code null} will cause the manager
+     * to use its default frequency provider given by {@link #getManagerDefaultRotorFrequencyProvider()}
+     *
+     * @param rotorFrequencyProvider new frequency provider, or {@code null} to use deafult provider
+     *
+     * @see #getManagerDefaultRotorFrequencyProvider()
+     * */
+    void setRotorFrequencyProvider(@Nullable RotorFrequencyProviderI rotorFrequencyProvider);
 
     void forEachRotorState(@NotNull Consumer<RotorState> consumer);
 
@@ -197,6 +196,8 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
     @NotNull
     LoadCallResult setRotorCountAsync(int count);
 
+    void reloadAsync();
+
     double getAllRotorsMagnitudeScaleSum();
 
 
@@ -223,9 +224,9 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
 //            return null;
 
         try {
-            Files.writeString(file, dumpRotorStates(funcName), ROTOR_STATES_SAVE_ENCODING);
+            Files.writeString(file, dumpRotorStates(funcName), R.ENCODING);
         } catch (Throwable t) {
-            Log.e(TAG, "Failed to dump rotor states of FUNCTION <" + (Format.isEmpty(funcName)? R.DISPLAY_NAME_FUNCTION_UNKNOWN: funcName) + "> to FILE <" + file.toString() + ">", t);
+            Log.e(TAG, "Failed to dump rotor states of FUNCTION <" + (Format.isEmpty(funcName)? R.DISPLAY_NAME_FUNCTION_UNKNOWN: funcName) + "> to FILE <" + file + ">", t);
             return null;
         }
 
@@ -430,7 +431,7 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
     static FunctionProviderI loadFunctionFromRotorStatesFile(@NotNull Path file) {
         if (Files.isRegularFile(file)) {
 
-            try (Reader reader = Files.newBufferedReader(file, ROTOR_STATES_SAVE_ENCODING)) {
+            try (Reader reader = Files.newBufferedReader(file, R.ENCODING)) {
                 return loadRotorStatesFunction(reader, file.getFileName().toString());
             } catch (Throwable t) {
                 Log.e(TAG, "Failed to load Rotor States from file <" + file + ">", t);
@@ -475,19 +476,18 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
         }
 
         @Override
-        public double getRotorFrequency(int index, int count) {
-            return 0;
+        public @NotNull RotorFrequencyProviderI getManagerDefaultRotorFrequencyProvider() {
+            return ComplexDomainFunctionI.getDefaultFrequencyProvider(1);
         }
 
         @Override
-        public void setInternalRotorFrequencyProvider(@Nullable RotorFrequencyProviderE frequencyProvider) {
-            /* no-op */
+        public @Nullable RotorFrequencyProviderI getManagerRotorFrequencyProvider() {
+            return null;
         }
 
         @Override
-        @NotNull
-        public RotorFrequencyProviderE getInternalRotorFrequencyProvider() {
-            return DEFAULT_ROTOR_FREQUENCY_PROVIDER;
+        public void setRotorFrequencyProvider(@Nullable RotorFrequencyProviderI rotorFrequencyProvider) {
+
         }
 
         @Override
@@ -524,6 +524,10 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
         @Override
         public void considerInitialize() {
 
+        }
+
+        @Override
+        public void reloadAsync() {
         }
 
         @Override

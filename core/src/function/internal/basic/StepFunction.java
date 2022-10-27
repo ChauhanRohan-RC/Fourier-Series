@@ -1,6 +1,9 @@
 package function.internal.basic;
 
+import function.definition.ComplexDomainFunctionI;
 import function.definition.SignalFunctionI;
+import org.jetbrains.annotations.Nullable;
+import rotor.frequency.RotorFrequencyProviderI;
 
 public class StepFunction implements SignalFunctionI {
 
@@ -27,6 +30,12 @@ public class StepFunction implements SignalFunctionI {
         }
 
         return input > 0.5? 1: -1;
+    }
+
+    @Override
+    @Nullable
+    public RotorFrequencyProviderI getFunctionDefaultFrequencyProvider() {
+        return ComplexDomainFunctionI.getDefaultFrequencyProvider(getDomainRange());
     }
 
     @Override

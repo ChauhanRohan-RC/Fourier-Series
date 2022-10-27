@@ -33,8 +33,7 @@ public class Size {
         if (this == o)
             return true;
 
-        if (o instanceof Size) {
-            final Size size = (Size) o;
+        if (o instanceof final Size size) {
             return width == size.width && height == size.height;
         }
 
