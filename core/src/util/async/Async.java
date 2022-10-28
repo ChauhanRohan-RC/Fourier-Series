@@ -119,6 +119,41 @@ public class Async {
         return execute(function, consumer, input, 0);
     }
 
+    public static @NotNull <T> Canceller execute(@NotNull ThrowableTask<T> task, @Nullable TaskConsumer<T> consumer, int consumerDelayMs) {
+        final Canceller c = Canceller.basic();
+
+        execute(() -> {
+            T out;
+            try {
+                out = task.begin();
+                if (consumer != null) {
+                    uiPost(() -> consumer.onProcessed(out, c), consumerDelayMs);
+                }
+            } catch (Throwable e) {
+                if (consumer != null) {
+                    uiPost(() -> consumer.onFailed(e), consumerDelayMs);
+                }
+            }
+        });
+
+        return c;
+    }
+
+    public static @NotNull <T> Canceller execute(@NotNull ThrowableTask<T> task, @Nullable TaskConsumer<T> consumer) {
+        return execute(task, consumer, 0);
+    }
+
+    public static @NotNull <In, Out> Canceller execute(@NotNull ThrowableFunction<In, Out> task, @Nullable TaskConsumer<Out> consumer, In input, int consumerDelayMs) {
+        return execute(() -> task.begin(input), consumer, consumerDelayMs);
+    }
+
+    public static @NotNull <In, Out> Canceller execute(@NotNull ThrowableFunction<In, Out> task, @Nullable TaskConsumer<Out> consumer, In input) {
+        return execute(task, consumer, input, 0);
+    }
+
+
+
+
     public static void performNoThrow(@NotNull ThrowableRunnable task, @Nullable String msg) {
         try {
             task.run();
@@ -316,6 +351,34 @@ public class Async {
 
         public <In> void execute(@NotNull CVoidFunction<? super In> function, In input) {
             execute((CancellationProvider c) -> function.apply(input, c));
+        }
+
+
+        public <Out> void execute(@NotNull ThrowableCTask<? extends Out> task, @Nullable TaskConsumer<? super Out> consumer, int consumerDelayMs) {
+            execute((CancellationProvider c) ->{
+                try {
+                    Out out = task.begin(c);
+                    if (consumer != null) {
+                        uiPost(() -> consumer.onProcessed(out, c), consumerDelayMs);
+                    }
+                } catch (Throwable e) {
+                    if (consumer != null) {
+                        uiPost(() -> consumer.onFailed(e));
+                    }
+                }
+            });
+        }
+
+        public <Out> void execute(@NotNull ThrowableCTask<? extends Out> task, @Nullable TaskConsumer<? super Out> consumer) {
+            execute(task, consumer, 0);
+        }
+
+        public <In, Out> void execute(@NotNull ThrowableCFunction<? super In, ? extends Out> function, @Nullable TaskConsumer<? super Out> consumer, In input, int consumerDelayMs) {
+            execute(function.toTask(input), consumer, consumerDelayMs);
+        }
+
+        public <In, Out> void execute(@NotNull ThrowableCFunction<? super In, ? extends Out> function, @Nullable TaskConsumer<? super Out> consumer, In input) {
+            execute(function, consumer, input, 0);
         }
     }
 

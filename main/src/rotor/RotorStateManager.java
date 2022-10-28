@@ -1,7 +1,7 @@
 package rotor;
 
 import app.R;
-import function.ComplexDomainFunctionWrapper;
+import com.google.gson.JsonParseException;
 import function.definition.ColorHandler;
 import function.definition.ColorProviderI;
 import function.definition.ComplexDomainFunctionI;
@@ -13,13 +13,14 @@ import provider.FunctionMeta;
 import provider.FunctionProviderI;
 import provider.FunctionType;
 import rotor.frequency.RotorFrequencyProviderI;
-import util.Format;
 import util.Log;
 import util.async.Async;
 import util.async.CancellationProvider;
 import util.async.Consumer;
+import util.async.TaskConsumer;
 import util.main.ComplexUtil;
 
+import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -213,42 +214,7 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
 
 
 
-    /* Dump Rotor States */
-
-    default void dumpRotorStatesToFileAsync(@NotNull Path file, @Nullable Consumer<Path> callback) {
-        dumpRotorStatesToFileAsync(file, null, callback);
-    }
-
-    default void dumpRotorStatesToFileAsync(@NotNull Path file, @Nullable String funcName, @Nullable Consumer<Path> callback) {
-        Async.execute(() -> dumpRotorStatesToFile(file, funcName), callback);
-    }
-
-    @Nullable
-    default Path dumpRotorStatesToFile(@NotNull Path file) {
-        return dumpRotorStatesToFile(file, null);
-    }
-
-    @Nullable
-    default Path dumpRotorStatesToFile(@NotNull Path file, @Nullable String funcName) {
-//        final Path file = R.createRotorStatesDumpFile(funcName);
-//        if (file == null)
-//            return null;
-
-        try {
-            Files.writeString(file, dumpRotorStates(funcName), R.ENCODING);
-        } catch (Throwable t) {
-            Log.e(TAG, "Failed to dump rotor states of FUNCTION <" + (Format.isEmpty(funcName)? R.DISPLAY_NAME_FUNCTION_UNKNOWN: funcName) + "> to FILE <" + file + ">", t);
-            return null;
-        }
-
-        return file;
-    }
-
-
-    @NotNull
-    default CharSequence dumpRotorStates() {
-        return dumpRotorStates(null);
-    }
+    /* Function State */
 
     @NotNull
     default FunctionState createFunctionState(@Nullable String funcName) {
@@ -261,9 +227,52 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
     }
 
     @NotNull
-    default CharSequence dumpRotorStates(@Nullable String funcName) {
-        final FunctionState functionState = createFunctionState(funcName);
-        return Json.get().gson.toJson(functionState, FunctionState.class);
+    default FunctionState createFunctionState() {
+        return createFunctionState(null);
+    }
+
+
+//    default void dumpFunctionStateFileAsync(@NotNull Path file, boolean serializeFunction, @Nullable TaskConsumer<Path> callback) {
+//        dumpFunctionStateFileAsync(file, null, serializeFunction, callback);
+//    }
+//
+//    default void dumpFunctionStateFileAsync(@NotNull Path file, @Nullable String funcName, boolean serializeFunction, @Nullable TaskConsumer<Path> callback) {
+//        Async.execute(() -> dumpFunctionStateToFile(file, funcName, serializeFunction), callback);
+//    }
+//
+//    default Path dumpFunctionStateToFile(@NotNull Path file, boolean serializeFunction) throws IOException, JsonParseException {
+//        return dumpFunctionStateToFile(file, null, serializeFunction);
+//    }
+
+//    default FunctionState dumpFunctionStateToFile(@NotNull Path file, @Nullable String funcName, boolean serializeFunction) throws IOException, JsonParseException {
+//        try {
+//
+//        } catch (Throwable t) {
+//            Log.e(TAG, "Failed to dump function state of FUNCTION <" + (Format.isEmpty(funcName)? R.DISPLAY_NAME_FUNCTION_UNKNOWN: funcName) + "> to FILE <" + file + ">", t);
+//            return null;
+//        }
+//
+//        return file;
+//    }
+
+//    default FunctionState dumpFunctionState(@NotNull Appendable writer, @Nullable String funcName, boolean serializeFunction) throws JsonParseException {
+//        final FunctionState state = createFunctionState(funcName, serializeFunction);
+//        state.writeJson(writer);
+//        return state;
+//    }
+
+
+//    @NotNull
+//    default CharSequence dumpFunctionState(boolean serializeFunction) throws JsonParseException {
+//        return dumpFunctionState(null, serializeFunction);
+//    }
+//
+
+//    @NotNull
+//    default FunctionStateDump dumpFunctionState(@Nullable String funcName, boolean serializeFunction) throws JsonParseException {
+//        final FunctionState functionState = createFunctionState(funcName, serializeFunction);
+//        return
+//        Json.get().gson.toJson(functionState, FunctionState.class, );
 
 //        final List<RotorState> states = getSortedRotorStates(RotorState.COMPARATOR_FREQ_ASC);
 //        final int count = CollectionUtil.size(states);
@@ -328,20 +337,20 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
 //        }
 //
 //        return sb;
-    }
+//    }
 
 
-    /* Load Rotor States */
+    /* Load Function State */
 
-    @Nullable
-    static FunctionProviderI loadRotorStatesFunction(@NotNull Reader json, @NotNull String defaultName) {
-        try {
-            return Json.get().gson.fromJson(json, FunctionState.class).toProvider(defaultName);
-        } catch (Throwable t) {
-            Log.e(TAG, "Failed to load Function STate from json", t);
-        }
-
-        return null;
+//    @Nullable
+//    static FunctionProviderI loadFunctionState(@NotNull Reader json, @NotNull String defaultName) {
+//        try {
+//            return Json.get().gson.fromJson(json, FunctionState.class).toProvider(defaultName);
+//        } catch (Throwable t) {
+//            Log.e(TAG, "Failed to load Function STate from json", t);
+//        }
+//
+//        return null;
 
 
 //        final Wrapper<String> name = new Wrapper<>(null);
@@ -440,38 +449,26 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
 //        );
 //
 //        return new BaseFunctionProvider(meta, () -> new RotorStatesFunction(states.values(), dStart.get(), dEnd.get(), msDef.get(), msMin.get(), msMax.get()));
-    }
+//    }
 
 
-    @Nullable
-    static FunctionProviderI loadFunctionFromRotorStatesFile(@NotNull Path file) {
-        if (Files.isRegularFile(file)) {
-
-            try (Reader reader = Files.newBufferedReader(file, R.ENCODING)) {
-                return loadRotorStatesFunction(reader, file.getFileName().toString());
-            } catch (Throwable t) {
-                Log.e(TAG, "Failed to load Rotor States from file <" + file + ">", t);
-            }
-
-//            try {
-//                final String s = Files.readString(file, ROTOR_STATES_SAVE_ENCODING);
-//                final FunctionProviderI fp = loadRotorStatesFunction(s, file.getFileName().toString());
-//                if (fp == null) {
-//                    throw new Exception("Parse Error");
-//                }
+//    @Nullable
+//    static FunctionProviderI loadFunctionStateFile(@NotNull Path file) {
+//        if (Files.isRegularFile(file)) {
 //
-//                return fp;
+//            try (Reader reader = Files.newBufferedReader(file, R.ENCODING)) {
+//                return loadFunctionState(reader, file.getFileName().toString());
 //            } catch (Throwable t) {
-//                Log.e(TAG, "Failed to load Rotor States from file <" + file + ">", t);
+//                Log.e(TAG, "Failed to load Function State from file <" + file + ">", t);
 //            }
-        }
-
-        return null;
-    }
-
-    static void loadFunctionFromRotorStatesFileAsync(@NotNull Path file, @NotNull Consumer<FunctionProviderI> callback) {
-        Async.execute(RotorStateManager::loadFunctionFromRotorStatesFile, callback, file);
-    }
+//        }
+//
+//        return null;
+//    }
+//
+//    static void loadFunctionStateFileAsync(@NotNull Path file, @NotNull Consumer<FunctionProviderI> callback) {
+//        Async.execute(RotorStateManager::loadFunctionStateFile, callback, file);
+//    }
 
 
 

@@ -1,26 +1,38 @@
 package rotor;
 
 import app.R;
+import com.google.gson.JsonParseException;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 import function.RotorStatesFunction;
 import function.definition.ComplexDomainFunctionI;
 import function.definition.DomainProviderI;
+import json.Json;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import provider.*;
 import rotor.frequency.RotorFrequencyProviderI;
 import util.Format;
+import util.async.Async;
+import util.async.Canceller;
+import util.async.TaskConsumer;
 import util.main.ComplexUtil;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 import java.lang.reflect.Type;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 public class FunctionState {
 
     public static final boolean FUNCTION_SERIALIZATION_ENABLED = true;
+    public static final boolean DEFAULT_SERIALIZE_FUNCTION = true;
 
     public static final Comparator<Double> FREQUENCY_COMPARATOR = Double::compare;             // ascending frequencies
 
@@ -41,7 +53,10 @@ public class FunctionState {
     }
 
     @NotNull
-    public static FunctionState from(@NotNull RotorStateManager manager, @Nullable String funcName, @Nullable ComplexDomainFunctionI function) {
+    public static FunctionState from(@NotNull RotorStateManager manager,
+                                     @Nullable String funcName,
+                                     @Nullable ComplexDomainFunctionI function) {
+
         if (Format.isEmpty(funcName)) {
             funcName = manager.getFunctionMeta().displayName();
         }
@@ -92,7 +107,7 @@ public class FunctionState {
 
     @SerializedName("_function")
     @Nullable
-    private final ComplexDomainFunctionI serializedFunction;
+    private ComplexDomainFunctionI serializedFunction;
 
     public final double domainStart;
     public final double domainEnd;
@@ -141,11 +156,7 @@ public class FunctionState {
         this.rotorCount = rotorCount;
         this.allRotorStates = allRotorStates;
 
-        if (FUNCTION_SERIALIZATION_ENABLED && functionType != null && functionType.serializable) {
-            this.serializedFunction = function;
-        } else {
-            this.serializedFunction = null; // cannot serialize
-        }
+        setSerializeFunction(DEFAULT_SERIALIZE_FUNCTION);     // default
     }
 
     public FunctionState(long saveTimestamp,
@@ -179,6 +190,18 @@ public class FunctionState {
         return serializedFunction;
     }
 
+    public boolean hasSerialisedFunction() {
+        return serializedFunction != null;
+    }
+
+    public void setSerializeFunction(boolean serializeFunction) {
+        if (FUNCTION_SERIALIZATION_ENABLED && serializeFunction && functionType != null && functionType.serializable) {
+            this.serializedFunction = function;
+        } else {
+            this.serializedFunction = null; // cannot serialize
+        }
+    }
+
     @Nullable
     public ComplexDomainFunctionI getFunction() {
         if (function == null) {
@@ -189,10 +212,20 @@ public class FunctionState {
     }
 
     @NotNull
-    public SimpleFunctionProvider toProvider(@NotNull String defaultName) {
+    public String getTypedFunctionDisplayName() {
+        final String name = functionName != null? functionName: R.DISPLAY_NAME_FUNCTION_UNKNOWN;
+        final String type = functionType != null? functionType.displayName: "Unknown Type";
+        return name + " (" + type + ")";
+    }
+
+    @NotNull
+    public SimpleFunctionProvider toProvider(@NotNull String defaultName, boolean externallyLoaded) {
         String name = this.functionName;
-        if (Format.isEmpty(name)) {
+        if (Format.isEmpty(name))
             name = defaultName;
+
+        if (externallyLoaded) {
+            name = R.createExternallyLoadedFunctionDisplayName(name);
         }
 
         final List<RotorState> states = allRotorStates.entrySet()
@@ -204,9 +237,10 @@ public class FunctionState {
         if (functionType != null && func != null) {
             final FunctionMeta meta = new FunctionMeta(
                     functionType,
-                    functionName,
+                    name,
                     frequencyProvider,
                     rotorCount,
+                    true,
                     states
             );
 
@@ -215,9 +249,10 @@ public class FunctionState {
 
         final FunctionMeta meta = new FunctionMeta(
                 FunctionType.EXTERNAL_ROTOR_STATE,
-                R.createExternalRotorStatesFunctionDisplayTitle(name),
+                name,
                 frequencyProvider,
                 rotorCount,
+                func != null,
                 states
         );
 
@@ -233,6 +268,72 @@ public class FunctionState {
                 defaultFrequencyProvider)
         );
     }
+
+
+    /* Save */
+
+    @NotNull
+    public String toJsonString() throws JsonParseException {
+        return Json.get().gson.toJson(this, getClass());
+    }
+
+    public void writeJson(@NotNull Appendable writer) throws JsonParseException {
+        Json.get().gson.toJson(this, getClass(), writer);
+    }
+
+    public void writeJson(@NotNull Path file, @NotNull Charset encoding) throws JsonParseException, IOException {
+        try (final Writer writer = Files.newBufferedWriter(file, encoding)) {
+            writeJson(writer);
+        }
+    }
+
+    public void writeJson(@NotNull Path file) throws JsonParseException, IOException {
+        writeJson(file, R.ENCODING);
+    }
+
+    @NotNull
+    public Canceller writeJsonAsync(@NotNull Path file, @NotNull Charset encoding, @Nullable TaskConsumer<Void> consumer) {
+        return Async.execute(() -> {
+            writeJson(file, encoding);
+            return null;
+        }, consumer);
+    }
+
+    @NotNull
+    public Canceller writeJsonAsync(@NotNull Path file, @Nullable TaskConsumer<Void> consumer) {
+        return writeJsonAsync(file, R.ENCODING, consumer);
+    }
+
+    /* Load */
+
+    @NotNull
+    public static FunctionState loadFromJson(@NotNull Reader json) throws JsonParseException {
+        return Json.get().gson.fromJson(json, FunctionState.class);
+    }
+
+    @NotNull
+    public static FunctionState loadFromJson(@NotNull Path file, @NotNull Charset encoding) throws IOException, JsonParseException {
+        try (final Reader reader = Files.newBufferedReader(file, encoding)) {
+            return loadFromJson(reader);
+        }
+    }
+
+    @NotNull
+    public static FunctionState loadFromJson(@NotNull Path file) throws IOException, JsonParseException {
+        return loadFromJson(file, R.ENCODING);
+    }
+
+    @NotNull
+    public static Canceller loadFromJsonAsync(@NotNull Path file, @NotNull Charset encoding, @NotNull TaskConsumer<FunctionState> consumer) {
+        return Async.execute(() -> loadFromJson(file, encoding), consumer);
+    }
+
+    @NotNull
+    public static Canceller loadFromJsonAsync(@NotNull Path file, @NotNull TaskConsumer<FunctionState> consumer) {
+        return loadFromJsonAsync(file, R.ENCODING, consumer);
+    }
+
+
 
 
 //    @NotNull

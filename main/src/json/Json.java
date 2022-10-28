@@ -74,7 +74,8 @@ public class Json implements JsonSerializationContext, JsonDeserializationContex
                 .setPrettyPrinting()
                 .serializeNulls()
                 .setLenient()
-                .registerTypeAdapter(Color.class, new ColorGsonAdapter());
+//                .registerTypeAdapter(Color.class, new ColorGsonAdapter())
+                ;
 
         for (Type type: SERIALIZED_TYPES) {
             gsonBuilder.registerTypeAdapter(type, new GsonTypeAdapter<>());

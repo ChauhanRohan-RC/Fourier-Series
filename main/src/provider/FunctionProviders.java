@@ -24,6 +24,7 @@
  */
 package provider;
 
+import models.Wrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import util.CollectionUtil;
@@ -329,13 +330,18 @@ public class FunctionProviders extends AbstractListModel<FunctionProviderI> impl
     }
 
 
+    public record Stats(@NotNull Map<FunctionType, Integer> countMap, int noDefinitionFunctionsCount) {
+    }
+
     @NotNull
-    public EnumMap<FunctionType, Integer> getStats() {
-        final EnumMap<FunctionType, Integer> map = new EnumMap<>(FunctionType.class);
+    public Stats getStats() {
+        final EnumMap<FunctionType, Integer> countMap = new EnumMap<>(FunctionType.class);
+        final Wrapper.Int noDefCount = new Wrapper.Int(0);
 
         providers.forEach(fp -> {
-            final FunctionType ft = fp.getFunctionMeta().functionType();
-            Integer count = map.get(ft);
+            final FunctionMeta meta = fp.getFunctionMeta();
+            final FunctionType ft = meta.functionType();
+            Integer count = countMap.get(ft);
             int newCount;
             if (count == null) {
                 newCount = 1;
@@ -343,10 +349,14 @@ public class FunctionProviders extends AbstractListModel<FunctionProviderI> impl
                 newCount = count + 1;
             }
 
-            map.put(ft, newCount);
+            countMap.put(ft, newCount);
+
+            if (!meta.hasBaseDefinition()) {
+                noDefCount.add(1);
+            }
         });
 
-        return map;
+        return new Stats(countMap, noDefCount.get());
     }
 
 }

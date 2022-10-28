@@ -57,9 +57,9 @@ public class R {
     /* External Files */
     public static final boolean LOAD_EXTERNAL_PATH_FUNCTIONS_ON_START = false;
 
-    public static final String ROTOR_STATE_DUMP_FILE_EXTENSION = ".json";
-    public static final String ROTOR_STATE_DUMP_FILE_DESCRIPTION = "Rotor States";
-    public static final FileFilter ROTOR_STATE_DUMP_FILE_FILTER = new OpenFileFilter(ROTOR_STATE_DUMP_FILE_EXTENSION, ROTOR_STATE_DUMP_FILE_DESCRIPTION);
+    public static final String FUNCTION_STATE_SAVE_FILE_EXTENSION = ".json";
+    public static final String FUNCTION_STATE_SAVE_FILE_DESCRIPTION = "Function State";
+    public static final FileFilter FUNCTION_STATE_SAVE_FILE_FILTER = new OpenFileFilter(FUNCTION_STATE_SAVE_FILE_EXTENSION, FUNCTION_STATE_SAVE_FILE_DESCRIPTION);
 
     public static final String PATH_DATA_FILE_EXTENSION = ".pd";
     public static final String PATH_DATA_FILE_DESCRIPTION = "Path Data";
@@ -72,14 +72,14 @@ public class R {
     public static final Path DIR_MAIN = Path.of("").toAbsolutePath();
     public static final Path DIR_EXTERNAL_PROGRAMS = DIR_MAIN.resolve("PROGRAMS");
     public static final Path DIR_EXTERNAL_PATH_FUNCTIONS = DIR_MAIN.resolve("PATH_FUNCTIONS");
-    public static final Path DIR_ROTOR_STATE_DUMPS = DIR_MAIN.resolve("SAVES");
+    public static final Path DIR_FUNCTION_STATE_SAVES = DIR_MAIN.resolve("FUNCTION STATES");
 
     public static final Path DIR_RES = DIR_MAIN.resolve("res");
     public static final Path DIR_IMAGE = DIR_RES.resolve("image");
     public static final Path APP_ICON = DIR_IMAGE.resolve("icon.png");
 
-    public static boolean ensureRotorStatesDumpDir() {
-        return FileUtil.ensureDir(DIR_ROTOR_STATE_DUMPS);
+    public static boolean ensureFunctionStateSaveDir() {
+        return FileUtil.ensureDir(DIR_FUNCTION_STATE_SAVES);
     }
 
     public static boolean ensureExternalProgramsDir() {
@@ -91,7 +91,7 @@ public class R {
     }
 
     public static void ensureDirs() {
-        ensureRotorStatesDumpDir();
+        ensureFunctionStateSaveDir();
         ensureExternalProgramsDir();
         ensureExternalPathFunctions();
     }
@@ -122,14 +122,14 @@ public class R {
 
     @Nullable
     public static Path createRotorStatesDumpFile(@Nullable String funcName) {
-        if (!ensureRotorStatesDumpDir())
+        if (!ensureFunctionStateSaveDir())
             return null;
 
         if (Format.isEmpty(funcName)) {
             funcName = DISPLAY_NAME_FUNCTION_UNKNOWN;
         }
 
-        return FileUtil.getNonExistingFile(DIR_ROTOR_STATE_DUMPS.resolve(funcName + ROTOR_STATE_DUMP_FILE_EXTENSION));
+        return FileUtil.getNonExistingFile(DIR_FUNCTION_STATE_SAVES.resolve(funcName + FUNCTION_STATE_SAVE_FILE_EXTENSION));
     }
 
 
@@ -140,19 +140,38 @@ public class R {
      * */
     public static final String PATH_DATA_SHAPES_DELIMITER = "[|]";
 
+    public static final String DISPLAY_NAME_TOKEN_EXT_PATH = "ext_path";
+    public static final String DISPLAY_NAME_TOKEN_EXT_PROGRAM = "ext_program";
+    public static final String DISPLAY_NAME_TOKEN_LOADED = "loaded";
+
     @NotNull
-    public static String createExternalPathFunctionDisplayTitle(@NotNull String fullName) {
-        return FileUtil.getName(fullName) + " (ext path)";
+    public static String displayNameWithToken(@NotNull String fullName, @NotNull String token) {
+        final String name = FileUtil.getName(fullName);
+        if (name.contains(token)) {
+            return name;
+        }
+
+        if (name.charAt(name.length() - 1) == ')') {
+            String temp = name.substring(0, name.length() - 1);
+            return temp + "-" + token + ")";
+        }
+
+        return name + " (" + token + ")";
     }
 
     @NotNull
-    public static String createExternalProgramFunctionDisplayTitle(@NotNull String fullName) {
-        return FileUtil.getName(fullName) + " (ext program)";
+    public static String createExternalPathFunctionDisplayName(@NotNull String fullName) {
+        return displayNameWithToken(fullName, DISPLAY_NAME_TOKEN_EXT_PATH);
     }
 
     @NotNull
-    public static String createExternalRotorStatesFunctionDisplayTitle(@NotNull String fullName) {
-        return FileUtil.getName(fullName) + " (ext rotors)";
+    public static String createExternalProgramFunctionDisplayName(@NotNull String fullName) {
+        return displayNameWithToken(fullName, DISPLAY_NAME_TOKEN_EXT_PROGRAM);
+    }
+
+    @NotNull
+    public static String createExternallyLoadedFunctionDisplayName(@NotNull String fullName) {
+        return displayNameWithToken(fullName, DISPLAY_NAME_TOKEN_LOADED);
     }
 
 
@@ -165,7 +184,7 @@ public class R {
     }
 
     public static boolean isValidRotorStatesFile(@NotNull Path path) {
-        return path.toString().endsWith(ROTOR_STATE_DUMP_FILE_EXTENSION);
+        return path.toString().endsWith(FUNCTION_STATE_SAVE_FILE_EXTENSION);
     }
 
     @Nullable
@@ -195,7 +214,7 @@ public class R {
             }
 
             final String pathData = Files.readString(file, StandardCharsets.UTF_8);
-            return loadExternalPathFunction(createExternalPathFunctionDisplayTitle(file.getFileName().toString()), pathData);
+            return loadExternalPathFunction(createExternalPathFunctionDisplayName(file.getFileName().toString()), pathData);
         } catch (Throwable t) {
             Log.e(TAG, "Exception while loading external function from file <" + file + ">", t);
         }

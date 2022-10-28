@@ -64,9 +64,9 @@ public enum ActionInfo {
 
     CONFIGURE_ROTOR_FREQUENCY_PROVIDER(R.getConfigureRotorFrequencyProviderText(), R.getConfigureRotorFrequencyProviderShortDescription(), true, KeyStroke.getKeyStroke(KeyEvent.VK_F, 0)),
 
-    DUMP_ROTOR_STATES_TO_FILE("Save", "Save Rotor States", true, KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK)),
-    LOAD_ROTOR_STATES_FROM_FILE("Load", "Load Rotor States", false, KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_DOWN_MASK)),
-    CLEAR_EXTERNAL_ROTOR_STATE_FUNCTIONS("Clear All", "Remove all loaded rotor state functions", false, null),
+    SAVE_FUNCTION_STATE_TO_FILE("Save", "Save Function State", true, KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK)),
+    LOAD_FUNCTION_STATE_FROM_FILE("Load", "Load Function State", false, KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_DOWN_MASK)),
+    CLEAR_FUNCTIONS_WITHOUT_DEFINITION("Clear Without Definition", "Remove all loaded functions without internal definitions", false, null),
 
     LOAD_EXTERNAL_PATH_FUNCTIONS("Load Files", "Load Path Functions", false, KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK)),
     LOAD_EXTERNAL_PATH_FUNCTIONS_FROM_DIR("Scan Folder", "Scan Path Functions from Folder", false, KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.SHIFT_DOWN_MASK)),

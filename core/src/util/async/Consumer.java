@@ -31,7 +31,6 @@ public interface Consumer<T> {
      * */
     default void onCancelled(@Nullable T dataProcessedYet) { }
 
-
     default void onProcessed(@Nullable T data, boolean cancelled) {
         if (cancelled) {
             onCancelled(data);

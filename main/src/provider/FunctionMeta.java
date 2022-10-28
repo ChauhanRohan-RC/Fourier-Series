@@ -12,12 +12,19 @@ public record FunctionMeta(@NotNull FunctionType functionType,
                            @NotNull String displayName,
                            @Nullable RotorFrequencyProviderI frequencyProvider,
                            int initialRotorCount,
+                           boolean hasBaseDefinition,
                            @Nullable Collection<RotorState> preloadedRotorStates) {
 
     public static final FunctionMeta NOOP = new FunctionMeta(FunctionType.NO_OP, R.DISPLAY_NAME_FUNCTION_NOOP);
 
     public FunctionMeta(@NotNull FunctionType functionType, @NotNull String displayName) {
-        this(functionType, displayName, null, -1, null);
+        this(functionType, displayName, null, -1, true, null);
     }
+
+    @NotNull
+    public String getTypedFunctionDisplayName() {
+        return displayName + " (" + functionType.displayName + ")";
+    }
+
 
 }

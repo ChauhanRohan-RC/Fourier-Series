@@ -2,12 +2,12 @@ package ui;
 
 import animation.animator.AbstractAnimator;
 import app.R;
-import function.RotorStatesFunction;
 import function.definition.ComplexDomainFunctionI;
 import models.Size;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import provider.*;
+import rotor.FunctionState;
 import rotor.RotorStateManager;
 import rotor.StandardRotorStateManager;
 import rotor.frequency.RotorFrequencyProviderI;
@@ -19,6 +19,7 @@ import util.Format;
 import util.Log;
 import util.async.Canceller;
 import util.async.Consumer;
+import util.async.TaskConsumer;
 
 import javax.swing.*;
 import javax.swing.Timer;
@@ -242,18 +243,18 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         menuPathFunctions.addSeparator();
         menuPathFunctions.add(uia(ActionInfo.RESET_PATH_FUNCTIONS));
 
+        // Function State menu
+        menuRotorStates = new JMenu("Function State");
+        menuBar.add(menuRotorStates);
+        menuRotorStates.add(uia(ActionInfo.SAVE_FUNCTION_STATE_TO_FILE));
+        menuRotorStates.add(uia(ActionInfo.LOAD_FUNCTION_STATE_FROM_FILE));
+        menuRotorStates.addSeparator();
+        menuRotorStates.add(uia(ActionInfo.CLEAR_FUNCTIONS_WITHOUT_DEFINITION));
+
         // Frequency Menu
         menuFrequency = new JMenu("Frequency");
         menuBar.add(menuFrequency);
         menuFrequency.add(uia(ActionInfo.CONFIGURE_ROTOR_FREQUENCY_PROVIDER));
-
-        // Rotor States menu
-        menuRotorStates = new JMenu("Rotor States");
-        menuBar.add(menuRotorStates);
-        menuRotorStates.add(uia(ActionInfo.DUMP_ROTOR_STATES_TO_FILE));
-        menuRotorStates.add(uia(ActionInfo.LOAD_ROTOR_STATES_FROM_FILE));
-        menuRotorStates.addSeparator();
-        menuRotorStates.add(uia(ActionInfo.CLEAR_EXTERNAL_ROTOR_STATE_FUNCTIONS));
 
         // View menu
         menuView = new JMenu("View");
@@ -592,7 +593,6 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
     }
 
 
-
     protected void onMenuBarVisibilityChanged(boolean visible) {
         uia(ActionInfo.TOGGLE_MENUBAR)
                 .setName(R.getToggleMenuBarText(visible))
@@ -768,18 +768,19 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
     /* ............................  Function Providers  .................................. */
 
     public void syncFunctionProviders() {
-        final EnumMap<FunctionType, Integer> stats = functionProviders.getStats();
+        final FunctionProviders.Stats stats = functionProviders.getStats();
+        final Map<FunctionType, Integer> countMap = stats.countMap();
         final RotorStateManager manager = fsPanel.getRotorStateManager();
 
-        final boolean allNoop = stats.isEmpty() || (stats.size() == 1 && stats.containsKey(FunctionType.NO_OP));
-        final boolean noopOrloading = manager.isNoOp();
+        final boolean allNoop = countMap.isEmpty() || (countMap.size() == 1 && countMap.containsKey(FunctionType.NO_OP));
+        final boolean noopOrLoading = manager.isNoOp();
 
-        syncFunctionDependentOps(!(allNoop || noopOrloading), manager.getRotorCount() > 0);
-        uia(ActionInfo.CLEAR_EXTERNAL_ROTOR_STATE_FUNCTIONS).setEnabled(stats.containsKey(FunctionType.EXTERNAL_ROTOR_STATE));
-        uia(ActionInfo.CLEAR_INTERNAL_PROGRAMMATIC_FUNCTIONS).setEnabled(stats.containsKey(FunctionType.INTERNAL_PROGRAM));
-        uia(ActionInfo.CLEAR_EXTERNAL_PROGRAMMATIC_FUNCTIONS).setEnabled(stats.containsKey(FunctionType.EXTERNAL_PROGRAM));
-        uia(ActionInfo.CLEAR_INTERNAL_PATH_FUNCTIONS).setEnabled(stats.containsKey(FunctionType.INTERNAL_PATH));
-        uia(ActionInfo.CLEAR_EXTERNAL_PATH_FUNCTIONS).setEnabled(stats.containsKey(FunctionType.EXTERNAL_PATH));
+        syncFunctionDependentOps(!(allNoop || noopOrLoading), manager.getRotorCount() > 0);
+        uia(ActionInfo.CLEAR_FUNCTIONS_WITHOUT_DEFINITION).setEnabled(stats.noDefinitionFunctionsCount() > 0);
+        uia(ActionInfo.CLEAR_INTERNAL_PROGRAMMATIC_FUNCTIONS).setEnabled(countMap.containsKey(FunctionType.INTERNAL_PROGRAM));
+        uia(ActionInfo.CLEAR_EXTERNAL_PROGRAMMATIC_FUNCTIONS).setEnabled(countMap.containsKey(FunctionType.EXTERNAL_PROGRAM));
+        uia(ActionInfo.CLEAR_INTERNAL_PATH_FUNCTIONS).setEnabled(countMap.containsKey(FunctionType.INTERNAL_PATH));
+        uia(ActionInfo.CLEAR_EXTERNAL_PATH_FUNCTIONS).setEnabled(countMap.containsKey(FunctionType.EXTERNAL_PATH));
 
         functionProviders.add(0, Providers.NoopProvider.getSingleton(), true);
         if (functionProviders.getSize() == 1) {
@@ -1148,13 +1149,13 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
     }
 
 
-    private boolean confirmModifyExternalRotorStatesFunctions() {
+    private boolean confirmModifNoDefinitionFunctions() {
         final int option = JOptionPane.showConfirmDialog(this,
                 """
-                        This function is only backed by existing Rotor States (created using IFT)
-                        Loading any more rotor states or changing Frequency Provider is HIGHLY EXPENSIVE and TIME TAKING (possibly several minutes)
-                        Do you wish to continue?""",
-                "Load Rotor States",
+                        This function has NO DEFINITION (created using IFT over existing Rotor States)
+                        Any modification like loading more rotor states or changing Frequency Provider is HIGHLY EXPENSIVE and INACCURATE
+                        Do you wish to continue? (can take several minutes)""",
+                "Confirm Modify Function",
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.WARNING_MESSAGE);
 
@@ -1163,11 +1164,11 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
     @Override
     public boolean onInterceptRotorsLoad(@NotNull RotorStateManager manager, int loadCount) {
-        final boolean extRotorStates = manager.getFunctionMeta().functionType() == FunctionType.EXTERNAL_ROTOR_STATE;
-        if (extRotorStates) {
+        final boolean noDefinition = !manager.getFunctionMeta().hasBaseDefinition();
+        if (noDefinition) {
             final int initialCount = manager.getFunctionMeta().initialRotorCount();
             if (initialCount < loadCount) {
-                return !confirmModifyExternalRotorStatesFunctions();
+                return !confirmModifNoDefinitionFunctions();
             }
         }
 
@@ -1193,12 +1194,11 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         updateRotorCountUi(fsPanel.getConstrainedRotorCount());
     }
 
-
     @Override
     public boolean onInterceptRotorFrequencyProvider(@NotNull RotorStateManager manager, @Nullable RotorFrequencyProviderI old, @Nullable RotorFrequencyProviderI _new) {
-        final boolean extRotorStates = manager.getFunctionMeta().functionType() == FunctionType.EXTERNAL_ROTOR_STATE;
-        if (extRotorStates && !Objects.equals(old, _new)) {
-            return !confirmModifyExternalRotorStatesFunctions();
+        final boolean noDefinition = !manager.getFunctionMeta().hasBaseDefinition();
+        if (noDefinition && !Objects.equals(old, _new)) {
+            return !confirmModifNoDefinitionFunctions();
         }
 
         return RotorStateManager.Listener.super.onInterceptRotorFrequencyProvider(manager, old, _new);
@@ -1214,7 +1214,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
     }
 
-    public final void dumpRotorStatesToFile() {
+    public final void askSaveFunctionStateToFIle() {
         final RotorStateManager sm = fsPanel.getRotorStateManager();
         final String err;
 
@@ -1233,44 +1233,79 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
             return;
         }
 
+        final FunctionState functionState = sm.createFunctionState();
+        functionState.setSerializeFunction(true);       // 1st with serialization
+
+        final String functionTitle = sm.getFunctionMeta().getTypedFunctionDisplayName();
+        final String dialogTitle = "Save Function State";
+
         final ChooserConfig config = ChooserConfig.saveFileSingle()
-                .setDialogTitle("Save Rotor States to file")
-                .setStartDir(R.DIR_ROTOR_STATE_DUMPS)
-                .setFileFilters(R.ROTOR_STATE_DUMP_FILE_FILTER)
+                .setDialogTitle(dialogTitle)
+                .setStartDir(R.DIR_FUNCTION_STATE_SAVES)
+                .setFileFilters(R.FUNCTION_STATE_SAVE_FILE_FILTER)
                 .setUseAcceptAllFIleFilter(false)
                 .setFileHidingEnabled(true)
                 .setApproveButtonText("Save")
-                .setApproveButtonTooltipText("Save Rotor States")
+                .setApproveButtonTooltipText(dialogTitle)
                 .build();
 
         final File[] files = showFileChooser(config);
         if (files == null || files.length == 0 || files[0] == null)
             return;
 
-        final Path outPath = FileUtil.ensureExtension(files[0].toPath(), R.ROTOR_STATE_DUMP_FILE_EXTENSION);
+        final Path outPath = FileUtil.getNonExistingFile(FileUtil.ensureExtension(files[0].toPath(), R.FUNCTION_STATE_SAVE_FILE_EXTENSION));
 
         // TODO: show snackbar saving
-        sm.dumpRotorStatesToFileAsync(outPath, (Path file) -> {
-            final String title = sm.getFunctionMeta().displayName();
-            if (file == null) {         // Failed
-                showErrorMessageDialog("FAILED to save rotor states. See log for error details\n\nFunction: " + title, null);
-            } else {
-                showInfoMessageDialog("Rotor States saved\n\nFunction:" + title + "\nFile: " + file, null);
+        final Canceller c = functionState.writeJsonAsync(outPath, new TaskConsumer<>() {
+
+            @Override
+            public void onFailed(@Nullable Throwable t) {
+                final boolean retry = functionState.hasSerialisedFunction();
+
+                final String errorMsg = t == null? "Unknown": t.getClass().getSimpleName() + " -> " + t.getMessage();
+                final String msg = String.format("Failed To save Function State.%s\n\nFunction: %s\nError: %s", retry? " Try saving without Function Definition?": "", functionTitle, errorMsg);
+
+                if (retry) {
+                    final int option = JOptionPane.showConfirmDialog(getFrame(), msg, dialogTitle, JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+                    if (option == JOptionPane.YES_OPTION) {
+                        functionState.setSerializeFunction(false);          // without function serialization
+                        functionState.writeJsonAsync(outPath, this);
+                    }
+                } else {
+                    showErrorMessageDialog(msg, dialogTitle);
+                }
+            }
+
+            private void onSuccess() {
+                final String msg = String.format("Function State saved\n\nFile: %s\nFunction: %s\nDefinition saved: %s", outPath, functionTitle, functionState.hasSerialisedFunction());
+                showInfoMessageDialog(msg, dialogTitle);
+            }
+
+            @Override
+            public void consume(Void data) {
+                onSuccess();
+            }
+
+            @Override
+            public void onCancelled(@Nullable Void dataProcessedYet) {
+                showInfoMessageDialog("Function State save CANCELLED", dialogTitle);
             }
         });
     }
 
-    public final void askLoadRotorStatesFromFile() {
-        R.ensureRotorStatesDumpDir();
+    public final void askLoadFunctionStateFromFile() {
+        R.ensureFunctionStateSaveDir();
+
+        final String dialogTitle = "Load Function State";
 
         final ChooserConfig config = ChooserConfig.openFileSingle()
-                .setDialogTitle("Load Rotor States from file")
-                .setStartDir(R.DIR_ROTOR_STATE_DUMPS)
-                .setFileFilters(R.ROTOR_STATE_DUMP_FILE_FILTER)
+                .setDialogTitle(dialogTitle)
+                .setStartDir(R.DIR_FUNCTION_STATE_SAVES)
+                .setFileFilters(R.FUNCTION_STATE_SAVE_FILE_FILTER)
                 .setUseAcceptAllFIleFilter(false)
                 .setFileHidingEnabled(false)
                 .setApproveButtonText("Load")
-                .setApproveButtonTooltipText("Load Rotor States")
+                .setApproveButtonTooltipText(dialogTitle)
                 .build();
 
         final File[] files = showFileChooser(config);
@@ -1278,36 +1313,84 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
             return;
         }
 
-        final File file = files[0];
+        final Path file = files[0].toPath();
 
-        // todo: show snackbar loading
-        RotorStateManager.loadFunctionFromRotorStatesFileAsync(file.toPath(), fp -> {
-            if (fp != null) {
-                functionProviders.ensureAddSelect(fp);
+        // todo: show snackbar
+        final Canceller c = FunctionState.loadFromJsonAsync(file, new TaskConsumer<>() {
+            @Override
+            public void onFailed(@Nullable Throwable t) {
+                final String errMsg = t == null? "Unknown": t.getClass().getSimpleName() + " -> " + t.getMessage();
+                final String msg = String.format("Failed to load Function State\n\nFile: %s\nError: %s", file, errMsg);
+                showErrorMessageDialog(msg, dialogTitle);
+            }
 
-                final String displayName = fp.getFunctionMeta().displayName();
-                final FunctionType type = fp.getFunctionMeta().functionType();
-                final ComplexDomainFunctionI func = fp.getFunction();
-                final boolean hasDefinition = (type != FunctionType.EXTERNAL_ROTOR_STATE) || (func instanceof RotorStatesFunction && ((RotorStatesFunction) func).hasBaseFunction());
+            private void done(@NotNull FunctionProviderI provider) {
+                functionProviders.ensureAddSelect(provider);
 
-                final String msg = String.format("Rotor States Function loaded\nFile: %s\nFunction: %s (%s)\nHas Definition: %s", file.getPath(), displayName, type, hasDefinition);
+                final String msg = String.format("Function State loaded\n\nFile: %s\nFunction: %s\nHas Definition: %s", file, provider.getFunctionMeta().getTypedFunctionDisplayName(), provider.getFunctionMeta().hasBaseDefinition());
                 showInfoMessageDialog(msg, null);
-            } else {
-                showErrorMessageDialog("Failed to load Rotor States. FIle might be corrupted or of invalid format\n\nFile: " + file.getPath(), null);
+            }
+
+            @NotNull
+            private FunctionProviderI toProvider(@NotNull FunctionState state) {
+                return state.toProvider(file.getFileName().toString(), true);
+            }
+
+            @Override
+            public void consume(FunctionState state) {
+                if (state == null) {
+                    onFailed(null);
+                } else {
+                    done(toProvider(state));
+                }
+            }
+
+            @Override
+            public void onCancelled(@Nullable FunctionState state) {
+                if (state == null) {
+                    showInfoMessageDialog("Function State load Cancelled\n\nFile: " + file, dialogTitle);
+                } else {
+                    final FunctionProviderI provider = toProvider(state);
+                    final String msg = String.format("Function State load CANCELLED, but it was already loaded\nDo you still want to add this function?\n\nFunction: %s\nFile: %s", provider.getFunctionMeta().getTypedFunctionDisplayName(), file);
+
+                    final int option = JOptionPane.showConfirmDialog(getFrame(), msg, dialogTitle, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                    if (option == JOptionPane.YES_OPTION) {
+                        done(provider);
+                    }
+                }
             }
         });
+
+//        // todo: show snackbar loading
+//        RotorStateManager.loadFunctionStateFileAsync(file.toPath(), fp -> {
+//            if (fp != null) {
+//                functionProviders.ensureAddSelect(fp);
+//
+//                final String displayName = fp.getFunctionMeta().displayName();
+//                final FunctionType type = fp.getFunctionMeta().functionType();
+//                final ComplexDomainFunctionI func = fp.getFunction();
+//                final boolean hasDefinition = (type != FunctionType.EXTERNAL_ROTOR_STATE) || (func instanceof RotorStatesFunction && ((RotorStatesFunction) func).hasBaseFunction());
+//
+//                final String msg = String.format("Rotor States Function loaded\nFile: %s\nFunction: %s (%s)\nHas Definition: %s", file.getPath(), displayName, type, hasDefinition);
+//                showInfoMessageDialog(msg, null);
+//            } else {
+//                showErrorMessageDialog("Failed to load Rotor States. FIle might be corrupted or of invalid format\n\nFile: " + file.getPath(), null);
+//            }
+//        });
     }
 
 
     public final void askLoadExternalPathFunctions() {
+        final String dialogTitle = "Load Path Functions";
+
         final ChooserConfig config = ChooserConfig.openFile(true)
-                .setDialogTitle("Load Path FUnctions")
+                .setDialogTitle(dialogTitle)
                 .setStartDir(R.DIR_EXTERNAL_PATH_FUNCTIONS)
                 .setUseAcceptAllFIleFilter(false)
                 .setFileFilters(R.PATH_DATA_FILE_FILTER)
                 .setFileHidingEnabled(false)
                 .setApproveButtonText("Load")
-                .setApproveButtonTooltipText("Load Path Functions")
+                .setApproveButtonTooltipText(dialogTitle)
                 .build();
 
         final File[] files = showFileChooser(config);
@@ -1321,7 +1404,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
             @Override
             public void consume(FunctionProviderI[] data) {
                 if (data == null || data.length == 0) {
-                    showErrorMessageDialog("FAILED to load path functions", null);
+                    showErrorMessageDialog("FAILED to load path functions", dialogTitle);
                     return;
                 }
 
@@ -1336,7 +1419,12 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
                     }
                 }
 
+
                 functionProviders.addAll(provides);
+                if (provides.size() == 1) {
+                    functionProviders.setSelectedItem(provides.get(0));
+                }
+
                 final int loadedCount = provides.size();
                 String msg = (loadedCount > 0? String.valueOf(loadedCount): "No") + " Path Function" + (loadedCount > 1? "s": "") + " loaded";
 
@@ -1345,12 +1433,12 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
                     msg += "\n\nFAILED to load\n" + err;
                 }
 
-                showMessageDialog(msg, null, hasErr? loadedCount > 0? JOptionPane.WARNING_MESSAGE: JOptionPane.ERROR_MESSAGE: JOptionPane.INFORMATION_MESSAGE);
+                showMessageDialog(msg, dialogTitle, hasErr? loadedCount > 0? JOptionPane.WARNING_MESSAGE: JOptionPane.ERROR_MESSAGE: JOptionPane.INFORMATION_MESSAGE);
             }
 
             @Override
             public void onCancelled(FunctionProviderI @Nullable [] dataProcessedYet) {
-
+                showErrorMessageDialog("Path Functions load CANCELLED", dialogTitle);
             }
         });
     }
@@ -1442,7 +1530,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
             }
 
             final ComplexDomainFunctionI function = (ComplexDomainFunctionI) clazz.getDeclaredConstructor().newInstance();
-            final String displayTitle = R.createExternalProgramFunctionDisplayTitle(FileUtil.getFullName(location.relSrcPath));
+            final String displayTitle = R.createExternalProgramFunctionDisplayName(FileUtil.getFullName(location.relSrcPath));
             final FunctionMeta meta = new FunctionMeta(FunctionType.EXTERNAL_PROGRAM, displayTitle);
 
             final FunctionProviderI provider = new SimpleFunctionProvider(meta, function);
@@ -1492,7 +1580,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
 
     public final void confirmRemoveAllFunctionProviders(@NotNull FunctionType type) {
-        final String msg = "THis will remove all " + type.displayName + " functions. Do you wish to continue?";
+        final String msg = "This will remove all " + type.displayName + " functions. Do you wish to continue?";
         final int option = JOptionPane.showConfirmDialog(this, msg, MAIN_TITLE, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
         if (option == JOptionPane.OK_OPTION) {
             final int removed = functionProviders.removeIf(FunctionProviderI.forType(type));
@@ -1501,6 +1589,18 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
             showInfoMessageDialog(removedMsg, null);
         }
     }
+
+    public final void confirmRemoveFunctionProvidersWithoutDefinition() {
+        final String msg = "This will remove all functions without internal definition. Do you wish to continue?";
+        final int option = JOptionPane.showConfirmDialog(this, msg, MAIN_TITLE, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (option == JOptionPane.OK_OPTION) {
+            final int removed = functionProviders.removeIf(fp -> !fp.getFunctionMeta().hasBaseDefinition());
+
+            final String removedMsg = (removed > 0? String.valueOf(removed): "No") + " function" + (removed > 1? "s":"") + " removed";
+            showInfoMessageDialog(removedMsg, null);
+        }
+    }
+
 
     public final void configureFrequencyProvider() {
         final RotorStateManager manager = fsPanel.getRotorStateManager();
@@ -1517,11 +1617,12 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
     }
 
     public void cancelRunningTasks() {
-        if (fsPanel.isPlaying()) {
-            fsPanel.stop();
+        if (fsPanel.getRotorStateManager().isLoading()) {
+            fsPanel.getRotorStateManager().cancelLoad(true);
+            return;
         }
 
-        fsPanel.getRotorStateManager().cancelLoad(true);
+        fsPanel.stop();
     }
 
 
@@ -1637,9 +1738,9 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
                 case TOGGLE_FULLSCREEN -> toggleFullscreen();
                 case TOGGLE_CONTROLS -> toggleControlsVisibility();
                 case TOGGLE_MENUBAR -> toggleMenuBarVisible();
-                case DUMP_ROTOR_STATES_TO_FILE -> dumpRotorStatesToFile();
-                case LOAD_ROTOR_STATES_FROM_FILE -> askLoadRotorStatesFromFile();
-                case CLEAR_EXTERNAL_ROTOR_STATE_FUNCTIONS -> confirmRemoveAllFunctionProviders(FunctionType.EXTERNAL_ROTOR_STATE);
+                case SAVE_FUNCTION_STATE_TO_FILE -> askSaveFunctionStateToFIle();
+                case LOAD_FUNCTION_STATE_FROM_FILE -> askLoadFunctionStateFromFile();
+                case CLEAR_FUNCTIONS_WITHOUT_DEFINITION -> confirmRemoveFunctionProvidersWithoutDefinition();
                 case LOAD_EXTERNAL_PATH_FUNCTIONS -> askLoadExternalPathFunctions();
                 case LOAD_EXTERNAL_PATH_FUNCTIONS_FROM_DIR -> askLoadExternalPathFunctionsFromDir();
                 case CLEAR_INTERNAL_PATH_FUNCTIONS -> confirmRemoveAllFunctionProviders(FunctionType.INTERNAL_PATH);
