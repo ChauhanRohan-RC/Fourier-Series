@@ -18,7 +18,7 @@ public class Main {
 ////        if (preload) {
 ////            stateManager.loadSync(stateManager.getDefaultInitialRotorCount(), null);
 ////        }
-//
+
 //        Async.postIfNotOnMainThread(() -> {
 //            final FourierUi ui = new FourierUi(null, initialFuncProviderIndex);
 //        });

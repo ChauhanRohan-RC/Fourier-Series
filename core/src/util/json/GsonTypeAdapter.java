@@ -1,5 +1,6 @@
 package util.json;
 
+import com.google.gson.reflect.TypeToken;
 import org.jetbrains.annotations.NotNull;
 
 import com.google.gson.*;
@@ -20,10 +21,12 @@ public class GsonTypeAdapter<T> implements JsonSerializer<T>, JsonDeserializer<T
      * */
     @Override
     public JsonElement serialize(@NotNull T o, Type type, @NotNull JsonSerializationContext jsonSerializationContext) {
-        final JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty(CLASS_NAME_KEY, o.getClass().getName());
-        jsonObject.add(DATA_KEY, jsonSerializationContext.serialize(o));
-        return jsonObject;
+        final Class<?> clazz = o.getClass();
+
+        final JsonObject obj = new JsonObject();
+        obj.addProperty(CLASS_NAME_KEY, clazz.getName());
+        obj.add(DATA_KEY, jsonSerializationContext.serialize(o, clazz));
+        return obj;
     }
 
 
@@ -34,8 +37,12 @@ public class GsonTypeAdapter<T> implements JsonSerializer<T>, JsonDeserializer<T
      *  */
     @Override
     public T deserialize(@NotNull JsonElement jsonElement, Type type, @NotNull JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-        final JsonObject jsonObject = jsonElement.getAsJsonObject();
-        return jsonDeserializationContext.deserialize(jsonObject.get(DATA_KEY), getClass(jsonObject.getAsJsonPrimitive(CLASS_NAME_KEY).getAsString()));
+        final JsonObject obj = jsonElement.getAsJsonObject();
+
+        final Class<?> clazz = getClass(obj.getAsJsonPrimitive(CLASS_NAME_KEY).getAsString());
+        final JsonElement data = obj.get(DATA_KEY);
+
+        return jsonDeserializationContext.deserialize(data, clazz);
     }
 
     /**

@@ -1,5 +1,6 @@
 package util;
 
+import com.google.gson.*;
 import function.definition.ComplexFunctionI;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
@@ -8,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.filechooser.FileFilter;
 import javax.tools.*;
 import java.io.*;
+import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -74,7 +76,7 @@ public class ExternalJava {
         @NotNull
         public static Location fromClassName(@NotNull Path classpath, @NotNull String className, @NotNull JavaFileObject.Kind kInd) {
             final Location loc = new Location(classpath, toPath(className, kInd));
-            loc.mClassName = className;
+            loc.className = className;
             return loc;
         }
 
@@ -86,39 +88,61 @@ public class ExternalJava {
         @NotNull
         public final Path classpath;
         @NotNull
-        public final String relSrcPath;
+        public final String relativeSourcePath;
 
         @Nullable
-        private Path mSrcPath;
+        private Path sourcePath;
         @Nullable
-        private String mClassName;
+        private String className;
 
-        public Location(@NotNull Path classpath, @NotNull String relSrcPath, @Nullable Path srcPath) {
+        public Location(@NotNull Path classpath, @NotNull String relativeSourcePath, @Nullable Path sourcePath) {
             this.classpath = classpath;
-            this.relSrcPath = relSrcPath;
-            mSrcPath = srcPath;
+            this.relativeSourcePath = relativeSourcePath;
+            this.sourcePath = sourcePath;
         }
 
-        public Location(@NotNull Path classpath, @NotNull String relSrcPath) {
-            this(classpath, relSrcPath, null);
+        public Location(@NotNull Path classpath, @NotNull String relativeSourcePath) {
+            this(classpath, relativeSourcePath, null);
         }
 
         @NotNull
-        public Path getSrcPath() {
-            if (mSrcPath == null) {
-                mSrcPath = classpath.resolve(relSrcPath);
+        public Path getSourcePath() {
+            if (sourcePath == null) {
+                sourcePath = classpath.resolve(relativeSourcePath);
             }
 
-            return mSrcPath;
+            return sourcePath;
         }
 
         @NotNull
         public String getClassName() {
-            if (mClassName == null) {
-                mClassName = toClassName(relSrcPath);
+            if (className == null) {
+                className = toClassName(relativeSourcePath);
             }
 
-            return mClassName;
+            return className;
+        }
+
+
+        public static class GsonAdapter implements JsonSerializer<Location>, JsonDeserializer<Location> {
+
+            private static final String KEY_CLASSPATH = "classpath";
+            private static final String KEY_REL_SRC_PATH = "relativeSourcePath";
+
+            @Override
+            public JsonElement serialize(Location src, Type typeOfSrc, JsonSerializationContext context) {
+                final JsonObject o = new JsonObject();
+                o.addProperty(KEY_CLASSPATH, src.classpath.toString());
+                o.addProperty(KEY_REL_SRC_PATH, src.relativeSourcePath);
+                return o;
+            }
+
+            @Override
+            public Location deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                final JsonObject o = json.getAsJsonObject();
+                return new Location(Path.of(o.getAsJsonPrimitive(KEY_CLASSPATH).getAsString()), o.getAsJsonPrimitive(KEY_REL_SRC_PATH).getAsString());
+            }
+
         }
     }
 
@@ -132,7 +156,7 @@ public class ExternalJava {
         private Charset mCharSet;
 
         public JavaObject(@NotNull Location location, @NotNull Kind kind) {
-            super(location.getSrcPath().toUri(), kind);
+            super(location.getSourcePath().toUri(), kind);
             this.location = location;
         }
 
@@ -163,12 +187,12 @@ public class ExternalJava {
 
         @Override
         public InputStream openInputStream() throws IOException {
-            return Files.newInputStream(location.getSrcPath());
+            return Files.newInputStream(location.getSourcePath());
         }
 
         @Override
         public CharSequence getCharContent(boolean ignoreEncodingErrors) throws IOException {
-            return Files.readString(location.getSrcPath(), getCharSetOrDefault());
+            return Files.readString(location.getSourcePath(), getCharSetOrDefault());
         }
 
         @Override
@@ -178,7 +202,7 @@ public class ExternalJava {
 
         @Override
         public OutputStream openOutputStream() throws IOException {
-            return Files.newOutputStream(location.getSrcPath());
+            return Files.newOutputStream(location.getSourcePath());
         }
 
         @Override
@@ -252,7 +276,6 @@ public class ExternalJava {
             throw new CompilationException(t);
         }
     }
-
 
     @NotNull
     public static Class<?> compileAndLoadClass(@NotNull JavaObject source, boolean loadExternalJars) throws CompilationException {

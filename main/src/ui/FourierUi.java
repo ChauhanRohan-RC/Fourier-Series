@@ -25,7 +25,6 @@ import javax.swing.*;
 import javax.swing.Timer;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
-import javax.tools.JavaFileObject;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
@@ -1260,6 +1259,8 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
             @Override
             public void onFailed(@Nullable Throwable t) {
+                Log.e(TAG, "failed to save function state", t);
+
                 final boolean retry = functionState.hasSerialisedFunction();
 
                 final String errorMsg = t == null? "Unknown": t.getClass().getSimpleName() + " -> " + t.getMessage();
@@ -1315,10 +1316,12 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
         final Path file = files[0].toPath();
 
-        // todo: show snackbar
+        // todo: show snack-bar
         final Canceller c = FunctionState.loadFromJsonAsync(file, new TaskConsumer<>() {
             @Override
             public void onFailed(@Nullable Throwable t) {
+                Log.e(TAG, "failed to load function state", t);
+
                 final String errMsg = t == null? "Unknown": t.getClass().getSimpleName() + " -> " + t.getMessage();
                 final String msg = String.format("Failed to load Function State\n\nFile: %s\nError: %s", file, errMsg);
                 showErrorMessageDialog(msg, dialogTitle);
@@ -1524,13 +1527,9 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         Throwable err = null;
 
         try {
-            final Class<?> clazz = ExternalJava.compileAndLoadClass(new ExternalJava.JavaObject(location, JavaFileObject.Kind.SOURCE), true);
-            if (!ComplexDomainFunctionI.class.isAssignableFrom(clazz)) {
-                throw new ClassCastException("Function is not an instance of " + ComplexDomainFunctionI.class.getSimpleName());
-            }
+            final ComplexDomainFunctionI function = R.compileAndLoadExternalProgramFunction(location);
 
-            final ComplexDomainFunctionI function = (ComplexDomainFunctionI) clazz.getDeclaredConstructor().newInstance();
-            final String displayTitle = R.createExternalProgramFunctionDisplayName(FileUtil.getFullName(location.relSrcPath));
+            final String displayTitle = R.createExternalProgramFunctionDisplayName(FileUtil.getFullName(location.relativeSourcePath));
             final FunctionMeta meta = new FunctionMeta(FunctionType.EXTERNAL_PROGRAM, displayTitle);
 
             final FunctionProviderI provider = new SimpleFunctionProvider(meta, function);

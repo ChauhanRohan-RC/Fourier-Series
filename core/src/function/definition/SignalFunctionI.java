@@ -22,8 +22,8 @@ public interface SignalFunctionI extends ComplexDomainFunctionI {
         return new Complex(getSignalIntensity(input), 0);
     }
 
-    @Override
-    default @Nullable RotorFrequencyProviderI getFunctionDefaultFrequencyProvider() {
-        return new FixedStartFrequencyProvider(0, 0.1);
-    }
+//    @Override
+//    default @Nullable RotorFrequencyProviderI getFunctionDefaultFrequencyProvider() {
+//        return new FixedStartFrequencyProvider(0, 0.1);
+//    }
 }

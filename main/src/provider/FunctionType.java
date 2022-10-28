@@ -10,7 +10,7 @@ public enum FunctionType {
 
     INTERNAL_PATH("Internal Path", true),
 
-    EXTERNAL_PROGRAM("External Program", false),
+    EXTERNAL_PROGRAM("External Program", true),
 
     EXTERNAL_PATH("External Path", true),
 

@@ -10,15 +10,20 @@ import org.jetbrains.annotations.NotNull;
 
 import org.jetbrains.annotations.Nullable;
 import rotor.frequency.RotorFrequencyProviderI;
+import ui.ExternalProgramPanel;
+import util.ExternalJava;
+import util.ExternalProgramFunction;
 import util.json.ColorGsonAdapter;
 import util.json.GsonTypeAdapter;
 import util.json.JsonParsable;
+import util.json.PathGsonAdapter;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 import java.lang.reflect.Type;
+import java.nio.file.Path;
 
 
 /** Json Parser that can Parse Serializable objects
@@ -73,13 +78,16 @@ public class Json implements JsonSerializationContext, JsonDeserializationContex
         final GsonBuilder gsonBuilder = new GsonBuilder()
                 .setPrettyPrinting()
                 .serializeNulls()
-                .setLenient()
-//                .registerTypeAdapter(Color.class, new ColorGsonAdapter())
-                ;
+                .setLenient();
 
         for (Type type: SERIALIZED_TYPES) {
             gsonBuilder.registerTypeAdapter(type, new GsonTypeAdapter<>());
         }
+
+        gsonBuilder.registerTypeAdapter(Path.class, new PathGsonAdapter())
+                .registerTypeAdapter(Color.class, new ColorGsonAdapter())
+                .registerTypeAdapter(ExternalJava.Location.class, new ExternalJava.Location.GsonAdapter())
+                .registerTypeAdapter(ExternalProgramFunction.class, new ExternalProgramFunction.GsonAdapter());
 
         gson = gsonBuilder.create();
     }

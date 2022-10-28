@@ -1,5 +1,6 @@
 package app;
 
+import function.definition.ComplexDomainFunctionI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
@@ -15,8 +16,10 @@ import util.async.Consumer;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
+import javax.tools.JavaFileObject;
 import java.awt.*;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileVisitResult;
@@ -245,6 +248,24 @@ public class R {
         return exe;
     }
 
+    @NotNull
+    public static ExternalProgramFunction compileAndLoadExternalProgramFunction(@NotNull ExternalJava.Location location) throws
+            ExternalJava.CompilationException,
+            NoSuchMethodException,
+            InvocationTargetException,
+            InstantiationException,
+            IllegalAccessException,
+            IllegalArgumentException,
+            ClassCastException {
+
+        final Class<?> clazz = ExternalJava.compileAndLoadClass(new ExternalJava.JavaObject(location, JavaFileObject.Kind.SOURCE), true);
+        if (!ComplexDomainFunctionI.class.isAssignableFrom(clazz)) {
+            throw new ClassCastException("Function is not an instance of " + ComplexDomainFunctionI.class.getSimpleName());
+        }
+
+        final ComplexDomainFunctionI func = (ComplexDomainFunctionI) clazz.getDeclaredConstructor().newInstance();
+        return new ExternalProgramFunction(func, location);
+    }
 
 
     public static class LoadResult extends DirStat {
