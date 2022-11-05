@@ -4,6 +4,7 @@ import animation.animator.AbstractAnimator;
 import app.R;
 import function.definition.ComplexDomainFunctionI;
 import models.Size;
+import models.Wrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import provider.*;
@@ -13,6 +14,8 @@ import rotor.StandardRotorStateManager;
 import rotor.frequency.RotorFrequencyProviderI;
 import ui.action.ActionInfo;
 import ui.action.UiAction;
+import ui.util.ChooserConfig;
+import ui.util.Ui;
 import util.ExternalJava;
 import util.FileUtil;
 import util.Format;
@@ -44,7 +47,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
     public static final boolean DEFAULT_MENUVAR_VISIBLE = true;
     public static final boolean AUTO_PLAY_ON_ROTOR_STATE_MANAGER_CHANGE = true;
 
-    private static final Dimension MINIMUM_SIZE = new Dimension(400, 400);
+    public static final Dimension MINIMUM_SIZE = new Dimension(400, 400);
 
     public static final int INITIAL_WIDTH = SCREEN_SIZE.width - 200;
     public static final int INITIAL_HEIGHT = SCREEN_SIZE.height - 200;
@@ -1241,7 +1244,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         final ChooserConfig config = ChooserConfig.saveFileSingle()
                 .setDialogTitle(dialogTitle)
                 .setStartDir(R.DIR_FUNCTION_STATE_SAVES)
-                .setFileFilters(R.FUNCTION_STATE_SAVE_FILE_FILTER)
+                .setChoosableFileFilters(R.FUNCTION_STATE_SAVE_FILE_FILTER)
                 .setUseAcceptAllFIleFilter(false)
                 .setFileHidingEnabled(true)
                 .setApproveButtonText("Save")
@@ -1302,7 +1305,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         final ChooserConfig config = ChooserConfig.openFileSingle()
                 .setDialogTitle(dialogTitle)
                 .setStartDir(R.DIR_FUNCTION_STATE_SAVES)
-                .setFileFilters(R.FUNCTION_STATE_SAVE_FILE_FILTER)
+                .setChoosableFileFilters(R.FUNCTION_STATE_SAVE_FILE_FILTER)
                 .setUseAcceptAllFIleFilter(false)
                 .setFileHidingEnabled(false)
                 .setApproveButtonText("Load")
@@ -1316,15 +1319,30 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
         final Path file = files[0].toPath();
 
-        // todo: show snack-bar
-        final Canceller c = FunctionState.loadFromJsonAsync(file, new TaskConsumer<>() {
-            @Override
-            public void onFailed(@Nullable Throwable t) {
-                Log.e(TAG, "failed to load function state", t);
+        final Wrapper.Bool withFunctionDefinition = new Wrapper.Bool(true);
 
-                final String errMsg = t == null? "Unknown": t.getClass().getSimpleName() + " -> " + t.getMessage();
-                final String msg = String.format("Failed to load Function State\n\nFile: %s\nError: %s", file, errMsg);
-                showErrorMessageDialog(msg, dialogTitle);
+        // todo: show snack-bar
+        final Canceller c = FunctionState.loadFromJsonAsync(file, true, new TaskConsumer<>() {
+
+            @Override
+            public void onFailed(@Nullable Throwable e) {
+                Log.e(TAG, "failed to load function state, withFunctionState: " + withFunctionDefinition.get(), e);
+
+                final boolean retry = withFunctionDefinition.get();
+                withFunctionDefinition.set(false);
+
+                final String errMsg = e == null? "Unknown": e.getClass().getSimpleName() + " -> " + e.getMessage();
+                final String msg = String.format("Failed to load Function State%s\n\nFile: %s\nError: %s", retry? ". Try loading without Function Definition?": "", file, errMsg);
+
+                if (retry) {
+                    final int option = JOptionPane.showConfirmDialog(getFrame(), msg, dialogTitle, JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+                    if (option == JOptionPane.YES_OPTION) {
+                        // todo snackbar
+                        final Canceller c2 = FunctionState.loadFromJsonAsync(file, false, this);
+                    }
+                } else {
+                    showErrorMessageDialog(msg, dialogTitle);
+                }
             }
 
             private void done(@NotNull FunctionProviderI provider) {
@@ -1364,7 +1382,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
             }
         });
 
-//        // todo: show snackbar loading
+
 //        RotorStateManager.loadFunctionStateFileAsync(file.toPath(), fp -> {
 //            if (fp != null) {
 //                functionProviders.ensureAddSelect(fp);
@@ -1390,7 +1408,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
                 .setDialogTitle(dialogTitle)
                 .setStartDir(R.DIR_EXTERNAL_PATH_FUNCTIONS)
                 .setUseAcceptAllFIleFilter(false)
-                .setFileFilters(R.PATH_DATA_FILE_FILTER)
+                .setChoosableFileFilters(R.PATH_DATA_FILE_FILTER)
                 .setFileHidingEnabled(false)
                 .setApproveButtonText("Load")
                 .setApproveButtonTooltipText(dialogTitle)

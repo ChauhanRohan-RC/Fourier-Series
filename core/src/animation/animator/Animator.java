@@ -1,7 +1,8 @@
 package animation.animator;
 
 import org.jetbrains.annotations.NotNull;
-import util.Listeners;
+import util.async.Consumer;
+import util.live.Listeners;
 
 public abstract class Animator<T> extends AbstractAnimator<T> {
 
@@ -15,8 +16,9 @@ public abstract class Animator<T> extends AbstractAnimator<T> {
 
         void onEnd(@NotNull Animator<T> animator, @NotNull EndMode endMode);
 
-        void onReset(@NotNull Animator<T> animator);
+        void onReset(@NotNull Animator<T> animator, boolean wasRunning);
 
+        // called on current thread, possibly background
         void onAnimationUpdate(@NotNull Animator<T> animator);
 
         void onDurationChanged(@NotNull Animator<T> animator);
@@ -41,8 +43,11 @@ public abstract class Animator<T> extends AbstractAnimator<T> {
 
         default void onEnd(@NotNull Animator<T> animator, @NotNull EndMode endMode) { }
 
-        default void onReset(@NotNull Animator<T> animator) { }
+        @Override
+        default void onReset(@NotNull Animator<T> animator, boolean wasRunning) {
+        }
 
+        // called on current thread, possibly background
         default void onAnimationUpdate(@NotNull Animator<T> animator) { }
 
         @Override
@@ -60,6 +65,23 @@ public abstract class Animator<T> extends AbstractAnimator<T> {
         @Override
         default void onDefaultInterpolatorChanged(@NotNull Animator<T> animator) { }
 
+    }
+
+    @FunctionalInterface
+    public interface AnimationUpdateListener<T> extends AnimationListenerAdapter<T> {
+
+        void onAnimationUpdate(@NotNull Animator<T> animator);
+
+        default void onStarted(@NotNull Animator<T> animator, boolean resumed) { }
+
+        default void onRepeat(@NotNull Animator<T> animator) { }
+
+        default void onPaused(@NotNull Animator<T> animator) { }
+
+        default void onEnd(@NotNull Animator<T> animator, @NotNull EndMode endMode) { }
+
+        @Override
+        default void onReset(@NotNull Animator<T> animator, boolean wasRunning) { }
     }
 
 
@@ -115,15 +137,18 @@ public abstract class Animator<T> extends AbstractAnimator<T> {
     }
 
     @Override
-    protected void onReset() {
-        super.onReset();
-        mAnimListeners.dispatchOnMainThread(l -> l.onReset(Animator.this));
+    protected void onReset(boolean wasRunning) {
+        super.onReset(wasRunning);
+        mAnimListeners.dispatchOnMainThread(l -> l.onReset(Animator.this, wasRunning));
     }
 
     @Override
     protected void onValueUpdate() {
         super.onValueUpdate();
-        mAnimListeners.dispatchOnMainThread(l -> l.onAnimationUpdate(Animator.this));
+        final Consumer<AnimationListener<T>> action = l -> l.onAnimationUpdate(Animator.this);
+
+//        mAnimListeners.dispatchOnMainThread(l -> l.onAnimationUpdate(Animator.this));
+        mAnimListeners.forEachListener(action);    // called on current thread, possibly background
     }
 
     @Override

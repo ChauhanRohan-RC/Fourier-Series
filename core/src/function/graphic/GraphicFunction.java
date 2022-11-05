@@ -1,8 +1,10 @@
 package function.graphic;
 
 import function.definition.ComplexDomainFunctionI;
+import models.graph.FunctionGraphMode;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.geom.Rectangle2D;
 
@@ -32,6 +34,12 @@ public abstract class GraphicFunction implements ComplexDomainFunctionI {
         }
 
         return o.multiply(zoom);
+    }
+
+
+    @Override
+    public @Nullable FunctionGraphMode getDefaultGraphMode() {
+        return FunctionGraphMode.OUTPUT_SPACE;
     }
 
 }

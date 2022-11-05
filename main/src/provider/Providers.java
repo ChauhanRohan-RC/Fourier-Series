@@ -1,6 +1,5 @@
 package provider;
 
-import app.R;
 import function.definition.ComplexDomainFunctionI;
 import function.graphic.CharMerger;
 import function.internal.basic.CircleFunction;
@@ -85,7 +84,7 @@ public class Providers {
 
     /* Static */
 
-    public static final FunctionProviderI STEP_FUNCTION = new SimpleFunctionProvider(new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Step Function"), new StepFunction());
+    public static final FunctionProviderI STEP_FUNCTION = new SimpleFunctionProvider(new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Step Function"), new StepFunction(1));
 
     public static final FunctionProviderI RECT_FUNCTION = new SimpleFunctionProvider(new FunctionMeta(FunctionType.INTERNAL_PROGRAM,"Rect Function"), new RectFunction(20, 10));
 

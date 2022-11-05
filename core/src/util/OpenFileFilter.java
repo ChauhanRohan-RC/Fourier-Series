@@ -27,7 +27,18 @@ public class OpenFileFilter extends FileFilter {
         }
 
         this.extension = extension.toLowerCase();
+
+        if ((description == null || description.isEmpty()) && !this.extension.isEmpty()) {
+            description = "*" + this.extension;
+        } else if (!this.extension.isEmpty()) {
+            description += " (*" + this.extension + ")";
+        }
+
         this.description = description;
+    }
+
+    public OpenFileFilter(@NotNull String extension) {
+        this(extension, null);
     }
 
     @NotNull

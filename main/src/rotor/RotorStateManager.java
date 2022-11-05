@@ -1,32 +1,20 @@
 package rotor;
 
-import app.R;
-import com.google.gson.JsonParseException;
 import function.definition.ColorHandler;
 import function.definition.ColorProviderI;
 import function.definition.ComplexDomainFunctionI;
-import function.definition.DomainProviderI;
-import json.Json;
+import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import provider.FunctionMeta;
-import provider.FunctionProviderI;
 import provider.FunctionType;
 import rotor.frequency.RotorFrequencyProviderI;
-import util.Log;
-import util.async.Async;
 import util.async.CancellationProvider;
 import util.async.Consumer;
-import util.async.TaskConsumer;
-import util.main.ComplexUtil;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 
-public interface RotorStateManager extends RotorFrequencyProviderI, RotorStateProvider, DomainProviderI, ColorHandler {
+public interface RotorStateManager extends RotorFrequencyProviderI, RotorStateProvider, ColorHandler {
 
     String TAG = "RotorStateManager";
 //    String ROTOR_STATE_SAVE_FREQ_TO_COEFF_DELIMITER = ":";   // frequency to coefficient delimiter
@@ -72,8 +60,6 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
         void onRotorsCountChanged(@NotNull RotorStateManager manager, int prevCount, int newCount);
 
 
-
-
         default boolean onInterceptRotorFrequencyProvider(@NotNull RotorStateManager manager, @Nullable RotorFrequencyProviderI old, @Nullable RotorFrequencyProviderI _new) {
             return false;
         }
@@ -94,6 +80,9 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
 
     @NotNull
     FunctionMeta getFunctionMeta();
+
+    @NotNull
+    ComplexDomainFunctionI getFunction();
 
     default boolean isNoOp() {
         return getFunctionMeta().functionType() == FunctionType.NO_OP;
@@ -218,12 +207,12 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
 
     @NotNull
     default FunctionState createFunctionState(@Nullable String funcName) {
-        ComplexDomainFunctionI function = null;
-        if (this instanceof ComplexDomainFunctionI func) {
-            function = ComplexUtil.getBaseFunction(func);
-        }
+//        ComplexDomainFunctionI function = null;
+//        if (this instanceof ComplexDomainFunctionI func) {
+//            function = ComplexUtil.getBaseFunction(func);
+//        }
 
-        return FunctionState.from(this, funcName, function);
+        return FunctionState.from(this, funcName);
     }
 
     @NotNull
@@ -478,9 +467,32 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
 
     class NoOp implements RotorStateManager {
 
+        private final ComplexDomainFunctionI function = new ComplexDomainFunctionI() {
+            @Override
+            public @NotNull Complex compute(double input) {
+                return Complex.ZERO;
+            }
+
+            @Override
+            public double getDomainStart() {
+                return 0;
+            }
+
+            @Override
+            public double getDomainEnd() {
+                return 0;
+            }
+        };
+
         @Override
         public @NotNull FunctionMeta getFunctionMeta() {
             return FunctionMeta.NOOP;
+        }
+
+        @Override
+        @NotNull
+        public ComplexDomainFunctionI getFunction() {
+            return function;
         }
 
         @Override
@@ -543,30 +555,30 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
         public void reloadAsync() {
         }
 
-        @Override
-        public double getDomainStart() {
-            return 0;
-        }
-
-        @Override
-        public double getDomainEnd() {
-            return 0;
-        }
-
-        @Override
-        public long getDomainAnimationDurationMsDefault() {
-            return 0;
-        }
-
-        @Override
-        public long getDomainAnimationDurationMsMin() {
-            return 0;
-        }
-
-        @Override
-        public long getDomainAnimationDurationMsMax() {
-            return 0;
-        }
+//        @Override
+//        public double getDomainStart() {
+//            return 0;
+//        }
+//
+//        @Override
+//        public double getDomainEnd() {
+//            return 0;
+//        }
+//
+//        @Override
+//        public long getDomainAnimationDurationMsDefault() {
+//            return 0;
+//        }
+//
+//        @Override
+//        public long getDomainAnimationDurationMsMin() {
+//            return 0;
+//        }
+//
+//        @Override
+//        public long getDomainAnimationDurationMsMax() {
+//            return 0;
+//        }
 
         @Override
         public void addListener(@Nullable RotorStateManager.Listener l) { }

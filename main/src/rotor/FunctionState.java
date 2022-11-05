@@ -1,7 +1,9 @@
 package rotor;
 
 import app.R;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
@@ -53,15 +55,13 @@ public class FunctionState {
     }
 
     @NotNull
-    public static FunctionState from(@NotNull RotorStateManager manager,
-                                     @Nullable String funcName,
-                                     @Nullable ComplexDomainFunctionI function) {
-
+    public static FunctionState from(@NotNull RotorStateManager manager, @Nullable String funcName) {
         if (Format.isEmpty(funcName)) {
             funcName = manager.getFunctionMeta().displayName();
         }
 
         final FunctionType functionType = manager.getFunctionMeta().functionType();
+        final ComplexDomainFunctionI function = manager.getFunction();
 
         final SortedMap<Double, RotorCoefficient> states = new TreeMap<>(FREQUENCY_COMPARATOR);
         manager.forEachRotorState(state -> states.put(state.getFrequency(), new RotorCoefficient(state)));
@@ -71,7 +71,7 @@ public class FunctionState {
                 funcName,
                 functionType,
                 function,
-                manager,
+                function,
                 manager.getManagerDefaultRotorFrequencyProvider(),          // should use function default
                 manager.getManagerRotorFrequencyProvider(),
                 manager.getRotorCount(),
@@ -82,6 +82,7 @@ public class FunctionState {
 
     private static final Type TYPE_ROTOR_STATES_MAP = new TypeToken<Map<Double, RotorCoefficient>>(){ }.getType();
 
+    private static final String KEY_SERIALIZED_FUNCTION = "_function";
 
 //    public static final String KEY_SAVE_TIMESTAMP = "save_timestamp";
 //    public static final String KEY_FUNCTION_NAME = "function_name";
@@ -105,7 +106,7 @@ public class FunctionState {
     @Nullable
     private transient final ComplexDomainFunctionI function;
 
-    @SerializedName("_function")
+    @SerializedName(KEY_SERIALIZED_FUNCTION)
     @Nullable
     private ComplexDomainFunctionI serializedFunction;
 
@@ -270,6 +271,8 @@ public class FunctionState {
     }
 
 
+    /*...................................  JSON  ...........................................*/
+
     /* Save */
 
     @NotNull
@@ -307,30 +310,36 @@ public class FunctionState {
     /* Load */
 
     @NotNull
-    public static FunctionState loadFromJson(@NotNull Reader json) throws JsonParseException {
+    public static FunctionState loadFromJson(@NotNull Reader json, boolean withFunctionDefinition) throws JsonParseException {
+        if (!withFunctionDefinition) {
+            final JsonObject o = JsonParser.parseReader(json).getAsJsonObject();
+            o.remove(KEY_SERIALIZED_FUNCTION);
+            return Json.get().gson.fromJson(o, FunctionState.class);
+        }
+
         return Json.get().gson.fromJson(json, FunctionState.class);
     }
 
     @NotNull
-    public static FunctionState loadFromJson(@NotNull Path file, @NotNull Charset encoding) throws IOException, JsonParseException {
+    public static FunctionState loadFromJson(@NotNull Path file, @NotNull Charset encoding, boolean withFunctionDefinition) throws IOException, JsonParseException {
         try (final Reader reader = Files.newBufferedReader(file, encoding)) {
-            return loadFromJson(reader);
+            return loadFromJson(reader, withFunctionDefinition);
         }
     }
 
     @NotNull
-    public static FunctionState loadFromJson(@NotNull Path file) throws IOException, JsonParseException {
-        return loadFromJson(file, R.ENCODING);
+    public static FunctionState loadFromJson(@NotNull Path file, boolean withFunctionDefinition) throws IOException, JsonParseException {
+        return loadFromJson(file, R.ENCODING, withFunctionDefinition);
     }
 
     @NotNull
-    public static Canceller loadFromJsonAsync(@NotNull Path file, @NotNull Charset encoding, @NotNull TaskConsumer<FunctionState> consumer) {
-        return Async.execute(() -> loadFromJson(file, encoding), consumer);
+    public static Canceller loadFromJsonAsync(@NotNull Path file, @NotNull Charset encoding, boolean withFunctionDefinition, @NotNull TaskConsumer<FunctionState> consumer) {
+        return Async.execute(() -> loadFromJson(file, encoding, withFunctionDefinition), consumer);
     }
 
     @NotNull
-    public static Canceller loadFromJsonAsync(@NotNull Path file, @NotNull TaskConsumer<FunctionState> consumer) {
-        return loadFromJsonAsync(file, R.ENCODING, consumer);
+    public static Canceller loadFromJsonAsync(@NotNull Path file, boolean withFunctionDefinition, @NotNull TaskConsumer<FunctionState> consumer) {
+        return loadFromJsonAsync(file, R.ENCODING, withFunctionDefinition, consumer);
     }
 
 

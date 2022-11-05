@@ -19,6 +19,7 @@ import util.json.JsonParsable;
 import util.json.PathGsonAdapter;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
@@ -39,6 +40,7 @@ public class Json implements JsonSerializationContext, JsonDeserializationContex
             Serializable.class,
             JsonParsable.class,
             Point2D.class,
+            Line2D.class,
             Rectangle2D.class,
             ComplexDomainFunctionI.class,
             GraphicFunction.class,

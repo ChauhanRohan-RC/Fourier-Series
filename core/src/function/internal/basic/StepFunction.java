@@ -7,6 +7,21 @@ import rotor.frequency.RotorFrequencyProviderI;
 
 public class StepFunction implements SignalFunctionI {
 
+    private final double duration;
+    private final double resultAddant;
+    private final double resultMultiplier;
+
+    public StepFunction(double duration, double resultAddant, double resultMultiplier) {
+        this.duration = duration;
+        this.resultAddant = resultAddant;
+        this.resultMultiplier = resultMultiplier;
+    }
+
+    public StepFunction(double duration) {
+        this(duration, 0, 1);
+    }
+
+
     @Override
     public double getDomainStart() {
         return 0;
@@ -14,7 +29,7 @@ public class StepFunction implements SignalFunctionI {
 
     @Override
     public double getDomainEnd() {
-        return 1;
+        return duration;
     }
 
 //    @Override
@@ -22,14 +37,13 @@ public class StepFunction implements SignalFunctionI {
 //        return Color.getHSBColor((float) (input % 1), 1, 1);
 //    }
 
-
     @Override
     public double getSignalIntensity(double input) {
         if (input > 1) {
             input %= 1;
         }
 
-        return input > 0.5? 1: -1;
+        return ((input > 0.5? 1: -1) + resultAddant) * resultMultiplier;
     }
 
     @Override
@@ -40,17 +54,17 @@ public class StepFunction implements SignalFunctionI {
 
     @Override
     public long getDomainAnimationDurationMsDefault() {
-        return 2000;
+        return (long) (2000 * duration);
     }
 
     @Override
     public long getDomainAnimationDurationMsMin() {
-        return 500;
+        return (long) (500 * duration);
     }
 
     @Override
     public long getDomainAnimationDurationMsMax() {
-        return 10000;
+        return (long) (10000 * duration);
     }
 
 }

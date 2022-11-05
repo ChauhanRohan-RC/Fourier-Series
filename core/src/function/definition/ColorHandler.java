@@ -9,12 +9,11 @@ public interface ColorHandler {
 
     ColorHandler setColorProvider(@Nullable ColorProviderI colorProvider);
 
+    ColorHandler hueCycle(float hueStart, float hueEnd);
+
     default ColorHandler transparent() {
         return setColorProvider(ColorProviderI.TRANSPARENT);
     }
-
-    ColorHandler hueCycle(float hueStart, float hueEnd);
-
     default ColorHandler hueCycle() {
         return hueCycle(0, 1);
     }

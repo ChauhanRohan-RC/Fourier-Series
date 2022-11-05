@@ -3,6 +3,8 @@ package ui;
 import app.R;
 import function.definition.ComplexDomainFunctionI;
 import org.jetbrains.annotations.Nullable;
+import ui.util.ChooserConfig;
+import ui.util.Ui;
 import util.ExternalJava;
 import util.Format;
 import util.Log;
@@ -193,7 +195,7 @@ public class ExternalProgramPanel extends JPanel {
                 .setDialogTitle("Select Function Source")
                 .setStartDir(dir)
                 .setUseAcceptAllFIleFilter(false)
-                .setFileFilters(ExternalJava.FILE_FILTER_JAVA_SOURCE)
+                .setChoosableFileFilters(ExternalJava.FILE_FILTER_JAVA_SOURCE)
                 .setFileHidingEnabled(false)
                 .setApproveButtonTooltipText("Select")
                 .setApproveButtonTooltipText("Select function java source file")

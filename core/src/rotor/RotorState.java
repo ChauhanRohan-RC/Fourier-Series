@@ -1,5 +1,6 @@
 package rotor;
 
+import function.definition.ComplexDomainFunctionI;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -48,6 +49,10 @@ public class RotorState implements Comparable<RotorState> {
 
     public RotorState(double frequency, @NotNull Complex coefficient) {
         this(frequency, coefficient, ComplexUtil.getFourierSeriesRotorTipDirection());
+    }
+
+    public RotorState(double frequency, @NotNull ComplexDomainFunctionI function) {
+        this(frequency, ComplexUtil.fourierSeriesCoefficient(function, frequency));
     }
 
     public final double getFrequency() {

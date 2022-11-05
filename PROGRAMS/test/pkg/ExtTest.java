@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import rotor.frequency.RotorFrequencyProviderI;
 import util.main.ComplexUtil;
+import test.pkg2.ExtTestBase;
 
 public class ExtTest extends DiscreteSignal {
 

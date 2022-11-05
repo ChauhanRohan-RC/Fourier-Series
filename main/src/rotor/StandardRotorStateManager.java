@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import provider.FunctionMeta;
 import rotor.frequency.RotorFrequencyProviderI;
 import util.CollectionUtil;
-import util.Listeners;
+import util.live.Listeners;
 import util.Log;
 import util.async.*;
 import util.main.ComplexUtil;
@@ -44,7 +44,6 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
     @NotNull
     private final Listeners<Listener> mListeners = new Listeners<>();
     private boolean mInitPending = true;
-    private boolean mInvalidated;
 
     private static void checkRotorCount(int rotorCount) {
         if (rotorCount < 0)
@@ -97,6 +96,11 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
     @NotNull
     public final FunctionMeta getFunctionMeta() {
         return functionMeta;
+    }
+
+    @Override
+    public @NotNull ComplexDomainFunctionI getFunction() {
+        return getBaseFunction();
     }
 
     @Override
@@ -216,7 +220,7 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
         final RotorState state = new RotorState(frequency, ComplexUtil.fourierSeriesCoefficient(getBaseFunction(), frequency));
 
 //        if (Log.DEBUG) {
-//            Log.v("RotorState", "Freq: " + frequency + ", mag: " + state.getMagnitudeScale());
+//            Log.v("RotorState", "Freq: " + frequency + ", mag: " + state.getMagnitudeScale() + ", phase: " + state.getCoefficientArgument());
 //        }
 
         return state;
@@ -544,6 +548,6 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
 
     @Override
     public @NotNull FunctionState createFunctionState(@Nullable String funcName) {
-        return FunctionState.from(this, funcName, getBaseFunction());
+        return FunctionState.from(this, funcName);
     }
 }

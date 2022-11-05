@@ -22,7 +22,7 @@ public class ComplexUtil {
 
     /* Fourier Transform */
     public static final boolean FOURIER_TRANSFORM_CLOCKWISE = true;
-    public static final boolean FOURIER_TRANSFORM_USE_TWO_PI = false;
+    public static final boolean FOURIER_TRANSFORM_USE_TWO_PI = true;
     public static final int FOURIER_TRANSFORM_SIMPSON_13_N_DEFAULT = 100000;          // TODO: accuracy
 
     private ComplexUtil() {
@@ -92,6 +92,32 @@ public class ComplexUtil {
         return new Complex((_t * p0.getReal()) + (t * p1.getReal()), (_t * p0.getImaginary()) + (t * p1.getImaginary()));
     }
 
+    public static double @NotNull[] negate(double @NotNull[] data) {
+        for (int i=0; i < data.length; i++) {
+            data[i] = -data[i];
+        }
+
+        return data;
+    }
+
+    public static double @NotNull[] negateCopy(double @NotNull[] data) {
+        final double[] newData = new double[data.length];
+
+        for (int i=0; i < data.length; i++) {
+            newData[i] = -data[i];
+        }
+
+        return newData;
+    }
+
+    public static double @NotNull[] scale(double @NotNull[] data, double scale) {
+        for (int i=0; i < data.length; i++) {
+            data[i] = scale * data[i];
+        }
+
+        return data;
+    }
+
 
     @NotNull
     public static ComplexDomainFunctionI getBaseFunction(@NotNull ComplexDomainFunctionI function) {
@@ -101,6 +127,7 @@ public class ComplexUtil {
 
         return function;
     }
+
 
 
 
@@ -243,6 +270,23 @@ public class ComplexUtil {
 
     @NotNull
     public static ComplexFunctionI fourierTransformIntegrand(@NotNull ComplexFunctionI f, double frequency) {
+        return fourierTransformIntegrand(f, frequency, FOURIER_TRANSFORM_CLOCKWISE);
+    }
+
+
+    @NotNull
+    public static ComplexDomainFunctionI fourierTransformIntegrand(@NotNull ComplexDomainFunctionI f, double frequency, boolean clockwise) {
+        final ComplexFunctionI func = fourierTransformIntegrand((ComplexFunctionI) f, frequency, clockwise);
+        return new ComplexDomainFunctionWrapper(f) {
+            @Override
+            public @NotNull Complex compute(double input) {
+                return func.compute(input);
+            }
+        };
+    }
+
+    @NotNull
+    public static ComplexDomainFunctionI fourierTransformIntegrand(@NotNull ComplexDomainFunctionI f, double frequency) {
         return fourierTransformIntegrand(f, frequency, FOURIER_TRANSFORM_CLOCKWISE);
     }
 

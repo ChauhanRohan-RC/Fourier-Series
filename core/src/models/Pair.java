@@ -48,89 +48,140 @@ public  class Pair<F, S> implements Serializable {
         }
     }
 
+    public static class Str extends Uno<String> implements Serializable {
 
-    public static class Bool extends Uno<Boolean> implements Serializable {
-        public static final long serialVersionUID = 807766293612132L;
-
-        public Bool(@NotNull Pair<Boolean, Boolean> source) {
-            super(source);
-        }
-
-        public Bool(Boolean first, Boolean second) {
-            super(first, second);
-        }
-    }
-
-
-    public static class Byte extends Uno<java.lang.Byte> implements Serializable {
-        public static final long serialVersionUID = 807766293612132L;
-
-        public Byte(@NotNull Pair<java.lang.Byte, java.lang.Byte> source) {
-            super(source);
-        }
-
-        public Byte(java.lang.Byte first, java.lang.Byte second) {
-            super(first, second);
-        }
-    }
-
-    public static class Int extends Uno<Integer> implements Serializable {
-        public static final long serialVersionUID = 8077662936121321L;
-
-        public Int(@NotNull Pair<Integer, Integer> source) {
-            super(source);
-        }
-
-        public Int(Integer first, Integer second) {
-            super(first, second);
-        }
-    }
-
-    public static class Long extends Uno<java.lang.Long> implements Serializable {
-        public static final long serialVersionUID = 8077662936121322L;
-
-        public Long(@NotNull Pair<java.lang.Long, java.lang.Long> source) {
-            super(source);
-        }
-
-        public Long(java.lang.Long first, java.lang.Long second) {
-            super(first, second);
-        }
-    }
-
-    public static class Float extends Uno<java.lang.Float> implements Serializable {
-        public static final long serialVersionUID = 8077662936121323L;
-
-        public Float(@NotNull Pair<java.lang.Float, java.lang.Float> source) {
-            super(source);
-        }
-
-        public Float(java.lang.Float first, java.lang.Float second) {
-            super(first, second);
-        }
-    }
-
-    public static class Double extends Uno<java.lang.Double> implements Serializable {
-        public static final long serialVersionUID = 8077662936121324L;
-
-        public Double(@NotNull Pair<java.lang.Double, java.lang.Double> source) {
-            super(source);
-        }
-
-        public Double(java.lang.Double first, java.lang.Double second) {
-            super(first, second);
-        }
-    }
-
-    public static class String extends Uno<java.lang.String> implements Serializable {
         public static final long serialVersionUID = 8077662936121325L;
 
-        public String(@NotNull Pair<java.lang.String, java.lang.String> source) {
+        public Str(@NotNull Pair<String, String> source) {
             super(source);
         }
 
-        public String(java.lang.String first, java.lang.String second) {
+        public Str(String first, String second) {
             super(first, second);
         }
     }
+
+
+    public static class Bool implements Serializable {
+        
+        public static final long serialVersionUID = 807766293612132L;
+
+        public boolean first;
+        public boolean second;
+        
+        public Bool(@NotNull Bool src) {
+            this(src.first, src.second);
+        }
+
+        public Bool(boolean first, boolean second) {
+            this.first = first;
+            this.second = second;
+        }
+    }
+
+
+    public static class Byte implements Serializable {
+        
+        public static final long serialVersionUID = 807766293612132L;
+        
+        public byte first;
+        public byte second;
+
+        public Byte(@NotNull Byte src) {
+            this(src.first, src.second);
+        }
+
+        public Byte(byte first, byte second) {
+            this.first = first;
+            this.second = second;
+        }
+    }
+
+    public static class Int implements Serializable {
+        
+        public static final long serialVersionUID = 8077662936121321L;
+
+        public int first;
+        public int second;
+
+        public Int(@NotNull Int src) {
+            this(src.first, src.second);
+        }
+
+        public Int(int first, int second) {
+            this.first = first;
+            this.second = second;
+        }
+    }
+
+    public static class Char implements Serializable {
+
+        public static final long serialVersionUID = 8077665498665736234L;
+
+        public char first;
+        public char second;
+
+        public Char(@NotNull Char src) {
+            this(src.first, src.second);
+        }
+
+        public Char(char first, char second) {
+            this.first = first;
+            this.second = second;
+        }
+    }
+
+
+    public static class Long implements Serializable {
+        
+        public static final long serialVersionUID = 8077662936121322L;
+
+        public long first;
+        public long second;
+
+        public Long(@NotNull Long src) {
+            this(src.first, src.second);
+        }
+
+        public Long(long first, long second) {
+            this.first = first;
+            this.second = second;
+        }
+    }
+
+    public static class Float implements Serializable {
+        
+        public static final long serialVersionUID = 8077662936121323L;
+
+        public float first;
+        public float second;
+
+        public Float(@NotNull Float src) {
+            this(src.first, src.second);
+        }
+
+        public Float(float first, float second) {
+            this.first = first;
+            this.second = second;
+        }
+    }
+
+    public static class Double implements Serializable {
+        
+        public static final long serialVersionUID = 8077662936121324L;
+
+        public double first;
+        public double second;
+
+        public Double(@NotNull Double src) {
+            this(src.first, src.second);
+        }
+
+        public Double(double first, double second) {
+            this.first = first;
+            this.second = second;
+        }
+    }
+
+
 }

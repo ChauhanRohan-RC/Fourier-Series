@@ -1,0 +1,113 @@
+package org.knowm.xchart.internal.chartpart;
+
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import org.knowm.xchart.internal.Utils;
+import org.knowm.xchart.internal.chartpart.Axis.Direction;
+import org.knowm.xchart.internal.series.Series;
+import org.knowm.xchart.style.AxesChartStyler;
+
+/**
+ * This class encapsulates the logic to generate the axis tick mark and axis tick label data for
+ * rendering the axis ticks for String axes
+ *
+ * @author timmolter
+ */
+class AxisTickCalculator_Category extends AxisTickCalculator_ {
+
+  /**
+   * Constructor
+   *
+   * @param axisDirection
+   * @param workingSpace
+   * @param categories
+   * @param axisType
+   * @param styler
+   */
+  public AxisTickCalculator_Category(
+      Direction axisDirection,
+      double workingSpace,
+      List<?> categories,
+      Series.DataType axisType,
+      AxesChartStyler styler) {
+
+    super(axisDirection, workingSpace, Double.NaN, Double.NaN, styler);
+
+    calculate(categories, axisType);
+  }
+
+  private void calculate(List<?> categories, Series.DataType axisType) {
+
+    // tick space - a percentage of the working space available for ticks
+    double tickSpace = styler.getPlotContentSize() * workingSpace; // in plot space
+    // System.out.println("workingSpace: " + workingSpace);
+    // System.out.println("tickSpace: " + tickSpace);
+
+    // where the tick should begin in the working space in pixels
+    double margin = Utils.getTickStartOffset(workingSpace, tickSpace);
+    // System.out.println("Margin: " + margin);
+
+    // generate all tickLabels and tickLocations from the first to last position
+    double gridStep = (tickSpace / categories.size());
+    // System.out.println("GridStep: " + gridStep);
+    double firstPosition = gridStep / 2.0;
+
+    // Compute the spacing between categories when there are more than wanted
+
+    int xAxisMaxLabelCount = styler.getXAxisMaxLabelCount();
+
+    if (xAxisMaxLabelCount == 1) {
+      throw new IllegalArgumentException("Unsupported max label count equal to 1");
+    }
+
+    if (0 < xAxisMaxLabelCount && xAxisMaxLabelCount < categories.size()) {
+      List<Object> sparseCategories = new ArrayList<>();
+      double step = categories.size() / (double) (xAxisMaxLabelCount - 1);
+      for (double stepIdx = 0; Math.round(stepIdx) < categories.size(); stepIdx += step) {
+        int idx = (int) Math.round(stepIdx);
+        Object label = categories.get(idx);
+        sparseCategories.add(label);
+      }
+
+      Object lastLabel = categories.get(categories.size() - 1);
+      sparseCategories.add(lastLabel);
+      categories = sparseCategories;
+
+      gridStep = (tickSpace / (categories.size() - 1));
+      firstPosition = 0;
+    }
+
+    // set up String formatters that may be encountered
+    if (axisType == Series.DataType.String) {
+      axisFormat = new Formatter_String();
+    } else if (axisType == Series.DataType.Number) {
+      axisFormat = new Formatter_Number(styler, axisDirection, minValue, maxValue);
+    } else if (axisType == Series.DataType.Date) {
+      if (styler.getDatePattern() == null) {
+        throw new RuntimeException("You need to set the Date Formatting Pattern!!!");
+      }
+      SimpleDateFormat simpleDateformat =
+          new SimpleDateFormat(styler.getDatePattern(), styler.getLocale());
+      simpleDateformat.setTimeZone(styler.getTimezone());
+      axisFormat = simpleDateformat;
+    }
+
+    int counter = 0;
+
+    for (Object category : categories) {
+      if (axisType == Series.DataType.String) {
+        tickLabels.add(category.toString());
+      } else if (axisType == Series.DataType.Number) {
+        tickLabels.add(axisFormat.format(new BigDecimal(category.toString()).doubleValue()));
+      } else if (axisType == Series.DataType.Date) {
+        tickLabels.add(axisFormat.format((((Date) category).getTime())));
+      }
+
+      double tickLabelPosition = margin + firstPosition + gridStep * counter++;
+      tickLocations.add(tickLabelPosition);
+    }
+  }
+}

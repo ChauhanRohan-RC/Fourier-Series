@@ -37,66 +37,7 @@ public class ComplexDomainFunctionWrapper implements ComplexDomainFunctionI, Col
         return base.getFunctionDefaultFrequencyProvider();
     }
 
-
-
-    /* COlors */
-
-    public ComplexDomainFunctionWrapper setColorProviderOverride(@Nullable ColorProviderI colorProviderOverride) {
-        this.colorProviderOverride = colorProviderOverride;
-        return this;
-    }
-
-    @Nullable
-    public ColorProviderI getColorProviderOverride() {
-        return colorProviderOverride;
-    }
-
-
-    @Override
-    public ComplexDomainFunctionWrapper setColorProvider(@Nullable ColorProviderI colorProvider) {
-        if (base instanceof ColorHandler) {
-            ((ColorHandler) base).setColorProvider(colorProvider);
-        } else {
-            setColorProviderOverride(colorProvider);
-        }
-
-        return this;
-    }
-
-    @Override
-    public @Nullable ColorProviderI getColorProvider() {
-        return base instanceof ColorHandler? ((ColorHandler) base).getColorProvider(): getColorProviderOverride();
-    }
-
-    @Override
-    public ComplexDomainFunctionWrapper hueCycle(float hueStart, float hueEnd) {
-        if (base instanceof ColorHandler) {
-            ((ColorHandler) base).hueCycle(hueStart, hueEnd);
-        } else {
-            setColorProviderOverride(new HueCycle(base, hueStart, hueEnd));
-        }
-
-        return this;
-    }
-
-    @Override
-    public ColorHandler transparent() {
-        return ColorHandler.super.transparent();
-    }
-
-    @Override
-    public ColorHandler hueCycle() {
-        return ColorHandler.super.hueCycle();
-    }
-
-    @Override
-    @Nullable
-    public Color getColor(double input) {
-        return colorProviderOverride != null? colorProviderOverride.getColor(input): base.getColor(input);
-    }
-
-
-    /* DOmain */
+    /* Domain */
 
     @Override
     public double getDomainStart() {
@@ -142,4 +83,71 @@ public class ComplexDomainFunctionWrapper implements ComplexDomainFunctionI, Col
     public long domainAnimationSpeedFractionToDurationMs(float fraction) {
         return base.domainAnimationSpeedFractionToDurationMs(fraction);
     }
+
+
+    /* Colors */
+
+    public ComplexDomainFunctionWrapper setColorProviderOverride(@Nullable ColorProviderI colorProviderOverride) {
+        this.colorProviderOverride = colorProviderOverride;
+        return this;
+    }
+
+    @Nullable
+    public ColorProviderI getColorProviderOverride() {
+        return colorProviderOverride;
+    }
+
+
+    @Override
+    public ComplexDomainFunctionWrapper setColorProvider(@Nullable ColorProviderI colorProvider) {
+        if (base instanceof ColorHandler) {
+            ((ColorHandler) base).setColorProvider(colorProvider);
+        } else {
+            setColorProviderOverride(colorProvider);
+        }
+
+        return this;
+    }
+
+    @Override
+    public @Nullable ColorProviderI getColorProvider() {
+        if (colorProviderOverride != null) {
+            return colorProviderOverride;
+        }
+
+        if (base instanceof ColorHandler) {
+            return ((ColorHandler) base).getColorProvider();
+        }
+
+        return null;
+    }
+
+    @Override
+    public ComplexDomainFunctionWrapper hueCycle(float hueStart, float hueEnd) {
+        if (base instanceof ColorHandler) {
+            ((ColorHandler) base).hueCycle(hueStart, hueEnd);
+        } else {
+            setColorProviderOverride(new HueCycle(base, hueStart, hueEnd));
+        }
+
+        return this;
+    }
+
+    @Override
+    public ColorHandler transparent() {
+        return ColorHandler.super.transparent();
+    }
+
+    @Override
+    public ColorHandler hueCycle() {
+        return ColorHandler.super.hueCycle();
+    }
+
+    @Override
+    @Nullable
+    public Color getColor(double input) {
+        return colorProviderOverride != null? colorProviderOverride.getColor(input): base.getColor(input);
+    }
+
+
 }

@@ -3,6 +3,7 @@ package function.path;
 import function.definition.ColorHandler;
 import function.definition.ColorProviderI;
 import function.definition.ComplexDomainFunctionI;
+import models.graph.FunctionGraphMode;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -43,7 +44,10 @@ public abstract class PathFunction implements ComplexDomainFunctionI, ColorHandl
         return 6000;
     }
 
-
+    @Override
+    public @Nullable FunctionGraphMode getDefaultGraphMode() {
+        return FunctionGraphMode.OUTPUT_SPACE;
+    }
 
     @NotNull
     public abstract Point2D startPoint();

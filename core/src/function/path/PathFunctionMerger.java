@@ -163,6 +163,12 @@ public class PathFunctionMerger extends GraphicFunction implements ColorHandler 
         return animDurationMax;
     }
 
+//    @Override
+//    protected @NotNull Complex applyTransform(@NotNull Complex o) {
+//        final Complex c = super.applyTransform(o);
+//        return new Complex(c.getReal(), -c.getImaginary());     // Invert imaginary
+//    }
+
     @Override
     @NotNull
     public final Complex compute(double d) {

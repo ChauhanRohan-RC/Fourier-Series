@@ -76,6 +76,7 @@ public class R {
     public static final Path DIR_EXTERNAL_PROGRAMS = DIR_MAIN.resolve("PROGRAMS");
     public static final Path DIR_EXTERNAL_PATH_FUNCTIONS = DIR_MAIN.resolve("PATH_FUNCTIONS");
     public static final Path DIR_FUNCTION_STATE_SAVES = DIR_MAIN.resolve("FUNCTION STATES");
+    public static final Path DIR_EXPORTS = DIR_MAIN.resolve("EXPORTS");
 
     public static final Path DIR_RES = DIR_MAIN.resolve("res");
     public static final Path DIR_IMAGE = DIR_RES.resolve("image");
@@ -93,10 +94,15 @@ public class R {
         return FileUtil.ensureDir(DIR_EXTERNAL_PATH_FUNCTIONS);
     }
 
+    public static boolean ensureExportsDir() {
+        return FileUtil.ensureDir(DIR_EXPORTS);
+    }
+
     public static void ensureDirs() {
         ensureFunctionStateSaveDir();
         ensureExternalProgramsDir();
         ensureExternalPathFunctions();
+        ensureExportsDir();
     }
 
     /* App Resources */

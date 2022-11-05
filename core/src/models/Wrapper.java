@@ -91,4 +91,27 @@ public class Wrapper<T> {
         }
     }
 
+    public static class Bool {
+
+        private boolean val;
+
+        public Bool(boolean value) {
+            val = value;
+        }
+
+        public Bool() {}
+
+        public synchronized boolean getSync() { return val; }
+        public synchronized void setSync(boolean value) { val = value; }
+
+        public boolean get() { return val; }
+        public void set(boolean value) { val = value; }
+
+        public final boolean invert() {
+            final boolean new_val = !val;
+            val = new_val;
+            return new_val;
+        }
+    }
+
 }

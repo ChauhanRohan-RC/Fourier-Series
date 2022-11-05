@@ -3,7 +3,9 @@ package ui;
 import animation.animator.AbstractAnimator;
 import animation.animator.Animator;
 import animation.animator.DoubleAnimator;
+import app.Colors;
 import app.R;
+import function.definition.DomainProviderI;
 import models.ComplexSum;
 import models.Size;
 import models.Triangle;
@@ -14,7 +16,7 @@ import rotor.RotorState;
 import rotor.RotorStateManager;
 import rotor.frequency.RotorFrequencyProviderI;
 import util.Format;
-import util.Listeners;
+import util.live.Listeners;
 import util.Log;
 import util.async.Consumer;
 import util.main.ComplexUtil;
@@ -97,53 +99,6 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
     }
 
 
-    /* ........................................ Colors ................................*/
-
-    private static final Color BG = Color.BLACK;
-    private static final Color FG = Color.WHITE;
-
-    /* Ui colors main */
-    private static final Color COLOR_CIRCLE = new Color(222, 222, 222, 204);
-    private static final Color COLOR_TIP = new Color(255, 255, 255, 255);
-    private static final Color COLOR_RADIUS = new Color(255, 255, 255, 255);
-    private static final Color COLOR_TIP_TO_WAVE_JOINT = new Color(115, 250, 255, 217);
-    private static final Color COLOR_WAVE = new Color(255, 221, 58, 255);
-
-
-    /* Ui colors when graphing in center */
-    private static final Color CENTER_COLOR_CIRCLE = new Color(190, 190, 190, 122);
-    private static final Color CENTER_COLOR_TIP = new Color(246, 246, 246, 230);
-    private static final Color CENTER_COLOR_RADIUS = new Color(250, 250, 250, 230);
-    private static final Color CENTER_COLOR_TIP_TO_WAVE_JOINT = new Color(115, 250, 255, 204);
-    private static final Color CENTER_COLOR_WAVE = new Color(255, 218, 77, 255);
-
-
-    private static Color getCircleColor(boolean graphingInCenter) {
-        return graphingInCenter? CENTER_COLOR_CIRCLE: COLOR_CIRCLE;
-    }
-
-    private static Color getTipColor(boolean graphingInCenter) {
-        return graphingInCenter? CENTER_COLOR_TIP: COLOR_TIP;
-    }
-
-    private static Color getRadiusColor(boolean graphingInCenter) {
-        return graphingInCenter? CENTER_COLOR_RADIUS: COLOR_RADIUS;
-    }
-
-    private static Color getTipToWaveJointColor(boolean graphingInCenter) {
-        return graphingInCenter? CENTER_COLOR_TIP_TO_WAVE_JOINT: COLOR_TIP_TO_WAVE_JOINT;
-    }
-
-    private static Color getWaveColor(boolean graphingInCenter) {
-        return graphingInCenter? CENTER_COLOR_WAVE: COLOR_WAVE;
-    }
-
-
-
-
-
-
-
     public interface PanelListener {
 
         void onIsPlayingChanged(boolean playing);
@@ -177,40 +132,42 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
 
     private static class WavePoint {
 
+        public final double input;
         @NotNull
         public final Complex value;
 
         @Nullable
-        private Color mColor;
+        private Color color;
 
-        private WavePoint(@NotNull Complex value, @Nullable Color color) {
+        private WavePoint(double input, @NotNull Complex value, @Nullable Color color) {
+            this.input = input;
             this.value = value;
-            mColor = color;
+            this.color = color;
         }
 
-        private WavePoint(@NotNull Complex value) {
-            this(value, null);
+        private WavePoint(double input, @NotNull Complex value) {
+            this(input, value, null);
         }
 
         @Nullable
         public Color getColor() {
-            return mColor;
+            return color;
         }
 
         public Color getColorOrDefault(Color defValue) {
-            return mColor != null? mColor: defValue;
+            return color != null? color : defValue;
         }
 
         public void setColor(@Nullable Color color) {
-            mColor = color;
+            this.color = color;
         }
     }
 
 
     @NotNull
-    private static DoubleAnimator createDomainAnimator(@NotNull RotorStateManager stateManager) {
-        final DoubleAnimator anim = new DoubleAnimator(stateManager.getDomainStart(), stateManager.getDomainEnd());
-        anim.setDurationMs(stateManager.getDomainAnimationDurationMsDefault());
+    private static DoubleAnimator createDomainAnimator(@NotNull DomainProviderI domainProvider) {
+        final DoubleAnimator anim = new DoubleAnimator(domainProvider.getDomainStart(), domainProvider.getDomainEnd());
+        anim.setDurationMs(domainProvider.getDomainAnimationDurationMsDefault());
         anim.setRepeatMode(DEFAULT_REPEAT_MODE);
         return anim;
     }
@@ -297,8 +254,11 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
         }
 
         @Override
-        public void onReset(@NotNull Animator<Double> animator) {
-            Animator.AnimationListenerAdapter.super.onReset(animator);
+        public void onReset(@NotNull Animator<Double> animator, boolean wasRunning) {
+            Animator.AnimationListenerAdapter.super.onReset(animator, wasRunning);
+            if (wasRunning) {
+                onIsPlayingChanged(false);
+            }
         }
 
         @Override
@@ -345,10 +305,10 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
 
     public FourierSeriesPanel(@NotNull RotorStateManager stateManager) {
         mRotorStateManager = stateManager;
-        mDomainAnimator = createDomainAnimator(stateManager);
+        mDomainAnimator = createDomainAnimator(stateManager.getFunction());
         mDomainAnimator.addAnimationListener(mDomainAnimListener);
 
-        setBackground(BG);
+        setBackground(Colors.BG_DARK);
 
         addMouseWheelListener(mMouseHandler);
         addMouseMotionListener(mMouseHandler);
@@ -379,12 +339,12 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
     }
 
     protected void onDomainAnimationDurationChanged(long durationMs) {
-        final int percent = (int) (mRotorStateManager.durationMsToDomainAnimationSpeedFraction(durationMs) * 100);
+        final int percent = (int) (mRotorStateManager.getFunction().durationMsToDomainAnimationSpeedFraction(durationMs) * 100);
         forEachPanelListener(l -> l.onDomainAnimationSpeedChanged(percent));
     }
 
     public final void setDomainAnimationSpeedFraction(float fraction) {
-        final long duration = mRotorStateManager.domainAnimationSpeedFractionToDurationMs(fraction);
+        final long duration = mRotorStateManager.getFunction().domainAnimationSpeedFractionToDurationMs(fraction);
         mDomainAnimator.setDurationMs(duration);
     }
 
@@ -393,7 +353,7 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
     }
 
     public final float getDomainAnimationSpeedFraction() {
-        return mRotorStateManager.durationMsToDomainAnimationSpeedFraction(mDomainAnimator.getDurationMs());
+        return mRotorStateManager.getFunction().durationMsToDomainAnimationSpeedFraction(mDomainAnimator.getDurationMs());
     }
 
     public final int getDomainAnimationSpeedPercent() {
@@ -417,7 +377,7 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
         mRotorStateManager.ensureListener(mRotorStateListener);
         resetInput(false);
         invalidateWave();
-        mDomainAnimator.setDurationMs(mRotorStateManager.getDomainAnimationDurationMsDefault());
+        mDomainAnimator.setDurationMs(mRotorStateManager.getFunction().getDomainAnimationDurationMsDefault());
 
         mRotorStateManager.considerInitialize();
 
@@ -435,8 +395,8 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
         }
 
         mDomainAnimator.ensureAnimationListener(mDomainAnimListener)
-                .setActualStartValue(_new.getDomainStart())
-                .setActualEndValue(_new.getDomainEnd());
+                .setActualStartValue(_new.getFunction().getDomainStart())
+                .setActualEndValue(_new.getFunction().getDomainEnd());
 
         forEachPanelListener(l -> l.onRotorStateManagerChanged(old, _new));
         syncRotorStateManagerInternal(true);
@@ -814,16 +774,16 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
 
     @NotNull
     protected WavePoint createWavePoint(@NotNull Complex sum, double input, double baseRadius) {
-        return new WavePoint(sum.divide(baseRadius), mRotorStateManager.getColor(input));
+        return new WavePoint(input, sum.divide(baseRadius), mRotorStateManager.getFunction().getColor(input));
     }
 
     @NotNull
-    protected Point2D parseWavePoint(int index, @NotNull Complex o, double baseRadius) {
+    protected Point2D parseWavePoint(int index, @NotNull WavePoint wp, double baseRadius) {
         if (mDrawAsWave) {
-            return new Point2D.Double(index, transformY(o.getReal()) * baseRadius);
+            return new Point2D.Double(index, transformY(wp.value.getReal()) * baseRadius);
         }
 
-        return new Point2D.Double(transformX(o.getReal() * baseRadius), transformY(o.getImaginary() * baseRadius));
+        return new Point2D.Double(transformX(wp.value.getReal() * baseRadius), transformY(wp.value.getImaginary() * baseRadius));
     }
 
 
@@ -893,7 +853,7 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
         // 1. Status
         final String statusText = R.getStatusText(mRotorStateManager.isLoading(), mRotorStateManager.getPendingRotorCount());
         if (Format.notEmpty(statusText)) {
-            g.setColor(FG);
+            g.setColor(Colors.FG_DARK);
             g.setFont(g.getFont().deriveFont(18f));
             g.drawString(statusText, 8, height - 18);
         }
@@ -910,7 +870,7 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
 
         final WavePoint last;
         if (autoTrack && graphingInCenter && (last = wave.peekFirst()) != null) {
-            final Point2D p = parseWavePoint(0, last.value, baseRadius);
+            final Point2D p = parseWavePoint(0, last, baseRadius);
             tx -= p.getX(); ty -= p.getY();
         }
 
@@ -939,7 +899,7 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
                 final double radius = state.getMagnitude(baseRadius);
 
                 g.setStroke(STROKE_ROTOR_CIRCLE);
-                g.setColor(getCircleColor(graphingInCenter));
+                g.setColor(Colors.getCircleColor(graphingInCenter));
                 g.draw(new Ellipse2D.Double(centerX - radius, centerY - radius,radius * 2, radius * 2));
 
                 // Tip of this circle
@@ -952,13 +912,13 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
 
                 final AffineTransform prev = g.getTransform();
                 g.rotate(transform(tipPoint).getArgument() + (Math.PI / 2), tipX, tipY);
-                g.setColor(getTipColor(graphingInCenter));
+                g.setColor(Colors.getTipColor(graphingInCenter));
                 g.fill(new Triangle(tipX - (tipSize / 2), tipY, tipSize, tipSize));
                 g.setTransform(prev);       // restore
 
                 // Radius
                 g.setStroke(STROKE_ROTOR_RADIUS);
-                g.setColor(getRadiusColor(graphingInCenter));
+                g.setColor(Colors.getRadiusColor(graphingInCenter));
                 g.draw(new Line2D.Double(centerX, centerY, tipX, tipY));
 
                 prevX = sum.getReal();
@@ -970,7 +930,7 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
             final WavePoint finalTip = createWavePoint(rawTip, input, baseRadius);
             wave.addFirst(finalTip);
 
-            tipToWaveJoint = new Line2D.Double(new Point2D.Double(transformX(rawTip.getReal()) - waveOffsetX, transformY(rawTip.getImaginary())), parseWavePoint(0, finalTip.value, baseRadius));
+            tipToWaveJoint = new Line2D.Double(new Point2D.Double(transformX(rawTip.getReal()) - waveOffsetX, transformY(rawTip.getImaginary())), parseWavePoint(0, finalTip, baseRadius));
         }
 
         /* ..............................  Main Wave ............................. */
@@ -979,12 +939,12 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
         // Final Tip - Wave Joint
         if (tipToWaveJoint != null) {
             g.setStroke(STROKE_ROTOR_TO_WAVE_JOINT);
-            g.setColor(getTipToWaveJointColor(graphingInCenter));
+            g.setColor(Colors.getTipToWaveJointColor(graphingInCenter));
             g.draw(tipToWaveJoint);
         }
 
         final boolean joinPoints = mPointsJoiningEnabled;
-        final Color waveColor = getWaveColor(graphingInCenter);
+        final Color waveColor = Colors.getWaveColor(graphingInCenter);
         final ListIterator<WavePoint> itr = wave.listIterator();
         int i; WavePoint wp;
 
@@ -995,7 +955,7 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
             i = itr.nextIndex();
             wp = itr.next();
 
-            final Point2D point = parseWavePoint(i, wp.value, baseRadius);
+            final Point2D point = parseWavePoint(i, wp, baseRadius);
             g.setColor(wp.getColorOrDefault(waveColor));
             g.draw(new Line2D.Double(joinPoints && prevPoint != null? prevPoint: point, point));
             prevPoint = point;
@@ -1005,6 +965,8 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
         if (wave.size() > MAX_WAVE_POINTS) {
             wave.removeLast();
         }
+
+        g.dispose();
     }
 
 

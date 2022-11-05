@@ -1,10 +1,9 @@
 package function.definition;
 
+import models.graph.FunctionGraphMode;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import rotor.frequency.FixedStartFrequencyProvider;
-import rotor.frequency.RotorFrequencyProviderI;
 
 /**
  * A Real output function. This is useful to define real world functions, like signals.
@@ -26,4 +25,10 @@ public interface SignalFunctionI extends ComplexDomainFunctionI {
 //    default @Nullable RotorFrequencyProviderI getFunctionDefaultFrequencyProvider() {
 //        return new FixedStartFrequencyProvider(0, 0.1);
 //    }
+
+
+    @Override
+    default @Nullable FunctionGraphMode getDefaultGraphMode() {
+        return FunctionGraphMode.INPUT_VS_OUT_REAL;
+    }
 }

@@ -12,5 +12,6 @@
     <orderEntry type="library" name="batik-all-1.14" level="project" />
     <orderEntry type="library" name="commons-math3-3.6.1" level="project" />
     <orderEntry type="library" name="gson-2.10" level="project" />
+    <orderEntry type="library" name="xchart-3.8.2" level="project" />
   </component>
 </module>

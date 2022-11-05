@@ -3,6 +3,7 @@ package ui;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import rotor.frequency.*;
+import ui.util.Ui;
 import util.Format;
 import util.Log;
 import util.async.Function;

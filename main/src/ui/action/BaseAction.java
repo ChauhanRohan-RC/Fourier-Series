@@ -6,6 +6,18 @@ import javax.swing.*;
 
 public abstract class BaseAction extends AbstractAction {
 
+    public BaseAction() {
+        super();
+    }
+
+    public BaseAction(String name) {
+        super(name);
+    }
+
+    public BaseAction(String name, Icon icon) {
+        super(name, icon);
+    }
+
     public BaseAction setName(@Nullable String name) {
         putValue(NAME, name);
         return this;

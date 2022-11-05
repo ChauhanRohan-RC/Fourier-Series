@@ -274,14 +274,22 @@ public abstract class AbstractAnimator<T> implements Runnable {
         mStartMills = System.currentTimeMillis();
     }
 
-    public final void reset() {
+    /**
+     * Resets this animator to initial state
+     * This means that animator will be stopped, and brought back to state when it was first instantiated
+     *
+     * @return whether animator was running when reset is called
+     * */
+    public final boolean reset() {
+        final boolean wasRunning = isRunning();
         mAnimating = false;
         mEnded = false;
         mCurRepetitionCount = 0;        // set before getting start value, to full reset to start state
         mCurVal = getStartValue();
         mStartMills = null;
         mPausedMs = null;
-        onReset();
+        onReset(wasRunning);
+        return wasRunning;
     }
 
     public final void start() {
@@ -436,7 +444,7 @@ public abstract class AbstractAnimator<T> implements Runnable {
     protected void onRepeat() {
     }
 
-    protected void onReset() {
+    protected void onReset(boolean wasRunning) {
     }
 
     protected void onEnd(@NotNull AbstractAnimator.EndMode endMode) {
