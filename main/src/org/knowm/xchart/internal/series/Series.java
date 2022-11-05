@@ -17,7 +17,7 @@ public abstract class Series {
   private boolean showInLegend = true;
   private boolean isEnabled = true;
 
-  // TODO there is not always a y-axis group (pie chart for example) move this to an axis series
+  // TODO there is not always a y-axis group (pie chart for example) move this to an axis graphSeries
   // tyoe??
   private int yAxisGroup = 0;
   /** the yAxis decimalPattern */
@@ -26,7 +26,7 @@ public abstract class Series {
   /**
    * Constructor
    *
-   * @param name the name of the series
+   * @param name the name of the graphSeries
    */
   protected Series(String name) {
 
@@ -94,7 +94,7 @@ public abstract class Series {
   }
 
   /**
-   * Set the Y Axis Group the series should belong to
+   * Set the Y Axis Group the graphSeries should belong to
    *
    * @param yAxisGroup
    */

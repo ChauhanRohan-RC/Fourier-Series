@@ -146,7 +146,7 @@ public class ChartZoom extends MouseAdapter implements ChartPart, ActionListener
     return filtered;
   }
   /**
-   * Is there a point selected in all series.
+   * Is there a point selected in all graphSeries.
    *
    * @param minValue
    * @param maxValue
@@ -183,7 +183,7 @@ public class ChartZoom extends MouseAdapter implements ChartPart, ActionListener
   }
 
   /**
-   * Whether all points are selected in all series.
+   * Whether all points are selected in all graphSeries.
    *
    * @return
    */

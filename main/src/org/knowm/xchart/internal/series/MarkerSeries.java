@@ -4,7 +4,7 @@ import java.awt.*;
 import org.knowm.xchart.style.markers.Marker;
 
 /**
- * A Series containing X and Y data to be plotted on a Chart with X and Y Axes, contains series
+ * A Series containing X and Y data to be plotted on a Chart with X and Y Axes, contains graphSeries
  * markers and error bars.
  *
  * @author timmolter
@@ -34,7 +34,7 @@ public abstract class MarkerSeries extends AxesChartSeries {
   }
 
   /**
-   * Sets the marker for the series
+   * Sets the marker for the graphSeries
    *
    * @param marker
    */
@@ -50,7 +50,7 @@ public abstract class MarkerSeries extends AxesChartSeries {
   }
 
   /**
-   * Sets the marker color for the series
+   * Sets the marker color for the graphSeries
    *
    * @param color
    */

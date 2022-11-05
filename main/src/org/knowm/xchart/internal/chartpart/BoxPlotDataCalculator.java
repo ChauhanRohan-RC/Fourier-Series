@@ -13,7 +13,7 @@ import org.knowm.xchart.style.BoxStyler;
 import org.knowm.xchart.style.BoxStyler.BoxplotCalCulationMethod;
 
 /**
- * Calculate box plot data information for all series of BoxChart.
+ * Calculate box plot data information for all graphSeries of BoxChart.
  *
  * @author Mr14huashao
  * @param <ST> BoxPlotStyler
@@ -23,7 +23,7 @@ public class BoxPlotDataCalculator<ST extends AxesChartStyler, S extends AxesCha
 
   public List<BoxPlotData> calculate(Map<String, S> seriesMap, ST boxPlotStyler) {
 
-    // Box plot data information for all series
+    // Box plot data information for all graphSeries
     List<BoxPlotData> boxPlotDataList = new ArrayList<>();
     BoxPlotData boxPlotData = null;
     List<Double> data = null;

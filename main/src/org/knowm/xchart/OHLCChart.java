@@ -79,7 +79,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
   }
 
   /**
-   * Add a series for a OHLC type chart using using float arrays
+   * Add a graphSeries for a OHLC type chart using using float arrays
    *
    * @param seriesName
    * @param openData the open data
@@ -95,7 +95,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
   }
 
   /**
-   * Add a series for a OHLC type chart using using float arrays
+   * Add a graphSeries for a OHLC type chart using using float arrays
    *
    * @param seriesName
    * @param xData the x-axis data
@@ -125,7 +125,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
   }
 
   /**
-   * Add a series for a OHLC type chart using using float arrays
+   * Add a graphSeries for a OHLC type chart using using float arrays
    *
    * @param seriesName
    * @param xData the x-axis data
@@ -157,7 +157,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
   }
 
   /**
-   * Add a series for a OHLC type chart using using int arrays
+   * Add a graphSeries for a OHLC type chart using using int arrays
    *
    * @param seriesName
    * @param openData the open data
@@ -173,7 +173,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
   }
 
   /**
-   * Add a series for a OHLC type chart using using int arrays
+   * Add a graphSeries for a OHLC type chart using using int arrays
    *
    * @param seriesName
    * @param xData the x-axis data
@@ -203,7 +203,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
   }
 
   /**
-   * Add a series for a OHLC type chart using using int arrays
+   * Add a graphSeries for a OHLC type chart using using int arrays
    *
    * @param seriesName
    * @param xData the x-axis data
@@ -235,7 +235,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
   }
 
   /**
-   * Add a series for a OHLC type chart using Lists
+   * Add a graphSeries for a OHLC type chart using Lists
    *
    * @param seriesName
    * @param xData the x-axis data
@@ -280,7 +280,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
   }
 
   /**
-   * Add a series for a OHLC type chart using Lists
+   * Add a graphSeries for a OHLC type chart using Lists
    *
    * @param seriesName
    * @param xData the x-axis data
@@ -327,7 +327,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
   }
 
   /**
-   * Add a series for a OHLC type chart using Lists
+   * Add a graphSeries for a OHLC type chart using Lists
    *
    * @param seriesName
    * @param openData the open data
@@ -347,7 +347,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
   }
 
   /**
-   * Add a series for a Line type chart using int arrays
+   * Add a graphSeries for a Line type chart using int arrays
    *
    * @param seriesName
    * @param xData the X-Axis data
@@ -364,7 +364,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
   }
 
   /**
-   * Add a series for a Line type chart using float arrays
+   * Add a graphSeries for a Line type chart using float arrays
    *
    * @param seriesName
    * @param xData the X-Axis data
@@ -381,7 +381,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
   }
 
   /**
-   * Add a series for a Line type chart using double arrays
+   * Add a graphSeries for a Line type chart using double arrays
    *
    * @param seriesName
    * @param xData the X-Axis data
@@ -394,7 +394,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
   }
 
   /**
-   * Add a series for a Line type chart using Lists
+   * Add a graphSeries for a Line type chart using Lists
    *
    * @param seriesName
    * @param xData the X-Axis data
@@ -454,7 +454,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
   }
 
   /**
-   * Add a series for a OHLC type chart using using double arrays
+   * Add a graphSeries for a OHLC type chart using using double arrays
    *
    * @param seriesName
    * @param openData the open data
@@ -474,7 +474,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
   }
 
   /**
-   * Add a series for a OHLC type chart using using double arrays
+   * Add a graphSeries for a OHLC type chart using using double arrays
    *
    * @param seriesName
    * @param xData the x-axis data
@@ -512,7 +512,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
       throw new IllegalArgumentException(
           "Series name >"
               + seriesName
-              + "< has already been used. Use unique names for each series!!!");
+              + "< has already been used. Use unique names for each graphSeries!!!");
     }
 
     // Sanity checks
@@ -542,7 +542,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
       throw new IllegalArgumentException(
           "Series name >"
               + seriesName
-              + "< has already been used. Use unique names for each series!!!");
+              + "< has already been used. Use unique names for each graphSeries!!!");
     }
 
     final double[] xDataToUse;
@@ -560,7 +560,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
   }
 
   /**
-   * Update a series by updating the xData, openData, highData, lowData and closeData
+   * Update a graphSeries by updating the xData, openData, highData, lowData and closeData
    *
    * @param seriesName
    * @param newXData - set null to be automatically generated as a list of increasing Integers
@@ -635,7 +635,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
   }
 
   /**
-   * Update a series by updating the xData, openData, highData, lowData and closeData
+   * Update a graphSeries by updating the xData, openData, highData, lowData and closeData
    *
    * @param seriesName
    * @param newXData - set null to be automatically generated as a list of increasing Integers
@@ -659,7 +659,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
   }
 
   /**
-   * Update a series by updating the xData, openData, highData, lowData,closeData and volumeData
+   * Update a graphSeries by updating the xData, openData, highData, lowData,closeData and volumeData
    *
    * @param seriesName
    * @param newXData - set null to be automatically generated as a list of increasing Integers
@@ -703,7 +703,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
   }
 
   /**
-   * Update a series by updating the X-Axis and Y-Axis data
+   * Update a graphSeries by updating the X-Axis and Y-Axis data
    *
    * @param seriesName
    * @param newXData
@@ -730,7 +730,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
   }
 
   /**
-   * Update a series by updating the X-Axis and Y-Axis data
+   * Update a graphSeries by updating the X-Axis and Y-Axis data
    *
    * @param seriesName
    * @param newXData
@@ -810,7 +810,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
     setWidth(width);
     setHeight(height);
 
-    // set the series render styles if they are not set. Legend and Plot need it.
+    // set the graphSeries render styles if they are not set. Legend and Plot need it.
     for (OHLCSeries series : getSeriesMap().values()) {
       OHLCSeries.OHLCSeriesRenderStyle renderStyle =
           series.getOhlcSeriesRenderStyle(); // would be directly set
@@ -829,7 +829,7 @@ public class OHLCChart extends Chart<OHLCStyler, OHLCSeries> {
     annotations.forEach(x -> x.paint(g));
   }
 
-  /** set the series color, marker and line style based on theme */
+  /** set the graphSeries color, marker and line style based on theme */
   private void setSeriesStyles() {
 
     SeriesColorMarkerLineStyleCycler seriesColorMarkerLineStyleCycler =

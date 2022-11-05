@@ -120,7 +120,7 @@ public class OHLCSeries extends MarkerSeries {
   }
 
   /**
-   * Set the up color of the series
+   * Set the up color of the graphSeries
    *
    * @param color
    */
@@ -136,7 +136,7 @@ public class OHLCSeries extends MarkerSeries {
   }
 
   /**
-   * Set the down color of the series
+   * Set the down color of the graphSeries
    *
    * @param color
    */

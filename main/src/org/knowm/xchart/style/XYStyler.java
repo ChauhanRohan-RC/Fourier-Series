@@ -73,8 +73,8 @@ public class XYStyler extends AxesChartStyler {
   }
 
   /**
-   * Sets the default series render style for the chart (line, scatter, area, etc.) You can override
-   * the series render style individually on each Series object.
+   * Sets the default graphSeries render style for the chart (line, scatter, area, etc.) You can override
+   * the graphSeries render style individually on each Series object.
    *
    * @param xySeriesRenderStyle
    */
@@ -196,7 +196,7 @@ public class XYStyler extends AxesChartStyler {
   }
 
   /**
-   * Set the custom function for formatting the cursor tooltip based on the series X-Axis data
+   * Set the custom function for formatting the cursor tooltip based on the graphSeries X-Axis data
    *
    * @param customCursorXDataFormattingFunction
    */
@@ -209,7 +209,7 @@ public class XYStyler extends AxesChartStyler {
     return customCursorYDataFormattingFunction;
   }
   /**
-   * Set the custom function for formatting the cursor tooltip based on the series Y-Axis data
+   * Set the custom function for formatting the cursor tooltip based on the graphSeries Y-Axis data
    *
    * @param customCursorYDataFormattingFunction
    */

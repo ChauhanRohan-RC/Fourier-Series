@@ -4,15 +4,15 @@ import java.io.*;
 
 /**
  * This class is used to export Chart data to a folder containing one or more CSV files. The parent
- * folder's name is the title of the chart. Each series becomes a CSV file in the folder. The
- * series' name becomes the CSV files' name.
+ * folder's name is the title of the chart. Each graphSeries becomes a CSV file in the folder. The
+ * graphSeries' name becomes the CSV files' name.
  *
  * @author timmolter
  */
 public class CSVExporter {
 
   /**
-   * Export all XYChart series as rows in separate CSV files.
+   * Export all XYChart graphSeries as rows in separate CSV files.
    *
    * @param chart
    * @param path2Dir
@@ -25,7 +25,7 @@ public class CSVExporter {
   }
 
   /**
-   * Export a XYChart series into rows in a CSV file.
+   * Export a XYChart graphSeries into rows in a CSV file.
    *
    * @param series
    * @param path2Dir - ex. "./path/to/directory/" *make sure you have the '/' on the end
@@ -60,7 +60,7 @@ public class CSVExporter {
   }
 
   /**
-   * Joins a series into an entire row of comma separated values.
+   * Joins a graphSeries into an entire row of comma separated values.
    *
    * @param seriesData
    * @param separator
@@ -83,7 +83,7 @@ public class CSVExporter {
   }
 
   /**
-   * Export all XYChart series as columns in separate CSV files.
+   * Export all XYChart graphSeries as columns in separate CSV files.
    *
    * @param chart
    * @param path2Dir
@@ -96,7 +96,7 @@ public class CSVExporter {
   }
 
   /**
-   * Export a Chart series in columns in a CSV file.
+   * Export a Chart graphSeries in columns in a CSV file.
    *
    * @param series
    * @param path2Dir - ex. "./path/to/directory/" *make sure you have the '/' on the end

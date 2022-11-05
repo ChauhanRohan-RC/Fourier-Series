@@ -45,7 +45,7 @@ public class PlotContent_Box<ST extends BoxStyler, S extends BoxSeries>
     double gridStep = xTickSpace / chart.getSeriesMap().size();
 
     BoxPlotDataCalculator<ST, S> boxPlotDataCalculator = new BoxPlotDataCalculator<>();
-    // Calculate box plot data for all series
+    // Calculate box plot data for all graphSeries
     List<BoxPlotData> boxPlotDataList =
         boxPlotDataCalculator.calculate(chart.getSeriesMap(), boxPlotStyler);
     BoxPlotData boxPlotData = null;

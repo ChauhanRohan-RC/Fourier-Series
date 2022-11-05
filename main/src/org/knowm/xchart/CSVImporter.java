@@ -10,8 +10,8 @@ import org.knowm.xchart.style.Styler.ChartTheme;
 
 /**
  * This class is used to create a Chart object from a folder containing one or more CSV files. The
- * parent folder's name becomes the title of the chart. Each CSV file in the folder becomes a series
- * on the chart. the CSV file's name becomes the series' name.
+ * parent folder's name becomes the title of the chart. Each CSV file in the folder becomes a graphSeries
+ * on the chart. the CSV file's name becomes the graphSeries' name.
  *
  * @author timmolter
  */
@@ -43,7 +43,7 @@ public class CSVImporter {
     // 2. get all the csv files in the dir
     File[] csvFiles = getAllFiles(path2Directory, ".*.csv");
 
-    // 3. create a series for each file, naming the series the file name
+    // 3. create a graphSeries for each file, naming the graphSeries the file name
     for (File csvFile : csvFiles) {
       String[] xAndYData;
       if (dataOrientation == DataOrientation.Rows) {
@@ -102,7 +102,7 @@ public class CSVImporter {
   }
 
   /**
-   * Get the series's data from a file
+   * Get the graphSeries's data from a file
    *
    * @param csvFile
    * @return

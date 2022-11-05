@@ -27,8 +27,8 @@ public class BubbleStyler extends AxesChartStyler {
   }
 
   /**
-   * Sets the default series render style for the chart (Round is the only one for now) You can
-   * override the series render style individually on each Series object.
+   * Sets the default graphSeries render style for the chart (Round is the only one for now) You can
+   * override the graphSeries render style individually on each Series object.
    *
    * @param bubbleChartSeriesRenderStyle
    */

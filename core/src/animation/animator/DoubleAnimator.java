@@ -16,7 +16,15 @@ public class DoubleAnimator extends Animator<Double> {
     }
 
     @Override
-    protected void doUpdate(float elapsedFraction) {
-        updateCurValue(getStartValue() + ((getEndValue() - getStartValue()) * getInterpolator().getInterpolation(elapsedFraction)));
+    public Double interpolateValue(float elapsedFraction) {
+        return getStartValue() + ((getEndValue() - getStartValue()) * getInterpolator().getInterpolation(elapsedFraction));
     }
+
+//    @Override
+//    protected void doUpdate(float elapsedFraction) {
+//        final double newValue = interpolateValue(elapsedFraction);
+//        if (getCurrentValue() != newValue) {
+//            updateCurrentValue(newValue);
+//        }
+//    }
 }

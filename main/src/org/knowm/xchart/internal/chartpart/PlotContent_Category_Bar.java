@@ -71,7 +71,7 @@ public class PlotContent_Category_Bar<ST extends CategoryStyler, S extends Categ
 
     double yTopMargin = Utils.getTickStartOffset(getBounds().getHeight(), yTickSpace);
 
-    // plot series
+    // plot graphSeries
     int seriesCounter = 0;
     double[] accumulatedStackOffsetPos = new double[numCategories];
     double[] accumulatedStackOffsetNeg = new double[numCategories];
@@ -90,7 +90,7 @@ public class PlotContent_Category_Bar<ST extends CategoryStyler, S extends Categ
         yMax = Math.log10(yMax);
       }
 
-      // for line series
+      // for line graphSeries
       double previousX = -Double.MAX_VALUE;
       double previousY = -Double.MAX_VALUE;
 
@@ -206,7 +206,7 @@ public class PlotContent_Category_Bar<ST extends CategoryStyler, S extends Categ
             getBounds().getHeight() - (yTopMargin + (yTop - yMin) / (yMax - yMin) * yTickSpace);
         double yOffset = getBounds().getY() + yTransform;
 
-        // Record the first series yOffset value, update totalYOffset value
+        // Record the first graphSeries yOffset value, update totalYOffset value
         // when next is greater then 0
         if (seriesCounter == 0 || next.doubleValue() > 0) {
           accumulatedStackOffsetTotalYOffset[categoryCounter] = yOffset;
@@ -296,7 +296,7 @@ public class PlotContent_Category_Bar<ST extends CategoryStyler, S extends Categ
 
           previousY = y;
         }
-        // paint series
+        // paint graphSeries
         else if (series.getChartCategorySeriesRenderStyle() == CategorySeriesRenderStyle.Bar) {
 
           // paint bar
@@ -314,9 +314,9 @@ public class PlotContent_Category_Bar<ST extends CategoryStyler, S extends Categ
           // Legend markers now also draw the outline. It has been disabled for
           // CategorySeriesRenderStyle.Bar
           // in Legend_Marker.java. Modify accordingly if you are enabling bar outlines.
-          // if (series.getLineColor() != null) {
+          // if (graphSeries.getLineColor() != null) {
           // path = new Path2D.Double();
-          // int halfLineWidth = (int) (series.getLineStyle().getLineWidth() / 2 + .1);
+          // int halfLineWidth = (int) (graphSeries.getLineStyle().getLineWidth() / 2 + .1);
           // path.moveTo(xOffset + halfLineWidth, yOffset + halfLineWidth);
           // path.lineTo(xOffset + halfLineWidth + barWidth - halfLineWidth * 2, yOffset +
           // halfLineWidth);
@@ -325,8 +325,8 @@ public class PlotContent_Category_Bar<ST extends CategoryStyler, S extends Categ
           // path.lineTo(xOffset + halfLineWidth, zeroOffset - halfLineWidth);
           // path.closePath();
           //
-          // g.setStroke(series.getLineStyle());
-          // g.setColor(series.getLineColor());
+          // g.setStroke(graphSeries.getLineStyle());
+          // g.setColor(graphSeries.getLineColor());
           // g.draw(path);
           // }
 

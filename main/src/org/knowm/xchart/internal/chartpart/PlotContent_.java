@@ -47,7 +47,7 @@ public abstract class PlotContent_<ST extends Styler, S extends Series> implemen
     }
 
     java.awt.Shape saveClip = g.getClip();
-    // this is for preventing the series to be drawn outside the plot area if min and max is
+    // this is for preventing the graphSeries to be drawn outside the plot area if min and max is
     // overridden to fall inside the data range
     if (saveClip != null) {
       g.setClip(bounds.createIntersection(saveClip.getBounds2D()));

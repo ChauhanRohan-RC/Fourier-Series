@@ -17,7 +17,7 @@ import org.knowm.xchart.style.BoxStyler;
 import org.knowm.xchart.style.OHLCStyler;
 import org.knowm.xchart.style.Styler;
 
-// TODO make the background color the same color as the series??
+// TODO make the background color the same color as the graphSeries??
 /**
  * Tooltips can be put on all data points or configured to popup like a tooltip from a mouse over.
  */
@@ -115,7 +115,7 @@ public class ToolTips extends MouseAdapter implements ChartPart {
 
     // TODO need this null check??
     if (tooltip != null) { // dataPoint was created in mouse move, need to render it
-      // TODO See OHLC04. The line series are rendering as multi-line. Can we just define the
+      // TODO See OHLC04. The line graphSeries are rendering as multi-line. Can we just define the
       // tooltip during creation and if it's multiline, paint it
       // as multiline??
       if (styler instanceof BoxStyler || styler instanceof OHLCStyler) {

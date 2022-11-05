@@ -464,7 +464,7 @@ public abstract class Styler {
   }
 
   /**
-   * Set the chart legend series line length
+   * Set the chart legend graphSeries line length
    *
    * @param legendSeriesLineLength
    * @return

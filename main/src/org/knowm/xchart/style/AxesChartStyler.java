@@ -661,7 +661,7 @@ public abstract class AxesChartStyler extends Styler {
   }
 
   /**
-   * Set true if the the error bar color should match the series color
+   * Set true if the the error bar color should match the graphSeries color
    *
    * @return
    */

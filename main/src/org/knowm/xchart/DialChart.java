@@ -60,7 +60,7 @@ public class DialChart extends Chart<DialStyler, DialSeries> {
   }
 
   /**
-   * Add a series for a Dial type chart
+   * Add a graphSeries for a Dial type chart
    *
    * @param seriesName
    * @param value
@@ -72,7 +72,7 @@ public class DialChart extends Chart<DialStyler, DialSeries> {
   }
 
   /**
-   * Add a series for a Dial type chart
+   * Add a graphSeries for a Dial type chart
    *
    * @param seriesName
    * @param value
@@ -86,7 +86,7 @@ public class DialChart extends Chart<DialStyler, DialSeries> {
 
     DialSeries series = new DialSeries(seriesName, value, label);
 
-    seriesMap.clear(); // only allow one series per dial chart
+    seriesMap.clear(); // only allow one graphSeries per dial chart
     seriesMap.put(seriesName, series);
 
     return series;
@@ -98,7 +98,7 @@ public class DialChart extends Chart<DialStyler, DialSeries> {
       throw new IllegalArgumentException(
           "Series name >"
               + seriesName
-              + "< has already been used. Use unique names for each series!!!");
+              + "< has already been used. Use unique names for each graphSeries!!!");
     }
     if (value < 0 || value > 1) {
       throw new IllegalArgumentException("Value must be in [0, 1] range!!!");

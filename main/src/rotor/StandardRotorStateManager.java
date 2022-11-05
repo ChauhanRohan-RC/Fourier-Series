@@ -415,7 +415,7 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
 //        notifyListeners(l -> l.onRotorsLoadingChanged(false));
         final boolean cancelled = c != null && c.isCancelled();
         if (!cancelled) {
-            Log.d(TAG, (totalLoadCount - startIndex) + " fourier series coefficients loaded in " + (System.currentTimeMillis() - startMs) + "ms");
+            Log.d(TAG, (totalLoadCount - startIndex) + " fourier graphSeries coefficients loaded in " + (System.currentTimeMillis() - startMs) + "ms");
         }
 
         mIsLoading = false;

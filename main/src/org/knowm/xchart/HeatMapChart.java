@@ -71,7 +71,7 @@ public class HeatMapChart extends Chart<HeatMapStyler, HeatMapSeries> {
   }
 
   /**
-   * Add a series for a HeatMap type chart using using int arrays
+   * Add a graphSeries for a HeatMap type chart using using int arrays
    *
    * @param seriesName
    * @param xData the X-Axis data
@@ -85,7 +85,7 @@ public class HeatMapChart extends Chart<HeatMapStyler, HeatMapSeries> {
   }
 
   /**
-   * Add a series for a HeatMap type chart using using List<?>
+   * Add a graphSeries for a HeatMap type chart using using List<?>
    *
    * @param seriesName
    * @param xData the X-Axis data
@@ -106,7 +106,7 @@ public class HeatMapChart extends Chart<HeatMapStyler, HeatMapSeries> {
   }
 
   /**
-   * Update a series by updating the X-Axis, Y-Axis and heat data
+   * Update a graphSeries by updating the X-Axis, Y-Axis and heat data
    *
    * @param seriesName
    * @param xData
@@ -120,7 +120,7 @@ public class HeatMapChart extends Chart<HeatMapStyler, HeatMapSeries> {
   }
 
   /**
-   * Update a series by updating the X-Axis, Y-Axis and heat data
+   * Update a graphSeries by updating the X-Axis, Y-Axis and heat data
    *
    * @param seriesName
    * @param xData

@@ -16,7 +16,15 @@ public class FloatAnimator extends Animator<Float> {
     }
 
     @Override
-    protected void doUpdate(float elapsedFraction) {
-        updateCurValue(getStartValue() + ((getEndValue() - getStartValue()) * getInterpolator().getInterpolation(elapsedFraction)));
+    public Float interpolateValue(float elapsedFraction) {
+        return getStartValue() + ((getEndValue() - getStartValue()) * getInterpolator().getInterpolation(elapsedFraction));
     }
+
+//    @Override
+//    protected void doUpdate(float elapsedFraction) {
+//        final float newValue = interpolateValue(elapsedFraction);
+//        if (getCurrentValue() != newValue) {
+//            updateCurrentValue(newValue);
+//        }
+//    }
 }

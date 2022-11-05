@@ -65,7 +65,7 @@ public class PieChart extends Chart<PieStyler, PieSeries> {
   }
 
   /**
-   * Add a series for a Pie type chart
+   * Add a graphSeries for a Pie type chart
    *
    * @param seriesName
    * @param value
@@ -79,7 +79,7 @@ public class PieChart extends Chart<PieStyler, PieSeries> {
       throw new IllegalArgumentException(
           "Series name >"
               + seriesName
-              + "< has already been used. Use unique names for each series!!!");
+              + "< has already been used. Use unique names for each graphSeries!!!");
     }
     seriesMap.put(seriesName, series);
 
@@ -87,7 +87,7 @@ public class PieChart extends Chart<PieStyler, PieSeries> {
   }
 
   /**
-   * Update a series by updating the pie slide value
+   * Update a graphSeries by updating the pie slide value
    *
    * @param seriesName
    * @param value
@@ -111,7 +111,7 @@ public class PieChart extends Chart<PieStyler, PieSeries> {
     setWidth(width);
     setHeight(height);
 
-    // set the series types if they are not set. Legend and Plot need it.
+    // set the graphSeries types if they are not set. Legend and Plot need it.
     for (PieSeries seriesPie : getSeriesMap().values()) {
       PieSeries.PieSeriesRenderStyle seriesType =
           seriesPie.getChartPieSeriesRenderStyle(); // would be directly set
@@ -129,7 +129,7 @@ public class PieChart extends Chart<PieStyler, PieSeries> {
     annotations.forEach(x -> x.paint(g));
   }
 
-  /** set the series color based on theme */
+  /** set the graphSeries color based on theme */
   private void setSeriesStyles() {
 
     SeriesColorMarkerLineStyleCycler seriesColorMarkerLineStyleCycler =

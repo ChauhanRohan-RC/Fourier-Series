@@ -22,7 +22,7 @@ public final class QuickChart {
    * @param chartTitle the Chart title
    * @param xTitle The X-Axis title
    * @param yTitle The Y-Axis title
-   * @param seriesName The name of the series
+   * @param seriesName The name of the graphSeries
    * @param xData An array containing the X-Axis data
    * @param yData An array containing Y-Axis data
    * @return a Chart Object
@@ -49,7 +49,7 @@ public final class QuickChart {
    * @param chartTitle the Chart title
    * @param xTitle The X-Axis title
    * @param yTitle The Y-Axis title
-   * @param seriesNames An array of the name of the multiple series
+   * @param seriesNames An array of the name of the multiple graphSeries
    * @param xData An array containing the X-Axis data
    * @param yData An array of double arrays containing multiple Y-Axis data
    * @return a Chart Object
@@ -90,7 +90,7 @@ public final class QuickChart {
    * @param chartTitle the Chart title
    * @param xTitle The X-Axis title
    * @param yTitle The Y-Axis title
-   * @param seriesName The name of the series
+   * @param seriesName The name of the graphSeries
    * @param xData A Collection containing the X-Axis data
    * @param yData A Collection containing Y-Axis data
    * @return a Chart Object

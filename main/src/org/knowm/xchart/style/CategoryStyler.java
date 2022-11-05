@@ -57,8 +57,8 @@ public class CategoryStyler extends AxesChartStyler {
   }
 
   /**
-   * Sets the default series render style for the chart (bar, stick, line, scatter, area, etc.) You
-   * can override the series render style individually on each Series object.
+   * Sets the default graphSeries render style for the chart (bar, stick, line, scatter, area, etc.) You
+   * can override the graphSeries render style individually on each Series object.
    *
    * @param chartCategorySeriesRenderStyle
    */
@@ -76,9 +76,9 @@ public class CategoryStyler extends AxesChartStyler {
 
   /**
    * Sets the available space for rendering each category as a percentage. For a bar chart with one
-   * series, it will be the width of the bar as a percentage of the maximum space alloted for the
-   * bar. If there are three series and three bars, the three bars will share the available space.
-   * This affects all category series render types, not only bar charts. Full width is 100%, i.e.
+   * graphSeries, it will be the width of the bar as a percentage of the maximum space alloted for the
+   * bar. If there are three graphSeries and three bars, the three bars will share the available space.
+   * This affects all category graphSeries render types, not only bar charts. Full width is 100%, i.e.
    * 1.0
    *
    * @param availableSpaceFill
@@ -95,7 +95,7 @@ public class CategoryStyler extends AxesChartStyler {
   }
 
   /**
-   * set whether or not series renderings (i.e. bars, stick, etc.) are overlapped. Otherwise they
+   * set whether or not graphSeries renderings (i.e. bars, stick, etc.) are overlapped. Otherwise they
    * are placed side-by-side.
    *
    * @param isOverlapped
@@ -112,7 +112,7 @@ public class CategoryStyler extends AxesChartStyler {
   }
 
   /**
-   * Set whether or not series renderings (i.e. bars, stick, etc.) are stacked.
+   * Set whether or not graphSeries renderings (i.e. bars, stick, etc.) are stacked.
    *
    * @param isStacked
    */

@@ -77,6 +77,7 @@ public abstract class AbstractAnimator<T> implements Runnable {
     private volatile long mDurationMs = DEFAULT_DURATION_MS;
 
     private volatile boolean mAnimating;
+    private volatile boolean mPaused;
     private volatile boolean mEnded;
 
     @NotNull
@@ -85,7 +86,7 @@ public abstract class AbstractAnimator<T> implements Runnable {
     private volatile int mCurRepetitionCount;
 
     @Nullable
-    private volatile Long mStartMills;
+    private volatile Long mStartMs;
     @Nullable
     private volatile Long mPausedMs;
 
@@ -261,56 +262,102 @@ public abstract class AbstractAnimator<T> implements Runnable {
     }
 
     public final boolean isPaused() {
-        return mPausedMs != null && !(mAnimating || mEnded);
+        return mPaused;
     }
 
     public final boolean isEnded() {
         return mEnded;
     }
 
-    public final void backToStart() {
-        mCurRepetitionCount = 0;        // set before getting start value, to full reset to start state
-        mCurVal = getStartValue();
-        mStartMills = System.currentTimeMillis();
-    }
 
     /**
      * Resets this animator to initial state
      * This means that animator will be stopped, and brought back to state when it was first instantiated
      *
      * @return whether animator was running when reset is called
+     *
+     * @see #backToStart()
      * */
     public final boolean reset() {
         final boolean wasRunning = isRunning();
         mAnimating = false;
+        mPaused = false;
         mEnded = false;
         mCurRepetitionCount = 0;        // set before getting start value, to full reset to start state
         mCurVal = getStartValue();
-        mStartMills = null;
+        mStartMs = null;
         mPausedMs = null;
         onReset(wasRunning);
         return wasRunning;
     }
 
+    /**
+     * Alternative to {@link #reset()}.
+     * It does not stop the animator, only brings it back to starting point
+     * <strong>It also resets any repetitions</strong>
+     *
+     * @see #reset()
+     * */
+    public final void backToStart() {
+        mCurRepetitionCount = 0;        // set before getting start value, to full reset to start state
+        mCurVal = getStartValue();
+        mStartMs = System.currentTimeMillis();
+        mPausedMs = null;        // do not want to add pause it
+    }
+
+    /**
+     * Sets the elapsed fraction of the current repetition.<br>
+     * There are 3 possible cases
+     * <pre>
+     *     1. If the animation is running (i.e {@link #isRunning()} returns true), it simply seeks the animation to given {@code elapsedFraction} (in time)<br>
+     *     2. If animation is not running
+     *     <pre>
+     *         1. If {@code onlyIfRunning} is true, then does nothing
+     *         2. else the animation will start form the given {@code elapsedFraction} next time {@link #start()} is called
+     *     </pre>
+     * </pre>
+     *
+     * @param elapsedFraction the elapsed fraction (in time) of the current repetition
+     * @param onlyIfRunning true to set {@code elapsedFraction} only if animation is running
+     * */
+    public final void setElapsedFraction(float elapsedFraction, boolean onlyIfRunning) {
+        if (onlyIfRunning) {
+            if (!isRunning())
+                return;
+
+//            final Long start = mStartMills;
+//            if (start == null)
+//                return;
+        }
+
+        final long newStart = System.currentTimeMillis() - ((long) (elapsedFraction * mDurationMs));
+        mStartMs = newStart;
+        mPausedMs = null;       // do not want to add pause it
+    }
+
+
     public final void start() {
         if (mEnded || mAnimating)
             return;
 
+        final boolean paused = mPaused;
         boolean resumed = false;
-        Long startMs = mStartMills;
+
+        Long startMs = mStartMs;
         Long pausedMs = mPausedMs;
         if (startMs == null) {
             startMs = System.currentTimeMillis();       // first start
-            mStartMills = startMs;
+            mStartMs = startMs;
             mCurVal = getStartValue();
-        } else if (pausedMs != null) {
+        } else if (paused && pausedMs != null) {
             startMs += (System.currentTimeMillis() - pausedMs);        // add paused duration
-            mStartMills = startMs;
+            mStartMs = startMs;
             resumed = true;
         }
 
         mPausedMs = null;
         mAnimating = true;
+        mPaused = false;
         onStarted(resumed);
     }
 
@@ -320,19 +367,29 @@ public abstract class AbstractAnimator<T> implements Runnable {
 
         mPausedMs = System.currentTimeMillis();
         mAnimating = false;
+        mPaused = true;
         onPaused();
     }
 
-    protected void updateCurValue(T value) {
+    protected void updateCurrentValue(T value) {
         mCurVal = value;
         onValueUpdate();
     }
 
-    protected abstract void doUpdate(float elapsedFraction);
+
+    /**
+     * Interpolates the domain range (StartValue -> EndValue) with the given elapsed fraction in time
+     * */
+    public abstract T interpolateValue(float elapsedFraction);
+
+    protected void doUpdate(float elapsedFraction) {
+        final T val = interpolateValue(elapsedFraction);
+        updateCurrentValue(val);
+    }
 
     public final boolean update() {
-        final Long startMs = mStartMills;
-        if (mEnded || !mAnimating || startMs == null)
+        final Long startMs = mStartMs;
+        if (mEnded || !mAnimating || mPaused || startMs == null)
             return false;
 
         final long durationMs = mDurationMs;
@@ -386,7 +443,7 @@ public abstract class AbstractAnimator<T> implements Runnable {
         final int curRepCount = mCurRepetitionCount;
         mCurRepetitionCount = curRepCount + 1;
         mCurVal = getStartValue();
-        mStartMills = System.currentTimeMillis();
+        mStartMs = System.currentTimeMillis();
         mPausedMs = null;
         onRepeat();
     }
@@ -409,6 +466,7 @@ public abstract class AbstractAnimator<T> implements Runnable {
 
     private void doEndInternal(@NotNull AbstractAnimator.EndMode endMode) {
         mAnimating = false;
+        mPaused = false;
         mPausedMs = null;
 
         if (endMode != EndMode.CANCEL) {
@@ -424,12 +482,12 @@ public abstract class AbstractAnimator<T> implements Runnable {
     /* Callbacks */
 
     private void doDurationChangedInternal(long previousDurationMs, long newDurationMs) {
-        final Long start = mStartMills;
+        final Long start = mStartMs;
         if (start != null) {
             // Change start time such that elapsed fraction remains same with newDuration
             final double fraction = (double) newDurationMs / previousDurationMs;
             final long start2 = (long) ((start * fraction) + (System.currentTimeMillis() * (1 - fraction)));
-            mStartMills = start2;
+            mStartMs = start2;
         }
 
         onDurationChanged(previousDurationMs, newDurationMs);
@@ -482,7 +540,7 @@ public abstract class AbstractAnimator<T> implements Runnable {
                 ", RepeatMode=" + mRepeatMode +
                 ", TotalRepeatCount=" + mTotalRepeatCount +
                 ", CurRepetitionCount=" + mCurRepetitionCount +
-                ", StartMills=" + mStartMills +
+                ", StartMills=" + mStartMs +
                 ", PausedMs=" + mPausedMs +
                 ", DefaultInterpolator=" + mDefaultInterpolator +
                 ", Interpolator=" + mInterpolator +

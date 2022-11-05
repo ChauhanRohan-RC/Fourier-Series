@@ -57,7 +57,7 @@ public class Legend_Bubble<ST extends AxesChartStyler, S extends AxesChartSeries
       g.setColor(series.getLineColor());
       g.draw(rectSmall);
 
-      // paint series text
+      // paint graphSeries text
       final double x = startx + BOX_SIZE + chart.getStyler().getLegendPadding();
       paintSeriesText(g, seriesTextBounds, BOX_SIZE, x, starty);
 

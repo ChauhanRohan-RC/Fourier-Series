@@ -14,7 +14,7 @@ public class DialSeries extends Series {
   private final String label;
 
   /**
-   * @param label Adds custom label for series. If label is null, it is automatically calculated.
+   * @param label Adds custom label for graphSeries. If label is null, it is automatically calculated.
    */
   public DialSeries(String name, double value, String label) {
 

@@ -53,6 +53,10 @@ public interface Consumer<T> {
         return andThen(this, other);
     }
 
+    @NotNull
+    default java.util.function.Consumer<T> tpLegacy() {
+        return this::consume;
+    }
 
 
     @NotNull

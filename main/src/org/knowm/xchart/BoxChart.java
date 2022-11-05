@@ -73,7 +73,7 @@ public class BoxChart extends Chart<BoxStyler, BoxSeries> {
       throw new IllegalArgumentException(
           "Series name > "
               + seriesName
-              + " < has already been used. Use unique names for each series!!!");
+              + " < has already been used. Use unique names for each graphSeries!!!");
     }
 
     sanityCheckYData(yData);

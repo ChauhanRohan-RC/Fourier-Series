@@ -12,6 +12,8 @@ public class Format {
     public static final char ARROW_LEFT = '<';
     public static final char ARROW_RIGHT = '>';
 
+    public static final char ELLIPSE_CHAR = '\u2026';
+
     private static Pattern sWhiteSpacePattern;
 
 
@@ -26,6 +28,18 @@ public class Format {
     @NotNull
     public static String toString(CharSequence seq) {
         return isEmpty(seq)? "": seq.toString();
+    }
+
+    @NotNull
+    public static CharSequence ellipse(@NotNull CharSequence val, int length) {
+        if (val.isEmpty() || length < 0 || val.length() <= length)
+            return val;
+
+        final StringBuilder sb = new StringBuilder(val);
+        sb.setLength(length - 1);
+        sb.append(ELLIPSE_CHAR);
+        sb.trimToSize();
+        return sb;
     }
 
     @NotNull

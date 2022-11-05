@@ -73,7 +73,7 @@ public class XYChart extends Chart<XYStyler, XYSeries> {
   }
 
   /**
-   * Add a series for a X-Y type chart using using double arrays
+   * Add a graphSeries for a X-Y type chart using using double arrays
    *
    * @param seriesName
    * @param yData the Y-Axis data
@@ -85,7 +85,7 @@ public class XYChart extends Chart<XYStyler, XYSeries> {
   }
 
   /**
-   * Add a series for a X-Y type chart using using double arrays
+   * Add a graphSeries for a X-Y type chart using using double arrays
    *
    * @param seriesName
    * @param xData the X-Axis data
@@ -98,7 +98,7 @@ public class XYChart extends Chart<XYStyler, XYSeries> {
   }
 
   /**
-   * Add a series for a X-Y type chart using using float arrays
+   * Add a graphSeries for a X-Y type chart using using float arrays
    *
    * @param seriesName
    * @param yData the Y-Axis data
@@ -110,7 +110,7 @@ public class XYChart extends Chart<XYStyler, XYSeries> {
   }
 
   /**
-   * Add a series for a X-Y type chart using using float arrays
+   * Add a graphSeries for a X-Y type chart using using float arrays
    *
    * @param seriesName
    * @param xData the X-Axis data
@@ -123,7 +123,7 @@ public class XYChart extends Chart<XYStyler, XYSeries> {
   }
 
   /**
-   * Add a series for a X-Y type chart using using float arrays with error bars
+   * Add a graphSeries for a X-Y type chart using using float arrays with error bars
    *
    * @param seriesName
    * @param xData the X-Axis data
@@ -142,7 +142,7 @@ public class XYChart extends Chart<XYStyler, XYSeries> {
   }
 
   /**
-   * Add a series for a X-Y type chart using using int arrays
+   * Add a graphSeries for a X-Y type chart using using int arrays
    *
    * @param seriesName
    * @param yData the Y-Axis data
@@ -154,7 +154,7 @@ public class XYChart extends Chart<XYStyler, XYSeries> {
   }
 
   /**
-   * Add a series for a X-Y type chart using using int arrays
+   * Add a graphSeries for a X-Y type chart using using int arrays
    *
    * @param seriesName
    * @param xData the X-Axis data
@@ -167,7 +167,7 @@ public class XYChart extends Chart<XYStyler, XYSeries> {
   }
 
   /**
-   * Add a series for a X-Y type chart using using int arrays with error bars
+   * Add a graphSeries for a X-Y type chart using using int arrays with error bars
    *
    * @param seriesName
    * @param xData the X-Axis data
@@ -186,7 +186,7 @@ public class XYChart extends Chart<XYStyler, XYSeries> {
   }
 
   /**
-   * Add a series for a X-Y type chart using Lists
+   * Add a graphSeries for a X-Y type chart using Lists
    *
    * @param seriesName
    * @param xData the X-Axis data
@@ -199,7 +199,7 @@ public class XYChart extends Chart<XYStyler, XYSeries> {
   }
 
   /**
-   * Add a series for a X-Y type chart using Lists
+   * Add a graphSeries for a X-Y type chart using Lists
    *
    * @param seriesName
    * @param yData the Y-Axis data
@@ -211,7 +211,7 @@ public class XYChart extends Chart<XYStyler, XYSeries> {
   }
 
   /**
-   * Add a series for a X-Y type chart using Lists
+   * Add a graphSeries for a X-Y type chart using Lists
    *
    * @param seriesName
    * @param xData the X-Axis data
@@ -272,7 +272,7 @@ public class XYChart extends Chart<XYStyler, XYSeries> {
   }
 
   /**
-   * Add a series for a X-Y type chart using Lists with error bars
+   * Add a graphSeries for a X-Y type chart using Lists with error bars
    *
    * @param seriesName
    * @param xData the X-Axis data
@@ -307,7 +307,7 @@ public class XYChart extends Chart<XYStyler, XYSeries> {
   }
 
   /**
-   * Update a series by updating the X-Axis, Y-Axis and error bar data
+   * Update a graphSeries by updating the X-Axis, Y-Axis and error bar data
    *
    * @param seriesName
    * @param newXData - set null to be automatically generated as a list of increasing Integers
@@ -341,7 +341,7 @@ public class XYChart extends Chart<XYStyler, XYSeries> {
   }
 
   /**
-   * Update a series by updating the X-Axis, Y-Axis and error bar data
+   * Update a graphSeries by updating the X-Axis, Y-Axis and error bar data
    *
    * @param seriesName
    * @param newXData - set null to be automatically generated as a list of increasing Integers
@@ -378,7 +378,7 @@ public class XYChart extends Chart<XYStyler, XYSeries> {
       throw new IllegalArgumentException(
           "Series name >"
               + seriesName
-              + "< has already been used. Use unique names for each series!!!");
+              + "< has already been used. Use unique names for each graphSeries!!!");
     }
     if (yData == null) {
       throw new IllegalArgumentException("Y-Axis data cannot be null!!! >" + seriesName);
@@ -401,7 +401,7 @@ public class XYChart extends Chart<XYStyler, XYSeries> {
     setWidth(width);
     setHeight(height);
 
-    // set the series render styles if they are not set. Legend and Plot need it.
+    // set the graphSeries render styles if they are not set. Legend and Plot need it.
     for (XYSeries xySeries : getSeriesMap().values()) {
       XYSeries.XYSeriesRenderStyle chartXYSeriesRenderStyle =
           xySeries.getXYSeriesRenderStyle(); // would be directly set
@@ -420,7 +420,7 @@ public class XYChart extends Chart<XYStyler, XYSeries> {
     annotations.forEach(x -> x.paint(g));
   }
 
-  /** set the series color, marker and line style based on theme */
+  /** set the graphSeries color, marker and line style based on theme */
   private void setSeriesStyles() {
 
     SeriesColorMarkerLineStyleCycler seriesColorMarkerLineStyleCycler =

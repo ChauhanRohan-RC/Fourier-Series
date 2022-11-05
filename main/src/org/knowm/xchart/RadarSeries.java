@@ -29,7 +29,7 @@ public class RadarSeries extends MarkerSeries {
 
   // TODO refactor tooltips overrride
   /**
-   * @param tooltipOverrides Adds custom tooltipOverrides for series. If tooltipOverrides is null,
+   * @param tooltipOverrides Adds custom tooltipOverrides for graphSeries. If tooltipOverrides is null,
    *     they are automatically generated.
    */
   public RadarSeries(String name, double[] values, String[] tooltipOverrides) {
@@ -63,7 +63,7 @@ public class RadarSeries extends MarkerSeries {
   }
 
   /**
-   * Set the line style of the series
+   * Set the line style of the graphSeries
    *
    * @param basicStroke
    */
@@ -89,7 +89,7 @@ public class RadarSeries extends MarkerSeries {
   }
 
   /**
-   * Set the line color of the series
+   * Set the line color of the graphSeries
    *
    * @param color
    */
@@ -105,7 +105,7 @@ public class RadarSeries extends MarkerSeries {
   }
 
   /**
-   * Set the line width of the series
+   * Set the line width of the graphSeries
    *
    * @param lineWidth
    */
@@ -121,7 +121,7 @@ public class RadarSeries extends MarkerSeries {
   }
 
   /**
-   * Sets the marker for the series
+   * Sets the marker for the graphSeries
    *
    * @param marker
    */
@@ -137,7 +137,7 @@ public class RadarSeries extends MarkerSeries {
   }
 
   /**
-   * Sets the marker color for the series
+   * Sets the marker color for the graphSeries
    *
    * @param color
    */

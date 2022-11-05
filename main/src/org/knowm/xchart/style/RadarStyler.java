@@ -21,7 +21,7 @@ public class RadarStyler extends Styler {
   private Font radiiTitleFont;
   private int radiiTitlePadding;
 
-  // series style
+  // graphSeries style
   private int markerSize;
   private boolean isSeriesFilled = true;
 

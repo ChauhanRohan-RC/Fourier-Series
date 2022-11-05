@@ -3,7 +3,7 @@ package ui;
 import app.R;
 import function.definition.ComplexDomainFunctionI;
 import models.RealTransform;
-import models.graph.GraphData;
+import models.graph.FunctionGraphData;
 import models.graph.FunctionGraphMode;
 import models.graph.GraphSeries;
 import org.apache.commons.math3.complex.Complex;
@@ -254,7 +254,7 @@ public class FunctionGraphPanel extends XChartPanel<XYChart> {
 
 
     @NotNull
-    private GraphData createGraphData(@NotNull FunctionGraphMode mode, int sampleCount) {
+    private FunctionGraphData createGraphData(@NotNull FunctionGraphMode mode, int sampleCount) {
         if (cacheDomain != null && cacheDomain.length != sampleCount) {
             cacheDomain = null;     // invalidate
         }
@@ -339,7 +339,7 @@ public class FunctionGraphPanel extends XChartPanel<XYChart> {
             };
         };
 
-        return new GraphData(mode, series);
+        return new FunctionGraphData(mode, series);
     }
 
     private void cancelGraphDataLoad() {
@@ -352,7 +352,7 @@ public class FunctionGraphPanel extends XChartPanel<XYChart> {
     }
 
 
-    private void onGraphDataLoaded(@NotNull GraphData data) {
+    private void onGraphDataLoaded(@NotNull FunctionGraphData data) {
         chart.setTitle(getChartTitle(false));
         chart.setXAxisTitle(data.graphMode().xAxisTitle);
         chart.setYAxisTitle(data.graphMode().yAxisTitle);
@@ -364,15 +364,15 @@ public class FunctionGraphPanel extends XChartPanel<XYChart> {
 
         final GraphSeries[] seriesArr = data.graphSeries();
         for (GraphSeries series: seriesArr) {
-//            final boolean hasSeries = chart.getSeriesMap().containsKey(series.name());
+//            final boolean hasSeries = chart.getSeriesMap().containsKey(graphSeries.name());
 //            final XYSeries xySeries;
 //            if (hasSeries) {
-//                xySeries = chart.updateXYSeries(series.name(), series.xData(), series.yData(), null);
+//                xySeries = chart.updateXYSeries(graphSeries.name(), graphSeries.xData(), graphSeries.yData(), null);
 //            } else {
-//                xySeries = chart.addSeries(series.name(), series.xData(), series.yData(), null);
+//                xySeries = chart.addSeries(graphSeries.name(), graphSeries.xData(), graphSeries.yData(), null);
 //            }
 
-            final XYSeries xySeries = chart.addSeries(series.name(), series.xData(), series.yData(), null);
+            final XYSeries xySeries = addXYSeries(series);
 
             // Style Series
             xySeries.setMarker(new None());

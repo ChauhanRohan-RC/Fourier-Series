@@ -84,7 +84,7 @@ public class Legend_Marker<ST extends Styler, S extends MarkerSeries> extends Le
                   starty + legendEntryHeight / 2.0,
                   axesChartStyler.getMarkerSize());
         }
-      } else { // bar/pie type series
+      } else { // bar/pie type graphSeries
 
         // paint inner box
         Shape rectSmall = new Rectangle2D.Double(startx, starty, BOX_SIZE, BOX_SIZE);
@@ -126,7 +126,7 @@ public class Legend_Marker<ST extends Styler, S extends MarkerSeries> extends Le
         }
       }
 
-      // paint series text
+      // paint graphSeries text
       if (series.getLegendRenderType() == LegendRenderType.Line
           || series.getLegendRenderType() == LegendRenderType.Scatter) {
 
@@ -135,7 +135,7 @@ public class Legend_Marker<ST extends Styler, S extends MarkerSeries> extends Le
                 + chart.getStyler().getLegendSeriesLineLength()
                 + chart.getStyler().getLegendPadding();
         paintSeriesText(g, seriesTextBounds, axesChartStyler.getMarkerSize(), x, starty);
-      } else { // bar/pie type series
+      } else { // bar/pie type graphSeries
 
         double x = startx + BOX_SIZE + chart.getStyler().getLegendPadding();
         paintSeriesText(g, seriesTextBounds, BOX_SIZE, x, starty);

@@ -43,7 +43,7 @@ public interface DomainProviderI extends ColorProviderI {
 
     /**
      * Determines how fast the domain range should be transversed
-     * <b>by default</b> during fourier series rotors animation
+     * <b>by default</b> during fourier graphSeries rotors animation
      *
      * @return default domain range travel duration (milliseconds)
      * */
@@ -53,7 +53,7 @@ public interface DomainProviderI extends ColorProviderI {
 
     /**
      * Determines <b>max speed</b> with which the domain range should be transversed
-     * during fourier series rotors animation
+     * during fourier graphSeries rotors animation
      *
      * @return minimum domain range travel duration (milliseconds)
      * */
@@ -63,7 +63,7 @@ public interface DomainProviderI extends ColorProviderI {
 
     /**
      * Determines <b>min speed</b> with which the domain range should be transversed
-     * during fourier series rotors animation
+     * during fourier graphSeries rotors animation
      *
      * @return maximum domain range travel duration (milliseconds)
      * */

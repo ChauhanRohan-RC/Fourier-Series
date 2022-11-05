@@ -16,11 +16,16 @@ public class IntAnimator extends Animator<Integer> {
     }
 
     @Override
-    protected void doUpdate(float elapsedFraction) {
+    public Integer interpolateValue(float elapsedFraction) {
         final float delta = ((getEndValue() - getStartValue()) * getInterpolator().getInterpolation(elapsedFraction));
-        final int newValue = getStartValue() + ((int) delta);
-        if (getCurrentValue() != newValue) {
-            updateCurValue(newValue);
-        }
+        return getStartValue() + ((int) delta);
     }
+
+//    @Override
+//    protected void doUpdate(float elapsedFraction) {
+//        final int newValue = interpolateValue(elapsedFraction);
+//        if (getCurrentValue() != newValue) {
+//            updateCurrentValue(newValue);
+//        }
+//    }
 }

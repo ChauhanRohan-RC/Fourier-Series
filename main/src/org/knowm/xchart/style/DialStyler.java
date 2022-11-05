@@ -365,7 +365,7 @@ public class DialStyler extends Styler {
   }
 
   /**
-   * Set the line color of the series
+   * Set the line color of the graphSeries
    *
    * @param color
    */

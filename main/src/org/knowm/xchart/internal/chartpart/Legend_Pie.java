@@ -47,7 +47,7 @@ public class Legend_Pie<ST extends Styler, S extends Series> extends Legend_<ST,
       g.setColor(series.getFillColor());
       g.fill(rectSmall);
 
-      // paint series text
+      // paint graphSeries text
       final double x = startx + BOX_SIZE + chart.getStyler().getLegendPadding();
       paintSeriesText(g, seriesTextBounds, BOX_SIZE, x, starty);
 

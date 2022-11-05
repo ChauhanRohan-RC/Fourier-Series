@@ -70,7 +70,7 @@ public class BubbleChart extends Chart<BubbleStyler, BubbleSeries> {
   }
 
   /**
-   * Add a series for a Bubble type chart using using double arrays
+   * Add a graphSeries for a Bubble type chart using using double arrays
    *
    * @param seriesName
    * @param xData the X-Axis data
@@ -92,7 +92,7 @@ public class BubbleChart extends Chart<BubbleStyler, BubbleSeries> {
   }
 
   /**
-   * Add a series for a Bubble type chart using using Lists
+   * Add a graphSeries for a Bubble type chart using using Lists
    *
    * @param seriesName
    * @param xData the X-Axis data
@@ -127,7 +127,7 @@ public class BubbleChart extends Chart<BubbleStyler, BubbleSeries> {
   }
 
   /**
-   * Update a series by updating the X-Axis, Y-Axis and bubble data
+   * Update a graphSeries by updating the X-Axis, Y-Axis and bubble data
    *
    * @param seriesName
    * @param newXData - set null to be automatically generated as a list of increasing Integers
@@ -150,7 +150,7 @@ public class BubbleChart extends Chart<BubbleStyler, BubbleSeries> {
   }
 
   /**
-   * Update a series by updating the X-Axis, Y-Axis and bubble data
+   * Update a graphSeries by updating the X-Axis, Y-Axis and bubble data
    *
    * @param seriesName
    * @param newXData - set null to be automatically generated as a list of increasing Integers
@@ -187,7 +187,7 @@ public class BubbleChart extends Chart<BubbleStyler, BubbleSeries> {
       throw new IllegalArgumentException(
           "Series name >"
               + seriesName
-              + "< has already been used. Use unique names for each series!!!");
+              + "< has already been used. Use unique names for each graphSeries!!!");
     }
     if (yData == null) {
       throw new IllegalArgumentException("Y-Axis data cannot be null!!! >" + seriesName);
@@ -216,7 +216,7 @@ public class BubbleChart extends Chart<BubbleStyler, BubbleSeries> {
     setWidth(width);
     setHeight(height);
 
-    // set the series types if they are not set. Legend and Plot need it.
+    // set the graphSeries types if they are not set. Legend and Plot need it.
     for (BubbleSeries bubbleSeries : getSeriesMap().values()) {
       BubbleSeries.BubbleSeriesRenderStyle seriesType =
           bubbleSeries.getBubbleSeriesRenderStyle(); // would be directly set
@@ -235,7 +235,7 @@ public class BubbleChart extends Chart<BubbleStyler, BubbleSeries> {
     annotations.forEach(x -> x.paint(g));
   }
 
-  /** set the series color based on theme */
+  /** set the graphSeries color based on theme */
   private void setSeriesStyles() {
 
     SeriesColorMarkerLineStyleCycler seriesColorMarkerLineStyleCycler =

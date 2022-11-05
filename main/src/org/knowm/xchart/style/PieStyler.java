@@ -67,8 +67,8 @@ public class PieStyler extends Styler {
   }
 
   /**
-   * Sets the default series render style for the chart (line, scatter, area, etc.) You can override
-   * the series render style individually on each Series object.
+   * Sets the default graphSeries render style for the chart (line, scatter, area, etc.) You can override
+   * the graphSeries render style individually on each Series object.
    *
    * @param chartPieSeriesRenderStyle
    */
@@ -171,7 +171,7 @@ public class PieStyler extends Styler {
   }
 
   /**
-   * Sets the thickness of the donut ring for donut style pie chart series.
+   * Sets the thickness of the donut ring for donut style pie chart graphSeries.
    *
    * @param donutThickness - Valid range is between 0 and 1.
    */

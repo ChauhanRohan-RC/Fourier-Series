@@ -156,10 +156,10 @@ public class Main {
 //        final double[] xdata = RealTransform.toReal(range);
 //        final double[] ydata = RealTransform.toImaginary(range);
 //
-//        final XYSeries series = chart.addSeries("signal", xdata, ydata);
-//        series.setMarker(new None());
-////        series.setLineWidth(0.5f);
-//        series.setShowInLegend(false);
+//        final XYSeries graphSeries = chart.addSeries("signal", xdata, ydata);
+//        graphSeries.setMarker(new None());
+////        graphSeries.setLineWidth(0.5f);
+//        graphSeries.setShowInLegend(false);
 
 //        final RotorState state = new RotorState(windiwngFreq, signal);
 //        final XYSeries com = chart.addSeries("com", List.of(state.getCoefficient().getReal()), List.of(state.getCoefficient().getImaginary()));
@@ -202,15 +202,15 @@ public class Main {
 
         chart.addAnnotation(new AnnotationText("Loading", (float)chart.getWidth() / 2, (float)chart.getHeight() / 2, false));
 
-//        final XYSeries series = chart.addSeries("Function", domain, RealTransform.toReal(range));
-//        series.setMarker(new None());
+//        final XYSeries graphSeries = chart.addSeries("Function", domain, RealTransform.toReal(range));
+//        graphSeries.setMarker(new None());
 
 //        final ComplexDomainFunctionI function = Providers.FOURIER_PORTRAIT.requireFunction();
 ////        final double[] domain = function.createSamplesDomain(10000);
 //        final Complex[] range  = function.createSamplesRange(10000);        // more than enough
 
-//        final XYSeries series = chart.addSeries("function", RealTransform.toReal(range), RealTransform.toReal(range, c -> -c.getImaginary()));
-//        series.setMarker(new None());
+//        final XYSeries graphSeries = chart.addSeries("function", RealTransform.toReal(range), RealTransform.toReal(range, c -> -c.getImaginary()));
+//        graphSeries.setMarker(new None());
 
         swingWrapper.displayChart();
     }

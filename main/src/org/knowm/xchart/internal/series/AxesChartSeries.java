@@ -81,7 +81,7 @@ public abstract class AxesChartSeries extends Series {
   }
 
   /**
-   * Set the line style of the series
+   * Set the line style of the graphSeries
    *
    * @param basicStroke
    */
@@ -107,7 +107,7 @@ public abstract class AxesChartSeries extends Series {
   }
 
   /**
-   * Set the line color of the series
+   * Set the line color of the graphSeries
    *
    * @param color
    */
@@ -123,7 +123,7 @@ public abstract class AxesChartSeries extends Series {
   }
 
   /**
-   * Set the line width of the series
+   * Set the line width of the graphSeries
    *
    * @param lineWidth
    */

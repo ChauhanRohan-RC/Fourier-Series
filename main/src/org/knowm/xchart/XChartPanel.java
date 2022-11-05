@@ -26,6 +26,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
 import app.R;
+import models.graph.GraphSeries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.knowm.xchart.BitmapEncoder.BitmapFormat;
@@ -146,6 +147,15 @@ public class XChartPanel<T extends Chart<?, ?>> extends JPanel {
      */
     public void setResetZoomActionName(String resetZoomActionName) {
         this.resetZoomString = resetZoomActionName;
+    }
+
+    @NotNull
+    public XYSeries addXYSeries(@NotNull GraphSeries series) {
+        if (chart instanceof final XYChart xyChart) {
+            return xyChart.addSeries(series.name(), series.xData(), series.yData(), series.errorBars());
+        }
+
+        throw new AssertionError("Chart not an instance of XYChArt");
     }
 
     @Override

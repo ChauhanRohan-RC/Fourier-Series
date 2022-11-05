@@ -95,7 +95,7 @@ public class Legend_OHLC<ST extends OHLCStyler, S extends OHLCSeries> extends Le
                 axesChartStyler.getMarkerSize());
       }
 
-      // paint series text
+      // paint graphSeries text
       double x =
           startx
               + chart.getStyler().getLegendSeriesLineLength()

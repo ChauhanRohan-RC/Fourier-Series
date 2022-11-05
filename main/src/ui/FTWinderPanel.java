@@ -1,8 +1,9 @@
-package test;
+package ui;
 
 import animation.animator.AbstractAnimator;
 import animation.animator.Animator;
 import animation.animator.IntAnimator;
+import animation.interpolator.Interpolator;
 import app.Colors;
 import app.R;
 import function.definition.ComplexDomainFunctionI;
@@ -12,7 +13,6 @@ import org.jetbrains.annotations.Nullable;
 import rotor.RotorState;
 import rotor.RotorStateManager;
 import rotor.frequency.RotorFrequencyProviderI;
-import ui.FourierSeriesPanel;
 import util.Format;
 import util.live.Listeners;
 import util.main.ComplexUtil;
@@ -24,7 +24,7 @@ import java.awt.geom.Point2D;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-public class FourierTransformWinderPanel extends JPanel implements Runnable {
+public class FTWinderPanel extends JPanel implements Runnable {
 
     private static final String TAG = "FourierTransformPanel";
 
@@ -40,6 +40,8 @@ public class FourierTransformWinderPanel extends JPanel implements Runnable {
 
     @NotNull
     public static final AbstractAnimator.RepeatMode DEFAULT_REPEAT_MODE = AbstractAnimator.RepeatMode.END;
+    @NotNull
+    public static final Interpolator INTERPOLATOR = Interpolator.LINEAR;        // Required for seek operation
 
     private static final int DEFAULT_INTERVAL_COUNT = 2000;
     private static final boolean DEFAULT_JOIN_POINTS = true;
@@ -90,19 +92,19 @@ public class FourierTransformWinderPanel extends JPanel implements Runnable {
 
     public interface Listener {
 
-        void onRotorsCountChanged(@NotNull FourierTransformWinderPanel panel, int rotorsCount);
+        void onRotorsCountChanged(@NotNull FTWinderPanel panel, int rotorsCount);
 
-        void onIsLoadingChanged(@NotNull FourierTransformWinderPanel panel, boolean isLoading);
+        void onIsLoadingChanged(@NotNull FTWinderPanel panel, boolean isLoading);
 
-        void onIsPlayingChanged(@NotNull FourierTransformWinderPanel panel, boolean playing);
+        void onIsPlayingChanged(@NotNull FTWinderPanel panel, boolean playing);
 
-        void onRotorsAnimationSpeedChanged(@NotNull FourierTransformWinderPanel panel, int speedPercent);
+        void onRotorsAnimationSpeedChanged(@NotNull FTWinderPanel panel, int speedPercent);
 
-        void onRotorsAnimationRepeatModeChanged(@NotNull FourierTransformWinderPanel panel, @NotNull AbstractAnimator.RepeatMode repeatMode);
+        void onRotorsAnimationRepeatModeChanged(@NotNull FTWinderPanel panel, @NotNull AbstractAnimator.RepeatMode repeatMode);
 
-        void onCurrentRotorChanged(@NotNull FourierTransformWinderPanel panel, int currentRotorIndex);
+        void onCurrentRotorChanged(@NotNull FTWinderPanel panel, int currentRotorIndex);
 
-        void onPointsJoiningEnabledChanged(@NotNull FourierTransformWinderPanel panel, boolean pointsJoiningEnabled);
+        void onPointsJoiningEnabledChanged(@NotNull FTWinderPanel panel, boolean pointsJoiningEnabled);
 
     }
 
@@ -129,7 +131,7 @@ public class FourierTransformWinderPanel extends JPanel implements Runnable {
 //            }
 
             update();
-            listeners.dispatchOnMainThread(l -> l.onIsLoadingChanged(FourierTransformWinderPanel.this, isLoading));
+            listeners.dispatchOnMainThread(l -> l.onIsLoadingChanged(FTWinderPanel.this, isLoading));
         }
 
         @Override
@@ -142,10 +144,11 @@ public class FourierTransformWinderPanel extends JPanel implements Runnable {
 
         @Override
         public void onRotorsCountChanged(@NotNull RotorStateManager manager, int prevCount, int newCount) {
+            setPlay(false);
             reset(false);
             syncRotorsAnimator();
 
-            listeners.forEachListener(l -> l.onRotorsCountChanged(FourierTransformWinderPanel.this, newCount));
+            listeners.forEachListener(l -> l.onRotorsCountChanged(FTWinderPanel.this, newCount));
             setPlay(true);
             update();
         }
@@ -198,21 +201,19 @@ public class FourierTransformWinderPanel extends JPanel implements Runnable {
 
         @Override
         public void onAnimationUpdate(@NotNull Animator<Integer> animator) {
-            FourierTransformWinderPanel.this.onRotorsAnimationUpdate(animator.getCurrentValue());
+            FTWinderPanel.this.onRotorsAnimationUpdate(animator.getCurrentValue());
         }
 
         @Override
         public void onDurationChanged(@NotNull Animator<Integer> animator) {
-            FourierTransformWinderPanel.this.onRotorsAnimationDurationChanged(animator.getDurationMs());
+            FTWinderPanel.this.onRotorsAnimationDurationChanged(animator.getDurationMs());
         }
 
         @Override
         public void onRepeatModeChanged(@NotNull Animator<Integer> animator) {
-            FourierTransformWinderPanel.this.onRepeatModeChanged(animator.getRepeatMode());
+            FTWinderPanel.this.onRepeatModeChanged(animator.getRepeatMode());
         }
     };
-
-
 
     @NotNull
     private final RotorStateManager manager;
@@ -227,7 +228,7 @@ public class FourierTransformWinderPanel extends JPanel implements Runnable {
 
     private final Listeners<Listener> listeners = new Listeners<>();
 
-    public FourierTransformWinderPanel(@NotNull RotorStateManager manager) {
+    public FTWinderPanel(@NotNull RotorStateManager manager) {
         this.manager = manager;
         this.rotorsAnim = createRotorsAnimator(manager.getRotorCount(), speedFraction);
 
@@ -247,13 +248,39 @@ public class FourierTransformWinderPanel extends JPanel implements Runnable {
     }
 
     @NotNull
-    protected IntAnimator getRotorsAnimator() {
+    public IntAnimator getRotorsAnimator() {
         return rotorsAnim;
     }
 
     public int getCurrentRotorIndex() {
         return rotorsAnim.getCurrentValue();
     }
+
+    public void seekToRotorIndex(int rotorIndex) {
+        final int count = manager.getRotorCount();
+        if (count < 2 || rotorIndex < 0 || rotorIndex >= count)
+            return;
+
+        seekToRotorFraction((float) rotorIndex / (count - 1));
+    }
+
+    public void seekToRotorFraction(float rotorFraction) {
+        final float timeFraction = rotorFraction;      // since i know interpolator is linear
+        seekToTimeFraction(timeFraction);
+    }
+
+    public void seekToTimeFraction(float timeFraction) {
+        rotorsAnim.setElapsedFraction(timeFraction, false);
+        if (!rotorsAnim.isRunning()) {
+            rotorsAnim.start();
+            rotorsAnim.update();
+            rotorsAnim.pause();
+        } else {
+            rotorsAnim.update();
+        }
+    }
+
+
 
     public void addRotorsAnimationListener(@NotNull Animator.AnimationListener<Integer> listener) {
         rotorsAnim.addAnimationListener(listener);
@@ -285,7 +312,7 @@ public class FourierTransformWinderPanel extends JPanel implements Runnable {
     }
 
     private void resetAnimator(boolean update) {
-        rotorsAnim.reset();
+        rotorsAnim.backToStart();
 
         if (update) {
             update();
@@ -304,7 +331,7 @@ public class FourierTransformWinderPanel extends JPanel implements Runnable {
 
     protected void onIsPlayingChanged(boolean playing) {
         update();
-        listeners.dispatchOnMainThread(l -> l.onIsPlayingChanged(FourierTransformWinderPanel.this, playing));
+        listeners.dispatchOnMainThread(l -> l.onIsPlayingChanged(FTWinderPanel.this, playing));
     }
 
     public final boolean isPlaying() {
@@ -352,7 +379,7 @@ public class FourierTransformWinderPanel extends JPanel implements Runnable {
 
     protected void onPointsJoiningEnabledChanged(boolean pointsJoiningEnabled) {
         update();
-        listeners.dispatchOnMainThread(l -> l.onPointsJoiningEnabledChanged(FourierTransformWinderPanel.this, pointsJoiningEnabled));
+        listeners.dispatchOnMainThread(l -> l.onPointsJoiningEnabledChanged(FTWinderPanel.this, pointsJoiningEnabled));
     }
 
     public final void setJoinPointsEnabled(boolean pointsJoiningEnabled) {
@@ -381,13 +408,13 @@ public class FourierTransformWinderPanel extends JPanel implements Runnable {
     protected void onRotorsAnimationUpdate(int currentRotorIndex) {
         update();
 
-        listeners.forEachListener(l -> l.onCurrentRotorChanged(FourierTransformWinderPanel.this, currentRotorIndex));
+        listeners.forEachListener(l -> l.onCurrentRotorChanged(FTWinderPanel.this, currentRotorIndex));
     }
 
 
     protected void onRotorsAnimationDurationChanged(long durationMs) {
         final int percent = (int) (durationMsToSpeedFraction(durationMs, getRotorCount()) * 100);
-        listeners.dispatchOnMainThread(l -> l.onRotorsAnimationSpeedChanged(FourierTransformWinderPanel.this, percent));
+        listeners.dispatchOnMainThread(l -> l.onRotorsAnimationSpeedChanged(FTWinderPanel.this, percent));
     }
 
     public final void setRotorsAnimationSpeedFraction(float fraction) {
@@ -425,7 +452,7 @@ public class FourierTransformWinderPanel extends JPanel implements Runnable {
     }
 
     protected void onRepeatModeChanged(@NotNull AbstractAnimator.RepeatMode repeatMode) {
-        listeners.dispatchOnMainThread(l -> l.onRotorsAnimationRepeatModeChanged(FourierTransformWinderPanel.this, repeatMode));
+        listeners.dispatchOnMainThread(l -> l.onRotorsAnimationRepeatModeChanged(FTWinderPanel.this, repeatMode));
     }
 
     public final void setRepeatMode(@Nullable AbstractAnimator.RepeatMode repeatMode) {

@@ -195,7 +195,7 @@ public class PlotContent_Radar<ST extends RadarStyler, S extends RadarSeries>
       }
     }
 
-    // series lines and markers and Tooltips
+    // graphSeries lines and markers and Tooltips
     NumberFormat decimalFormat =
         (styler.getDecimalPattern() == null) ? df : new DecimalFormat(styler.getDecimalPattern());
     Map<String, S> map = chart.getSeriesMap();

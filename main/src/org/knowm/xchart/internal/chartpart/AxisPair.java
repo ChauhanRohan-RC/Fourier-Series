@@ -283,18 +283,18 @@ public class AxisPair<ST extends AxesChartStyler, S extends AxesChartSeries> imp
       ya.resetMinMax();
     }
 
-    // if no series, we still want to plot an empty plot with axes. Since there are no min and max
-    // with no series added, we just fake it arbitrarily.
+    // if no graphSeries, we still want to plot an empty plot with axes. Since there are no min and max
+    // with no graphSeries added, we just fake it arbitrarily.
     if (chart.getSeriesMap() == null || chart.getSeriesMap().size() < 1) {
       setDefaultAxisMinMax();
     } else {
       int disabledCount = 0; // maybe all are disabled, so we check this condition
       for (S series : chart.getSeriesMap().values()) {
         // add min/max to axes
-        // System.out.println(series.getxMin());
-        // System.out.println(series.getxMax());
-        // System.out.println(series.getyMin());
-        // System.out.println(series.getyMax());
+        // System.out.println(graphSeries.getxMin());
+        // System.out.println(graphSeries.getxMax());
+        // System.out.println(graphSeries.getyMin());
+        // System.out.println(graphSeries.getyMax());
         // System.out.println("****");
         if (!series.isEnabled()) {
           disabledCount++;
@@ -354,7 +354,7 @@ public class AxisPair<ST extends AxesChartStyler, S extends AxesChartSeries> imp
   }
 
   /**
-   * Sets a default minimum and maximum on all axes, for cases where there are no series to compute
+   * Sets a default minimum and maximum on all axes, for cases where there are no graphSeries to compute
    * a range from.
    */
   private void setDefaultAxisMinMax() {
