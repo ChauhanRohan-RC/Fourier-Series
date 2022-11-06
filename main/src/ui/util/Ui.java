@@ -1,22 +1,49 @@
 package ui.util;
 
+import app.R;
+import function.definition.ComplexDomainFunctionI;
+import models.Wrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import provider.FunctionMeta;
+import provider.FunctionProviderI;
+import provider.FunctionType;
+import provider.SimpleFunctionProvider;
+import rotor.FunctionState;
+import rotor.RotorStateManager;
+import rotor.frequency.RotorFrequencyProviderI;
+import ui.ExternalProgramPanel;
+import ui.FTUi;
+import ui.FourierUi;
+import ui.FrequencyProviderSelectorPanel;
+import util.ExternalJava;
+import util.FileUtil;
 import util.Format;
+import util.Log;
+import util.async.Canceller;
 import util.async.Consumer;
+import util.async.TaskConsumer;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
+import java.awt.event.WindowEvent;
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.StringJoiner;
 
 public interface Ui {
 
     Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
 
     String MAIN_TITLE = "Fourier Series";
+    String FT_TITLE = "Fourier Transform";
+
     int DEFAULT_LOOPER_DELAY_MS = 10;
 
     @NotNull
@@ -109,6 +136,374 @@ public interface Ui {
     @Nullable
     default File[] showFileChooser(@NotNull ChooserConfig config) {
         return ChooserConfig.showFileChooser(getFrame(), config);
+    }
+
+
+    static void close(@NotNull JFrame frame) {
+        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+    }
+
+    /* Loading ans Saving */
+
+    @Nullable
+    static FTUi showFtUi(@NotNull Ui ui, @NotNull RotorStateManager manager) {
+        if (manager.isNoOp()) {
+            ui.showErrorMessageDialog("No function selected yet\nSelect a function to view Fourier Transform Ui", null);
+            return null;
+        }
+
+        return new FTUi(manager, FT_TITLE + " (" + manager.getFunctionMeta().displayName() + ")");
+    }
+
+    static void askConfigureFrequencyProvider(@NotNull Ui ui, @NotNull RotorStateManager manager) {
+        if (manager.isNoOp()) {
+            ui.showErrorMessageDialog("No function selected yet\nSelect a function to configure frequency provider", null);
+            return;
+        }
+
+        final FrequencyProviderSelectorPanel panel = new FrequencyProviderSelectorPanel(manager.getManagerRotorFrequencyProviderOrDefault(), manager.getManagerDefaultRotorFrequencyProvider());
+        final RotorFrequencyProviderI freqProvider = panel.showDialog(ui.getFrame());
+        if (freqProvider != null) {
+            manager.setRotorFrequencyProvider(freqProvider);
+        }
+    }
+
+
+    static void askSaveFunctionStateToFIle(@NotNull Ui ui, @NotNull RotorStateManager manager) {
+        final String err;
+
+        if (manager.isNoOp()) {
+            err = "No function selected yet!";
+        } else if (manager.isLoading()) {
+            err = "Rotor States are still loading!";
+        } else if (manager.getRotorCount() < 1) {
+            err = "Nothing loaded yet!";
+        } else {
+            err = null;
+        }
+
+        if (Format.notEmpty(err)) {          // Invalid save request
+            ui.showErrorMessageDialog("Invalid Save Request\nError: " + err, null);
+            return;
+        }
+
+        final FunctionState functionState = manager.createFunctionState();
+        functionState.setSerializeFunction(true);       // 1st with serialization
+
+        final String functionTitle = manager.getFunctionMeta().getTypedFunctionDisplayName();
+        final String dialogTitle = "Save Function State";
+
+        final ChooserConfig config = ChooserConfig.saveFileSingle()
+                .setDialogTitle(dialogTitle)
+                .setStartDir(R.DIR_FUNCTION_STATE_SAVES)
+                .setChoosableFileFilters(R.FUNCTION_STATE_SAVE_FILE_FILTER)
+                .setUseAcceptAllFIleFilter(false)
+                .setFileHidingEnabled(true)
+                .setApproveButtonText("Save")
+                .setApproveButtonTooltipText(dialogTitle)
+                .build();
+
+        final File[] files = ui.showFileChooser(config);
+        if (files == null || files.length == 0 || files[0] == null)
+            return;
+
+        final Path outPath = FileUtil.getNonExistingFile(FileUtil.ensureExtension(files[0].toPath(), R.FUNCTION_STATE_SAVE_FILE_EXTENSION));
+
+        // TODO: show snackbar saving
+        final Canceller c = functionState.writeJsonAsync(outPath, new TaskConsumer<>() {
+
+            @Override
+            public void onFailed(@Nullable Throwable t) {
+                Log.e(FourierUi.TAG, "failed to save function state", t);
+
+                final boolean retry = functionState.hasSerialisedFunction();
+
+                final String errorMsg = t == null? "Unknown": t.getClass().getSimpleName() + " -> " + t.getMessage();
+                final String msg = String.format("Failed To save Function State.%s\n\nFunction: %s\nError: %s", retry? " Try saving without Function Definition?": "", functionTitle, errorMsg);
+
+                if (retry) {
+                    final int option = JOptionPane.showConfirmDialog(ui.getFrame(), msg, dialogTitle, JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+                    if (option == JOptionPane.YES_OPTION) {
+                        functionState.setSerializeFunction(false);          // without function serialization
+                        functionState.writeJsonAsync(outPath, this);
+                    }
+                } else {
+                    ui.showErrorMessageDialog(msg, dialogTitle);
+                }
+            }
+
+            private void onSuccess() {
+                final String msg = String.format("Function State saved\n\nFile: %s\nFunction: %s\nDefinition saved: %s", outPath, functionTitle, functionState.hasSerialisedFunction());
+                ui.showInfoMessageDialog(msg, dialogTitle);
+            }
+
+            @Override
+            public void consume(Void data) {
+                onSuccess();
+            }
+
+            @Override
+            public void onCancelled(@Nullable Void dataProcessedYet) {
+                ui.showInfoMessageDialog("Function State save CANCELLED", dialogTitle);
+            }
+        });
+    }
+
+    static void askLoadFunctionStateFromFile(@NotNull Ui ui, @NotNull Consumer<FunctionProviderI> successConsumer) {
+        R.ensureFunctionStateSaveDir();
+
+        final String dialogTitle = "Load Function State";
+
+        final ChooserConfig config = ChooserConfig.openFileSingle()
+                .setDialogTitle(dialogTitle)
+                .setStartDir(R.DIR_FUNCTION_STATE_SAVES)
+                .setChoosableFileFilters(R.FUNCTION_STATE_SAVE_FILE_FILTER)
+                .setUseAcceptAllFIleFilter(false)
+                .setFileHidingEnabled(false)
+                .setApproveButtonText("Load")
+                .setApproveButtonTooltipText(dialogTitle)
+                .build();
+
+        final File[] files = ui.showFileChooser(config);
+        if (files == null || files.length == 0 || files[0] == null) {
+            return;
+        }
+
+        final Path file = files[0].toPath();
+
+        final Wrapper.Bool withFunctionDefinition = new Wrapper.Bool(true);
+
+        // todo: show snack-bar
+        final Canceller c = FunctionState.loadFromJsonAsync(file, true, new TaskConsumer<>() {
+
+            @Override
+            public void onFailed(@Nullable Throwable e) {
+                Log.e(FourierUi.TAG, "failed to load function state, withFunctionState: " + withFunctionDefinition.get(), e);
+
+                final boolean retry = withFunctionDefinition.get();
+                withFunctionDefinition.set(false);
+
+                final String errMsg = e == null? "Unknown": e.getClass().getSimpleName() + " -> " + e.getMessage();
+                final String msg = String.format("Failed to load Function State%s\n\nFile: %s\nError: %s", retry? ". Try loading without Function Definition?": "", file, errMsg);
+
+                if (retry) {
+                    final int option = JOptionPane.showConfirmDialog(ui.getFrame(), msg, dialogTitle, JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+                    if (option == JOptionPane.YES_OPTION) {
+                        // todo snackbar
+                        final Canceller c2 = FunctionState.loadFromJsonAsync(file, false, this);
+                    }
+                } else {
+                    ui.showErrorMessageDialog(msg, dialogTitle);
+                }
+            }
+
+            private void done(@NotNull FunctionProviderI provider) {
+                successConsumer.consume(provider);
+
+                final String msg = String.format("Function State loaded\n\nFile: %s\nFunction: %s\nHas Definition: %s", file, provider.getFunctionMeta().getTypedFunctionDisplayName(), provider.getFunctionMeta().hasBaseDefinition());
+                ui.showInfoMessageDialog(msg, null);
+            }
+
+            @NotNull
+            private FunctionProviderI toProvider(@NotNull FunctionState state) {
+                return state.toProvider(file.getFileName().toString(), true);
+            }
+
+            @Override
+            public void consume(FunctionState state) {
+                if (state == null) {
+                    onFailed(null);
+                } else {
+                    done(toProvider(state));
+                }
+            }
+
+            @Override
+            public void onCancelled(@Nullable FunctionState state) {
+                if (state == null) {
+                    ui.showInfoMessageDialog("Function State load Cancelled\n\nFile: " + file, dialogTitle);
+                } else {
+                    final FunctionProviderI provider = toProvider(state);
+                    final String msg = String.format("Function State load CANCELLED, but it was already loaded\nDo you still want to add this function?\n\nFunction: %s\nFile: %s", provider.getFunctionMeta().getTypedFunctionDisplayName(), file);
+
+                    final int option = JOptionPane.showConfirmDialog(ui.getFrame(), msg, dialogTitle, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                    if (option == JOptionPane.YES_OPTION) {
+                        done(provider);
+                    }
+                }
+            }
+        });
+
+
+//        RotorStateManager.loadFunctionStateFileAsync(file.toPath(), fp -> {
+//            if (fp != null) {
+//                functionProviders.ensureAddSelect(fp);
+//
+//                final String displayName = fp.getFunctionMeta().displayName();
+//                final FunctionType type = fp.getFunctionMeta().functionType();
+//                final ComplexDomainFunctionI func = fp.getFunction();
+//                final boolean hasDefinition = (type != FunctionType.EXTERNAL_ROTOR_STATE) || (func instanceof RotorStatesFunction && ((RotorStatesFunction) func).hasBaseFunction());
+//
+//                final String msg = String.format("Rotor States Function loaded\nFile: %s\nFunction: %s (%s)\nHas Definition: %s", file.getPath(), displayName, type, hasDefinition);
+//                showInfoMessageDialog(msg, null);
+//            } else {
+//                showErrorMessageDialog("Failed to load Rotor States. FIle might be corrupted or of invalid format\n\nFile: " + file.getPath(), null);
+//            }
+//        });
+    }
+
+    static void askLoadExternalPathFunctions(@NotNull Ui ui, @NotNull Consumer<java.util.List<FunctionProviderI>> successConsumer) {
+        final String dialogTitle = "Load Path Functions";
+
+        final ChooserConfig config = ChooserConfig.openFile(true)
+                .setDialogTitle(dialogTitle)
+                .setStartDir(R.DIR_EXTERNAL_PATH_FUNCTIONS)
+                .setUseAcceptAllFIleFilter(false)
+                .setChoosableFileFilters(R.PATH_DATA_FILE_FILTER)
+                .setFileHidingEnabled(false)
+                .setApproveButtonText("Load")
+                .setApproveButtonTooltipText(dialogTitle)
+                .build();
+
+        final File[] files = ui.showFileChooser(config);
+        if (files == null || files.length == 0)
+            return;
+
+        final Path[] paths = Arrays.stream(files).map(File::toPath).toArray(Path[]::new);
+
+        // todo show message loading
+        final Canceller canceller = R.loadExternalPathFunctionsAsync(paths, R.DEFAULT_VALIDATE_EXTERNAL_FILES, new Consumer<>() {
+            @Override
+            public void consume(FunctionProviderI[] data) {
+                if (data == null || data.length == 0) {
+                    ui.showErrorMessageDialog("FAILED to load path functions", dialogTitle);
+                    return;
+                }
+
+                final StringJoiner err = new StringJoiner("\n");
+                final java.util.List<FunctionProviderI> providers = new ArrayList<>();
+                for (int i=0; i < data.length; i++) {
+                    final FunctionProviderI fp = data[i];
+                    if (fp != null) {
+                        providers.add(fp);
+                    } else {
+                        err.add(paths[i].getFileName().toString());
+                    }
+                }
+
+                successConsumer.consume(providers);
+
+                final int loadedCount = providers.size();
+                String msg = (loadedCount > 0? String.valueOf(loadedCount): "No") + " Path Function" + (loadedCount > 1? "s": "") + " loaded";
+
+                final boolean hasErr = err.length() > 0;
+                if (hasErr) {
+                    msg += "\n\nFAILED to load\n" + err;
+                }
+
+                ui.showMessageDialog(msg, dialogTitle, hasErr? loadedCount > 0? JOptionPane.WARNING_MESSAGE: JOptionPane.ERROR_MESSAGE: JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            @Override
+            public void onCancelled(FunctionProviderI @Nullable [] dataProcessedYet) {
+                ui.showErrorMessageDialog("Path Functions load CANCELLED", dialogTitle);
+            }
+        });
+    }
+
+    static void askLoadExternalPathFunctionsFromDir(@NotNull Ui ui, @NotNull Consumer<java.util.List<FunctionProviderI>> successConsumer) {
+        final ChooserConfig config = ChooserConfig.openDirSingle()
+                .setDialogTitle("Scan Folder for Path Functions")
+                .setStartDir(R.DIR_EXTERNAL_PATH_FUNCTIONS)
+                .setFileHidingEnabled(false)
+                .setApproveButtonText("Scan")
+                .setApproveButtonTooltipText("Scan Path Functions in folder")
+                .build();
+
+        final File[] files = ui.showFileChooser(config);
+        if (files == null || files.length == 0 || files[0] == null) {
+            return;
+        }
+
+        final File dir = files[0];
+        // TODO: show snackbar
+        final Canceller canceller = R.loadExternalPathFunctionsAsync(dir.toPath(), R.DEFAULT_VALIDATE_EXTERNAL_FILES, new Consumer<>() {
+            @Override
+            public void consume(R.LoadResult data) {
+                String msg;
+                int msgType;
+                if (data == null) {
+                    msg = "FAILED to scan folder for Path Functions";
+                    msgType = JOptionPane.ERROR_MESSAGE;
+                } else {
+                    successConsumer.consume(data.getFunctionProviders());
+                    final int loadCount = data.successFiles();
+                    final int failCount = data.failedFiles();
+                    msg = (loadCount > 0? String.valueOf(loadCount): "No") + " Path Function" + (loadCount > 1? "s": "") + " loaded";
+                    if (failCount > 0) {
+                        msg += "\nFAILED to load " + failCount + " Path Function" + (failCount > 1? "s": "");
+                        msgType = loadCount > 0? JOptionPane.WARNING_MESSAGE: JOptionPane.ERROR_MESSAGE;
+                    } else {
+                        msgType = loadCount > 0? JOptionPane.INFORMATION_MESSAGE: JOptionPane.WARNING_MESSAGE;
+                    }
+                }
+
+                msg += "\nSource: " + dir.getPath();
+                ui.showMessageDialog(msg, null, msgType);
+            }
+
+            @Override
+            public void onCancelled(R.@Nullable LoadResult dataProcessedYet) {
+                Consumer.super.onCancelled(dataProcessedYet);
+            }
+        });
+
+    }
+
+    static void askLoadExternalProgrammaticFunctions(@NotNull Ui ui, @NotNull Consumer<FunctionProviderI> successConsumer) {
+        final ExternalProgramPanel dialog = new ExternalProgramPanel(ui.getFrame(), null);
+        final ExternalJava.Location location = dialog.showDialog();
+
+        if (location == null)
+            return;
+
+        String errMsg = null;
+        Throwable err = null;
+
+        try {
+            final ComplexDomainFunctionI function = R.compileAndLoadExternalProgramFunction(location);
+
+            final String displayTitle = R.createExternalProgramFunctionDisplayName(FileUtil.getFullName(location.relativeSourcePath));
+            final FunctionMeta meta = new FunctionMeta(FunctionType.EXTERNAL_PROGRAM, displayTitle);
+
+            final FunctionProviderI provider = new SimpleFunctionProvider(meta, function);
+            successConsumer.consume(provider);
+
+            final String msg = "External programmatic function loaded -> " + displayTitle + "\n\nProject Folder: " + location.classpath + "\nFunction Class: " + location.getClassName();
+            ui.showInfoMessageDialog(msg, null);
+        } catch (ExternalJava.CompilationException compilationException) {
+            errMsg = "Failed to compile External Java Project";
+            err = compilationException;
+        } catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException constructorException) {
+            errMsg = "Function java class must have a public no-argument constructor";
+            err = constructorException;
+        } catch (InstantiationException | InvocationTargetException instantiationException) {
+            errMsg = "failed to Instantiate function class";
+            err = instantiationException;
+        } catch (Throwable t) {
+            errMsg = "Unknown Error in compilation and instantiation of function class";
+            err = t;
+        }
+
+        if (Format.notEmpty(errMsg)) {
+            errMsg += "\n\nProject Folder: " + location.classpath + "\nFunction Class: " + location.getClassName();
+            if (err != null) {
+                errMsg += "\nError: " + err.getClass().getSimpleName() + " -> " + err.getMessage();
+            }
+
+            Log.e(FourierUi.TAG, errMsg, err);
+            ui.showErrorMessageDialog(errMsg, null);
+        }
     }
 
 }

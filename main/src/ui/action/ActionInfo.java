@@ -58,11 +58,18 @@ public enum ActionInfo {
     RESET_SCALE_DRAG(R.getResetScaleAndDragText(), R.getResetScaleAndDragShortDescription(), true, KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.SHIFT_DOWN_MASK)),
     RESET_FULL(R.getResetFullText(), R.getResetFullShortDescription(), true, KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK)),
 
-    TOGGLE_FULLSCREEN(R.getFullscreenText(), R.getFullscreenShortDescription(false), false, KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK)),
-    TOGGLE_CONTROLS(R.getToggleControlsText(true), R.getToggleControlsShortDescription(true), false, KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK)),
-    TOGGLE_MENUBAR(R.getToggleMenuBarText(true), R.getToggleMenuBarShortDescription(true), false, KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_DOWN_MASK)),
+    TOGGLE_FULLSCREEN(R.getFullscreenText(), R.getFullscreenShortDescription(false), false, KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.SHIFT_DOWN_MASK)),
+    TOGGLE_CONTROLS(R.getToggleControlsText(true), R.getToggleControlsShortDescription(true), false, KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.SHIFT_DOWN_MASK)),
+    TOGGLE_MENUBAR(R.getToggleMenuBarText(true), R.getToggleMenuBarShortDescription(true), false, KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.SHIFT_DOWN_MASK)),
 
+    SHOW_FT_UI("Fourier Transform Ui", "Show Fourier Transform Ui", true, KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK)),
+
+    /* Configurations */
+    CONFIGURATIONS("Configuration", "Configure frequency, graphs and more", true, KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK)),
     CONFIGURE_ROTOR_FREQUENCY_PROVIDER(R.getConfigureRotorFrequencyProviderText(), R.getConfigureRotorFrequencyProviderShortDescription(), true, KeyStroke.getKeyStroke(KeyEvent.VK_F, 0)),
+    CONFIGURE_FUNCTION_GRAPH("Function Graph", "Configure Function Graph", true, null),
+    CONFIGURE_FT_GRAPH("FT Graph", "Configure Fourier Transform Graph", true, null),
+
 
     SAVE_FUNCTION_STATE_TO_FILE("Save", "Save Function State", true, KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK)),
     LOAD_FUNCTION_STATE_FROM_FILE("Load", "Load Function State", false, KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_DOWN_MASK)),

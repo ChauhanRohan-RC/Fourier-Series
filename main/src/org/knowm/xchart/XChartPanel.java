@@ -1,25 +1,18 @@
 package org.knowm.xchart;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.awt.print.Printable;
-import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.*;
@@ -38,10 +31,7 @@ import org.knowm.xchart.internal.chartpart.ToolTips;
 import org.knowm.xchart.style.XYStyler;
 import ui.action.BaseAction;
 import ui.util.ChooserConfig;
-import util.CollectionUtil;
-import util.FileUtil;
-import util.Log;
-import util.OpenFileFilter;
+import util.*;
 import util.async.Consumer;
 
 /**
@@ -64,7 +54,7 @@ public class XChartPanel<T extends Chart<?, ?>> extends JPanel {
     public final BaseAction printAction;
     public final BaseAction exportAction;
     @Nullable
-    private List<Consumer<JPopupMenu>> extraMenuBinders;
+    private List<Consumer<JMenu>> extraMenuBinders;
 
     private boolean showPopupMenuOnMouseTrigger = DEFAULT_SHOW_POPUP_ON_MOUSE_TRIGGER;
 
@@ -172,7 +162,7 @@ public class XChartPanel<T extends Chart<?, ?>> extends JPanel {
         return preferredSize;
     }
 
-    public XChartPanel<T> addExtraMenuBinder(@NotNull Consumer<JPopupMenu> binder) {
+    public XChartPanel<T> addExtraMenuBinder(@NotNull Consumer<JMenu> binder) {
         if (extraMenuBinders == null) {
             extraMenuBinders = new LinkedList<>();
         }
@@ -181,7 +171,7 @@ public class XChartPanel<T extends Chart<?, ?>> extends JPanel {
         return this;
     }
 
-    public boolean removeExtraMenuBinder(@NotNull Consumer<JPopupMenu> binder) {
+    public boolean removeExtraMenuBinder(@NotNull Consumer<JMenu> binder) {
         return extraMenuBinders != null && extraMenuBinders.remove(binder);
     }
 
@@ -196,22 +186,31 @@ public class XChartPanel<T extends Chart<?, ?>> extends JPanel {
     }
 
     @NotNull
-    public JPopupMenu createPopupMenu() {
-        return new PopupMenu();
+    public JMenu createMenu(@Nullable Action action) {
+        return new OpsMenu(action);
     }
 
-    public void showPopupMenu(Component component, int x, int y) {
-        final JPopupMenu menu = createPopupMenu();
+    @NotNull
+    public JPopupMenu createPopupMenu(@Nullable Action action) {
+        return createMenu(action).getPopupMenu();
+    }
+
+    public void showPopupMenu(@Nullable Action action, Component component, int x, int y) {
+        final JPopupMenu menu = createPopupMenu(action);
         menu.show(component, x, y);
         menu.getGraphics().dispose();
     }
 
-    public void showPopupMenu(@NotNull MouseEvent e) {
-        showPopupMenu(e.getComponent(), e.getX(), e.getY());
+    public void showPopupMenu(@Nullable Action action, @NotNull MouseEvent e) {
+        showPopupMenu(action, e.getComponent(), e.getX(), e.getY());
+    }
+
+    public void showPopupMenu(@Nullable Action action) {
+        showPopupMenu(action, this, getWidth() / 2,getHeight() / 2);
     }
 
     public void showPopupMenu() {
-        showPopupMenu(this, getWidth() / 2,getHeight() / 2);
+        showPopupMenu(null);
     }
 
     public void showPrintDialog() {
@@ -549,27 +548,28 @@ public class XChartPanel<T extends Chart<?, ?>> extends JPanel {
         @Override
         public void mousePressed(MouseEvent e) {
             if (showPopupMenuOnMouseTrigger && e.isPopupTrigger()) {
-                showPopupMenu(e);
+                showPopupMenu(null, e);
             }
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
             if (showPopupMenuOnMouseTrigger && e.isPopupTrigger()) {
-                showPopupMenu(e);
+                showPopupMenu(null, e);
             }
         }
     }
 
 
-    private class PopupMenu extends JPopupMenu {
+    private class OpsMenu extends JMenu {
 
-        public PopupMenu() {
-            final List<Consumer<JPopupMenu>> binders = extraMenuBinders;
+        public OpsMenu(@Nullable Action action) {
+            super(action);
+            final List<Consumer<JMenu>> binders = extraMenuBinders;
             if (CollectionUtil.notEmpty(binders)) {
                 binders.forEach(binder -> {
                     final int prev = getComponentCount();
-                    binder.consume(PopupMenu.this);
+                    binder.consume(OpsMenu.this);
                     if (getComponentCount() > prev) {
                         addSeparator();
                     }
@@ -582,6 +582,8 @@ public class XChartPanel<T extends Chart<?, ?>> extends JPanel {
                 add(new JMenuItem(exportAction));
             }
         }
+
+
     }
 
 

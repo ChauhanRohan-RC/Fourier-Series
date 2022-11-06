@@ -482,7 +482,7 @@ public class R {
 
     @NotNull
     public static String getConfigureRotorFrequencyProviderText() {
-        return "Configure Frequency Provider";
+        return "Frequency Provider";
     }
 
     @NotNull
@@ -561,6 +561,25 @@ public class R {
     public static String getRotorCountSliderShortDescription() {
         return "change no of rotors";
     }
+
+    @NotNull
+    public static String getCurrentRotorText(int index, @Nullable Double freq) {
+        if (index < 0)
+            return "";
+
+        String text = "Rotor " + index;
+        if (freq != null) {
+            text += String.format(" : %.2f", freq);
+        }
+
+        return text;
+    }
+
+    @NotNull
+    public static String getCurrentRotorSliderShortDescription() {
+        return "change current rotor";
+    }
+
 
     @NotNull
     public static String getSpeedPercentText(int percent) {

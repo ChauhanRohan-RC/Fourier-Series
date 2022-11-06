@@ -27,6 +27,8 @@ public class TestFrame extends JFrame {
         super("test Frame");
         R.init();
 
+
+
         final StandardRotorStateManager manager = new StandardRotorStateManager(
                 new MergedFunction(
                         new SineSignal(3, 40, 0, 0, 1),

@@ -24,9 +24,26 @@ import util.main.ComplexUtil;
 import javax.swing.*;
 import java.awt.*;
 
-public class Main {
+public class App {
 
     public static final String TAG = "Main";
+    private static int sWindowCount;
+
+    public static void onWindowOpen(@NotNull JFrame frame) {
+        sWindowCount++;
+        Log.d(TAG, "onWindowOpen: Title: " + frame.getTitle() + " | WindowCount: " + sWindowCount);
+    }
+
+    public static void onWindowClose(@NotNull JFrame frame) {
+        sWindowCount--;
+        Log.d(TAG, "onWindowClose: Title: " + frame.getTitle() + " | WindowCount: " + sWindowCount);
+        if (sWindowCount <= 0) {
+            // todo: save stuff here (settings, config etc)
+
+            Log.d(TAG, "Quiting...");
+            System.exit(0);
+        }
+    }
 
 //    private static void setupFourierUi(int initialFuncProviderIndex, boolean preload) {
 ////        if (preload) {
@@ -259,8 +276,8 @@ public class Main {
 
 
     public static void main(String[] args) throws Providers.NoOpProviderException {
-        launchTest(args);
-//        launchMain(args);
+//        launchTest(args);
+        launchMain(args);
     }
 
 }

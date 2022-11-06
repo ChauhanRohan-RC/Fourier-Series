@@ -2,6 +2,9 @@ package function.internal.basic;
 
 import function.definition.SignalFunctionI;
 import org.apache.commons.math3.util.FastMath;
+import org.jetbrains.annotations.Nullable;
+import rotor.frequency.FixedStartFrequencyProvider;
+import rotor.frequency.RotorFrequencyProviderI;
 import util.main.ComplexUtil;
 
 public class SineSignal implements SignalFunctionI {
@@ -46,5 +49,10 @@ public class SineSignal implements SignalFunctionI {
     @Override
     public double getSignalIntensity(double input) {
         return (FastMath.sin((ComplexUtil.TWo_PI * frequency * input) + phaseRad) + resultAddant) * resultMultiplier;
+    }
+
+    @Override
+    public @Nullable RotorFrequencyProviderI getFunctionDefaultFrequencyProvider() {
+        return new FixedStartFrequencyProvider(frequency - 2, 0.05);
     }
 }

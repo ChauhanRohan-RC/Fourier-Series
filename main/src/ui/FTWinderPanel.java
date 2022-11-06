@@ -78,6 +78,8 @@ public class FTWinderPanel extends JPanel implements Runnable {
     @NotNull
     private static IntAnimator createRotorsAnimator(int rotorCount, float speedFraction) {
         final IntAnimator anim = new IntAnimator(0, 0);
+        anim.setDefaultInterpolator(INTERPOLATOR);
+        anim.setInterpolator(INTERPOLATOR);
         return configureRotorsAnimator(anim, rotorCount, speedFraction);
     }
 
@@ -103,6 +105,8 @@ public class FTWinderPanel extends JPanel implements Runnable {
         void onRotorsAnimationRepeatModeChanged(@NotNull FTWinderPanel panel, @NotNull AbstractAnimator.RepeatMode repeatMode);
 
         void onCurrentRotorChanged(@NotNull FTWinderPanel panel, int currentRotorIndex);
+
+        void onRotorsFrequencyProviderChanged(@NotNull FTWinderPanel panel, @Nullable RotorFrequencyProviderI old, @Nullable RotorFrequencyProviderI _new);
 
         void onPointsJoiningEnabledChanged(@NotNull FTWinderPanel panel, boolean pointsJoiningEnabled);
 
@@ -166,6 +170,7 @@ public class FTWinderPanel extends JPanel implements Runnable {
         @Override
         public void onRotorsFrequencyProviderChanged(@NotNull RotorStateManager manager, @Nullable RotorFrequencyProviderI old, @Nullable RotorFrequencyProviderI _new) {
             reset(true);
+            listeners.dispatchOnMainThread(l -> l.onRotorsFrequencyProviderChanged(FTWinderPanel.this, old, _new));
         }
     };
 
@@ -189,6 +194,7 @@ public class FTWinderPanel extends JPanel implements Runnable {
 
         @Override
         public void onEnd(@NotNull Animator<Integer> animator, AbstractAnimator.@NotNull EndMode endMode) {
+            reset(false);
             onIsPlayingChanged(false);
         }
 
@@ -237,9 +243,9 @@ public class FTWinderPanel extends JPanel implements Runnable {
         rotorsAnim.addAnimationListener(rotorsAnimListener);
         manager.ensureListener(managerListener);
         manager.considerInitialize();
-        if (manager.getRotorCount() > 0) {
-            rotorsAnim.start();
-        }
+//        if (manager.getRotorCount() > 0) {
+//            rotorsAnim.start();
+//        }
     }
 
     @NotNull
@@ -253,15 +259,25 @@ public class FTWinderPanel extends JPanel implements Runnable {
     }
 
     public int getCurrentRotorIndex() {
-        return rotorsAnim.getCurrentValue();
+        final int index = rotorsAnim.getCurrentValue();
+        return index < 0 || index >= getRotorCount()? -1: index;
     }
 
-    public void seekToRotorIndex(int rotorIndex) {
+    @Nullable
+    public RotorState getCurrentRotorState() {
+        final int index = getCurrentRotorIndex();
+        if (index == -1)
+            return null;
+        return manager.getRotorState(index);
+    }
+
+    public boolean seekToRotorIndex(int rotorIndex) {
         final int count = manager.getRotorCount();
         if (count < 2 || rotorIndex < 0 || rotorIndex >= count)
-            return;
+            return false;
 
         seekToRotorFraction((float) rotorIndex / (count - 1));
+        return true;
     }
 
     public void seekToRotorFraction(float rotorFraction) {
@@ -272,9 +288,9 @@ public class FTWinderPanel extends JPanel implements Runnable {
     public void seekToTimeFraction(float timeFraction) {
         rotorsAnim.setElapsedFraction(timeFraction, false);
         if (!rotorsAnim.isRunning()) {
-            rotorsAnim.start();
+            setPlay(true);
             rotorsAnim.update();
-            rotorsAnim.pause();
+            setPlay(false);
         } else {
             rotorsAnim.update();
         }
@@ -325,6 +341,10 @@ public class FTWinderPanel extends JPanel implements Runnable {
         if (update) {
             update();
         }
+    }
+
+    public void reset() {
+        reset(true);
     }
 
 

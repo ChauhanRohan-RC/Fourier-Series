@@ -171,7 +171,7 @@ public abstract class AbstractAnimator<T> implements Runnable {
         return mDefaultInterpolator;
     }
 
-    protected final AbstractAnimator<T> setDefaultInterpolator(@Nullable Interpolator defaultInterpolator) {
+    public final AbstractAnimator<T> setDefaultInterpolator(@Nullable Interpolator defaultInterpolator) {
         if (defaultInterpolator == null) {
             defaultInterpolator = DEFAULT_INTERPOLATOR;
         }

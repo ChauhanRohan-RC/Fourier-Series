@@ -19,6 +19,7 @@ import org.knowm.xchart.style.markers.None;
 import provider.FunctionMeta;
 import rotor.RotorState;
 import rotor.RotorStateManager;
+import rotor.frequency.RotorFrequencyProviderI;
 import ui.action.BaseAction;
 import util.CollectionUtil;
 import util.Format;
@@ -209,6 +210,12 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
         }
 
         @Override
+        public void onRotorsFrequencyProviderChanged(@NotNull FTWinderPanel panel, @Nullable RotorFrequencyProviderI old, @Nullable RotorFrequencyProviderI _new) {
+            prevData = null;          // invalidate data
+            drawChart();
+        }
+
+        @Override
         public void onPointsJoiningEnabledChanged(@NotNull FTWinderPanel panel, boolean pointsJoiningEnabled) {
             
         }
@@ -234,6 +241,10 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
     private final JMenu graphModeMenu;
     private final ButtonGroup graphModeGroup;
     private final EnumMap<FTGraphMode, ButtonModel> graphModeButtons;
+
+    public FTGraphPanel(@Nullable FTWinderPanel panel) {
+        this(panel, null);
+    }
     
     public FTGraphPanel(@Nullable FTWinderPanel panel, @Nullable FTGraphMode graphMode) {
         super(createChart());

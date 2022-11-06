@@ -16,33 +16,13 @@ public class UiAction extends BaseAction {
         void onActionPropertyChange(@NotNull UiAction action, @NotNull PropertyChangeEvent e);
     }
 
-    @Nullable
-    private static EnumMap<ActionInfo, UiAction> sMap;
-
-    @NotNull
-    public static UiAction get(@NotNull ActionInfo info) {
-        UiAction uia = null;
-        if (sMap == null) {
-            sMap = new EnumMap<>(ActionInfo.class);
-        } else {
-            uia = sMap.get(info);
-        }
-
-        if (uia == null) {
-            uia = new UiAction(info);
-            sMap.put(info, uia);
-        }
-
-        return uia;
-    }
-
 
     @NotNull
     public final ActionInfo info;
     @NotNull
     private final Listeners<Listener> listeners = new Listeners<>();
 
-    private UiAction(@NotNull ActionInfo info) {
+    public UiAction(@NotNull ActionInfo info) {
         this.info = info;
 
         setName(info.displayName)

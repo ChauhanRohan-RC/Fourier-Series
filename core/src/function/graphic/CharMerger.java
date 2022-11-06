@@ -145,6 +145,10 @@ public class CharMerger extends CharFunction implements ColorHandler {
 
     @Override
     public @NotNull Complex compute(double input) {
+        if (input > dEnd) {
+            input %= dEnd;
+        }
+
         double w = 0;
 
         final ListIterator<CharFunction> itr = functions.listIterator();
@@ -155,7 +159,7 @@ public class CharMerger extends CharFunction implements ColorHandler {
             cur = itr.next();
             dend = cur.getDomainEnd();
 
-            if (input <=dend)
+            if (input <= dend)
                 return applyTransform(cur.compute(input).add(w));
 
             input -= dend;

@@ -6,6 +6,7 @@ import models.graph.FunctionGraphMode;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import rotor.frequency.RotorFrequencyProviderI;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -64,5 +65,14 @@ public class MergedFunction implements ComplexDomainFunctionI {
         }
 
         return functions.iterator().next().getDefaultGraphMode();
+    }
+
+    @Override
+    public @Nullable RotorFrequencyProviderI getFunctionDefaultFrequencyProvider() {
+        if (functions.isEmpty()) {
+            return ComplexDomainFunctionI.super.getFunctionDefaultFrequencyProvider();
+        }
+
+        return functions.iterator().next().getFunctionDefaultFrequencyProvider();
     }
 }
