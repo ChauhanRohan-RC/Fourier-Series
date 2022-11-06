@@ -1,5 +1,6 @@
 package app;
 
+import com.formdev.flatlaf.*;
 import function.definition.ComplexDomainFunctionI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -9,10 +10,8 @@ import provider.FunctionProviderI;
 import provider.FunctionType;
 import provider.PathFunctionProvider;
 import util.*;
-import util.async.Async;
-import util.async.CancellationProvider;
-import util.async.Canceller;
-import util.async.Consumer;
+import util.async.*;
+import util.live.Listeners;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -28,6 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -35,20 +35,142 @@ public class R {
 
     public static final String TAG = "Resources";
 
+    public interface Listener {
+        void onLookAndFeelChanged(@NotNull String className);
+    }
+
+
+
+    @NotNull
+    public static final List<UIManager.LookAndFeelInfo> LOOK_AND_FEELS;
+
+    private static final Listeners<Listener> sListeners = new Listeners<>();
+
+    @Nullable
+    private static volatile Settings sSettings;
+
+    static {
+        FlatLightLaf.installLafInfo();
+        FlatDarkLaf.installLafInfo();
+        FlatDarculaLaf.installLafInfo();
+        FlatIntelliJLaf.installLafInfo();
+
+        final UIManager.LookAndFeelInfo[] infos = UIManager.getInstalledLookAndFeels();
+        LOOK_AND_FEELS = Arrays.asList(infos);
+    }
+
+    public static void addListener(@NotNull R.Listener l) {
+        sListeners.addListener(l);
+    }
+
+    public static boolean removeListener(@NotNull R.Listener l) {
+        return sListeners.removeListener(l);
+    }
+
+    public static void ensureListener(@NotNull R.Listener l) {
+        sListeners.ensureListener(l);
+    }
+
+
+    @NotNull
+    private static Settings considerInitSettings() {
+        Settings settings = sSettings;
+        if (settings != null) {
+            return settings;
+        }
+
+        synchronized (R.class) {
+            settings = sSettings;
+            if (settings != null) {
+                return settings;
+            }
+
+            if (Files.isRegularFile(SETTINGS_FILE)) {
+                try {
+                    settings = Settings.loadFromJson(SETTINGS_FILE);
+                } catch (Throwable e) {
+                    Log.e(TAG, "failed to load settings", e);
+                }
+            }
+        }
+
+        if (settings == null) {
+            settings = Settings.createDefault();
+        }
+
+        sSettings = settings;
+        return settings;
+    }
+
+    @NotNull
+    public static Settings getSettings() {
+        return considerInitSettings();
+    }
+
     public static void init() {
         ensureDirs();
+        final Settings settings = considerInitSettings();
 
-        String lookAndFeel = null;
-        try {
-            lookAndFeel = UIManager.getSystemLookAndFeelClassName();
-            if (Format.notEmpty(lookAndFeel)) {
-                UIManager.setLookAndFeel(lookAndFeel);
-            } else {
-                throw new NullPointerException("Could not found system look and feel");
+        String lookAndFeel = settings.getLookAndFeelClassName();
+        setLookAndFeel(lookAndFeel);
+//        try {
+//            UIManager.setLookAndFeel(lookAndFeel);
+//
+////            lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+////            if (Format.notEmpty(lookAndFeel)) {
+////                UIManager.setLookAndFeel(lookAndFeel);
+////            } else {
+////                throw new NullPointerException("Could not found system look and feel");
+////            }
+//        } catch (Throwable t) {
+//            Log.e(TAG, "Failed to set look and feel: " + lookAndFeel, t);
+//        }
+    }
+
+
+    public static void finishSync() {
+        final Settings settings = sSettings;
+        if (settings != null) {
+            ensureResDir();
+            try {
+                settings.writeJson(SETTINGS_FILE);
+            } catch (Throwable e) {
+                Log.e(TAG, "Failed to save settings", e);
             }
-        } catch (Throwable t) {
-            Log.e(TAG, "Failed to set look and feel: " + lookAndFeel, t);
         }
+    }
+
+    @NotNull
+    public static String getCurrentLookAndFeelClassName() {
+        return UIManager.getLookAndFeel().getClass().getName();
+    }
+
+
+    protected static void onLookAndFeelChanged(@NotNull String className) {
+        final Settings settings = sSettings;
+        if (settings != null) {
+            settings.setLookAndFeelClassName(className);
+        }
+
+        sListeners.dispatchOnMainThread(l -> l.onLookAndFeelChanged(className));
+    }
+
+    public static boolean setLookAndFeel(@NotNull String className) {
+        if (Format.isEmpty(className))
+            return false;
+
+        if (className.equals(getCurrentLookAndFeelClassName()))
+            return true;
+
+        try {
+            UIManager.setLookAndFeel(className);
+            onLookAndFeelChanged(className);
+            return true;
+        } catch (Throwable t) {
+            Log.e(TAG, "Failed to set look and feel: " + className, t);
+        }
+
+        return false;
     }
 
 
@@ -80,8 +202,14 @@ public class R {
 
     public static final Path DIR_RES = DIR_MAIN.resolve("res");
     public static final Path DIR_IMAGE = DIR_RES.resolve("image");
-    public static final Path APP_ICON = DIR_IMAGE.resolve("icon.png");
 
+    public static final Path APP_ICON = DIR_IMAGE.resolve("icon.png");
+    public static final Path SETTINGS_FILE = DIR_RES.resolve("settings.json");
+
+
+    public static boolean ensureResDir() {
+        return FileUtil.ensureDir(DIR_RES);
+    }
     public static boolean ensureFunctionStateSaveDir() {
         return FileUtil.ensureDir(DIR_FUNCTION_STATE_SAVES);
     }
@@ -99,6 +227,7 @@ public class R {
     }
 
     public static void ensureDirs() {
+        ensureResDir();
         ensureFunctionStateSaveDir();
         ensureExternalProgramsDir();
         ensureExternalPathFunctions();

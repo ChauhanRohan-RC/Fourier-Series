@@ -33,8 +33,7 @@ import java.util.ListIterator;
 import java.util.Objects;
 
 /**
- * TODO
- * 2. {@link #setPlay(boolean)} to start
+ * {@link #setPlay(boolean)} to start
  * */
 public class FourierSeriesPanel extends JPanel implements Runnable {
 
@@ -1131,11 +1130,11 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
         return now;
     }
 
-    @Nullable
-    public final FourierUi getFourierUI() {
-        final Window w = SwingUtilities.windowForComponent(FourierSeriesPanel.this);
-        return w instanceof FourierUi? (FourierUi) w: null;
-    }
+//    @Nullable
+//    public final FourierUi getFourierUI() {
+//        final Window w = SwingUtilities.windowForComponent(FourierSeriesPanel.this);
+//        return w instanceof FourierUi? (FourierUi) w: null;
+//    }
 
 
     private class ComponentListener implements java.awt.event.ComponentListener {
@@ -1170,14 +1169,14 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
         @Nullable
         private Size mMouseDragStart;     // For each Press-Release
 
-        // Mouse main.Main
+        // Mouse main
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            FourierUi ui;
-            if (e.getClickCount() == 2 && (ui = getFourierUI()) != null) {
-                ui.toggleFullscreen();
-            }
+//            FourierUi ui;
+//            if (e.getClickCount() == 2 && (ui = getFourierUI()) != null) {
+//                ui.toggleFullscreen();
+//            }
         }
 
         @Override

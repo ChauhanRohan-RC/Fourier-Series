@@ -260,6 +260,9 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         menuView.addSeparator();
         menuView.add(uia(ActionInfo.TOGGLE_FULLSCREEN));
 
+        // Theme
+        menuBar.add(Ui.createThemeSelectorMenu());
+
         // Ui components that depend on function
         funcDependentComps = new JComponent[] {
                 rotorCountSlider,
@@ -458,6 +461,8 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         addWindowListener(mWindowHandler);
         addWindowStateListener(mWindowHandler);
         addWindowFocusListener(mWindowHandler);
+
+        fsPanel.addMouseListener(mMouseHandler);
 
         final Image appIcon = R.createAppIcon();
         if (appIcon != null) {
@@ -1304,14 +1309,22 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
     public void showFtUi() {
         final FTUi prev = prevFtUi;
-        if (prev != null && prev.getFtWinderPanel().getRotorStateManager().getFunction() == fsPanel.getRotorStateManager().getFunction()) {
+        if (prev != null && prev.isDisplayable() && prev.getFtWinderPanel().getRotorStateManager().getFunction() == fsPanel.getRotorStateManager().getFunction()) {
             Ui.close(prev);
+        }
+
+        final boolean isFullscreen = isFullscreen();
+        if (isFullscreen) {
+            setFullscreen(false);
         }
 
         final FTUi ui = Ui.showFtUi(FourierUi.this, fsPanel.getRotorStateManager());
         prevFtUi = ui;
         if (ui != null) {
             setPlay(false);
+            if (isFullscreen) {
+                ui.setFullscreen(true);
+            }
         }
     }
 

@@ -7,6 +7,7 @@ import animation.interpolator.Interpolator;
 import app.Colors;
 import app.R;
 import function.definition.ComplexDomainFunctionI;
+import models.Size;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,6 +20,7 @@ import util.main.ComplexUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.LinkedList;
@@ -489,6 +491,12 @@ public class FTWinderPanel extends JPanel implements Runnable {
     }
 
 
+//    @Nullable
+//    public final FTUi getFtUI() {
+//        final Window w = SwingUtilities.windowForComponent(FTWinderPanel.this);
+//        return w instanceof FTUi? (FTUi) w: null;
+//    }
+
 
     @Override
     protected void paintComponent(Graphics _g) {
@@ -521,8 +529,8 @@ public class FTWinderPanel extends JPanel implements Runnable {
 
             // TODO: frequency label
             g.setColor(Colors.FG_DARK);
-            g.setFont(g.getFont().deriveFont(18f));
-            g.drawString(String.format("Frequency: %.2f", freq), 20, 20);
+            g.setFont(g.getFont().deriveFont(16f));
+            g.drawString(String.format("Frequency: %.2f", freq), 20, 26);
 
             final ComplexDomainFunctionI baseFunction = manager.getFunction();
             final ComplexDomainFunctionI ftFunction = ComplexUtil.fourierTransformIntegrand(baseFunction, freq);
@@ -628,4 +636,6 @@ public class FTWinderPanel extends JPanel implements Runnable {
     public void run() {
         rotorsAnim.update();
     }
+
+
 }

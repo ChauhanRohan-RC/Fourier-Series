@@ -25,9 +25,6 @@ public class TestFrame extends JFrame {
 
     public TestFrame() {
         super("test Frame");
-        R.init();
-
-
 
         final StandardRotorStateManager manager = new StandardRotorStateManager(
                 new MergedFunction(
@@ -101,6 +98,7 @@ public class TestFrame extends JFrame {
 
 
     public static void main(String[] args) {
+        R.init();
         final TestFrame frame = new TestFrame();
     }
 

@@ -3,6 +3,7 @@ package ui;
 import animation.animator.AbstractAnimator;
 import app.App;
 import app.R;
+import com.formdev.flatlaf.FlatDarculaLaf;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import rotor.RotorState;
@@ -125,6 +126,8 @@ public class FTUi extends JFrame implements Ui {
     private final ActionHandler mActionHandler = new ActionHandler();
     @NotNull
     private final MouseHandler mMouseHandler = new MouseHandler();
+    @NotNull
+    private final JSplitPane splitPane;
 
     private boolean ignoreNextCurrentRotorSliderEvent;
 
@@ -210,6 +213,9 @@ public class FTUi extends JFrame implements Ui {
         menuView.add(uia(ActionInfo.TOGGLE_CONTROLS));
         menuView.addSeparator();
         menuView.add(uia(ActionInfo.TOGGLE_FULLSCREEN));
+
+        // Theme
+        menuBar.add(Ui.createThemeSelectorMenu());
 
         // Ui components that depend on function
         rotorDependentComps = new JComponent[] {
@@ -303,40 +309,90 @@ public class FTUi extends JFrame implements Ui {
 //        add(ftGraphPanel, ftGraphGbc);
 
 
-        final JPanel main = new JPanel(new GridBagLayout());
+//        final JPanel main = new JPanel(new GridBagLayout());
+//
+//        final GridBagConstraints winderGbc = new GridBagConstraints();
+//        winderGbc.gridx = 0;
+//        winderGbc.gridy = 0;
+//        winderGbc.gridwidth = 1;
+//        winderGbc.gridheight = 2;
+//        winderGbc.weightx = winderGbc.weighty = 1;
+//        winderGbc.fill = GridBagConstraints.BOTH;
+//        main.add(ftWinderPanel, winderGbc);
+//
+//        final GridBagConstraints functionGraphGbc = new GridBagConstraints();
+//        functionGraphGbc.gridx = 1;
+//        functionGraphGbc.gridy = 0;
+//        functionGraphGbc.gridwidth = 1;
+//        functionGraphGbc.gridheight = 1;
+//        functionGraphGbc.weightx = functionGraphGbc.weighty = 1.25;
+//        functionGraphGbc.fill = GridBagConstraints.BOTH;
+//        main.add(functionGraphPanel, functionGraphGbc);
+//
+//        final GridBagConstraints ftGraphGbc = new GridBagConstraints();
+//        ftGraphGbc.gridx = 1;
+//        ftGraphGbc.gridy = 1;
+//        ftGraphGbc.gridwidth = 1;
+//        ftGraphGbc.gridheight = 1;
+//        ftGraphGbc.weightx = ftGraphGbc.weighty = 1.25;
+//        ftGraphGbc.fill = GridBagConstraints.BOTH;
+//        main.add(ftGraphPanel, ftGraphGbc);
+//
+//        setBounds(Ui.windowBoundsCenterScreen(INITIAL_WIDTH, INITIAL_HEIGHT));
+//        setMinimumSize(MINIMUM_SIZE);
+//        setLayout(new BorderLayout());
+//        add(controlScrollPane, BorderLayout.SOUTH);
+//        add(main, BorderLayout.CENTER);
 
-        final GridBagConstraints winderGbc = new GridBagConstraints();
-        winderGbc.gridx = 0;
-        winderGbc.gridy = 0;
-        winderGbc.gridwidth = 1;
-        winderGbc.gridheight = 2;
-        winderGbc.weightx = winderGbc.weighty = 1;
-        winderGbc.fill = GridBagConstraints.BOTH;
-        main.add(ftWinderPanel, winderGbc);
 
-        final GridBagConstraints functionGraphGbc = new GridBagConstraints();
-        functionGraphGbc.gridx = 1;
-        functionGraphGbc.gridy = 0;
-        functionGraphGbc.gridwidth = 1;
-        functionGraphGbc.gridheight = 1;
-        functionGraphGbc.weightx = functionGraphGbc.weighty = 1.25;
-        functionGraphGbc.fill = GridBagConstraints.BOTH;
-        main.add(functionGraphPanel, functionGraphGbc);
+        final JSplitPane splitOne = new JSplitPane(JSplitPane.VERTICAL_SPLIT, functionGraphPanel, ftGraphPanel);
+        splitOne.setResizeWeight(0.5);
+        splitOne.setDividerSize(3);
+        splitOne.setContinuousLayout(true);
 
-        final GridBagConstraints ftGraphGbc = new GridBagConstraints();
-        ftGraphGbc.gridx = 1;
-        ftGraphGbc.gridy = 1;
-        ftGraphGbc.gridwidth = 1;
-        ftGraphGbc.gridheight = 1;
-        ftGraphGbc.weightx = ftGraphGbc.weighty = 1.25;
-        ftGraphGbc.fill = GridBagConstraints.BOTH;
-        main.add(ftGraphPanel, ftGraphGbc);
+        final JSplitPane splitTwo = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, ftWinderPanel, splitOne);
+        splitTwo.setResizeWeight(0.75);
+        splitTwo.setDividerSize(3);
+        splitTwo.setContinuousLayout(true);
+
+        splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitTwo, controlScrollPane);
+        splitPane.setResizeWeight(0.85);
+        splitPane.setDividerSize(3);
+        splitPane.setContinuousLayout(true);
+
+//        final GridBagConstraints winderGbc = new GridBagConstraints();
+//        winderGbc.gridx = 0;
+//        winderGbc.gridy = 0;
+//        winderGbc.gridwidth = 1;
+//        winderGbc.gridheight = 2;
+//        winderGbc.weightx = winderGbc.weighty = 1;
+//        winderGbc.fill = GridBagConstraints.BOTH;
+//        main.add(ftWinderPanel, winderGbc);
+//
+//        final GridBagConstraints functionGraphGbc = new GridBagConstraints();
+//        functionGraphGbc.gridx = 1;
+//        functionGraphGbc.gridy = 0;
+//        functionGraphGbc.gridwidth = 1;
+//        functionGraphGbc.gridheight = 1;
+//        functionGraphGbc.weightx = functionGraphGbc.weighty = 1.25;
+//        functionGraphGbc.fill = GridBagConstraints.BOTH;
+//        main.add(functionGraphPanel, functionGraphGbc);
+//
+//        final GridBagConstraints ftGraphGbc = new GridBagConstraints();
+//        ftGraphGbc.gridx = 1;
+//        ftGraphGbc.gridy = 1;
+//        ftGraphGbc.gridwidth = 1;
+//        ftGraphGbc.gridheight = 1;
+//        ftGraphGbc.weightx = ftGraphGbc.weighty = 1.25;
+//        ftGraphGbc.fill = GridBagConstraints.BOTH;
+//        main.add(ftGraphPanel, ftGraphGbc);
 
         setBounds(Ui.windowBoundsCenterScreen(INITIAL_WIDTH, INITIAL_HEIGHT));
         setMinimumSize(MINIMUM_SIZE);
         setLayout(new BorderLayout());
-        add(controlScrollPane, BorderLayout.SOUTH);
-        add(main, BorderLayout.CENTER);
+//        add(controlScrollPane, BorderLayout.SOUTH);
+//        add(splitTwo, BorderLayout.CENTER);
+        add(splitPane, BorderLayout.CENTER);
 
         // Listeners
         ftWinderPanel.ensureListener(winderListener);
@@ -379,6 +435,10 @@ public class FTUi extends JFrame implements Ui {
         addWindowListener(mWindowHandler);
         addWindowStateListener(mWindowHandler);
         addWindowFocusListener(mWindowHandler);
+
+        ftWinderPanel.addMouseListener(mMouseHandler);
+//        functionGraphPanel.addMouseListener(mMouseHandler);
+//        ftGraphPanel.addMouseListener(mMouseHandler);
 
         final Image appIcon = R.createAppIcon();
         if (appIcon != null) {
@@ -434,7 +494,7 @@ public class FTUi extends JFrame implements Ui {
 
 
     protected void onFullscreenChanged(boolean fullscreen) {
-//        update();
+        update();
 
         uia(ActionInfo.TOGGLE_FULLSCREEN)
                 .setName(R.getFullscreenText(fullscreen))
@@ -470,6 +530,7 @@ public class FTUi extends JFrame implements Ui {
                 .setSelected(controlsVisible);
 
         update();
+        splitPane.resetToPreferredSizes();
     }
 
     public final boolean areControlsVisible() {
@@ -869,6 +930,7 @@ public class FTUi extends JFrame implements Ui {
 
         }
     }
+
 
     /* Actions */
 

@@ -20,22 +20,19 @@ import util.ExternalJava;
 import util.FileUtil;
 import util.Format;
 import util.Log;
+import util.async.Async;
 import util.async.Canceller;
 import util.async.Consumer;
 import util.async.TaskConsumer;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.HierarchyEvent;
-import java.awt.event.HierarchyListener;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.StringJoiner;
+import java.util.*;
 
 public interface Ui {
 
@@ -153,6 +150,64 @@ public interface Ui {
         }
 
         return new FTUi(manager, FT_TITLE + " (" + manager.getFunctionMeta().displayName() + ")");
+    }
+
+    @NotNull
+    static JMenu createThemeSelectorMenu() {
+        final JMenu menu = new JMenu("Theme");
+        final String current = R.getCurrentLookAndFeelClassName();
+        final String system = UIManager.getSystemLookAndFeelClassName();
+        final String crossPlatform = UIManager.getCrossPlatformLookAndFeelClassName();
+        final boolean hasSystem = Format.notEmpty(system) && !system.equals(crossPlatform);
+
+        final ButtonGroup group = new ButtonGroup();
+        final Map<String, ButtonModel> map = new HashMap<>();
+
+        for (UIManager.LookAndFeelInfo info: R.LOOK_AND_FEELS) {
+            final String cn = info.getClassName();
+            String _name = info.getName();
+            String qualifier = null;
+            if (hasSystem && cn.equals(system)) {
+                qualifier = "System";
+            } else if (Format.notEmpty(crossPlatform) && cn.equals(crossPlatform)) {
+                qualifier = "Cross Platform";
+            }
+
+            if (Format.notEmpty(qualifier)) {
+                _name = _name + " (" + qualifier + ")";
+            }
+
+            final String name = _name;
+            final JRadioButtonMenuItem item = new JRadioButtonMenuItem(name);
+            final ButtonModel model = item.getModel();
+            map.put(cn, model);
+
+            model.addItemListener(e -> {
+                if (item.isSelected()) {
+                    final boolean done = R.setLookAndFeel(cn);
+                    if (!done) {
+                        final ButtonModel cur = map.get(R.getCurrentLookAndFeelClassName());
+                        if (cur != null) {
+                            Async.uiPost(() -> cur.setSelected(true));
+                        }
+
+                        Ui.showErrorMessageDialog(null, "Failed to set Theme " + name, "Theme");
+                    }
+                }
+            });
+
+            group.add(item);
+            menu.add(item);
+        }
+
+        if (Format.notEmpty(current)) {
+            final ButtonModel model = map.get(current);;
+            if (model != null) {
+                model.setSelected(true);
+            }
+        }
+
+        return menu;
     }
 
     static void askConfigureFrequencyProvider(@NotNull Ui ui, @NotNull RotorStateManager manager) {
