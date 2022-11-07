@@ -295,19 +295,19 @@ public class ExternalJava {
     }
 
 
-    public static void main(String[] args) {
-
-        final Path cp = Path.of("E:\\test project\\test - Copy");
-        final String relSrcPath = "pkg\\ExtTest.java";
-
-
-        final Class<?> clazz  = compileAndLoadClass(new JavaObject(new Location(cp, relSrcPath), JavaFileObject.Kind.SOURCE), true);
-
-        try {
-            final Complex result = ((ComplexFunctionI) clazz.getDeclaredConstructor().newInstance()).compute(2);
-            Log.d(TAG, "Result: " + result);
-        } catch (Throwable t) {
-            Log.e(TAG, "Test failed", t);
-        }
-    }
+//    public static void main(String[] args) {
+//
+//        final Path cp = Path.of("E:\\test project\\test - Copy");
+//        final String relSrcPath = "pkg\\ExtTest.java";
+//
+//
+//        final Class<?> clazz  = compileAndLoadClass(new JavaObject(new Location(cp, relSrcPath), JavaFileObject.Kind.SOURCE), true);
+//
+//        try {
+//            final Complex result = ((ComplexFunctionI) clazz.getDeclaredConstructor().newInstance()).compute(2);
+//            Log.d(TAG, "Result: " + result);
+//        } catch (Throwable t) {
+//            Log.e(TAG, "Test failed", t);
+//        }
+//    }
 }

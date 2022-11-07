@@ -12,18 +12,9 @@ import provider.SimpleFunctionProvider;
 import rotor.FunctionState;
 import rotor.RotorStateManager;
 import rotor.frequency.RotorFrequencyProviderI;
-import ui.ExternalProgramPanel;
-import ui.FTUi;
-import ui.FourierUi;
-import ui.FrequencyProviderSelectorPanel;
-import util.ExternalJava;
-import util.FileUtil;
-import util.Format;
-import util.Log;
-import util.async.Async;
-import util.async.Canceller;
-import util.async.Consumer;
-import util.async.TaskConsumer;
+import ui.*;
+import util.*;
+import util.async.*;
 
 import javax.swing.*;
 import javax.swing.Timer;
@@ -156,28 +147,13 @@ public interface Ui {
     static JMenu createThemeSelectorMenu() {
         final JMenu menu = new JMenu("Theme");
         final String current = R.getCurrentLookAndFeelClassName();
-        final String system = UIManager.getSystemLookAndFeelClassName();
-        final String crossPlatform = UIManager.getCrossPlatformLookAndFeelClassName();
-        final boolean hasSystem = Format.notEmpty(system) && !system.equals(crossPlatform);
 
         final ButtonGroup group = new ButtonGroup();
         final Map<String, ButtonModel> map = new HashMap<>();
 
-        for (UIManager.LookAndFeelInfo info: R.LOOK_AND_FEELS) {
-            final String cn = info.getClassName();
-            String _name = info.getName();
-            String qualifier = null;
-            if (hasSystem && cn.equals(system)) {
-                qualifier = "System";
-            } else if (Format.notEmpty(crossPlatform) && cn.equals(crossPlatform)) {
-                qualifier = "Cross Platform";
-            }
-
-            if (Format.notEmpty(qualifier)) {
-                _name = _name + " (" + qualifier + ")";
-            }
-
-            final String name = _name;
+        final Function<UIManager.LookAndFeelInfo, JRadioButtonMenuItem> func = laf -> {
+            final String name = laf.getName();
+            final String cn = laf.getClassName();
             final JRadioButtonMenuItem item = new JRadioButtonMenuItem(name);
             final ButtonModel model = item.getModel();
             map.put(cn, model);
@@ -197,7 +173,59 @@ public interface Ui {
             });
 
             group.add(item);
-            menu.add(item);
+            return item;
+        };
+
+        // Internal
+        if (CollectionUtil.notEmpty(R.LOOK_AND_FEELS_INTERNAL)) {
+            final JMenu internalMenu = new JMenu("System");
+            final String system = UIManager.getSystemLookAndFeelClassName();
+            final String crossPlatform = UIManager.getCrossPlatformLookAndFeelClassName();
+            final boolean hasSystem = Format.notEmpty(system) && !system.equals(crossPlatform);
+
+            for (UIManager.LookAndFeelInfo info: R.LOOK_AND_FEELS_INTERNAL) {
+                final String cn = info.getClassName();
+                String _name = info.getName();
+                String qualifier = null;
+                if (hasSystem && cn.equals(system)) {
+                    qualifier = "System";
+                } else if (Format.notEmpty(crossPlatform) && cn.equals(crossPlatform)) {
+                    qualifier = "Cross Platform";
+                }
+
+                final JRadioButtonMenuItem item;
+                if (Format.notEmpty(qualifier)) {
+                    item = func.apply(new UIManager.LookAndFeelInfo(_name + " (" + qualifier + ")", cn));
+                } else {
+                    item = func.apply(info);
+                }
+
+                internalMenu.add(item);
+            }
+
+            menu.add(internalMenu);
+        }
+
+        // Flat LAF
+        if (CollectionUtil.notEmpty(R.LOOK_AND_FEELS_FLAT_LAF)) {
+            final JMenu lafMenu = new JMenu("Flat");
+            for (UIManager.LookAndFeelInfo info: R.LOOK_AND_FEELS_FLAT_LAF) {
+                final JRadioButtonMenuItem item = func.apply(info);
+                lafMenu.add(item);
+            }
+
+            menu.add(lafMenu);
+        }
+
+        // Flat Material LAF
+        if (CollectionUtil.notEmpty(R.LOOK_AND_FEELS_FLAT_LAF_MATERIAL)) {
+            final JMenu matMenu = new JMenu("Material");
+            for (UIManager.LookAndFeelInfo info: R.LOOK_AND_FEELS_FLAT_LAF_MATERIAL) {
+                final JRadioButtonMenuItem item = func.apply(info);
+                matMenu.add(item);
+            }
+
+            menu.add(matMenu);
         }
 
         if (Format.notEmpty(current)) {

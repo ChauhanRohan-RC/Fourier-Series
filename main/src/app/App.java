@@ -14,7 +14,7 @@ import java.util.List;
 
 public class App {
 
-    public static final String TAG = "Main";
+    public static final String TAG = "App";
 
     private static int sWindowCount;
     @NotNull

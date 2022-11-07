@@ -1,6 +1,11 @@
 package app;
 
 import com.formdev.flatlaf.*;
+import com.formdev.flatlaf.intellijthemes.FlatArcOrangeIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatDarkPurpleIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
+import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDarkerIJTheme;
+import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterIJTheme;
 import function.definition.ComplexDomainFunctionI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -39,36 +44,55 @@ public class R {
         void onLookAndFeelChanged(@NotNull String className);
     }
 
-
-
-    @NotNull
-    public static final List<UIManager.LookAndFeelInfo> LOOK_AND_FEELS;
-
     private static final Listeners<Listener> sListeners = new Listeners<>();
-
+    @NotNull
+    public static final List<UIManager.LookAndFeelInfo> LOOK_AND_FEELS_INTERNAL;
+    @NotNull
+    public static final List<UIManager.LookAndFeelInfo> LOOK_AND_FEELS_FLAT_LAF;
+    @NotNull
+    public static final List<UIManager.LookAndFeelInfo> LOOK_AND_FEELS_FLAT_LAF_MATERIAL;
     @Nullable
     private static volatile Settings sSettings;
 
     static {
-        FlatLightLaf.installLafInfo();
-        FlatDarkLaf.installLafInfo();
-        FlatDarculaLaf.installLafInfo();
-        FlatIntelliJLaf.installLafInfo();
-
+        // internal LAF's
         final UIManager.LookAndFeelInfo[] infos = UIManager.getInstalledLookAndFeels();
-        LOOK_AND_FEELS = Arrays.asList(infos);
+        LOOK_AND_FEELS_INTERNAL = Arrays.asList(infos);
+
+        // Main LAF's
+        LOOK_AND_FEELS_FLAT_LAF = new ArrayList<>();
+        LOOK_AND_FEELS_FLAT_LAF.add(new UIManager.LookAndFeelInfo(FlatLightLaf.NAME, FlatLightLaf.class.getName()));
+        LOOK_AND_FEELS_FLAT_LAF.add(new UIManager.LookAndFeelInfo(FlatIntelliJLaf.NAME, FlatIntelliJLaf.class.getName()));
+        LOOK_AND_FEELS_FLAT_LAF.add(new UIManager.LookAndFeelInfo(FlatDarkLaf.NAME, FlatDarkLaf.class.getName()));
+        LOOK_AND_FEELS_FLAT_LAF.add(new UIManager.LookAndFeelInfo(FlatDarculaLaf.NAME, FlatDarculaLaf.class.getName()));
+
+        // Material LAF's
+        LOOK_AND_FEELS_FLAT_LAF_MATERIAL = new ArrayList<>();
+        LOOK_AND_FEELS_FLAT_LAF_MATERIAL.add(new UIManager.LookAndFeelInfo(FlatMaterialLighterIJTheme.NAME, FlatMaterialLighterIJTheme.class.getName()));
+        LOOK_AND_FEELS_FLAT_LAF_MATERIAL.add(new UIManager.LookAndFeelInfo(FlatMaterialDarkerIJTheme.NAME, FlatMaterialDarkerIJTheme.class.getName()));
+        LOOK_AND_FEELS_FLAT_LAF_MATERIAL.add(new UIManager.LookAndFeelInfo(FlatOneDarkIJTheme.NAME, FlatOneDarkIJTheme.class.getName()));
+        LOOK_AND_FEELS_FLAT_LAF_MATERIAL.add(new UIManager.LookAndFeelInfo(FlatArcOrangeIJTheme.NAME, FlatArcOrangeIJTheme.class.getName()));
+        LOOK_AND_FEELS_FLAT_LAF_MATERIAL.add(new UIManager.LookAndFeelInfo(FlatDarkPurpleIJTheme.NAME, FlatDarkPurpleIJTheme.class.getName()));
+
+        // Install
+        LOOK_AND_FEELS_FLAT_LAF.forEach(UIManager::installLookAndFeel);
+        LOOK_AND_FEELS_FLAT_LAF_MATERIAL.forEach(UIManager::installLookAndFeel);
     }
 
-    public static void addListener(@NotNull R.Listener l) {
+    public static void addListener(@NotNull Listener l) {
         sListeners.addListener(l);
     }
 
-    public static boolean removeListener(@NotNull R.Listener l) {
+    public static boolean removeListener(@NotNull Listener l) {
         return sListeners.removeListener(l);
     }
 
-    public static void ensureListener(@NotNull R.Listener l) {
+    public static void ensureListener(@NotNull Listener l) {
         sListeners.ensureListener(l);
+    }
+
+    public static boolean containsListener(@NotNull Listener l) {
+        return sListeners.containsListener(l);
     }
 
 
