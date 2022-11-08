@@ -59,11 +59,11 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
         super(f);
         this.functionMeta = functionMeta;
 
-        if (initialRotorCount <= 0) {
+        if (initialRotorCount < 0) {
             initialRotorCount = functionMeta.initialRotorCount();
         }
 
-        mInitialRotorCount = initialRotorCount > 0? initialRotorCount: DEFAULT_INITIAL_ROTOR_COUNT;
+        mInitialRotorCount = initialRotorCount < 0? DEFAULT_INITIAL_ROTOR_COUNT: initialRotorCount;
         mStore = new HashMap<>(Math.max((int) (mInitialRotorCount * 1.4), 20));
 
         // Meta
@@ -549,5 +549,27 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
     @Override
     public @NotNull FunctionState createFunctionState(@Nullable String funcName) {
         return FunctionState.from(this, funcName);
+    }
+
+    @Override
+    public int getAllLoadedRotorStatesCount() {
+        return mStore.size();
+    }
+
+    @Override
+    public void clearAndResetSync() {
+        setRotorCountSync(0, null, null);
+        mStore.clear();
+    }
+
+    @Override
+    public int addRotorStates(Collection<RotorState> states) {
+        if (CollectionUtil.isEmpty(states))
+            return 0;
+
+        synchronized (mStore) {
+            states.forEach(s -> mStore.put(s.getFrequency(), s));
+            return states.size();
+        }
     }
 }

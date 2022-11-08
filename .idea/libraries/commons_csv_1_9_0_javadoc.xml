@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="commons-csv-1.9.0-javadoc">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/commons/csv/commons-csv-1.9.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/libs/commons/csv/commons-csv-1.9.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/libs/commons/csv/commons-csv-1.9.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

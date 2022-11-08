@@ -210,6 +210,10 @@ public class R {
     public static final String FUNCTION_STATE_SAVE_FILE_DESCRIPTION = "Function State";
     public static final FileFilter FUNCTION_STATE_SAVE_FILE_FILTER = new OpenFileFilter(FUNCTION_STATE_SAVE_FILE_EXTENSION, FUNCTION_STATE_SAVE_FILE_DESCRIPTION);
 
+    public static final String EXT_ROTOR_STATES_CSV_FILE_EXTENSION = ".csv";
+    public static final String EXT_ROTOR_STATES_CSV_FILE_DESCRIPTION = "Rotor States";
+    public static final FileFilter EXT_ROTOR_STATES_CSV_FILE_FILTER = new OpenFileFilter(EXT_ROTOR_STATES_CSV_FILE_EXTENSION, EXT_ROTOR_STATES_CSV_FILE_DESCRIPTION);
+
     public static final String PATH_DATA_FILE_EXTENSION = ".pd";
     public static final String PATH_DATA_FILE_DESCRIPTION = "Path Data";
     public static final FileFilter PATH_DATA_FILE_FILTER = new OpenFileFilter(PATH_DATA_FILE_EXTENSION, PATH_DATA_FILE_DESCRIPTION);

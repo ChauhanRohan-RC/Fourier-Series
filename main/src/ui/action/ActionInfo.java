@@ -15,76 +15,80 @@ public enum ActionInfo {
 
     CANCEL_RUNNING_TASKS("Cancel",
             "Cancel running operations",
-            false,
-            KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0)),
+            KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+            false),
 
     DRAG_UP(String.valueOf(Format.ARROW_UP),
             "Drag Up",
-            true,
-            KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.CTRL_DOWN_MASK)),
+            KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.CTRL_DOWN_MASK),
+            true),
 
     DRAG_DOWN(String.valueOf(Format.ARROW_DOWN),
             "Drag Down",
-            true,
-            KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.CTRL_DOWN_MASK)),
+            KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.CTRL_DOWN_MASK),
+            true),
 
     DRAG_LEFT(String.valueOf(Format.ARROW_LEFT),
             "Drag Left",
-            true,
-            KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.CTRL_DOWN_MASK)),
+            KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.CTRL_DOWN_MASK),
+            true),
 
     DRAG_RIGHT(String.valueOf(Format.ARROW_RIGHT),
             "Drag Right",
-            true,
-            KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.CTRL_DOWN_MASK)),
+            KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.CTRL_DOWN_MASK),
+            true),
 
-    SCALE_UP(R.getScaleText(true), R.getScaleShortDescription(true), true, KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.SHIFT_DOWN_MASK)),
-    SCALE_DOWN(R.getScaleText(false), R.getScaleShortDescription(false), true, KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.SHIFT_DOWN_MASK)),
+    SCALE_UP(R.getScaleText(true), R.getScaleShortDescription(true), KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.SHIFT_DOWN_MASK), true),
+    SCALE_DOWN(R.getScaleText(false), R.getScaleShortDescription(false), KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.SHIFT_DOWN_MASK), true),
 
-    PLAY(R.getPlayPauseText(false), R.getPlayPauseShortDescription(false), true, null),
-    PAUSE(R.getPlayPauseText(true), R.getPlayPauseShortDescription(true), true, KeyStroke.getKeyStroke(KeyEvent.VK_PAUSE, 0)),
-    STOP(R.getStopText(), R.getStopShortDescription(), true, null),
-    TOGGLE_PLAY_PAUSE(R.getPlayPauseText(false), R.getPlayPauseShortDescription(false), true, KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0)),
+    PLAY(R.getPlayPauseText(false), R.getPlayPauseShortDescription(false), null, true),
+    PAUSE(R.getPlayPauseText(true), R.getPlayPauseShortDescription(true), KeyStroke.getKeyStroke(KeyEvent.VK_PAUSE, 0), true),
+    STOP(R.getStopText(), R.getStopShortDescription(), null, true),
+    TOGGLE_PLAY_PAUSE(R.getPlayPauseText(false), R.getPlayPauseShortDescription(false), KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), true),
 
-    TOGGLE_POINTS_JOIN(R.getPointsJoiningText(), R.getPointsJoiningShortDescription(), true, KeyStroke.getKeyStroke(KeyEvent.VK_J, InputEvent.CTRL_DOWN_MASK)),
-    TOGGLE_HUE_CYCLE(R.getHueCycleText(), R.getHueCycleShortDescription(), true, KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK)),
-    INVERT_X(R.getInvertXText(), R.getInvertXShortDescription(), false, KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.SHIFT_DOWN_MASK)),
-    INVERT_Y(R.getInvertYText(), R.getInvertYShortDescription(), false, KeyStroke.getKeyStroke(KeyEvent.VK_Y, InputEvent.SHIFT_DOWN_MASK)),
-    TOGGLE_WAVE(R.getWaveToggleText(false), R.getWaveToggleShortDescription(false), false, KeyStroke.getKeyStroke(KeyEvent.VK_W, 0)),
-    TOGGLE_GRAPH_CENTER(R.getGraphInCenterText(), R.getGraphInCenterShortDescription(), false, KeyStroke.getKeyStroke(KeyEvent.VK_C, 0)),
-    TOGGLE_AUTO_TRACK(R.getAutoTrackInCenterText(), R.getAutoTrackInCenterShortDescription(), false, KeyStroke.getKeyStroke(KeyEvent.VK_A, 0)),
-    RESET_MAIN(R.getResetMainText(), R.getResetMainShortDescription(), true, KeyStroke.getKeyStroke(KeyEvent.VK_R, 0)),
-    RESET_SCALE(R.getResetScaleText(), R.getResetScaleShortDescription(), true, null),
-    RESET_SCALE_DRAG(R.getResetScaleAndDragText(), R.getResetScaleAndDragShortDescription(), true, KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.SHIFT_DOWN_MASK)),
-    RESET_FULL(R.getResetFullText(), R.getResetFullShortDescription(), true, KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK)),
+    TOGGLE_POINTS_JOIN(R.getPointsJoiningText(), R.getPointsJoiningShortDescription(), KeyStroke.getKeyStroke(KeyEvent.VK_J, InputEvent.CTRL_DOWN_MASK), true),
+    TOGGLE_HUE_CYCLE(R.getHueCycleText(), R.getHueCycleShortDescription(), KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK), true),
+    INVERT_X(R.getInvertXText(), R.getInvertXShortDescription(), KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.SHIFT_DOWN_MASK), false),
+    INVERT_Y(R.getInvertYText(), R.getInvertYShortDescription(), KeyStroke.getKeyStroke(KeyEvent.VK_Y, InputEvent.SHIFT_DOWN_MASK), false),
+    TOGGLE_WAVE(R.getWaveToggleText(false), R.getWaveToggleShortDescription(false), KeyStroke.getKeyStroke(KeyEvent.VK_W, 0), false),
+    TOGGLE_GRAPH_CENTER(R.getGraphInCenterText(), R.getGraphInCenterShortDescription(), KeyStroke.getKeyStroke(KeyEvent.VK_C, 0), false),
+    TOGGLE_AUTO_TRACK(R.getAutoTrackInCenterText(), R.getAutoTrackInCenterShortDescription(), KeyStroke.getKeyStroke(KeyEvent.VK_A, 0), false),
+    RESET_MAIN(R.getResetMainText(), R.getResetMainShortDescription(), KeyStroke.getKeyStroke(KeyEvent.VK_R, 0), true),
+    RESET_SCALE(R.getResetScaleText(), R.getResetScaleShortDescription(), null, true),
+    RESET_SCALE_DRAG(R.getResetScaleAndDragText(), R.getResetScaleAndDragShortDescription(),  KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.SHIFT_DOWN_MASK), true),
+    RESET_FULL(R.getResetFullText(), R.getResetFullShortDescription(), KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK), true),
 
-    TOGGLE_FULLSCREEN(R.getFullscreenText(), R.getFullscreenShortDescription(false), false, KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.SHIFT_DOWN_MASK)),
-    TOGGLE_CONTROLS(R.getToggleControlsText(true), R.getToggleControlsShortDescription(true), false, KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.SHIFT_DOWN_MASK)),
-    TOGGLE_MENUBAR(R.getToggleMenuBarText(true), R.getToggleMenuBarShortDescription(true), false, KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.SHIFT_DOWN_MASK)),
+    TOGGLE_FULLSCREEN(R.getFullscreenText(), R.getFullscreenShortDescription(false), KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.SHIFT_DOWN_MASK), false),
+    TOGGLE_CONTROLS(R.getToggleControlsText(true), R.getToggleControlsShortDescription(true), KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.SHIFT_DOWN_MASK), false),
+    TOGGLE_MENUBAR(R.getToggleMenuBarText(true), R.getToggleMenuBarShortDescription(true), KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.SHIFT_DOWN_MASK), false),
 
-    SHOW_FT_UI("Fourier Transform Ui", "Show Fourier Transform Ui", true, KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK)),
+    SHOW_FT_UI("Fourier Transform Ui", "Show Fourier Transform Ui", KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK), true, false),
 
     /* Configurations */
-    CONFIGURATIONS("Configuration", "Configure frequency, graphs and more", true, KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK)),
-    CONFIGURE_ROTOR_FREQUENCY_PROVIDER(R.getConfigureRotorFrequencyProviderText(), R.getConfigureRotorFrequencyProviderShortDescription(), true, KeyStroke.getKeyStroke(KeyEvent.VK_F, 0)),
-    CONFIGURE_FUNCTION_GRAPH("Function Graph", "Configure Function Graph", true, null),
-    CONFIGURE_FT_GRAPH("FT Graph", "Configure Fourier Transform Graph", true, null),
+    CONFIGURATIONS("Configuration", "Configure frequency, graphs and more",  KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK), true),
+    CONFIGURE_ROTOR_FREQUENCY_PROVIDER(R.getConfigureRotorFrequencyProviderText(), R.getConfigureRotorFrequencyProviderShortDescription(), KeyStroke.getKeyStroke(KeyEvent.VK_F, 0),true),
+    CONFIGURE_FUNCTION_GRAPH("Function Graph", "Configure Function Graph",  null, true),
+    CONFIGURE_FT_GRAPH("FT Graph", "Configure Fourier Transform Graph", null, true),
 
 
-    SAVE_FUNCTION_STATE_TO_FILE("Save", "Save Function State", true, KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK)),
-    LOAD_FUNCTION_STATE_FROM_FILE("Load", "Load Function State", false, KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_DOWN_MASK)),
-    CLEAR_FUNCTIONS_WITHOUT_DEFINITION("Clear Without Definition", "Remove all loaded functions without internal definitions", false, null),
+    SAVE_FUNCTION_STATE_TO_FILE("Save State", "Save Function State", KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK), true),
+    LOAD_FUNCTION_STATE_FROM_FILE("Load State", "Load Function State", KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_DOWN_MASK), false),
+    CLEAR_FUNCTIONS_WITHOUT_DEFINITION("Clear Without Definition", "Remove all loaded functions without internal definitions", null, false),
 
-    LOAD_EXTERNAL_PATH_FUNCTIONS("Load Files", "Load Path Functions", false, KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK)),
-    LOAD_EXTERNAL_PATH_FUNCTIONS_FROM_DIR("Scan Folder", "Scan Path Functions from Folder", false, KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.SHIFT_DOWN_MASK)),
-    CLEAR_EXTERNAL_PATH_FUNCTIONS("Clear External", "Remove all external path functions", false, null),
-    CLEAR_INTERNAL_PATH_FUNCTIONS("Clear Internal", "Remove all internal path functions", false, null),
-    RESET_PATH_FUNCTIONS("Reset", "Reset all path functions to initial state", false, null),
+    SAVE_ALL_ROTOR_STATES_TO_CSV("Save As CSV", "Save all loaded Rotor States to CSV file",  null, true, false),
+    LOAD_EXTERNAL_ROTOR_STATES_FROM_CSV("Load From CSV", "Load external Rotor States from CSV file",  null, true, false),
+    CLEAR_AND_RESET_ROTOR_STATE_MANAGER("Delete All", "Clear all loaded Rotor States (EXPENSIVE)",  null, true, false),
 
-    LOAD_EXTERNAL_PROGRAMMATIC_FUNCTION("Load Project", "Load external Programmatic Function", false, KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.SHIFT_DOWN_MASK)),
-    CLEAR_EXTERNAL_PROGRAMMATIC_FUNCTIONS("Clear External", "Remove all external programmatic functions", false, null),
-    CLEAR_INTERNAL_PROGRAMMATIC_FUNCTIONS("Clear Internal", "Remove all internal programmatic functions", false, null),
-    RESET_PROGRAMMATIC_FUNCTIONS("Reset", "Reset all programmatic functions to initial state", false, null),
+    LOAD_EXTERNAL_PATH_FUNCTIONS("Load Files", "Load Path Functions", KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK), false),
+    LOAD_EXTERNAL_PATH_FUNCTIONS_FROM_DIR("Scan Folder", "Scan Path Functions from Folder", KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.SHIFT_DOWN_MASK), false),
+    CLEAR_EXTERNAL_PATH_FUNCTIONS("Clear External", "Remove all external path functions", null, false),
+    CLEAR_INTERNAL_PATH_FUNCTIONS("Clear Internal", "Remove all internal path functions", null, false),
+    RESET_PATH_FUNCTIONS("Reset", "Reset all path functions to initial state", null, false),
+
+    LOAD_EXTERNAL_PROGRAMMATIC_FUNCTION("Load Project", "Load external Programmatic Function",  KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.SHIFT_DOWN_MASK), false),
+    CLEAR_EXTERNAL_PROGRAMMATIC_FUNCTIONS("Clear External", "Remove all external programmatic functions",  null, false),
+    CLEAR_INTERNAL_PROGRAMMATIC_FUNCTIONS("Clear Internal", "Remove all internal programmatic functions",  null, false),
+    RESET_PROGRAMMATIC_FUNCTIONS("Reset", "Reset all programmatic functions to initial state",  null, false),
 
     ;
 
@@ -92,15 +96,28 @@ public enum ActionInfo {
     public final String displayName;
     @Nullable
     public final String shortDescription;
-    public final boolean functionDependent;
     @Nullable
     public final KeyStroke keyStroke;
+    public final boolean functionDependent;
+    public final boolean rotorsDependent;
 
-    ActionInfo(@NotNull String displayName, @Nullable String shortDescription, boolean functionDependent, @Nullable KeyStroke keyStroke) {
+    ActionInfo(@NotNull String displayName,
+               @Nullable String shortDescription,
+               @Nullable KeyStroke keyStroke,
+               boolean functionDependent,
+               boolean rotorsDependent) {
         this.displayName = displayName;
         this.shortDescription = shortDescription;
-        this.functionDependent = functionDependent;
         this.keyStroke = keyStroke;
+        this.functionDependent = functionDependent;
+        this.rotorsDependent = rotorsDependent;
+    }
+
+    ActionInfo(@NotNull String displayName,
+               @Nullable String shortDescription,
+               @Nullable KeyStroke keyStroke,
+               boolean functionDependent) {
+        this(displayName, shortDescription, keyStroke, functionDependent, functionDependent);
     }
 
 

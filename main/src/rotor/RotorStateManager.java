@@ -201,6 +201,17 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
 
     double getAllRotorsMagnitudeScaleSum();
 
+    int getAllLoadedRotorStatesCount();
+
+    /***
+     * Clears all loaded rotor states and reset to uninitialised state
+     * */
+    void clearAndResetSync();
+
+    /**
+     * @return modCount
+     * */
+    int addRotorStates(Collection<RotorState> states);
 
 
     /* Function State */
@@ -624,6 +635,21 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
         @Override
         public @NotNull LoadCallResult setRotorCountAsync(int count) {
             return LoadCallResult.REDUNDANT;
+        }
+
+        @Override
+        public int getAllLoadedRotorStatesCount() {
+            return 0;
+        }
+
+        @Override
+        public void clearAndResetSync() {
+
+        }
+
+        @Override
+        public int addRotorStates(Collection<RotorState> states) {
+            return 0;       // noop
         }
 
         @Override

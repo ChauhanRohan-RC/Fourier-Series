@@ -3,7 +3,6 @@ package ui;
 import animation.animator.AbstractAnimator;
 import app.App;
 import app.R;
-import com.formdev.flatlaf.FlatDarculaLaf;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import rotor.RotorState;
@@ -12,7 +11,6 @@ import rotor.frequency.RotorFrequencyProviderI;
 import ui.action.ActionInfo;
 import ui.action.UiAction;
 import ui.util.Ui;
-import util.Format;
 
 import javax.swing.*;
 import javax.swing.Timer;
@@ -20,7 +18,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.util.*;
-import java.util.List;
 
 public class FTUi extends JFrame implements Ui {
 
@@ -33,7 +30,6 @@ public class FTUi extends JFrame implements Ui {
     public static final int INITIAL_WIDTH = SCREEN_SIZE.width - 200;
     public static final int INITIAL_HEIGHT = SCREEN_SIZE.height - 200;
 
-
     private final FTWinderPanel.Listener winderListener = new FTWinderPanel.Listener() {
         @Override
         public void onRotorsCountChanged(@NotNull FTWinderPanel panel, int rotorsCount) {
@@ -42,7 +38,7 @@ public class FTUi extends JFrame implements Ui {
 
         @Override
         public void onIsLoadingChanged(@NotNull FTWinderPanel panel, boolean isLoading) {
-
+            syncTitle();
         }
 
         @Override
@@ -113,6 +109,7 @@ public class FTUi extends JFrame implements Ui {
 
     /* Menu */
     final JMenuBar menuBar;
+    final JMenu menuRotorStates;
     final JMenu menuFunctionState;
     final JMenu menuConfig;
     final JMenu menuView;
@@ -131,8 +128,10 @@ public class FTUi extends JFrame implements Ui {
 
     private boolean ignoreNextCurrentRotorSliderEvent;
 
-    public FTUi(@NotNull RotorStateManager manager, @Nullable String title) {
-        super(Format.isEmpty(title)? Ui.FT_TITLE: title);
+
+
+    public FTUi(@NotNull RotorStateManager manager) {
+        super(Ui.FT_TITLE);
         looper = Ui.createLooper(null);
 
         ftWinderPanel = new FTWinderPanel(manager);
@@ -140,6 +139,7 @@ public class FTUi extends JFrame implements Ui {
         ftGraphPanel = new FTGraphPanel(ftWinderPanel);
 
         looper.addActionListener(Ui.actionListener(ftWinderPanel));
+        syncTitle();
 
         // controls
         pointsJoinCheck = new JCheckBox(uia(ActionInfo.TOGGLE_POINTS_JOIN).setSelected(ftWinderPanel.isPointsJoiningEnabled()));
@@ -194,13 +194,14 @@ public class FTUi extends JFrame implements Ui {
         menuBar = new JMenuBar();
         setJMenuBar(menuBar);
 
+        // Rotor States Menu
+        menuRotorStates = Ui.createRotorStatesMenu(this::uia);
+        menuBar.add(menuRotorStates);
+
         // Function State menu
         menuFunctionState = new JMenu("Function State");
         menuBar.add(menuFunctionState);
         menuFunctionState.add(uia(ActionInfo.SAVE_FUNCTION_STATE_TO_FILE));
-//        menuFunctionState.add(uia(ActionInfo.LOAD_FUNCTION_STATE_FROM_FILE));
-//        menuFunctionState.addSeparator();
-//        menuFunctionState.add(uia(ActionInfo.CLEAR_FUNCTIONS_WITHOUT_DEFINITION));
 
         // Config Menu
         menuConfig = new ConfigMenu();
@@ -465,6 +466,10 @@ public class FTUi extends JFrame implements Ui {
         });
     }
 
+    private void syncTitle() {
+        setTitle(Ui.getWindowTitle(Ui.MAIN_TITLE, ftWinderPanel.getRotorStateManager()));
+    }
+
 
     @Override
     @NotNull
@@ -602,7 +607,7 @@ public class FTUi extends JFrame implements Ui {
         ActionInfo.sharedValues()
                 .stream()
                 .filter(a -> a.functionDependent)
-                .forEach(a -> uia(a).setEnabled(hasBoth));
+                .forEach(a -> uia(a).setEnabled(a.rotorsDependent? hasBoth: canLoadRotors));
     }
 
     private void syncRotorDependentOps() {
@@ -685,8 +690,13 @@ public class FTUi extends JFrame implements Ui {
         final int max = rotorCount < 2 ? 0 : rotorCount - 1;
         if (curRotorSlider.getMaximum() != max) {
             curRotorSlider.setMaximum(max);
-            curRotorSlider.setLabelTable(curRotorSlider.createStandardLabels(max, 0));
-            curRotorSlider.setPaintLabels(true);
+            if (max > 0) {
+                curRotorSlider.setLabelTable(curRotorSlider.createStandardLabels(max, 0));
+                curRotorSlider.setPaintLabels(true);
+            } else {
+                curRotorSlider.setPaintLabels(false);
+                curRotorSlider.setLabelTable(null);
+            }
         }
 
         final int toSet = currentRotorIndex != -1? currentRotorIndex : 0;
@@ -792,6 +802,19 @@ public class FTUi extends JFrame implements Ui {
     public void askSaveFunctionStateToFIle() {
         Ui.askSaveFunctionStateToFIle(FTUi.this, ftWinderPanel.getRotorStateManager());
     }
+
+    public void askClearAndResetRotorStateManager() {
+        Ui.askClearAndResetRotorStateManager(FTUi.this, ftWinderPanel.getRotorStateManager());
+    }
+
+    public void askLoadExternalRotorStatesFromCSV() {
+        Ui.askLoadExternalRotorStatesFromCSV(FTUi.this, ftWinderPanel.getRotorStateManager());
+    }
+
+    public void askSaveRotorStatesToCSV() {
+        Ui.askSaveRotorStatesToCSV(FTUi.this, ftWinderPanel.getRotorStateManager());
+    }
+
 
 
     public void cancelRunningTasks() {
@@ -966,6 +989,9 @@ public class FTUi extends JFrame implements Ui {
 //                case CLEAR_EXTERNAL_PROGRAMMATIC_FUNCTIONS -> confirmRemoveAllFunctionProviders(FunctionType.EXTERNAL_PROGRAM);
 //                case RESET_PROGRAMMATIC_FUNCTIONS -> confirmResetProgrammaticFunctions();
                 case CONFIGURE_ROTOR_FREQUENCY_PROVIDER -> askConfigureFrequencyProvider();
+                case CLEAR_AND_RESET_ROTOR_STATE_MANAGER -> askClearAndResetRotorStateManager();
+                case LOAD_EXTERNAL_ROTOR_STATES_FROM_CSV -> askLoadExternalRotorStatesFromCSV();
+                case SAVE_ALL_ROTOR_STATES_TO_CSV -> askSaveRotorStatesToCSV();
 //                case CONFIGURATIONS -> toggleConfigPopupMenu();
             }
         }

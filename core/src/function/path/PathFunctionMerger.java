@@ -8,7 +8,6 @@ import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.text.Segment;
 import java.awt.*;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;

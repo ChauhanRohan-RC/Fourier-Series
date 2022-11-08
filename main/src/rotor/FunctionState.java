@@ -11,11 +11,16 @@ import function.RotorStatesFunction;
 import function.definition.ComplexDomainFunctionI;
 import function.definition.DomainProviderI;
 import json.Json;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import provider.*;
 import rotor.frequency.RotorFrequencyProviderI;
+import util.CollectionUtil;
 import util.Format;
 import util.async.Async;
 import util.async.Canceller;
@@ -35,6 +40,9 @@ public class FunctionState {
 
     public static final boolean FUNCTION_SERIALIZATION_ENABLED = true;
     public static final boolean DEFAULT_SERIALIZE_FUNCTION = true;
+
+    public static final boolean ROTOR_STATES_SERIALIZATION_ENABLED = true;
+    public static final boolean DEFAULT_SERIALIZE_ROTOR_STATES = true;
 
     public static final Comparator<Double> FREQUENCY_COMPARATOR = Double::compare;             // ascending frequencies
 
@@ -63,9 +71,6 @@ public class FunctionState {
         final FunctionType functionType = manager.getFunctionMeta().functionType();
         final ComplexDomainFunctionI function = manager.getFunction();
 
-        final SortedMap<Double, RotorCoefficient> states = new TreeMap<>(FREQUENCY_COMPARATOR);
-        manager.forEachRotorState(state -> states.put(state.getFrequency(), new RotorCoefficient(state)));
-
         return new FunctionState(
                 System.currentTimeMillis(),
                 funcName,
@@ -75,7 +80,7 @@ public class FunctionState {
                 manager.getManagerDefaultRotorFrequencyProvider(),          // should use function default
                 manager.getManagerRotorFrequencyProvider(),
                 manager.getRotorCount(),
-                states
+                manager.getRotorStatesListCopy()
         );
     }
 
@@ -83,6 +88,7 @@ public class FunctionState {
     private static final Type TYPE_ROTOR_STATES_MAP = new TypeToken<Map<Double, RotorCoefficient>>(){ }.getType();
 
     private static final String KEY_SERIALIZED_FUNCTION = "_function";
+    private static final String KEY_SERIALIZED_ROTOR_STATES = "rotor_states";
 
 //    public static final String KEY_SAVE_TIMESTAMP = "save_timestamp";
 //    public static final String KEY_FUNCTION_NAME = "function_name";
@@ -124,8 +130,14 @@ public class FunctionState {
     public final long domainAnimationMillsDefault;
 
     public final int rotorCount;            // current rotor count, may be less than size of all loaded rotor states
-    @NotNull
-    public final Map<Double, RotorCoefficient> allRotorStates;
+
+    @Expose(serialize = false, deserialize = false)
+    @Nullable
+    private transient Map<Double, RotorCoefficient> allRotorStates;       // can be null if not serialized
+
+    @SerializedName(KEY_SERIALIZED_ROTOR_STATES)
+    @Nullable
+    private Map<Double, RotorCoefficient> allSerializedRotorStates;
 
     public FunctionState(long saveTimestamp,
                          String functionName,
@@ -140,7 +152,7 @@ public class FunctionState {
                          long domainAnimationMillsMax,
                          long domainAnimationMillsDefault,
                          int rotorCount,
-                         @NotNull Map<Double, RotorCoefficient> allRotorStates) {
+                         @Nullable Collection<RotorState> allRotorStates) {
 
         this.saveTimestamp = saveTimestamp;
         this.functionName = functionName;
@@ -155,9 +167,11 @@ public class FunctionState {
         this.domainAnimationMillsMax = domainAnimationMillsMax;
         this.domainAnimationMillsDefault = domainAnimationMillsDefault;
         this.rotorCount = rotorCount;
-        this.allRotorStates = allRotorStates;
+        this.allRotorStates = createOrAddSorted(allRotorStates, null);
 
-        setSerializeFunction(DEFAULT_SERIALIZE_FUNCTION);     // default
+        // defaults
+        setSerializeFunction(DEFAULT_SERIALIZE_FUNCTION);
+        setSerializeRotorStates(DEFAULT_SERIALIZE_ROTOR_STATES);
     }
 
     public FunctionState(long saveTimestamp,
@@ -168,7 +182,7 @@ public class FunctionState {
                          @Nullable RotorFrequencyProviderI defaultFrequencyProvider,
                          @Nullable RotorFrequencyProviderI frequencyProvider,
                          int rotorCount,
-                         @NotNull Map<Double, RotorCoefficient> allRotorStates) {
+                         @Nullable Collection<RotorState> allRotorStates) {
 
         this(saveTimestamp,
                 functionName,
@@ -212,6 +226,37 @@ public class FunctionState {
         return function;
     }
 
+
+    public boolean hasSerializedRotorStates() {
+        return CollectionUtil.notEmpty(allSerializedRotorStates);
+    }
+
+    public void setSerializeRotorStates(boolean serializeRotorStates) {
+        if (ROTOR_STATES_SERIALIZATION_ENABLED && serializeRotorStates) {
+            this.allSerializedRotorStates = allRotorStates;
+        } else {
+            this.allSerializedRotorStates = null;              // do not serialize
+        }
+    }
+
+    @Nullable
+    public Map<Double, RotorCoefficient> getAllRotorStates() {
+        if (CollectionUtil.isEmpty(allRotorStates)) {
+            return allSerializedRotorStates;
+        }
+
+        return allRotorStates;
+    }
+
+
+    public void addRotorStates(Collection<RotorState> rotorStates) {
+        if (CollectionUtil.isEmpty(rotorStates))
+            return;
+
+        allRotorStates = createOrAddSorted(rotorStates, allRotorStates);
+    }
+
+
     @NotNull
     public String getTypedFunctionDisplayName() {
         final String name = functionName != null? functionName: R.DISPLAY_NAME_FUNCTION_UNKNOWN;
@@ -229,20 +274,19 @@ public class FunctionState {
             name = R.createExternallyLoadedFunctionDisplayName(name);
         }
 
-        final List<RotorState> states = allRotorStates.entrySet()
-                .stream()
-                .map(e -> new RotorState(e.getKey(), e.getValue().toComplex()))
-                .toList();
-
         final ComplexDomainFunctionI func = getFunction();
+        final Map<Double, RotorCoefficient> allStates = getAllRotorStates();
+        final List<RotorState> _states = toList(allStates);
+        final int _rotorCount = func != null? rotorCount: Math.min(rotorCount, CollectionUtil.size(_states));
+
         if (functionType != null && func != null) {
             final FunctionMeta meta = new FunctionMeta(
                     functionType,
                     name,
                     frequencyProvider,
-                    rotorCount,
+                    _rotorCount,
                     true,
-                    states
+                    _states
             );
 
             return new SimpleFunctionProvider(meta, func);
@@ -252,14 +296,14 @@ public class FunctionState {
                 FunctionType.EXTERNAL_ROTOR_STATE,
                 name,
                 frequencyProvider,
-                rotorCount,
+                _rotorCount,
                 func != null,
-                states
+                _states
         );
 
         return new SimpleFunctionProvider(meta, new RotorStatesFunction(
                 func,
-                states,
+                _states,
                 domainStart,
                 domainEnd,
                 numericalIntegrationIntervalCount,
@@ -268,6 +312,159 @@ public class FunctionState {
                 domainAnimationMillsMax,
                 defaultFrequencyProvider)
         );
+    }
+
+
+    /* .......................... CSV ..................................*/
+
+    @NotNull
+    public static Map<Double, RotorCoefficient> createOrAddSorted(@Nullable Collection<RotorState> states, @Nullable Map<Double, RotorCoefficient> dest) {
+        if (dest == null) {
+            dest = new TreeMap<>(FREQUENCY_COMPARATOR);
+        }
+
+        final Map<Double, RotorCoefficient> result = dest;
+        if (CollectionUtil.notEmpty(states)) {
+            states.forEach(s -> {
+                if (s != null) {
+                    result.put(s.getFrequency(), new RotorCoefficient(s));
+                }
+            });
+        }
+
+        return result;
+    }
+
+    @NotNull
+    public static List<RotorState> toList(@Nullable Map<Double, RotorCoefficient> states) {
+        return CollectionUtil.notEmpty(states)? states.entrySet()
+                .stream()
+                .map(e -> new RotorState(e.getKey(), e.getValue().toComplex()))
+                .toList(): Collections.emptyList();
+    }
+
+    public enum RotorStateHeader {
+        Frequency,
+        Magnitude,
+        Phase
+    }
+
+    public static final CSVFormat ROTOR_STATES_CSV_FORMAT = CSVFormat.EXCEL.builder()
+            .setCommentMarker('#')
+            .setHeader(RotorStateHeader.class)
+            .setSkipHeaderRecord(true)
+            .setIgnoreHeaderCase(true)
+            .setAllowDuplicateHeaderNames(false)
+            .setIgnoreEmptyLines(true)
+            .setIgnoreSurroundingSpaces(true)
+            .setAutoFlush(true)
+            .build();
+
+    /* write */
+
+    public static void writeRotorStatesASCSV(@NotNull Appendable writer, @Nullable Map<Double, RotorCoefficient> states, Object... headerComments) throws IOException {
+        final CSVFormat format = ROTOR_STATES_CSV_FORMAT.builder().setHeaderComments(headerComments).build();
+
+        try (final CSVPrinter printer = new CSVPrinter(writer, format)) {
+            if (CollectionUtil.isEmpty(states))
+                return;
+
+            for (Map.Entry<Double, RotorCoefficient> entry: states.entrySet()) {
+                final RotorCoefficient c = entry.getValue();
+                printer.printRecord(entry.getKey(), c.magnitude, c.phase);
+            }
+        }
+    }
+
+    public static void writeRotorStatesASCSV(@NotNull Appendable writer, @Nullable Collection<RotorState> states, Object... headerComments) throws IOException {
+        final CSVFormat format = ROTOR_STATES_CSV_FORMAT.builder().setHeaderComments(headerComments).build();
+
+        try (final CSVPrinter printer = new CSVPrinter(writer, format)) {
+            if (CollectionUtil.isEmpty(states))
+                return;
+
+            for (RotorState state: states) {
+                printer.printRecord(state.getFrequency(), state.getMagnitudeScale(), state.getCoefficientArgument());
+            }
+        }
+    }
+
+    @Nullable
+    public Object[] getRotorStatesCSVHeaderComment() {
+        return new String[]{
+                "______Function State (Meta)______",
+                "save_timestamp: " + saveTimestamp,
+                "function: " + (Format.notEmpty(functionName)? functionName: R.DISPLAY_NAME_FUNCTION_UNKNOWN),
+                "function_type: " + (functionType != null? functionType.displayName: "Unknown Type"),
+                "domain_start: " + domainStart,
+                "domain_end: " + domainEnd,
+                "numerical_integration_intervals: " + numericalIntegrationIntervalCount,
+                "rotor_states_count: " + CollectionUtil.size(allRotorStates),
+                "_______Rotor States_______"
+        };
+    }
+
+    public void writeRotorStatesASCSV(@NotNull Path file, @NotNull Charset encoding) throws JsonParseException, IOException {
+        try (final Writer writer = Files.newBufferedWriter(file, encoding)) {
+            writeRotorStatesASCSV(writer, allRotorStates, getRotorStatesCSVHeaderComment());
+        }
+    }
+
+    public void writeRotorStatesASCSV(@NotNull Path file) throws JsonParseException, IOException {
+        writeRotorStatesASCSV(file, R.ENCODING);
+    }
+
+    @NotNull
+    public Canceller writeRotorStatesASCSVAsync(@NotNull Path file, @NotNull Charset encoding, @Nullable TaskConsumer<Void> consumer) {
+        return Async.execute(() -> {
+            writeRotorStatesASCSV(file, encoding);
+            return null;
+        }, consumer);
+    }
+
+    @NotNull
+    public Canceller writeRotorStatesASCSVAsync(@NotNull Path file, @Nullable TaskConsumer<Void> consumer) {
+        return writeRotorStatesASCSVAsync(file, R.ENCODING, consumer);
+    }
+
+
+    /* Read */
+
+    @NotNull
+    public static List<RotorState> readRotorStatesFromCSV(@NotNull Reader csv) throws IOException, NumberFormatException, NullPointerException {
+        final List<RotorState> states = new ArrayList<>();
+        try (final CSVParser parser = CSVParser.parse(csv, ROTOR_STATES_CSV_FORMAT)) {
+            for (CSVRecord record: parser) {
+                states.add(new RotorState(
+                        Double.parseDouble(record.get(RotorStateHeader.Frequency)),
+                        ComplexUtil.polar(Double.parseDouble(record.get(RotorStateHeader.Magnitude)), Double.parseDouble(record.get(RotorStateHeader.Phase)))
+                ));
+            }
+        }
+
+        return states;
+    }
+
+    @NotNull
+    public static List<RotorState> readRotorStatesFromCSV(@NotNull Path file, @NotNull Charset encoding) throws IOException, JsonParseException {
+        try (final Reader reader = Files.newBufferedReader(file, encoding)) {
+            return readRotorStatesFromCSV(reader);
+        }
+    }
+
+    @NotNull
+    public static List<RotorState> readRotorStatesFromCSV(@NotNull Path file) throws IOException, JsonParseException {
+        return readRotorStatesFromCSV(file, R.ENCODING);
+    }
+
+    @NotNull
+    public static Canceller readRotorStatesFromCSVAsync(@NotNull Path file, @NotNull Charset encoding, @NotNull TaskConsumer<List<RotorState>> consumer) {
+        return Async.execute(() -> readRotorStatesFromCSV(file, encoding), consumer);
+    }
+
+    @NotNull
+    public static Canceller readRotorStatesFromCSVAsync(@NotNull Path file, @NotNull TaskConsumer<List<RotorState>>  consumer) {
+        return readRotorStatesFromCSVAsync(file, R.ENCODING, consumer);
     }
 
 

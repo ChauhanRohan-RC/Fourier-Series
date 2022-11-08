@@ -14,6 +14,7 @@ import rotor.frequency.RotorFrequencyProviderI;
 import ui.action.ActionInfo;
 import ui.action.UiAction;
 import ui.util.Ui;
+import util.Format;
 import util.Log;
 import util.async.Canceller;
 
@@ -93,6 +94,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
     final JMenu menuPathFunctions;
     final JMenu menuPrograms;
     final JMenu menuTransform;
+    final JMenu menuRotorStates;
     final JMenu menuFunctionState;
     final JMenu menuView;
 
@@ -238,6 +240,10 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         menuPathFunctions.addSeparator();
         menuPathFunctions.add(uia(ActionInfo.RESET_PATH_FUNCTIONS));
 
+        // Rotor States Menu
+        menuRotorStates = Ui.createRotorStatesMenu(this::uia);
+        menuBar.add(menuRotorStates);
+
         // Function State menu
         menuFunctionState = new JMenu("Function State");
         menuBar.add(menuFunctionState);
@@ -246,11 +252,11 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         menuFunctionState.addSeparator();
         menuFunctionState.add(uia(ActionInfo.CLEAR_FUNCTIONS_WITHOUT_DEFINITION));
 
-        // Frequency Menu
+        // Transform Menu
         menuTransform = new JMenu("Transform");
         menuBar.add(menuTransform);
-        menuTransform.add(uia(ActionInfo.SHOW_FT_UI));
         menuTransform.add(uia(ActionInfo.CONFIGURE_ROTOR_FREQUENCY_PROVIDER));
+        menuTransform.add(uia(ActionInfo.SHOW_FT_UI));
 
         // View menu
         menuView = new JMenu("View");
@@ -507,15 +513,12 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 ////        functionProviders.ensureAddSelect(new SimpleFunctionProvider(new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Test Discrete Signal"), signal));
 //
 //        Log.d(TAG, "FT at " + freq + ": " + ComplexUtil.fourierSeriesCoefficient(signal, freq));
-
-
     }
 
     @NotNull
     public FourierSeriesPanel getFourierSeriesPanel() {
         return fsPanel;
     }
-
 
     private void update() {
         revalidate();
@@ -771,14 +774,21 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         final RotorStateManager manager = fsPanel.getRotorStateManager();
 
         final boolean allNoop = countMap.isEmpty() || (countMap.size() == 1 && countMap.containsKey(FunctionType.NO_OP));
-        final boolean noopOrLoading = manager.isNoOp();
+        final boolean curNoop = manager.isNoOp();
 
-        syncFunctionDependentOps(!(allNoop || noopOrLoading), manager.getRotorCount() > 0);
+        syncFunctionDependentOps(!(allNoop || curNoop), manager.getRotorCount() > 0);
         uia(ActionInfo.CLEAR_FUNCTIONS_WITHOUT_DEFINITION).setEnabled(stats.noDefinitionFunctionsCount() > 0);
         uia(ActionInfo.CLEAR_INTERNAL_PROGRAMMATIC_FUNCTIONS).setEnabled(countMap.containsKey(FunctionType.INTERNAL_PROGRAM));
         uia(ActionInfo.CLEAR_EXTERNAL_PROGRAMMATIC_FUNCTIONS).setEnabled(countMap.containsKey(FunctionType.EXTERNAL_PROGRAM));
         uia(ActionInfo.CLEAR_INTERNAL_PATH_FUNCTIONS).setEnabled(countMap.containsKey(FunctionType.INTERNAL_PATH));
         uia(ActionInfo.CLEAR_EXTERNAL_PATH_FUNCTIONS).setEnabled(countMap.containsKey(FunctionType.EXTERNAL_PATH));
+
+        final boolean hasAnyRotorStates = !(allNoop || curNoop) && manager.getAllLoadedRotorStatesCount() > 0;
+        final UiAction uiaSaveCsv = uia(ActionInfo.SAVE_ALL_ROTOR_STATES_TO_CSV);
+        uiaSaveCsv.setEnabled(uiaSaveCsv.isEnabled() && hasAnyRotorStates);
+
+        final UiAction uiaClearManager = uia(ActionInfo.CLEAR_AND_RESET_ROTOR_STATE_MANAGER);
+        uiaClearManager.setEnabled(uiaClearManager.isEnabled() && hasAnyRotorStates);
 
         functionProviders.add(0, Providers.NoopProvider.getSingleton(), true);
         if (functionProviders.getSize() == 1) {
@@ -1064,10 +1074,8 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
         ActionInfo.sharedValues()
                 .stream()
-                .filter(a -> a.functionDependent && a != ActionInfo.SHOW_FT_UI)
-                .forEach(a -> uia(a).setEnabled(hasBoth));
-
-        uia(ActionInfo.SHOW_FT_UI).setEnabled(hasFunction);
+                .filter(a -> a.functionDependent)
+                .forEach(a -> uia(a).setEnabled(a.rotorsDependent? hasBoth: hasFunction));
     }
 
     private void syncFunctionDependentOps() {
@@ -1078,11 +1086,19 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         syncFunctionDependentOps(hasFunction, hasRotors);
     }
 
+
+
+    private void syncTitle() {
+        setTitle(Ui.getWindowTitle(Ui.MAIN_TITLE, fsPanel.getRotorStateManager()));
+    }
+
+
     @Override
     public void onRotorStateManagerChanged(@Nullable RotorStateManager old, @NotNull RotorStateManager sm) {
         if (old != null)
             old.removeListener(this);
         sm.ensureListener(this);
+        syncTitle();
 
         setHueCycleEnabled(fsPanel.isHueCycleEnabled());
         syncFunctionProviders();
@@ -1183,6 +1199,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
     @Override
     public void onRotorsLoadingChanged(@NotNull RotorStateManager manager, boolean isLoading) {
         syncFunctionDependentOps();
+        syncTitle();
     }
 
     @Override
@@ -1301,6 +1318,18 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
     public void askConfigureFrequencyProvider() {
         Ui.askConfigureFrequencyProvider(FourierUi.this, fsPanel.getRotorStateManager());
+    }
+
+    public void askClearAndResetRotorStateManager() {
+        Ui.askClearAndResetRotorStateManager(FourierUi.this, fsPanel.getRotorStateManager());
+    }
+
+    public void askLoadExternalRotorStatesFromCSV() {
+        Ui.askLoadExternalRotorStatesFromCSV(FourierUi.this, fsPanel.getRotorStateManager());
+    }
+
+    public void askSaveRotorStatesToCSV() {
+        Ui.askSaveRotorStatesToCSV(FourierUi.this, fsPanel.getRotorStateManager());
     }
 
 
@@ -1491,6 +1520,9 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
                 case CLEAR_EXTERNAL_PROGRAMMATIC_FUNCTIONS -> confirmRemoveAllFunctionProviders(FunctionType.EXTERNAL_PROGRAM);
                 case RESET_PROGRAMMATIC_FUNCTIONS -> confirmResetProgrammaticFunctions();
                 case CONFIGURE_ROTOR_FREQUENCY_PROVIDER -> askConfigureFrequencyProvider();
+                case CLEAR_AND_RESET_ROTOR_STATE_MANAGER -> askClearAndResetRotorStateManager();
+                case LOAD_EXTERNAL_ROTOR_STATES_FROM_CSV -> askLoadExternalRotorStatesFromCSV();
+                case SAVE_ALL_ROTOR_STATES_TO_CSV -> askSaveRotorStatesToCSV();
                 case SHOW_FT_UI -> showFtUi();
             }
         }

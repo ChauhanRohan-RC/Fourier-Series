@@ -10,11 +10,15 @@ import provider.FunctionProviderI;
 import provider.FunctionType;
 import provider.SimpleFunctionProvider;
 import rotor.FunctionState;
+import rotor.RotorState;
 import rotor.RotorStateManager;
 import rotor.frequency.RotorFrequencyProviderI;
 import ui.*;
+import ui.action.ActionInfo;
+import ui.action.UiAction;
 import util.*;
 import util.async.*;
+import util.main.ComplexUtil;
 
 import javax.swing.*;
 import javax.swing.Timer;
@@ -22,8 +26,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.List;
 
 public interface Ui {
 
@@ -31,6 +37,16 @@ public interface Ui {
 
     String MAIN_TITLE = "Fourier Series";
     String FT_TITLE = "Fourier Transform";
+
+    static String getWindowTitle(@NotNull String mainTitle, @NotNull RotorStateManager sm) {
+        String title = mainTitle;
+        if (!sm.isNoOp()) {
+            title += " (" + (sm.isLoading()? "Loading ": "") + Format.ellipse(sm.getFunctionMeta().displayName(), 40) + ")";
+        }
+
+        return title;
+    }
+
 
     int DEFAULT_LOOPER_DELAY_MS = 10;
 
@@ -131,17 +147,8 @@ public interface Ui {
         frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
     }
 
-    /* Loading ans Saving */
 
-    @Nullable
-    static FTUi showFtUi(@NotNull Ui ui, @NotNull RotorStateManager manager) {
-        if (manager.isNoOp()) {
-            ui.showErrorMessageDialog("No function selected yet\nSelect a function to view Fourier Transform Ui", null);
-            return null;
-        }
-
-        return new FTUi(manager, FT_TITLE + " (" + manager.getFunctionMeta().displayName() + ")");
-    }
+    /* Menu */
 
     @NotNull
     static JMenu createThemeSelectorMenu() {
@@ -236,6 +243,218 @@ public interface Ui {
         }
 
         return menu;
+    }
+
+
+    @NotNull
+    static JMenu createRotorStatesMenu(@NotNull Function<ActionInfo, ? extends Action> creator) {
+        final JMenu menu = new JMenu("Rotor States");
+        menu.add(creator.apply(ActionInfo.SAVE_ALL_ROTOR_STATES_TO_CSV));
+        menu.add(creator.apply(ActionInfo.LOAD_EXTERNAL_ROTOR_STATES_FROM_CSV));
+        menu.addSeparator();
+        menu.add(creator.apply(ActionInfo.CLEAR_AND_RESET_ROTOR_STATE_MANAGER));
+        return menu;
+    }
+
+
+    /* Loading ans Saving */
+
+    @Nullable
+    static FTUi showFtUi(@NotNull Ui ui, @NotNull RotorStateManager manager) {
+        if (manager.isNoOp()) {
+            ui.showErrorMessageDialog("No function selected yet\nSelect a function to view Fourier Transform Ui", null);
+            return null;
+        }
+
+        return new FTUi(manager);
+    }
+
+    static void askClearAndResetRotorStateManager(@NotNull Ui ui, @NotNull RotorStateManager manager) {
+        if (manager.isNoOp() || manager.getAllLoadedRotorStatesCount() == 0) {
+            return;
+        }
+
+        final int option = JOptionPane.showConfirmDialog(ui.getFrame(), "This will delete all loaded Rotor States. They have to be loaded again for future use. This is EXPENSIVE and NOT RECOMMENDED\n\nDo you wish to continue?", "Confirm Reset", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (option == JOptionPane.YES_OPTION) {
+            manager.clearAndResetSync();
+        }
+    }
+
+
+    class ExternalRotorStatesLoadPanel extends JPanel {
+
+        private final Ui parent;
+        private final JLabel infoLabel;
+        private final JTextField fileEntry;
+        private final JButton browseButton;
+        private final JCheckBox checkBox;
+
+        public ExternalRotorStatesLoadPanel(@NotNull Ui parent) {
+            this.parent = parent;
+            infoLabel = new JLabel("Select a file to load Rotor States");
+            infoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            infoLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+
+            fileEntry = new JTextField();
+            browseButton = new JButton("Browse");
+            browseButton.addActionListener(a -> browse());
+
+            checkBox = new JCheckBox("Remove existing Rotor States");
+            checkBox.setHorizontalAlignment(SwingConstants.LEFT);
+
+            setLayout(new GridLayout(0, 1, 6, 6));
+            add(infoLabel);
+
+            final JPanel entryPanel = new JPanel(new BorderLayout(10, 10));
+            entryPanel.add(browseButton, BorderLayout.EAST);
+            entryPanel.add(fileEntry, BorderLayout.CENTER);
+            add(entryPanel);
+
+            add(checkBox);
+        }
+
+        private void browse() {
+            final ChooserConfig config = ChooserConfig.openFileSingle()
+                    .setDialogTitle("Load Rotor States")
+                    .setStartDir(R.DIR_FUNCTION_STATE_SAVES)
+                    .setUseAcceptAllFIleFilter(false)
+                    .setFileHidingEnabled(false)
+                    .setChoosableFileFilters(R.EXT_ROTOR_STATES_CSV_FILE_FILTER)
+                    .setApproveButtonText("Load")
+                    .setApproveButtonTooltipText("Load Rotor States from file")
+                    .build();
+
+            final File[] files = config.showFIleChooser(parent.getFrame());
+            if (files == null || files.length == 0 || files[0] == null)
+                return;
+
+            final File file = files[0];
+            fileEntry.setText(file.getPath());
+        }
+
+
+        public void showDialog(@NotNull RotorStateManager manager) {
+            if (manager.isNoOp()) {
+                parent.showWarnMessageDialog("No function selected yet", null);
+                return;
+            }
+
+            final String dialogTitle = "Load Rotor States";
+            final int op = JOptionPane.showConfirmDialog(parent.getFrame(), this, dialogTitle, JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            if (op != JOptionPane.OK_OPTION)
+                return;
+
+            final String path = fileEntry.getText();
+            if (Format.isEmpty(path)) {
+                parent.showErrorMessageDialog("No FIle Selected", dialogTitle);
+                return;
+            }
+
+            final Path file = Path.of(path);
+            if (!Files.isRegularFile(file)) {
+                parent.showErrorMessageDialog("Selected file does not exists", dialogTitle);
+                return;
+            }
+
+            // todo: show snackbar loading
+            final Canceller c = FunctionState.readRotorStatesFromCSVAsync(file, new TaskConsumer<>() {
+                @Override
+                public void onFailed(@Nullable Throwable t) {
+                    Log.e("LoadRotorStates", "failed to load rotor states from file: " + file, t);
+                    String err = "failed to load Rotor States";
+                    err += "\nFile: " + file;
+                    err += "\nError: " + (t != null ? t.getClass().getSimpleName() + " -> " + t.getMessage() : "Unknown");
+
+                    parent.showErrorMessageDialog(err, dialogTitle);
+                }
+
+                @Override
+                public void onCancelled(@Nullable List<RotorState> dataProcessedYet) {
+                    TaskConsumer.super.onCancelled(dataProcessedYet);
+                }
+
+                @Override
+                public void consume(List<RotorState> data) {
+                    final boolean clear = checkBox.isSelected();
+                    final int prevCount = manager.getRotorCount();
+                    if (clear) {
+                        manager.clearAndResetSync();
+                    }
+
+                    final int modCount = manager.addRotorStates(data);
+                    if (modCount > 0 && (clear || prevCount == 0)) {
+                        manager.setRotorCountAsync(ComplexUtil.constraint(FourierSeriesPanel.ROTOR_COUNT_MIN, FourierSeriesPanel.ROTOR_COUNT_MAX, modCount));
+                    }
+
+                    final String msg = String.format("Rotor States loaded successfully\n\nFile: %s\nRotor States: %d\nPrevious States Deleted: %b", file, modCount, clear);
+                    parent.showInfoMessageDialog(msg, dialogTitle);
+                }
+            });
+        }
+    }
+
+
+    static void askLoadExternalRotorStatesFromCSV(@NotNull Ui ui, @NotNull RotorStateManager manager) {
+        new ExternalRotorStatesLoadPanel(ui).showDialog(manager);
+    }
+
+    static void askSaveRotorStatesToCSV(@NotNull Ui ui, @NotNull RotorStateManager manager) {
+        final String err;
+
+        if (manager.isNoOp()) {
+            err = "No function selected yet!";
+        } else if (manager.isLoading()) {
+            err = "Rotor States are still loading!";
+        } else if (manager.getAllLoadedRotorStatesCount() < 1) {
+            err = "Nothing loaded yet!";
+        } else {
+            err = null;
+        }
+
+        if (Format.notEmpty(err)) {          // Invalid save request
+            ui.showErrorMessageDialog("Invalid Save Request\nError: " + err, null);
+            return;
+        }
+
+        final FunctionState functionState = manager.createFunctionState();
+
+        final String dialogTitle = "Save Rotor States";
+        final ChooserConfig config = ChooserConfig.saveFileSingle()
+                .setDialogTitle(dialogTitle)
+                .setStartDir(R.DIR_FUNCTION_STATE_SAVES)
+                .setUseAcceptAllFIleFilter(false)
+                .setFileHidingEnabled(false)
+                .setChoosableFileFilters(R.EXT_ROTOR_STATES_CSV_FILE_FILTER)
+                .setApproveButtonText("Save")
+                .setApproveButtonTooltipText(dialogTitle)
+                .build();
+
+        final File[] files = config.showFIleChooser(ui.getFrame());
+        if (files == null || files.length == 0 || files[0] == null)
+            return;
+
+        final Path outPath = FileUtil.getNonExistingFile(FileUtil.ensureExtension(files[0].toPath(), R.EXT_ROTOR_STATES_CSV_FILE_EXTENSION));
+
+        // todo show snackbar
+        final Canceller c = functionState.writeRotorStatesASCSVAsync(outPath, new TaskConsumer<>() {
+            @Override
+            public void onFailed(@Nullable Throwable t) {
+                final String errorMsg = t == null? "Unknown": t.getClass().getSimpleName() + " -> " + t.getMessage();
+                final String msg = String.format("Failed To save Rotor States\n\nFunction: %s\nFile: %s\nError: %s", manager.getFunctionMeta().getTypedFunctionDisplayName(), outPath, errorMsg);
+                ui.showErrorMessageDialog(msg, dialogTitle);
+            }
+
+            @Override
+            public void consume(Void data) {
+                final String msg = String.format("Rotor States saved\n\nFile: %s\nFunction: %s", outPath, manager.getFunctionMeta().getTypedFunctionDisplayName());
+                ui.showInfoMessageDialog(msg, dialogTitle);
+            }
+
+            @Override
+            public void onCancelled(@Nullable Void dataProcessedYet) {
+                TaskConsumer.super.onCancelled(dataProcessedYet);
+            }
+        });
     }
 
     static void askConfigureFrequencyProvider(@NotNull Ui ui, @NotNull RotorStateManager manager) {
@@ -397,6 +616,7 @@ public interface Ui {
                 if (state == null) {
                     onFailed(null);
                 } else {
+                    // todo: additional csv load
                     done(toProvider(state));
                 }
             }
@@ -406,6 +626,7 @@ public interface Ui {
                 if (state == null) {
                     ui.showInfoMessageDialog("Function State load Cancelled\n\nFile: " + file, dialogTitle);
                 } else {
+                    // todo remove
                     final FunctionProviderI provider = toProvider(state);
                     final String msg = String.format("Function State load CANCELLED, but it was already loaded\nDo you still want to add this function?\n\nFunction: %s\nFile: %s", provider.getFunctionMeta().getTypedFunctionDisplayName(), file);
 
