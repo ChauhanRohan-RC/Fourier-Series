@@ -1,6 +1,7 @@
 package ui.panels;
 
 import animation.animator.AbstractAnimator;
+import app.Colors;
 import app.R;
 import models.graph.FTGraphData;
 import models.graph.FTGraphMode;
@@ -27,17 +28,18 @@ import util.Format;
 import util.async.Async;
 import util.async.Canceller;
 import util.async.Consumer;
+import util.async.Function;
 import util.live.Listeners;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.List;
 import java.util.*;
+import java.util.List;
+import java.util.function.IntFunction;
 import java.util.function.ToDoubleFunction;
 
 public class FTGraphPanel extends XChartPanel<XYChart> {
-
 
     public static final FTGraphMode DEFAULT_GRAPH_MODE = FTGraphMode.MAG;
 
@@ -47,24 +49,67 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
     private static final String FORMAT_X_AXIS_CURSOR = "%.2f";     // frequency
     private static final String FORMAT_Y_AXIS_CURSOR = "%.2f";
 
-    /* Current Series */
+    /* Live */
+    private static final boolean DEFAULT_SMOOTH = true;
+    private static final boolean DEFAULT_DRAW_AS_LIVE = true;
+    private static final Color COLOR_LIVE_POST_CURRENT = new Color(100, 100, 100);
 
-    private static final boolean CURRENT_SERIES_SHOW_IN_LEGEND = false;
-    private static final Marker CURRENT_SERIES_MARKER = new Circle();
     @Nullable
-    private static final Color CURRENT_SERIES_COLOR = null;
-    @Nullable
-    private static final XYSeries.XYSeriesRenderStyle CURRENT_SERIES_RENDER_STYLE = null;
+    private static IntFunction<Color> getMainSeriesLiveColorFilter(int curRotorIndex) {
+        if (curRotorIndex == -1)
+            return null;
 
-    @NotNull
-    private static String getCurrentSeriesName(@NotNull String seriesName) {
-        return "Current " + seriesName;
+        return i -> i <= curRotorIndex? null: COLOR_LIVE_POST_CURRENT;
     }
 
-    private static boolean isCurrentSeries(@NotNull GraphSeries series) {
-        return series.isCurrent();
+    /* Series Type */
+
+    private enum SeriesType {
+        MAIN(name -> name,
+                true,
+                new None(),
+                null,
+                null,
+                null
+        ),
+
+        CURRENT(name -> "Current " + name,
+                false,
+                new Circle(),
+                null,
+                null,
+                null
+        );
+
+        @NotNull
+        private final Function<String, String> mapperNameToSeriesName;
+
+        public final boolean showInLegend;
+        @Nullable
+        public final Marker marker;
+        @Nullable
+        public final XYSeries.XYSeriesRenderStyle renderStyle;
+        @Nullable
+        public final Color lineColor;
+        @Nullable
+        public final Color markerColor;
+
+        SeriesType(@NotNull Function<String, String> mapperNameToSeriesName, boolean showInLegend, @Nullable Marker marker, XYSeries.XYSeriesRenderStyle renderStyle, @Nullable Color lineColor, @Nullable Color markerColor) {
+            this.mapperNameToSeriesName = mapperNameToSeriesName;
+            this.showInLegend = showInLegend;
+            this.marker = marker;
+            this.renderStyle = renderStyle;
+            this.lineColor = lineColor;
+            this.markerColor = markerColor;
+        }
+
+        @NotNull
+        public String getSeriesName(@NotNull String mapperName) {
+            return mapperNameToSeriesName.apply(mapperName);
+        }
     }
-    
+
+
     /* Mappers */
 
     private static class MapperInfo implements ToDoubleFunction<RotorState> {
@@ -176,6 +221,10 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
         void onInvertXChanged(@NotNull FTGraphPanel graph);
 
         void onInvertYChanged(@NotNull FTGraphPanel graph);
+
+        void onSmoothChanged(@NotNull FTGraphPanel graph);
+
+        void onDrawASLiveChanged(@NotNull FTGraphPanel graph);
     }
     
 
@@ -230,6 +279,8 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
 
     private volatile boolean mInvertX;
     private volatile boolean mInvertY;
+    private volatile boolean mSmooth = DEFAULT_SMOOTH;
+    private volatile boolean mDrawASLive = DEFAULT_DRAW_AS_LIVE;
     private final Listeners<Listener> listeners = new Listeners<>();
 
     @Nullable
@@ -239,6 +290,9 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
 
     private final BaseAction invertXAction;
     private final BaseAction invertYAction;
+    private final BaseAction smoothAction;
+    private final BaseAction drawAsLiveAction;
+
     private final JMenu graphModeMenu;
     private final ButtonGroup graphModeGroup;
     private final EnumMap<FTGraphMode, ButtonModel> graphModeButtons;
@@ -264,6 +318,8 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
         // Actions
         invertXAction = new InvertXAction();
         invertYAction = new InvertYAction();
+        smoothAction = new SmoothAction();
+        drawAsLiveAction = new DrawAsLiveAction();
 
         graphModeMenu = new JMenu("Graph Mode");
         graphModeGroup = new ButtonGroup();
@@ -280,6 +336,9 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
         graphModeButtons.get(getGraphMode()).setSelected(true);
         addExtraMenuBinder(menu -> {
             menu.add(graphModeMenu);
+            menu.addSeparator();
+            menu.add(new JCheckBoxMenuItem(drawAsLiveAction));
+            menu.add(new JCheckBoxMenuItem(smoothAction));
             menu.addSeparator();
             menu.add(new JCheckBoxMenuItem(invertXAction));
             menu.add(new JCheckBoxMenuItem(invertYAction));
@@ -440,11 +499,63 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
 
 
 
+    public boolean isSmooth() {
+        return mSmooth;
+    }
+
+    protected void onSmoothChanged() {
+        final boolean smooth = mSmooth;
+        setSmoothInternal(smooth);
+
+        smoothAction.setSelected(smooth);
+        listeners.dispatchOnMainThread(l -> l.onSmoothChanged(FTGraphPanel.this));
+    }
+
+    public void setSmooth(boolean smooth) {
+        final boolean old = mSmooth;
+        if (old == smooth)
+            return;
+
+        mSmooth = smooth;
+        onSmoothChanged();
+    }
+
+    public boolean toggleSmooth() {
+        final boolean newState = !mSmooth;
+        setSmooth(newState);
+        return newState;
+    }
 
 
 
 
 
+    public boolean isDrawingAsLive() {
+        return mDrawASLive;
+    }
+
+    protected void onDrawAsLiveChanged() {
+        final boolean live = mDrawASLive;
+        setDrawAsLiveInternal(live);
+
+        drawAsLiveAction.setSelected(live);
+        listeners.dispatchOnMainThread(l -> l.onDrawASLiveChanged(FTGraphPanel.this));
+    }
+
+    public void setDrawAsLive(boolean drawAsLive) {
+        final boolean old = mDrawASLive;
+        if (old == drawAsLive)
+            return;
+
+        mDrawASLive = drawAsLive;
+        onDrawAsLiveChanged();
+    }
+
+    public boolean toggleDrawAsLive() {
+        final boolean newState = !mDrawASLive;
+        setDrawAsLive(newState);
+        return newState;
+    }
 
     @NotNull
     private FTGraphData createGraphData(@NotNull FTGraphMode graphMode, int rotorCount, int currentRotorIndex) {
@@ -459,13 +570,17 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
         
         final ToDoubleFunction<RotorState> domainMapper = getDomainMapper(invertX);
 
+        if (currentRotorIndex < 0 || currentRotorIndex >= rotorCount) {
+            currentRotorIndex = -1;
+        }
+
         final double[] domain = new double[rotorCount];
         final double[][] ranges = new double[mappers.length][rotorCount];
 
         for (int i=0; i < rotorCount; i++) {
             final RotorState state = manager.getRotorState(i);
             domain[i] = domainMapper.applyAsDouble(state);
-            
+
             for (int j=0; j < mappers.length; j++) {
                 ranges[j][i] = mappers[j].applyAsDouble(state);
             }
@@ -474,7 +589,7 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
         final double[] curDomain;
         final double[][] curRanges;
 
-        if (currentRotorIndex >= 0 && currentRotorIndex < rotorCount) {
+        if (currentRotorIndex != -1) {
             final RotorState state = manager.getRotorState(currentRotorIndex);
             curDomain = new double[] { domainMapper.applyAsDouble(state) };
             curRanges = new double[mappers.length][1];
@@ -483,7 +598,6 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
                 curRanges[i][0] = mappers[i].applyAsDouble(state);
             }
         } else {
-            currentRotorIndex = -1;
             curDomain = null;
             curRanges = null;
         }
@@ -492,12 +606,12 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
         for (int i=0; i < mappers.length; i++) {
             final MapperInfo mapper = mappers[i];
             
-            // Main series
-            list.add(new GraphSeries(mapper.seriesName, domain, ranges[i], null, false));
-            
+            // Main Series 1 (Pre Current)
+            list.add(new GraphSeries(SeriesType.MAIN.getSeriesName(mapper.seriesName), domain, ranges[i], null, SeriesType.MAIN));
+
             // current series
             if (curDomain != null) {
-                list.add(new GraphSeries(getCurrentSeriesName(mapper.seriesName), curDomain, curRanges[i], null, true));
+                list.add(new GraphSeries(SeriesType.CURRENT.getSeriesName(mapper.seriesName), curDomain, curRanges[i], null, SeriesType.CURRENT));
             }
         }
         
@@ -527,9 +641,9 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
         } else {
             final boolean currentRotorChanged = data.currentRotorIndex() != currentRotorIndex;
             if (currentRotorChanged) {
-                series.removeIf(GraphSeries::isCurrent);
+                series.removeIf(s -> SeriesType.CURRENT.equals(s.tag()));
             }
-            
+
             Consumer<GraphSeries> seriesInverter = null;
             if (data.xInverted() != invertX) {
                 seriesInverter = GraphSeries::negateX;
@@ -543,7 +657,7 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
             if (seriesInverter != null) {
                 series.forEach(seriesInverter.tpLegacy());
             }
-            
+
             if (currentRotorChanged && currentRotorIndex != -1) {
                 final MapperInfo[] mappers = getMappers(data.graphMode(), invertY);
                 if (mappers != null && mappers.length > 0) {
@@ -552,23 +666,23 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
                     final ToDoubleFunction<RotorState> domainMapper = getDomainMapper(invertX);
                     final double[] domain = { domainMapper.applyAsDouble(state) };
 
-                    for (final MapperInfo mapper : mappers) {
-                        series.add(new GraphSeries(getCurrentSeriesName(mapper.seriesName), domain, new double[]{mapper.applyAsDouble(state)}, null, true));
+                    for (final MapperInfo mapper: mappers) {
+                        series.add(new GraphSeries(SeriesType.CURRENT.getSeriesName(mapper.seriesName), domain, new double[]{mapper.applyAsDouble(state)}, null, SeriesType.CURRENT));
                     }
                 }
             }
         }
-        
+
         if (series.isEmpty()) {
             return FTGraphData.empty(data.graphMode());
         }
-        
+
         return new FTGraphData(
-                data.graphMode(), 
-                data.rotorCount(), 
-                currentRotorIndex, 
-                invertX, 
-                invertY, 
+                data.graphMode(),
+                data.rotorCount(),
+                currentRotorIndex,
+                invertX,
+                invertY,
                 series.toArray(new GraphSeries[series.size()])
         );
     }
@@ -586,7 +700,9 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
 
         mGraphDataLoader = null;
     }
-    
+
+
+
     private void onGraphDataLoaded(@NotNull FTGraphData data) {
         prevData = data;
         
@@ -599,9 +715,13 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
             seriesMap.clear();
         }
 
+        final boolean smooth = mSmooth;
+        final IntFunction<Color> mainColorFilter = mDrawASLive? getMainSeriesLiveColorFilter(data.currentRotorIndex()): null;
+
         final GraphSeries[] seriesArr = data.graphSeries();
-        int mainSeries = 0;
+        int currentSeries = 0;
         int legendSeries = 0;
+
         for (GraphSeries series: seriesArr) {
 //            final boolean hasSeries = chart.getSeriesMap().containsKey(graphSeries.name());
 //            final XYSeries xySeries;
@@ -612,31 +732,77 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
 //            }
 
             final XYSeries xySeries = addXYSeries(series);
+            xySeries.setTag(series.tag());
+            xySeries.setSmooth(smooth);
 
-            // Style Series
-            if (isCurrentSeries(series)) {
-                xySeries.setShowInLegend(CURRENT_SERIES_SHOW_IN_LEGEND);
-                xySeries.setMarker(CURRENT_SERIES_MARKER);
-                if (CURRENT_SERIES_COLOR != null) {
-                    xySeries.setMarkerColor(CURRENT_SERIES_COLOR);
-                    xySeries.setLineColor(CURRENT_SERIES_COLOR);
-                }
-                
-                if (CURRENT_SERIES_RENDER_STYLE != null) {
-                    xySeries.setXYSeriesRenderStyle(CURRENT_SERIES_RENDER_STYLE); 
-                }
-                
-                if (CURRENT_SERIES_SHOW_IN_LEGEND) {
+            if (series.tag() instanceof SeriesType type) {
+                xySeries.setShowInLegend(type.showInLegend);
+                if (type.showInLegend) {
                     legendSeries++;
                 }
-            } else {
-                xySeries.setMarker(new None());
-                mainSeries++;
-                legendSeries++;
+
+                if (type == SeriesType.CURRENT) {
+                    currentSeries++;
+                }
+
+                if (type.marker != null) {
+                    xySeries.setMarker(type.marker);
+                }
+
+                if (type.lineColor != null) {
+                    xySeries.setLineColor(type.lineColor);
+                }
+
+                if (type.markerColor != null) {
+                    xySeries.setMarkerColor(type.markerColor);
+                }
+
+                if (type.renderStyle != null) {
+                    xySeries.setXYSeriesRenderStyle(type.renderStyle);
+                }
+
+                if (type == SeriesType.MAIN) {
+                    xySeries.setColorFilter(mainColorFilter);
+                } else {
+                    xySeries.setColorFilter(null);
+                }
             }
         }
 
         chart.getStyler().setLegendVisible(legendSeries > 1);
+        repaint();
+    }
+
+    private void setDrawAsLiveInternal(boolean drawASLive) {
+        final FTGraphData data = prevData;
+        if (data == null)
+            return;
+
+        final Map<String, XYSeries> map = chart.getSeriesMap();
+        if (CollectionUtil.isEmpty(map))
+            return;
+
+        final IntFunction<Color> filter = drawASLive? getMainSeriesLiveColorFilter(data.currentRotorIndex()): null;
+
+        for (XYSeries series: map.values()) {
+            if (series.getTag() instanceof SeriesType type && SeriesType.MAIN == type) {
+                series.setColorFilter(filter);
+            }
+
+//            else {
+//                series.setColorFilter(null);
+//            }
+        }
+
+        repaint();
+    }
+
+    private void setSmoothInternal(boolean smooth) {
+        final Map<String, XYSeries> map = chart.getSeriesMap();
+        if (CollectionUtil.isEmpty(map))
+            return;
+
+        map.values().forEach(s -> s.setSmooth(smooth));
         repaint();
     }
 
@@ -699,6 +865,36 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
             toggleInvertY();
         }
     }
+
+    private class DrawAsLiveAction extends BaseAction {
+
+        public DrawAsLiveAction() {
+            setName(R.getFTDrawAsLiveText());
+            setShortDescription(R.getFTDrawAsLiveShortDescription());
+            setSelected(isDrawingAsLive());
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            toggleDrawAsLive();
+        }
+    }
+
+
+    private class SmoothAction extends BaseAction {
+
+        public SmoothAction() {
+            setName(R.getDrawSmoothCurveText());
+            setShortDescription(R.getDrawSmoothCurveShortDescription());
+            setSelected(isSmooth());
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            toggleSmooth();
+        }
+    }
+
 
     private class GraphModeAction extends BaseAction {
 

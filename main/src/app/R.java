@@ -454,6 +454,28 @@ public class R {
     }
 
     @NotNull
+    public static String getFTDrawAsLiveText() {
+        return "Draw Live";
+    }
+
+    @NotNull
+    public static String getFTDrawAsLiveShortDescription() {
+        return "Draw only processed states";
+    }
+
+
+    @NotNull
+    public static String getDrawSmoothCurveText() {
+        return "Smooth Curve";
+    }
+
+    @NotNull
+    public static String getDrawSmoothCurveShortDescription() {
+        return "use Cubic Bezier Interpolation";
+    }
+
+
+    @NotNull
     public static String getGraphInCenterText() {
         return "Center";
     }

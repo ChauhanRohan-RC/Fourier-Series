@@ -105,7 +105,8 @@ public class PlotContent_XY<ST extends XYStyler, S extends XYSeries> extends Plo
           path = null;
 
           if (smoothPath != null) {
-            g.setColor(series.getLineColor());
+            // TODO
+            g.setColor(series.getLineColor(i));
             g.setStroke(series.getLineStyle());
             g.draw(smoothPath);
             smoothPath = null;
@@ -164,7 +165,9 @@ public class PlotContent_XY<ST extends XYStyler, S extends XYSeries> extends Plo
           if (series.getLineStyle() != SeriesLines.NONE) {
 
             if (previousX != -Double.MAX_VALUE && previousY != -Double.MAX_VALUE) {
-              g.setColor(series.getLineColor());
+              // TODO
+
+              g.setColor(series.getLineColor(i));
               g.setStroke(series.getLineStyle());
               if (isSeriesLineOrArea) {
                 if (series.isSmooth()) {
@@ -179,6 +182,9 @@ public class PlotContent_XY<ST extends XYStyler, S extends XYSeries> extends Plo
                       yOffset,
                       xOffset,
                       yOffset);
+
+                  g.draw(smoothPath);
+                  smoothPath = null;
                 } else {
                   line.setLine(previousX, previousY, xOffset, yOffset);
                   g.draw(line);
@@ -258,7 +264,7 @@ public class PlotContent_XY<ST extends XYStyler, S extends XYSeries> extends Plo
 
           // set error bar style
           if (xyStyler.isErrorBarsColorSeriesColor()) {
-            g.setColor(series.getLineColor());
+            g.setColor(series.getLineColor(i));
           } else {
             g.setColor(xyStyler.getErrorBarsColor());
           }
@@ -327,11 +333,11 @@ public class PlotContent_XY<ST extends XYStyler, S extends XYSeries> extends Plo
         }
       }
 
-      if (smoothPath != null) {
-        g.setColor(series.getLineColor());
-        g.setStroke(series.getLineStyle());
-        g.draw(smoothPath);
-      }
+//      if (smoothPath != null) {
+//        g.setColor(xData.length > 0? series.getLineColor(xData.length - 1): series.getLineColor());
+//        g.setStroke(series.getLineStyle());
+//        g.draw(smoothPath);
+//      }
       // close any open path for area charts
       g.setColor(series.getFillColor());
       closePathXY(g, path, previousX, yZeroOffset, polygonStartX, polygonStartY);

@@ -34,6 +34,7 @@ public class FunctionGraphPanel extends XChartPanel<XYChart> {
 
     private static final int DEFAULT_SAMPLE_COUNT = 2000;
     private static final FunctionGraphMode DEFAULT_GRAPH_MODE = FunctionGraphMode.OUTPUT_SPACE;
+    private static final boolean DEFAULT_SMOOTH = true;
 
 //    private final BaseLive.Observer<FunctionGraphMode> graphModeObserver = new BaseLive.Observer<>() {
 //        @Override
@@ -53,6 +54,8 @@ public class FunctionGraphPanel extends XChartPanel<XYChart> {
         void onInvertXChanged(@NotNull FunctionGraphPanel graph);
 
         void onInvertYChanged(@NotNull FunctionGraphPanel graph);
+
+        void onSmoothChanged(@NotNull FunctionGraphPanel graph);
     }
 
     @NotNull
@@ -81,6 +84,7 @@ public class FunctionGraphPanel extends XChartPanel<XYChart> {
     private volatile FunctionGraphMode mGraphMode;
     private volatile boolean mInvertX;
     private volatile boolean mInvertY;
+    private volatile boolean mSmooth = DEFAULT_SMOOTH;
 
     private final Listeners<Listener> listeners = new Listeners<>();
 
@@ -91,6 +95,8 @@ public class FunctionGraphPanel extends XChartPanel<XYChart> {
 
     private final BaseAction invertXAction;
     private final BaseAction invertYAction;
+    private final BaseAction smoothAction;
+
     private final JMenu graphModeMenu;
     private final ButtonGroup graphModeGroup;
     private final EnumMap<FunctionGraphMode, ButtonModel> graphModeButtons;
@@ -118,6 +124,7 @@ public class FunctionGraphPanel extends XChartPanel<XYChart> {
         // Actions
         invertXAction = new InvertXAction();
         invertYAction = new InvertYAction();
+        smoothAction = new SmoothAction();
 
         graphModeMenu = new JMenu("Graph Mode");
         graphModeGroup = new ButtonGroup();
@@ -135,6 +142,7 @@ public class FunctionGraphPanel extends XChartPanel<XYChart> {
         addExtraMenuBinder(menu -> {
             menu.add(graphModeMenu);
             menu.addSeparator();
+            menu.add(new JCheckBoxMenuItem(smoothAction));
             menu.add(new JCheckBoxMenuItem(invertXAction));
             menu.add(new JCheckBoxMenuItem(invertYAction));
         });
@@ -252,6 +260,34 @@ public class FunctionGraphPanel extends XChartPanel<XYChart> {
         return newState;
     }
 
+    public boolean isSmooth() {
+        return mSmooth;
+    }
+
+    protected void onSmoothChanged() {
+        final boolean smooth = mSmooth;
+        setSmoothInternal(smooth);
+
+        smoothAction.setSelected(smooth);
+        listeners.dispatchOnMainThread(l -> l.onSmoothChanged(FunctionGraphPanel.this));
+    }
+
+    public void setSmooth(boolean smooth) {
+        final boolean old = mSmooth;
+        if (old == smooth)
+            return;
+
+        mSmooth = smooth;
+        onSmoothChanged();
+    }
+
+    public boolean toggleSmooth() {
+        final boolean newState = !mSmooth;
+        setSmooth(newState);
+        return newState;
+    }
+
+
 
 
     @NotNull
@@ -352,6 +388,15 @@ public class FunctionGraphPanel extends XChartPanel<XYChart> {
         mGraphDataLoader = null;
     }
 
+    private void setSmoothInternal(boolean smooth) {
+        final Map<String, XYSeries> map = chart.getSeriesMap();
+        if (CollectionUtil.isEmpty(map))
+            return;
+
+        map.values().forEach(s -> s.setSmooth(smooth));
+        repaint();
+    }
+
 
     private void onGraphDataLoaded(@NotNull FunctionGraphData data) {
         chart.setTitle(getChartTitle(false));
@@ -362,6 +407,8 @@ public class FunctionGraphPanel extends XChartPanel<XYChart> {
         if (CollectionUtil.notEmpty(seriesMap)) {
             seriesMap.clear();
         }
+
+        final boolean smooth = mSmooth;
 
         final GraphSeries[] seriesArr = data.graphSeries();
         for (GraphSeries series: seriesArr) {
@@ -374,8 +421,10 @@ public class FunctionGraphPanel extends XChartPanel<XYChart> {
 //            }
 
             final XYSeries xySeries = addXYSeries(series);
+            xySeries.setTag(series.tag());
 
             // Style Series
+            xySeries.setSmooth(smooth);
             xySeries.setMarker(new None());
         }
 
@@ -426,6 +475,20 @@ public class FunctionGraphPanel extends XChartPanel<XYChart> {
         @Override
         public void actionPerformed(ActionEvent e) {
             toggleInvertY();
+        }
+    }
+
+    private class SmoothAction extends BaseAction {
+
+        public SmoothAction() {
+            setName(R.getDrawSmoothCurveText());
+            setShortDescription(R.getDrawSmoothCurveShortDescription());
+            setSelected(isSmooth());
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            toggleSmooth();
         }
     }
 

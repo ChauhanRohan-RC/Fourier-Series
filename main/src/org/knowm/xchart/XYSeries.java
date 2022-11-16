@@ -1,8 +1,13 @@
 package org.knowm.xchart;
 
+import org.jetbrains.annotations.Nullable;
 import org.knowm.xchart.internal.chartpart.RenderableSeries;
 import org.knowm.xchart.internal.chartpart.RenderableSeries.LegendRenderType;
 import org.knowm.xchart.internal.series.AxesChartSeriesNumericalNoErrorBars;
+
+import java.awt.*;
+import java.util.function.IntFunction;
+
 
 /**
  * A Series containing X and Y data to be plotted on a Chart
@@ -11,74 +16,114 @@ import org.knowm.xchart.internal.series.AxesChartSeriesNumericalNoErrorBars;
  */
 public class XYSeries extends AxesChartSeriesNumericalNoErrorBars {
 
-  private XYSeriesRenderStyle xySeriesRenderStyle = null;
-  // smooth curve
-  private boolean smooth;
+    private XYSeriesRenderStyle xySeriesRenderStyle = null;
+    // smooth curve
+    private boolean smooth;
 
-  /**
-   * Constructor
-   *
-   * @param name
-   * @param xData
-   * @param yData
-   * @param errorBars
-   */
-  public XYSeries(
-      String name, double[] xData, double[] yData, double[] errorBars, DataType axisType) {
+    @Nullable
+    private IntFunction<Color> colorFilter;
 
-    super(name, xData, yData, errorBars, axisType);
-  }
+    @Nullable
+    private Object tag;
 
-  public XYSeriesRenderStyle getXYSeriesRenderStyle() {
+    /**
+     * Constructor
+     *
+     * @param name
+     * @param xData
+     * @param yData
+     * @param errorBars
+     */
+    public XYSeries(
+            String name, double[] xData, double[] yData, double[] errorBars, DataType axisType) {
 
-    return xySeriesRenderStyle;
-  }
+        super(name, xData, yData, errorBars, axisType);
+    }
 
-  public XYSeries setXYSeriesRenderStyle(XYSeriesRenderStyle chartXYSeriesRenderStyle) {
+    public XYSeries setColorFilter(@Nullable IntFunction<Color> colorFilter) {
+        this.colorFilter = colorFilter;
+        return this;
+    }
 
-    this.xySeriesRenderStyle = chartXYSeriesRenderStyle;
-    return this;
-  }
+    @Nullable
+    public IntFunction<Color> getColorFilter() {
+        return colorFilter;
+    }
 
-  @Override
-  public LegendRenderType getLegendRenderType() {
+    public Object getTag() {
+        return tag;
+    }
 
-    return xySeriesRenderStyle.getLegendRenderType();
-  }
+    public XYSeries setTag(Object tag) {
+        this.tag = tag;
+        return this;
+    }
 
-  // TODO what is this again?
-  public boolean isSmooth() {
-    return smooth;
-  }
+    @Nullable
+    public Color getLineColor(int index) {
+        Color c = null;
+        if (colorFilter != null) {
+            c = colorFilter.apply(index);
+        }
 
-  public void setSmooth(boolean smooth) {
-    this.smooth = smooth;
-  }
+        if (c == null) {
+            c = getLineColor();
+        }
 
-  public enum XYSeriesRenderStyle implements RenderableSeries {
-    Line(LegendRenderType.Line),
+        return c;
+    }
 
-    Area(LegendRenderType.Line),
 
-    Step(LegendRenderType.Line),
+    public XYSeriesRenderStyle getXYSeriesRenderStyle() {
 
-    StepArea(LegendRenderType.Line),
+        return xySeriesRenderStyle;
+    }
 
-    PolygonArea(LegendRenderType.Box),
+    public XYSeries setXYSeriesRenderStyle(XYSeriesRenderStyle chartXYSeriesRenderStyle) {
 
-    Scatter(LegendRenderType.Scatter);
-
-    private final LegendRenderType legendRenderType;
-
-    XYSeriesRenderStyle(LegendRenderType legendRenderType) {
-
-      this.legendRenderType = legendRenderType;
+        this.xySeriesRenderStyle = chartXYSeriesRenderStyle;
+        return this;
     }
 
     @Override
     public LegendRenderType getLegendRenderType() {
 
-      return legendRenderType;
+        return xySeriesRenderStyle.getLegendRenderType();
     }
-  }
+
+    // TODO what is this again?
+    public boolean isSmooth() {
+        return smooth;
+    }
+
+    public void setSmooth(boolean smooth) {
+        this.smooth = smooth;
+    }
+
+    public enum XYSeriesRenderStyle implements RenderableSeries {
+        Line(LegendRenderType.Line),
+
+        Area(LegendRenderType.Line),
+
+        Step(LegendRenderType.Line),
+
+        StepArea(LegendRenderType.Line),
+
+        PolygonArea(LegendRenderType.Box),
+
+        Scatter(LegendRenderType.Scatter);
+
+        private final LegendRenderType legendRenderType;
+
+        XYSeriesRenderStyle(LegendRenderType legendRenderType) {
+
+            this.legendRenderType = legendRenderType;
+        }
+
+        @Override
+        public LegendRenderType getLegendRenderType() {
+
+            return legendRenderType;
+        }
+    }
 }

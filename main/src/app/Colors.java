@@ -4,6 +4,8 @@ import java.awt.*;
 
 public class Colors {
 
+    public static final Color TRANSPARENT = new Color(0, 0, 0, 0);
+
     public static final Color BG_DARK = new Color(0, 0, 0);
     public static final Color BG_MEDIUM = new Color(42, 42, 42);
     public static final Color BG_LIGHT = new Color(68, 68, 68);

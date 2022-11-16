@@ -8,12 +8,12 @@ public record GraphSeries(@NotNull String name,
                           double @NotNull [] xData,
                           double @NotNull [] yData,
                           double @Nullable[] errorBars,
-                          boolean isCurrent) {
+                          Object tag) {
 
     public GraphSeries(@NotNull String name,
                        double @NotNull [] xData,
                        double @NotNull [] yData) {
-        this(name, xData, yData, null, false);
+        this(name, xData, yData, null, null);
     }
 
     public void negateX() {
