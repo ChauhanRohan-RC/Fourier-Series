@@ -13,6 +13,10 @@ public interface DomainProviderI extends ColorProviderI {
 
     double getDomainEnd();
 
+    default double getSampleDomainStep(int sampleCount) {
+        return sampleCount < 2? 0: getDomainRange() / (sampleCount - 1);
+    }
+
     /**
      * number of intervals domain range must be divided for numerical integration.<br>
      * This can be used to simulate <b>Discrete Fourier Transform</b><br>

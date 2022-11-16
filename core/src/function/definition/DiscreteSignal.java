@@ -1,8 +1,36 @@
 package function.definition;
 
+import models.RealTransform;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * An implementation of {@link DiscreteSignalI DiscreteSignal}
+ *
+ * {@inheritDoc}
+ *  @see DiscreteFunction DiscreteFunction
+ * */
 public class DiscreteSignal implements DiscreteSignalI {
+
+    /**
+     * Creates a {@link DiscreteSignal Discrete Signal} from a {@link ComplexDomainFunctionI Complex Domain Function}<br>
+     * It effectively samples the given function over its domain, mapping {@link org.apache.commons.math3.complex.Complex complex} output to rela values using supplied {@link RealTransform Real Transform}
+     * <br>
+     * @param function the function to sample
+     * @param sampleCount how many data points should be sampled
+     * @param realTransform how Complex output of function should be mapped to real values
+     * @return the Discrete Signal backed by samples from the given function
+     *
+     * @see DomainProviderI#getSampleDomainStep(int) Sample Domain Step
+     * @see ComplexDomainFunctionI#createSamplesRealRange(int, RealTransform)   Create Samples Real Range
+     * */
+    @NotNull
+    public static DiscreteSignal from(@NotNull ComplexDomainFunctionI function, int sampleCount, @NotNull RealTransform realTransform) {
+        return new DiscreteSignal(
+                function.getDomainStart(),
+                function.getSampleDomainStep(sampleCount),
+                function.createSamplesRealRange(sampleCount, realTransform)
+        );
+    }
 
     private final double domainStart;
     private final double domainStep;

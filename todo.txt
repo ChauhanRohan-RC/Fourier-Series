@@ -1,2 +1,5 @@
 // todo
 1. Add support for csv, or similar format for saving and loading rotor states (may be keep function meta and definition in json, just rotor states in csv)
+
+2. LOG to file (java logger)
+3. Snackbar (messages and simple confirm)

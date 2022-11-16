@@ -21,8 +21,22 @@ public class ComplexUtil {
     public static final int SIMPSON_38_N_DEFAULT = 51;
 
     /* Fourier Transform */
+    /**
+     * Defines Fourier Transform integrand exp term sign <br>
+     * <strong>
+     *     Must be Complimentary to Fourier Series rotor direction
+     * </strong>
+     * */
     public static final boolean FOURIER_TRANSFORM_CLOCKWISE = true;
+
+    /**
+     * Defines whether {@link #TWo_PI} should be used in Fourier Transform integrand exp term<br>
+     * <br>
+     * If it is used, then the frequencies decomposed by FT algorithm will be temporal<br>
+     * otherwise, angular
+     * */
     public static final boolean FOURIER_TRANSFORM_USE_TWO_PI = true;
+
     public static final int FOURIER_TRANSFORM_SIMPSON_13_N_MIN = SIMPSON_13_N_MIN;
     public static final int FOURIER_TRANSFORM_SIMPSON_13_N_DEFAULT = 100000;
 

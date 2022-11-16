@@ -10,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
 
 import org.jetbrains.annotations.Nullable;
 import rotor.frequency.RotorFrequencyProviderI;
-import ui.ExternalProgramPanel;
 import util.ExternalJava;
 import util.ExternalProgramFunction;
 import util.json.ColorGsonAdapter;

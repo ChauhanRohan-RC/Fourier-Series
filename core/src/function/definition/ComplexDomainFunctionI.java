@@ -20,7 +20,7 @@ public interface ComplexDomainFunctionI extends ComplexFunctionI, DomainProvider
             return new double[] { getDomainStart() };
 
         final double start = getDomainStart();
-        final double step = getDomainRange() / (sampleCount - 1);
+        final double step = getSampleDomainStep(sampleCount);
 
         final double[] arr = new double[sampleCount];
         for (int i=0; i < sampleCount; i++) {
@@ -39,7 +39,8 @@ public interface ComplexDomainFunctionI extends ComplexFunctionI, DomainProvider
         if (sampleCount == 1)
             return new Complex[] { compute(start) };
 
-        final double step = getDomainRange() / (sampleCount - 1);
+        final double step = getSampleDomainStep(sampleCount);
+
         final Complex[] range = new Complex[sampleCount];
         for (int i=0; i < sampleCount; i++) {
             range[i] = compute(start + (i * step));
@@ -57,6 +58,25 @@ public interface ComplexDomainFunctionI extends ComplexFunctionI, DomainProvider
         final Complex[] range = new Complex[samplesDomain.length];
         for (int i=0; i < samplesDomain.length; i++) {
             range[i] = compute(samplesDomain[i]);
+        }
+
+        return range;
+    }
+
+
+    default double @NotNull[] createSamplesRealRange(int sampleCount, @NotNull RealTransform realTransform) {
+        if (sampleCount < 1)
+            return new double[0];
+
+        final double start = getDomainStart();
+        if (sampleCount == 1)
+            return new double[] { realTransform.toReal(compute(start)) };
+
+        final double step = getSampleDomainStep(sampleCount);
+
+        final double[] range = new double[sampleCount];
+        for (int i=0; i < sampleCount; i++) {
+            range[i] = realTransform.toReal(compute(start + (i * step)));
         }
 
         return range;

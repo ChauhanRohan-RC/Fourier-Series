@@ -1,14 +1,12 @@
 package app;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 import provider.Providers;
-import ui.FourierUi;
+import ui.frames.FourierUi;
 import util.Log;
 import util.async.Async;
 import util.async.TaskCompletionListener;
-import util.async.TaskConsumer;
 
 import javax.swing.*;
 import java.util.Collections;

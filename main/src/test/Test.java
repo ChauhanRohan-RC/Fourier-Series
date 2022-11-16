@@ -7,10 +7,10 @@ import provider.FunctionMeta;
 import provider.FunctionType;
 import rotor.StandardRotorStateManager;
 import rotor.frequency.FixedStartFrequencyProvider;
-import ui.FTGraphPanel;
-import ui.FTWinderPanel;
-import ui.FourierUi;
-import ui.FunctionGraphPanel;
+import ui.panels.FTGraphPanel;
+import ui.panels.FTWinderPanel;
+import ui.frames.FourierUi;
+import ui.panels.FunctionGraphPanel;
 import ui.util.Ui;
 
 import javax.swing.*;

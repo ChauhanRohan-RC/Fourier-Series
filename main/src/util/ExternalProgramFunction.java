@@ -26,6 +26,8 @@ public class ExternalProgramFunction extends ComplexDomainFunctionWrapper {
 
         @Override
         public JsonElement serialize(ExternalProgramFunction src, Type typeOfSrc, JsonSerializationContext context) {
+            // Serialize everything, just as GsonTypeAdapter
+
             final JsonObject o = new JsonObject();
             o.addProperty(GsonTypeAdapter.CLASS_NAME_KEY, src.getClass().getName());
 
@@ -42,6 +44,8 @@ public class ExternalProgramFunction extends ComplexDomainFunctionWrapper {
 
         @Override
         public ExternalProgramFunction deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            // Deserialize only data, delegated by GsonTypeAdapter
+
             final JsonObject o = json.getAsJsonObject();
             final JsonElement locElement = o.get(KEY_LOCATION);
             if (locElement == null) {

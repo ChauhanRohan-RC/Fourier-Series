@@ -6,8 +6,9 @@ import org.jetbrains.annotations.NotNull;
 /**
  * A derived implementation of {@link DiscreteFunctionI} that has a real 1-Dimensional output
  *
- * @see DiscreteFunctionI
- * @see SignalFunctionI
+ * @see models.RealTransform RealTransform
+ * @see DiscreteFunctionI Discrete Function
+ * @see SignalFunctionI Signal Function
  * */
 public interface DiscreteSignalI extends DiscreteFunctionI, SignalFunctionI {
 

@@ -64,12 +64,10 @@ public enum ActionInfo {
 
     SHOW_FT_UI("Fourier Transform Ui", "Show Fourier Transform Ui", KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK), true, false),
 
-    /* Configurations */
-    CONFIGURATIONS("Configuration", "Configure frequency, graphs and more",  KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK), true),
+    /* FT Configurations */
     CONFIGURE_ROTOR_FREQUENCY_PROVIDER(R.getConfigureRotorFrequencyProviderText(), R.getConfigureRotorFrequencyProviderShortDescription(), KeyStroke.getKeyStroke(KeyEvent.VK_F, 0),true),
     CONFIGURE_FUNCTION_GRAPH("Function Graph", "Configure Function Graph",  null, true),
     CONFIGURE_FT_GRAPH("FT Graph", "Configure Fourier Transform Graph", null, true),
-
 
     SAVE_FUNCTION_STATE_TO_FILE("Save State", "Save Function State", KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK), true),
     LOAD_FUNCTION_STATE_FROM_FILE("Load State", "Load Function State", KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_DOWN_MASK), false),

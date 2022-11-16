@@ -4,7 +4,34 @@ import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 
 
+/**
+ * An implementation of {@link DiscreteFunctionI DiscreteFunction}
+ *
+ * {@inheritDoc}
+ * @see DiscreteSignal DiscreteSignal
+ * */
 public class DiscreteFunction implements DiscreteFunctionI {
+
+    /**
+     * Creates a {@link DiscreteFunction Discrete Function} from a {@link ComplexDomainFunctionI Complex Domain Function}<br>
+     * It effectively samples the given function over its domain
+     * <br>
+     * @param function the function to sample
+     * @param sampleCount how many data points should be sampled
+     *
+     * @return the discrete function backed by samples from the given function
+     *
+     * @see DomainProviderI#getSampleDomainStep(int) Sample Domain Step
+     * @see ComplexDomainFunctionI#createSamplesRange(int)  Create Samples Range
+     * */
+    @NotNull
+    public static DiscreteFunction from(@NotNull ComplexDomainFunctionI function, int sampleCount) {
+        return new DiscreteFunction(
+                function.getDomainStart(),
+                function.getSampleDomainStep(sampleCount),
+                function.createSamplesRange(sampleCount)
+        );
+    }
 
     private final double domainStart;
     private final double domainStep;
