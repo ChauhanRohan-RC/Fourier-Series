@@ -3,18 +3,15 @@ package util.live;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import util.CollectionUtil;
-import util.async.Async;
-import util.async.Consumer;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.lang.ref.WeakReference;
+import java.util.*;
 
-public class Listeners<T> implements ListenersI<T> {
+
+public class WeakListeners<T> implements ListenersI<T> {
 
     @NonNls
-    private final List<T> mListeners = Collections.synchronizedList(new LinkedList<>());
+    private final List<WeakReference<T>> mListeners = Collections.synchronizedList(new LinkedList<>());
 
     protected void onActive() {
     }
@@ -25,6 +22,7 @@ public class Listeners<T> implements ListenersI<T> {
     protected boolean shouldAddListener(@NotNull T listener) {
         return true;
     }
+
 
 
     protected void onListenerAdded(@NotNull T listener) {
@@ -45,7 +43,7 @@ public class Listeners<T> implements ListenersI<T> {
         if (!shouldAddListener(listener))
             return false;
 
-        mListeners.add(listener);
+        mListeners.add(new WeakReference<>(listener));
         if (mListeners.size() == 1) {
             onActive();
         }
@@ -54,9 +52,16 @@ public class Listeners<T> implements ListenersI<T> {
         return true;
     }
 
+    public final boolean prune() {
+        return mListeners.removeIf(ref -> ref.get() == null);
+    }
+
     @Override
     public final boolean removeListener(@NotNull T listener) {
-        final boolean removed = mListeners.remove(listener);
+        final boolean removed = mListeners.removeIf(ref -> {
+            final T l = ref.get();
+            return l != null && l.equals(listener);
+        });
 
         if (removed) {
             onListenerRemoved(listener);
@@ -70,16 +75,36 @@ public class Listeners<T> implements ListenersI<T> {
 
     @Override
     public final boolean containsListener(@NotNull T listener) {
-        return mListeners.contains(listener);
+        for (WeakReference<T> ref: mListeners) {
+            final T l = ref.get();
+            if (l != null && l.equals(listener))
+                return true;
+        }
+
+        return false;
     }
+
 
     @NotNull
     @Override
     public final Collection<T> iterationCopy() {
-        final List<T> ls = mListeners;
-        if (CollectionUtil.isEmpty(ls))
+        if (CollectionUtil.isEmpty(mListeners))
             return Collections.emptyList();
 
-        return CollectionUtil.linkedListCopy(ls);
+        final List<T> list = new LinkedList<>();
+        final Iterator<WeakReference<T>> itr = mListeners.iterator();
+
+        while (itr.hasNext()) {
+            final WeakReference<T> ref = itr.next();
+            final T l = ref.get();
+            if (l != null) {
+                list.add(l);
+            } else {
+                itr.remove();
+            }
+        }
+
+        return list;
     }
 }
+

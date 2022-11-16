@@ -1197,13 +1197,8 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
     }
 
     @Override
-    public void onFourierTransformSimpson13NCurrentDefaultChanged(int fourierTransformSimpson13NDefault) {
-        super.onFourierTransformSimpson13NCurrentDefaultChanged(fourierTransformSimpson13NDefault);
-
-        final RotorStateManager manager = fsPanel.getRotorStateManager();
-        if (!manager.isLoading()) {
-            manager.clearAndReloadAsync();
-        }
+    public void onFTIntegrationIntervalCountChanged(int fourierTransformSimpson13NDefault) {
+        super.onFTIntegrationIntervalCountChanged(fourierTransformSimpson13NDefault);
     }
 
     public void askSaveFunctionStateToFIle() {
@@ -1294,8 +1289,8 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
         Ui.askConfigureFrequencyProvider(FourierUi.this, fsPanel.getRotorStateManager());
     }
 
-    public void askClearAndResetRotorStateManager() {
-        Ui.askClearAndResetRotorStateManager(FourierUi.this, fsPanel.getRotorStateManager());
+    public void askClearAndResetRotorStateManager(boolean reload) {
+        Ui.askClearAndResetRotorStateManager(FourierUi.this, fsPanel.getRotorStateManager(), reload);
     }
 
     public void askLoadExternalRotorStatesFromCSV() {
@@ -1398,7 +1393,8 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
             case CLEAR_EXTERNAL_PROGRAMMATIC_FUNCTIONS -> confirmRemoveAllFunctionProviders(FunctionType.EXTERNAL_PROGRAM);
             case RESET_PROGRAMMATIC_FUNCTIONS -> confirmResetProgrammaticFunctions();
             case CONFIGURE_ROTOR_FREQUENCY_PROVIDER -> askConfigureFrequencyProvider();
-            case CLEAR_AND_RESET_ROTOR_STATE_MANAGER -> askClearAndResetRotorStateManager();
+            case CLEAR_AND_RESET_ROTOR_STATE_MANAGER -> askClearAndResetRotorStateManager(false);
+            case CLEAR_AND_RELOAD_ROTOR_STATE_MANAGER -> askClearAndResetRotorStateManager(true);
             case LOAD_EXTERNAL_ROTOR_STATES_FROM_CSV -> askLoadExternalRotorStatesFromCSV();
             case SAVE_ALL_ROTOR_STATES_TO_CSV -> askSaveRotorStatesToCSV();
             case SHOW_FT_UI -> showFtUi();

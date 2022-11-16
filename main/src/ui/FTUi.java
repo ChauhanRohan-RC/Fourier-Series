@@ -16,10 +16,13 @@ import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
+import java.util.Hashtable;
 
 public class FTUi extends BaseFrame {
 
     public static final String TAG = "FtUI";
+
+    private static final Hashtable<Integer, JComponent> EMPTY_LABEL_TABLE = new Hashtable<>();
 
     public static final boolean DEFAULT_FULLSCREEN = false;
     public static final boolean DEFAULT_CONTROLS_VISIBLE = true;
@@ -632,14 +635,15 @@ public class FTUi extends BaseFrame {
 
         final int max = rotorCount < 2 ? 0 : rotorCount - 1;
         if (curRotorSlider.getMaximum() != max) {
-            curRotorSlider.setMaximum(max);
             if (max > 0) {
                 curRotorSlider.setLabelTable(curRotorSlider.createStandardLabels(max, 0));
                 curRotorSlider.setPaintLabels(true);
             } else {
                 curRotorSlider.setPaintLabels(false);
-                curRotorSlider.setLabelTable(null);
+                curRotorSlider.setLabelTable(EMPTY_LABEL_TABLE);
             }
+
+            curRotorSlider.setMaximum(max);
         }
 
         final int toSet = currentRotorIndex != -1? currentRotorIndex : 0;
@@ -745,8 +749,8 @@ public class FTUi extends BaseFrame {
         Ui.askSaveFunctionStateToFIle(FTUi.this, ftWinderPanel.getRotorStateManager());
     }
 
-    public void askClearAndResetRotorStateManager() {
-        Ui.askClearAndResetRotorStateManager(FTUi.this, ftWinderPanel.getRotorStateManager());
+    public void askClearAndResetRotorStateManager(boolean reload) {
+        Ui.askClearAndResetRotorStateManager(FTUi.this, ftWinderPanel.getRotorStateManager(), reload);
     }
 
     public void askLoadExternalRotorStatesFromCSV() {
@@ -812,13 +816,8 @@ public class FTUi extends BaseFrame {
     }
 
     @Override
-    public void onFourierTransformSimpson13NCurrentDefaultChanged(int fourierTransformSimpson13NDefault) {
-        super.onFourierTransformSimpson13NCurrentDefaultChanged(fourierTransformSimpson13NDefault);
-
-        final RotorStateManager manager = ftWinderPanel.getRotorStateManager();
-        if (!manager.isLoading()) {
-            manager.clearAndReloadAsync();
-        }
+    public void onFTIntegrationIntervalCountChanged(int fourierTransformSimpson13NDefault) {
+        super.onFTIntegrationIntervalCountChanged(fourierTransformSimpson13NDefault);
     }
 
 
@@ -852,7 +851,8 @@ public class FTUi extends BaseFrame {
             case TOGGLE_MENUBAR -> toggleMenuBarVisible();
             case SAVE_FUNCTION_STATE_TO_FILE ->  askSaveFunctionStateToFIle();
             case CONFIGURE_ROTOR_FREQUENCY_PROVIDER -> askConfigureFrequencyProvider();
-            case CLEAR_AND_RESET_ROTOR_STATE_MANAGER -> askClearAndResetRotorStateManager();
+            case CLEAR_AND_RESET_ROTOR_STATE_MANAGER -> askClearAndResetRotorStateManager(false);
+            case CLEAR_AND_RELOAD_ROTOR_STATE_MANAGER -> askClearAndResetRotorStateManager(true);
             case LOAD_EXTERNAL_ROTOR_STATES_FROM_CSV -> askLoadExternalRotorStatesFromCSV();
             case SAVE_ALL_ROTOR_STATES_TO_CSV -> askSaveRotorStatesToCSV();
         }

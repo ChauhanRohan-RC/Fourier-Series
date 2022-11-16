@@ -1,11 +1,14 @@
 package app;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 import provider.Providers;
 import ui.FourierUi;
 import util.Log;
 import util.async.Async;
+import util.async.TaskCompletionListener;
+import util.async.TaskConsumer;
 
 import javax.swing.*;
 import java.util.Collections;
@@ -20,27 +23,33 @@ public class App {
     @NotNull
     private static final List<JFrame> sFrames = new LinkedList<>();
 
-    private static final R.Listener rListener = new R.Listener() {
+
+    private static final Settings.Listener sSettingListener = new Settings.Listener() {
         @Override
         public void onLookAndFeelChanged(@NotNull String className) {
+
         }
 
         @Override
-        public void onFourierTransformSimpson13NCurrentDefaultChanged(int fourierTransformSimpson13NDefault) {
+        public void onFTIntegrationIntervalCountChanged(int fourierTransformSimpson13NDefault) {
 
         }
     };
 
     private static void init() {
         Log.d(TAG, "Initialising...");
-        R.ensureListener(rListener);
         R.init();
+
+        Settings.getSingleton().ensureListener(sSettingListener);
     }
 
     private static void finish() {
         Log.d(TAG, "Quiting...");
-        R.finishSync();
-        System.exit(0);
+
+        Settings.considerSave(false, (TaskCompletionListener<Void>) (data, failed, cancelled, error) -> {
+            R.finish();
+            System.exit(0);
+        });
     }
 
     public static void onWindowOpen(@NotNull JFrame frame) {

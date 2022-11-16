@@ -1,5 +1,6 @@
 package rotor;
 
+import app.Settings;
 import function.ComplexDomainFunctionWrapper;
 import function.definition.ComplexDomainFunctionI;
 
@@ -17,7 +18,7 @@ import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 
-public class StandardRotorStateManager extends ComplexDomainFunctionWrapper implements RotorStateManager {
+public class StandardRotorStateManager extends ComplexDomainFunctionWrapper implements RotorStateManager, Settings.Listener {
 
     public static final String TAG = "StandardRotorStateManager";
 
@@ -86,6 +87,7 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
         }
 
 //        setRotorCountAsync(mInitialRotorCount);
+        Settings.getSingleton().addListener(this);
     }
 
     public StandardRotorStateManager(@NotNull ComplexDomainFunctionI f, @NotNull FunctionMeta functionMeta) {
@@ -572,5 +574,16 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
             states.forEach(s -> mStore.put(s.getFrequency(), s));
             return states.size();
         }
+    }
+
+
+    @Override
+    public void onLookAndFeelChanged(@NotNull String className) {
+
+    }
+
+    @Override
+    public void onFTIntegrationIntervalCountChanged(int fourierTransformSimpson13NDefault) {
+        clearAndReloadAsync();
     }
 }

@@ -41,21 +41,12 @@ public class R {
 
     public static final String TAG = "Resources";
 
-    public interface Listener {
-        void onLookAndFeelChanged(@NotNull String className);
-
-        void onFourierTransformSimpson13NCurrentDefaultChanged(int fourierTransformSimpson13NDefault);
-    }
-
-    private static final Listeners<Listener> sListeners = new Listeners<>();
     @NotNull
     public static final List<UIManager.LookAndFeelInfo> LOOK_AND_FEELS_INTERNAL;
     @NotNull
     public static final List<UIManager.LookAndFeelInfo> LOOK_AND_FEELS_FLAT_LAF;
     @NotNull
     public static final List<UIManager.LookAndFeelInfo> LOOK_AND_FEELS_FLAT_LAF_MATERIAL;
-    @Nullable
-    private static volatile Settings sSettings;
 
     static {
         // internal LAF's
@@ -82,152 +73,14 @@ public class R {
         LOOK_AND_FEELS_FLAT_LAF_MATERIAL.forEach(UIManager::installLookAndFeel);
     }
 
-    public static void addListener(@NotNull Listener l) {
-        sListeners.addListener(l);
-    }
-
-    public static boolean removeListener(@NotNull Listener l) {
-        return sListeners.removeListener(l);
-    }
-
-    public static void ensureListener(@NotNull Listener l) {
-        sListeners.ensureListener(l);
-    }
-
-    public static boolean containsListener(@NotNull Listener l) {
-        return sListeners.containsListener(l);
-    }
-
-
-    @NotNull
-    private static Settings considerInitSettings() {
-        Settings settings = sSettings;
-        if (settings != null) {
-            return settings;
-        }
-
-        synchronized (R.class) {
-            settings = sSettings;
-            if (settings != null) {
-                return settings;
-            }
-
-            if (Files.isRegularFile(SETTINGS_FILE)) {
-                try {
-                    settings = Settings.loadFromJson(SETTINGS_FILE);
-                } catch (Throwable e) {
-                    Log.e(TAG, "failed to load settings", e);
-                }
-            }
-        }
-
-        if (settings == null) {
-            settings = Settings.createDefault();
-        }
-
-        sSettings = settings;
-        return settings;
-    }
-
-    @NotNull
-    public static Settings getSettings() {
-        return considerInitSettings();
-    }
 
     public static void init() {
         ensureDirs();
-        final Settings settings = considerInitSettings();
-
-        String lookAndFeel = settings.getLookAndFeelClassName();
-        setLookAndFeel(lookAndFeel);
-
-        int intervalCount = settings.getFourierTransformSimpson13NCurrentDefault();
-        setFourierTransformSimpson13NCurrentDefaultC(intervalCount);
-
-//        try {
-//            UIManager.setLookAndFeel(lookAndFeel);
-//
-////            lookAndFeel = UIManager.getSystemLookAndFeelClassName();
-////            if (Format.notEmpty(lookAndFeel)) {
-////                UIManager.setLookAndFeel(lookAndFeel);
-////            } else {
-////                throw new NullPointerException("Could not found system look and feel");
-////            }
-//        } catch (Throwable t) {
-//            Log.e(TAG, "Failed to set look and feel: " + lookAndFeel, t);
-//        }
     }
 
+    public static void finish() {
 
-    public static void finishSync() {
-        final Settings settings = sSettings;
-        if (settings != null) {
-            ensureResDir();
-            try {
-                settings.writeJson(SETTINGS_FILE);
-            } catch (Throwable e) {
-                Log.e(TAG, "Failed to save settings", e);
-            }
-        }
     }
-
-    @NotNull
-    public static String getCurrentLookAndFeelClassName() {
-        return UIManager.getLookAndFeel().getClass().getName();
-    }
-
-
-    protected static void onLookAndFeelChanged(@NotNull String className) {
-        final Settings settings = sSettings;
-        if (settings != null) {
-            settings.setLookAndFeelClassName(className);
-        }
-
-        sListeners.dispatchOnMainThread(l -> l.onLookAndFeelChanged(className));
-    }
-
-    public static boolean setLookAndFeel(@NotNull String className) {
-        if (Format.isEmpty(className))
-            return false;
-
-        if (className.equals(getCurrentLookAndFeelClassName()))
-            return true;
-
-        try {
-            UIManager.setLookAndFeel(className);
-            onLookAndFeelChanged(className);
-            return true;
-        } catch (Throwable t) {
-            Log.e(TAG, "Failed to set look and feel: " + className, t);
-        }
-
-        return false;
-    }
-
-
-
-    protected static void onFourierTransformSimpson13NCurrentDefaultChanged(int currentDefault) {
-        final Settings settings = sSettings;
-        if (settings != null) {
-            settings.setFourierTransformSimpson13NCurrentDefault(currentDefault);
-        }
-
-        sListeners.dispatchOnMainThread(l -> l.onFourierTransformSimpson13NCurrentDefaultChanged(currentDefault));
-    }
-
-    public static boolean setFourierTransformSimpson13NCurrentDefaultC(int fourierTransformSimpson13NCurrentDefaultC) {
-        if (!ComplexUtil.setFourierTransformSimpson13NCurrentDefault(fourierTransformSimpson13NCurrentDefaultC)) {
-            return false;
-        }
-
-        onFourierTransformSimpson13NCurrentDefaultChanged(fourierTransformSimpson13NCurrentDefaultC);
-        return true;
-    }
-
-    public static int getFourierTransformSimpson13NCurrentDefaultC() {
-        return ComplexUtil.getFourierTransformSimpson13NCurrentDefault();
-    }
-
 
 
 

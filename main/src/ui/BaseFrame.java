@@ -2,6 +2,7 @@ package ui;
 
 import app.App;
 import app.R;
+import app.Settings;
 import org.jetbrains.annotations.NotNull;
 import ui.action.ActionInfo;
 import ui.action.UiAction;
@@ -17,6 +18,7 @@ import java.util.List;
 
 public class BaseFrame extends JFrame implements Ui,
         UiAction.Listener,
+        Settings.Listener,
         WindowListener,
         WindowStateListener,
         WindowFocusListener,
@@ -37,8 +39,6 @@ public class BaseFrame extends JFrame implements Ui,
         addMouseListener(this);
         addMouseMotionListener(this);
         addMouseWheelListener(this);
-
-        R.addListener(this);
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
@@ -150,7 +150,7 @@ public class BaseFrame extends JFrame implements Ui,
     }
 
     @Override
-    public void onFourierTransformSimpson13NCurrentDefaultChanged(int fourierTransformSimpson13NDefault) {
+    public void onFTIntegrationIntervalCountChanged(int fourierTransformSimpson13NDefault) {
 
     }
 
@@ -214,11 +214,15 @@ public class BaseFrame extends JFrame implements Ui,
 
     @Override
     public void windowOpened(WindowEvent e) {
+        Settings.getSingleton().ensureListener(this);
+
         App.onWindowOpen(this);
     }
 
     @Override
     public void windowClosing(WindowEvent e) {
+        Settings.getSingleton().removeListener(this);
+
         App.onWindowClose(this);
     }
 

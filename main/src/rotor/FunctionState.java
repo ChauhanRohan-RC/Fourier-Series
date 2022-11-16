@@ -21,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import provider.*;
 import rotor.frequency.RotorFrequencyProviderI;
 import util.CollectionUtil;
+import util.FileUtil;
 import util.Format;
 import util.async.Async;
 import util.async.Canceller;
@@ -482,6 +483,8 @@ public class FunctionState {
     }
 
     public void writeJson(@NotNull Path file, @NotNull Charset encoding) throws JsonParseException, IOException {
+        FileUtil.ensureFileParentDir(file);
+
         try (final Writer writer = Files.newBufferedWriter(file, encoding)) {
             writeJson(writer);
         }

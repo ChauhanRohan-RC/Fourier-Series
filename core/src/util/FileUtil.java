@@ -142,7 +142,6 @@ public class FileUtil {
         return getNonExistingSuffixAndFile(file).second;
     }
 
-
     public static boolean ensureDir(@NotNull Path dir) {
         if (!Files.isDirectory(dir)) {
             try {

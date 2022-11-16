@@ -73,9 +73,19 @@ public interface Consumer<T> {
 
     @NotNull
     static <T> Consumer<T> andThen(@NotNull Consumer<? super T> first, @NotNull Consumer<? super T> second) {
-        return in -> {
-            first.consume(in);
-            second.consume(in);
+        return new Consumer<T>() {
+            @Override
+            public void consume(T data) {
+                first.consume(data);
+                second.consume(data);
+            }
+
+
+            @Override
+            public void onCancelled(@Nullable T dataProcessedYet) {
+                first.onCancelled(dataProcessedYet);
+                second.onCancelled(dataProcessedYet);
+            }
         };
     }
 }

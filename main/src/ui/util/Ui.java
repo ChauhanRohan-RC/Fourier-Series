@@ -1,6 +1,7 @@
 package ui.util;
 
 import app.R;
+import app.Settings;
 import function.definition.ComplexDomainFunctionI;
 import models.Wrapper;
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +31,7 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.List;
 
-public interface Ui extends R.Listener {
+public interface Ui {
 
     Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -155,7 +156,7 @@ public interface Ui extends R.Listener {
     @NotNull
     static JMenu createThemeSelectorMenu() {
         final JMenu menu = new JMenu("Theme");
-        final String current = R.getCurrentLookAndFeelClassName();
+        final String current = Settings.getCurrentLookAndFeelClassName();
 
         final ButtonGroup group = new ButtonGroup();
         final Map<String, ButtonModel> map = new HashMap<>();
@@ -169,9 +170,9 @@ public interface Ui extends R.Listener {
 
             model.addItemListener(e -> {
                 if (item.isSelected()) {
-                    final boolean done = R.setLookAndFeel(cn);
+                    final boolean done = Settings.getSingleton().setLookAndFeel(cn);
                     if (!done) {
-                        final ButtonModel cur = map.get(R.getCurrentLookAndFeelClassName());
+                        final ButtonModel cur = map.get(Settings.getCurrentLookAndFeelClassName());
                         if (cur != null) {
                             Async.uiPost(() -> cur.setSelected(true));
                         }
@@ -247,6 +248,22 @@ public interface Ui extends R.Listener {
         return menu;
     }
 
+    @NotNull
+    static JMenu createSettingsAppearanceMenu() {
+        final JMenu menu = new JMenu("Appearance");
+
+        // 1. Theme
+        menu.add(createThemeSelectorMenu());
+
+        // Last - Reset
+        menu.addSeparator();
+        final JMenuItem resetAppearance = new JMenuItem("Reset Appearance");
+        resetAppearance.addActionListener(e -> Settings.getSingleton().resetAppearance());
+        menu.add(resetAppearance);
+
+        return menu;
+    }
+
 
     @NotNull
     static JMenu createSettingsConfigurationMenu(@NotNull Ui ui) {
@@ -259,21 +276,34 @@ public interface Ui extends R.Listener {
 
         // 2. TODO: logging
 
+        // Last - Reset
+
+        menu.addSeparator();
+        final JMenuItem resetConfig = new JMenuItem("Reset Config");
+        resetConfig.addActionListener(e -> Settings.getSingleton().resetConfig());
+        menu.add(resetConfig);
+
         return menu;
     }
 
     @NotNull
     static JMenu createSettingsMenu(@NotNull Ui ui) {
-        final JMenu settings = new JMenu("Settings");
+        final JMenu menu = new JMenu("Settings");
 
-        settings.add(createSettingsConfigurationMenu(ui));
-        settings.addSeparator();
+        // 1. Config
+        menu.add(createSettingsConfigurationMenu(ui));
 
-        settings.add(createThemeSelectorMenu());
+        // 2. Appearance
+        menu.add(createSettingsAppearanceMenu());
 
-        return settings;
+        // Last: Reset
+        menu.addSeparator();
+        final JMenuItem resetAll = new JMenuItem("Reset All");
+        resetAll.addActionListener(e -> Settings.getSingleton().resetAll());
+        menu.add(resetAll);
+
+        return menu;
     }
-
 
     @NotNull
     static JMenu createRotorStatesMenu(@NotNull Function<ActionInfo, ? extends Action> creator) {
@@ -282,18 +312,19 @@ public interface Ui extends R.Listener {
         menu.add(creator.apply(ActionInfo.LOAD_EXTERNAL_ROTOR_STATES_FROM_CSV));
         menu.addSeparator();
         menu.add(creator.apply(ActionInfo.CLEAR_AND_RESET_ROTOR_STATE_MANAGER));
+        menu.add(creator.apply(ActionInfo.CLEAR_AND_RELOAD_ROTOR_STATE_MANAGER));
         return menu;
     }
 
 
     static void askConfigureNumericalIntegrationIntervalCount(@NotNull Ui ui) {
-        final String input = (String) JOptionPane.showInputDialog(ui.getFrame(),
-                "Set Numerical integration interval count (blank to reset)\n\nMinimum: " + ComplexUtil.FOURIER_TRANSFORM_SIMPSON_13_N_MIN + "\nDefault: " + ComplexUtil.FOURIER_TRANSFORM_SIMPSON_13_N_DEFAULT,
-                TITLE_CONFIGURATIONS, JOptionPane.PLAIN_MESSAGE, null, null, R.getFourierTransformSimpson13NCurrentDefaultC());
+        final String msg = "Set Numerical integration interval count (blank to reset)\nRotor States needs to be reloaded to take effect Go to Menu > Rotor States > Reload\n\nMinimum: " + ComplexUtil.FOURIER_TRANSFORM_SIMPSON_13_N_MIN + "\nDefault: " + ComplexUtil.FOURIER_TRANSFORM_SIMPSON_13_N_DEFAULT;
+
+        final String input = (String) JOptionPane.showInputDialog(ui.getFrame(), msg, TITLE_CONFIGURATIONS, JOptionPane.PLAIN_MESSAGE, null, null, Settings.getCurrentFTIntegrationIntervalCount());
 
         try {
-            final int val =  Format.isEmpty(input)? ComplexUtil.FOURIER_TRANSFORM_SIMPSON_13_N_DEFAULT: Integer.parseInt(input);
-            if (R.setFourierTransformSimpson13NCurrentDefaultC(val)) {
+            final int val =  Format.notEmpty(input)? Integer.parseInt(input): -1;
+            if (Settings.getSingleton().setFTIntegrationIntervalCount(val)) {
                 // todo: show snackbar done
             } else {
                 ui.showWarnMessageDialog("Could not set Numerical Integration interval count to " + val, TITLE_CONFIGURATIONS);
@@ -316,14 +347,25 @@ public interface Ui extends R.Listener {
         return new FTUi(manager);
     }
 
-    static void askClearAndResetRotorStateManager(@NotNull Ui ui, @NotNull RotorStateManager manager) {
+    static void askClearAndResetRotorStateManager(@NotNull Ui ui, @NotNull RotorStateManager manager, boolean reload) {
         if (manager.isNoOp() || manager.getAllLoadedRotorStatesCount() == 0) {
             return;
         }
 
-        final int option = JOptionPane.showConfirmDialog(ui.getFrame(), "This will delete all loaded Rotor States. They have to be loaded again for future use. This is EXPENSIVE and NOT RECOMMENDED\n\nDo you wish to continue?", "Confirm Reset", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (reload && manager.getRotorCount() == 0) {
+            reload = false;     // cannot reload
+        }
+
+        final String title = reload? "Reload Rotor States": "Delete Rotor States";
+        final String msg = "This will delete all loaded Rotor States. They have to be loaded again for future use. This is highly EXPENSIVE\n\nDo you wish to continue?";
+
+        final int option = JOptionPane.showConfirmDialog(ui.getFrame(), msg, title, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (option == JOptionPane.YES_OPTION) {
-            manager.clearAndResetSync();
+            if (reload) {
+                manager.clearAndReloadAsync();
+            } else {
+                manager.clearAndResetSync();
+            }
         }
     }
 

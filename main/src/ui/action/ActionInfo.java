@@ -78,6 +78,7 @@ public enum ActionInfo {
     SAVE_ALL_ROTOR_STATES_TO_CSV("Save As CSV", "Save all loaded Rotor States to CSV file",  null, true, false),
     LOAD_EXTERNAL_ROTOR_STATES_FROM_CSV("Load From CSV", "Load external Rotor States from CSV file",  null, true, false),
     CLEAR_AND_RESET_ROTOR_STATE_MANAGER("Delete All", "Clear all loaded Rotor States (EXPENSIVE)",  null, true, false),
+    CLEAR_AND_RELOAD_ROTOR_STATE_MANAGER("Reload", "Clear all loaded Rotor States and Reload (EXPENSIVE)",  null, true, true),
 
     LOAD_EXTERNAL_PATH_FUNCTIONS("Load Files", "Load Path Functions", KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK), false),
     LOAD_EXTERNAL_PATH_FUNCTIONS_FROM_DIR("Scan Folder", "Scan Path Functions from Folder", KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.SHIFT_DOWN_MASK), false),
