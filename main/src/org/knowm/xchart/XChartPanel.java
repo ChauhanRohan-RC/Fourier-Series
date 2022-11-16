@@ -568,9 +568,9 @@ public class XChartPanel<T extends Chart<?, ?>> extends JPanel {
             final List<Consumer<JMenu>> binders = extraMenuBinders;
             if (CollectionUtil.notEmpty(binders)) {
                 binders.forEach(binder -> {
-                    final int prev = getComponentCount();
+                    final int prev = getMenuComponentCount();
                     binder.consume(OpsMenu.this);
-                    if (getComponentCount() > prev) {
+                    if (getMenuComponentCount() > prev) {
                         addSeparator();
                     }
                 });

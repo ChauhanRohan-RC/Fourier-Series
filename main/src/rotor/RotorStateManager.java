@@ -208,6 +208,13 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
      * */
     void clearAndResetSync();
 
+    default void clearAndReloadAsync() {
+        final int rotorCount = getRotorCount();
+        clearAndResetSync();
+        setRotorCountAsync(rotorCount);
+    }
+
+
     /**
      * @return modCount
      * */

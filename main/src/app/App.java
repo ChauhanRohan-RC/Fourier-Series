@@ -18,11 +18,22 @@ public class App {
 
     private static int sWindowCount;
     @NotNull
-    private static List<JFrame> sFrames = new LinkedList<>();
+    private static final List<JFrame> sFrames = new LinkedList<>();
+
+    private static final R.Listener rListener = new R.Listener() {
+        @Override
+        public void onLookAndFeelChanged(@NotNull String className) {
+        }
+
+        @Override
+        public void onFourierTransformSimpson13NCurrentDefaultChanged(int fourierTransformSimpson13NDefault) {
+
+        }
+    };
 
     private static void init() {
         Log.d(TAG, "Initialising...");
-        R.addListener(className -> updateAllFramesTree());
+        R.ensureListener(rListener);
         R.init();
     }
 
@@ -56,9 +67,6 @@ public class App {
     public static void updateAllFramesTree() {
         sFrames.forEach(SwingUtilities::updateComponentTreeUI);
     }
-
-
-
 
 
 

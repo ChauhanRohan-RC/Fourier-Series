@@ -1,3 +1,4 @@
 {
-  "theme": "com.formdev.flatlaf.FlatDarculaLaf"
+  "theme": "com.formdev.flatlaf.FlatDarculaLaf",
+  "numerical_integration_interval_count": 100000
 }

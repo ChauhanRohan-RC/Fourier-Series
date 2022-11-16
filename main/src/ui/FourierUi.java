@@ -1,7 +1,6 @@
 package ui;
 
 import animation.animator.AbstractAnimator;
-import app.App;
 import app.R;
 import function.definition.ComplexDomainFunctionI;
 import models.Size;
@@ -14,7 +13,6 @@ import rotor.frequency.RotorFrequencyProviderI;
 import ui.action.ActionInfo;
 import ui.action.UiAction;
 import ui.util.Ui;
-import util.Format;
 import util.Log;
 import util.async.Canceller;
 
@@ -27,9 +25,8 @@ import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.util.*;
-import java.util.List;
 
-public class FourierUi extends JFrame implements RotorStateManager.Listener, FourierSeriesPanel.PanelListener, Ui {
+public class FourierUi extends BaseFrame implements RotorStateManager.Listener, FourierSeriesPanel.PanelListener {
 
     public static final String TAG = "FourierUi";
 
@@ -43,10 +40,28 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
     public static final int INITIAL_WIDTH = SCREEN_SIZE.width - 200;
     public static final int INITIAL_HEIGHT = SCREEN_SIZE.height - 200;
 
+
+    private final ListDataListener mFunctionProvideListener = new ListDataListener() {
+
+        @Override
+        public void intervalAdded(ListDataEvent e) {
+            syncFunctionProviders();
+        }
+
+        @Override
+        public void intervalRemoved(ListDataEvent e) {
+            syncFunctionProviders();
+        }
+
+        @Override
+        public void contentsChanged(ListDataEvent e) {
+            syncFunctionProviders();
+        }
+    };
+
     @NotNull
     private final Timer looper;
     final FourierSeriesPanel fsPanel;
-    private boolean mFullscreen = DEFAULT_FULLSCREEN;
 
     final JPanel controlPanel;
     final JScrollPane controlScrollPane;
@@ -98,22 +113,13 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
     final JMenu menuFunctionState;
     final JMenu menuView;
 
-    @NotNull
-    private final FunctionProvidersListener mFunctionProvidersListener = new FunctionProvidersListener();
-
-    @NotNull
-    private final WindowHandler mWindowHandler = new WindowHandler();
-    @NotNull
-    private final ActionHandler mActionHandler = new ActionHandler();
-    @NotNull
-    private final MouseHandler mMouseHandler = new MouseHandler();
-
     public FourierUi() {
         this(null, 0 /* First */);
     }
 
     public FourierUi(@Nullable String title, int initialProviderIndex) {
-        super(title == null || title.isEmpty()? MAIN_TITLE : title);
+        super();
+        setTitle(title == null || title.isEmpty()? TITLE_MAIN : title);
 
         looper = Ui.createLooper(null);
 
@@ -266,8 +272,8 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         menuView.addSeparator();
         menuView.add(uia(ActionInfo.TOGGLE_FULLSCREEN));
 
-        // Theme
-        menuBar.add(Ui.createThemeSelectorMenu());
+        // Settings
+        menuBar.add(Ui.createSettingsMenu(this));
 
         // Ui components that depend on function
         funcDependentComps = new JComponent[] {
@@ -346,7 +352,6 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 //        setLayout(new BorderLayout(0, 0));
 //        add(controlPanel, BorderLayout.EAST);
 //        add(panel, BorderLayout.CENTER);
-
 
         controlPanel = new JPanel();
         controlPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -460,22 +465,17 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         repeatModeComboBox.addActionListener(e -> setRepeatMode((AbstractAnimator.RepeatMode) repeatModeComboBox.getSelectedItem()));
 
         // Run
-        functionProviders.addListDataListener(mFunctionProvidersListener);
+        functionProviders.addListDataListener(mFunctionProvideListener);
         setFunctionProvider(initialProviderIndex);     // First function provider
         setupActionKeyBindings(getRootPane(), JComponent.WHEN_IN_FOCUSED_WINDOW, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        addMouseListener(mMouseHandler);
-        addWindowListener(mWindowHandler);
-        addWindowStateListener(mWindowHandler);
-        addWindowFocusListener(mWindowHandler);
 
-        fsPanel.addMouseListener(mMouseHandler);
+        fsPanel.addMouseListener(this);
 
         final Image appIcon = R.createAppIcon();
         if (appIcon != null) {
             setIconImage(appIcon);
         }
 
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);     // TODO
         setFocusable(true);
         setResizable(true);
 
@@ -490,7 +490,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
             syncScaleAndDrag();
             setControlsVisibleInternal(DEFAULT_CONTROLS_VISIBLE);
             setMenuBarVisibleInternal(DEFAULT_MENUBAR_VISIBLE);
-            setFullscreenInternal(mFullscreen);     // sync
+            setFullscreenInternal(DEFAULT_FULLSCREEN);                // sync
             requestFocusInWindow();
             update();
             
@@ -520,47 +520,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         return fsPanel;
     }
 
-    private void update() {
-        revalidate();
-        repaint();
-    }
 
-    @Override
-    public JFrame getFrame() {
-        return this;
-    }
-
-
-
-    protected void onFullscreenChanged(boolean fullscreen) {
-//        update();
-
-        uia(ActionInfo.TOGGLE_FULLSCREEN)
-                .setName(R.getFullscreenText(fullscreen))
-                .setShortDescription(R.getFullscreenShortDescription(fullscreen))
-                .setSelected(fullscreen);
-    }
-
-    public final boolean isFullscreen() {
-        return mFullscreen;
-    }
-
-    private void setFullscreenInternal(boolean fullscreen) {
-        getGraphicsConfiguration().getDevice().setFullScreenWindow(fullscreen? FourierUi.this: null);
-//        setMenuBarVisibleInternal(!fullscreen);
-        mFullscreen = fullscreen;
-        onFullscreenChanged(fullscreen);
-    }
-
-    public final void setFullscreen(boolean fullscreen) {
-        if (mFullscreen == fullscreen)
-            return;
-        setFullscreenInternal(fullscreen);
-    }
-
-    public final void toggleFullscreen() {
-        setFullscreen(!mFullscreen);
-    }
 
     protected void onControlsVisibilityChanged(boolean controlsVisible) {
         uia(ActionInfo.TOGGLE_CONTROLS)
@@ -1089,7 +1049,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
 
     private void syncTitle() {
-        setTitle(Ui.getWindowTitle(Ui.MAIN_TITLE, fsPanel.getRotorStateManager()));
+        setTitle(Ui.getWindowTitle(Ui.TITLE_MAIN, fsPanel.getRotorStateManager()));
     }
 
 
@@ -1231,6 +1191,20 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
     }
 
+    @Override
+    public void onLookAndFeelChanged(@NotNull String className) {
+        super.onLookAndFeelChanged(className);
+    }
+
+    @Override
+    public void onFourierTransformSimpson13NCurrentDefaultChanged(int fourierTransformSimpson13NDefault) {
+        super.onFourierTransformSimpson13NCurrentDefaultChanged(fourierTransformSimpson13NDefault);
+
+        final RotorStateManager manager = fsPanel.getRotorStateManager();
+        if (!manager.isLoading()) {
+            manager.clearAndReloadAsync();
+        }
+    }
 
     public void askSaveFunctionStateToFIle() {
         Ui.askSaveFunctionStateToFIle(FourierUi.this, fsPanel.getRotorStateManager());
@@ -1267,7 +1241,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
             msg += "\n3. Load external path functions from folder " + R.DIR_EXTERNAL_PATH_FUNCTIONS.getFileName();
         }
 
-        final int option = JOptionPane.showConfirmDialog(this, msg, MAIN_TITLE, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+        final int option = JOptionPane.showConfirmDialog(this, msg, TITLE_MAIN, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
         if (option == JOptionPane.OK_OPTION) {
             resetPathFunctions();
         }
@@ -1286,7 +1260,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
     public final void confirmResetProgrammaticFunctions() {
         String msg = "This will execute following sequence\n\n1. Reset internal programmatic Functions\n2. Remove all externally loaded Programmatic Functions";
 
-        final int option = JOptionPane.showConfirmDialog(this, msg, MAIN_TITLE, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+        final int option = JOptionPane.showConfirmDialog(this, msg, TITLE_MAIN, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
         if (option == JOptionPane.OK_OPTION) {
             resetProgrammaticFunctions();
         }
@@ -1295,7 +1269,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
     public final void confirmRemoveAllFunctionProviders(@NotNull FunctionType type) {
         final String msg = "This will remove all " + type.displayName + " functions. Do you wish to continue?";
-        final int option = JOptionPane.showConfirmDialog(this, msg, MAIN_TITLE, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+        final int option = JOptionPane.showConfirmDialog(this, msg, TITLE_MAIN, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
         if (option == JOptionPane.OK_OPTION) {
             final int removed = functionProviders.removeIf(FunctionProviderI.forType(type));
 
@@ -1306,7 +1280,7 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
 
     public final void confirmRemoveFunctionProvidersWithoutDefinition() {
         final String msg = "This will remove all functions without internal definition. Do you wish to continue?";
-        final int option = JOptionPane.showConfirmDialog(this, msg, MAIN_TITLE, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+        final int option = JOptionPane.showConfirmDialog(this, msg, TITLE_MAIN, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
         if (option == JOptionPane.OK_OPTION) {
             final int removed = functionProviders.removeIf(fp -> !fp.getFunctionMeta().hasBaseDefinition());
 
@@ -1367,215 +1341,68 @@ public class FourierUi extends JFrame implements RotorStateManager.Listener, Fou
         fsPanel.stop();
     }
 
-    private class FunctionProvidersListener implements ListDataListener {
 
-        @Override
-        public void intervalAdded(ListDataEvent e) {
-            syncFunctionProviders();
-        }
 
-        @Override
-        public void intervalRemoved(ListDataEvent e) {
-            syncFunctionProviders();
-        }
+    /* Mouse Listener */
 
-        @Override
-        public void contentsChanged(ListDataEvent e) {
-            syncFunctionProviders();
-        }
+    @Override
+    public void mouseClicked(MouseEvent e) {
+       super.mouseClicked(e);
     }
-
-
-    private class WindowHandler implements WindowListener, WindowStateListener, WindowFocusListener {
-
-        @Override
-        public void windowOpened(WindowEvent e) {
-            App.onWindowOpen(FourierUi.this);
-        }
-
-        @Override
-        public void windowClosing(WindowEvent e) {
-            App.onWindowClose(FourierUi.this);
-        }
-
-        @Override
-        public void windowClosed(WindowEvent e) {
-
-        }
-
-        @Override
-        public void windowIconified(WindowEvent e) {
-
-        }
-
-        @Override
-        public void windowDeiconified(WindowEvent e) {
-
-        }
-
-        @Override
-        public void windowActivated(WindowEvent e) {
-
-        }
-
-        @Override
-        public void windowDeactivated(WindowEvent e) {
-
-        }
-
-        @Override
-        public void windowStateChanged(WindowEvent e) {
-
-        }
-
-        @Override
-        public void windowGainedFocus(WindowEvent e) {
-
-        }
-
-        @Override
-        public void windowLostFocus(WindowEvent e) {
-
-        }
-    }
-
-    private class MouseHandler implements MouseListener {
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            if (e.getClickCount() == 2) {
-                toggleFullscreen();
-            }
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-
-        }
-    }
-
 
 
     /* Actions */
 
-    public class ActionHandler implements UiAction.Listener {
-
-        @Override
-        public void onActionPropertyChange(@NotNull UiAction action, @NotNull PropertyChangeEvent e) {
-        }
-
-        @Override
-        public void onAction(@NotNull UiAction action, @NotNull ActionEvent e) {
-            switch (action.info) {
-                case CANCEL_RUNNING_TASKS -> cancelRunningTasks();
-                case DRAG_UP -> fsPanel.dragYByUnit(false);
-                case DRAG_DOWN -> fsPanel.dragYByUnit(true);
-                case DRAG_LEFT -> fsPanel.dragXByUnit(false);
-                case DRAG_RIGHT -> fsPanel.dragXByUnit(true);
-                case SCALE_UP -> fsPanel.incrementScaleByUnit();
-                case SCALE_DOWN -> fsPanel.decrementScaleByUnit();
-                case PLAY -> setPlay(true);
-                case PAUSE -> setPlay(false);
-                case STOP -> fsPanel.stop();
-                case TOGGLE_PLAY_PAUSE -> togglePlay();
-                case TOGGLE_POINTS_JOIN -> fsPanel.togglePointsJoining();
-                case TOGGLE_HUE_CYCLE -> fsPanel.toggleHueCycle();
-                case TOGGLE_WAVE -> fsPanel.toggleDrawAsWave();
-                case INVERT_X -> fsPanel.toggleInvertX();
-                case INVERT_Y -> fsPanel.toggleInvertY();
-                case TOGGLE_GRAPH_CENTER -> fsPanel.toggleGraphInCenter();
-                case TOGGLE_AUTO_TRACK -> fsPanel.toggleAutoTrackInCenter();
-                case RESET_MAIN -> fsPanel.reset(false);
-                case RESET_SCALE -> fsPanel.resetScale(true);
-                case RESET_SCALE_DRAG -> resetScaleAndDrag();
-                case RESET_FULL -> fsPanel.reset(true);
-                case TOGGLE_FULLSCREEN -> toggleFullscreen();
-                case TOGGLE_CONTROLS -> toggleControlsVisibility();
-                case TOGGLE_MENUBAR -> toggleMenuBarVisible();
-                case SAVE_FUNCTION_STATE_TO_FILE -> askSaveFunctionStateToFIle();
-                case LOAD_FUNCTION_STATE_FROM_FILE -> askLoadFunctionStateFromFile();
-                case CLEAR_FUNCTIONS_WITHOUT_DEFINITION -> confirmRemoveFunctionProvidersWithoutDefinition();
-                case LOAD_EXTERNAL_PATH_FUNCTIONS -> askLoadExternalPathFunctions();
-                case LOAD_EXTERNAL_PATH_FUNCTIONS_FROM_DIR -> askLoadExternalPathFunctionsFromDir();
-                case CLEAR_INTERNAL_PATH_FUNCTIONS -> confirmRemoveAllFunctionProviders(FunctionType.INTERNAL_PATH);
-                case CLEAR_EXTERNAL_PATH_FUNCTIONS -> confirmRemoveAllFunctionProviders(FunctionType.EXTERNAL_PATH);
-                case RESET_PATH_FUNCTIONS -> confirmResetPathFunctions();
-                case LOAD_EXTERNAL_PROGRAMMATIC_FUNCTION -> askLoadExternalProgrammaticFunctions();
-                case CLEAR_INTERNAL_PROGRAMMATIC_FUNCTIONS -> confirmRemoveAllFunctionProviders(FunctionType.INTERNAL_PROGRAM);
-                case CLEAR_EXTERNAL_PROGRAMMATIC_FUNCTIONS -> confirmRemoveAllFunctionProviders(FunctionType.EXTERNAL_PROGRAM);
-                case RESET_PROGRAMMATIC_FUNCTIONS -> confirmResetProgrammaticFunctions();
-                case CONFIGURE_ROTOR_FREQUENCY_PROVIDER -> askConfigureFrequencyProvider();
-                case CLEAR_AND_RESET_ROTOR_STATE_MANAGER -> askClearAndResetRotorStateManager();
-                case LOAD_EXTERNAL_ROTOR_STATES_FROM_CSV -> askLoadExternalRotorStatesFromCSV();
-                case SAVE_ALL_ROTOR_STATES_TO_CSV -> askSaveRotorStatesToCSV();
-                case SHOW_FT_UI -> showFtUi();
-            }
-        }
+    @Override
+    public void onActionPropertyChange(@NotNull UiAction action, @NotNull PropertyChangeEvent e) {
     }
 
-
-    private void setupActionKeyBindings(@NotNull Collection<InputMap> inputMaps, @NotNull ActionMap actionMap) {
-        ActionInfo.sharedValues().forEach(info -> {
-            if (info.keyStroke != null) {
-                inputMaps.forEach(im -> im.put(info.keyStroke, info));
-            }
-
-            actionMap.put(info, uia(info));
-        });
-    }
-
-    private void setupActionKeyBindings(@NotNull JComponent component, int @NotNull ... inputMapConditions) {
-        final List<InputMap> maps = new LinkedList<>();
-        for (int i: inputMapConditions) {
-            maps.add(component.getInputMap(i));
+    @Override
+    public void onAction(@NotNull UiAction action, @NotNull ActionEvent e) {
+        switch (action.info) {
+            case CANCEL_RUNNING_TASKS -> cancelRunningTasks();
+            case DRAG_UP -> fsPanel.dragYByUnit(false);
+            case DRAG_DOWN -> fsPanel.dragYByUnit(true);
+            case DRAG_LEFT -> fsPanel.dragXByUnit(false);
+            case DRAG_RIGHT -> fsPanel.dragXByUnit(true);
+            case SCALE_UP -> fsPanel.incrementScaleByUnit();
+            case SCALE_DOWN -> fsPanel.decrementScaleByUnit();
+            case PLAY -> setPlay(true);
+            case PAUSE -> setPlay(false);
+            case STOP -> fsPanel.stop();
+            case TOGGLE_PLAY_PAUSE -> togglePlay();
+            case TOGGLE_POINTS_JOIN -> fsPanel.togglePointsJoining();
+            case TOGGLE_HUE_CYCLE -> fsPanel.toggleHueCycle();
+            case TOGGLE_WAVE -> fsPanel.toggleDrawAsWave();
+            case INVERT_X -> fsPanel.toggleInvertX();
+            case INVERT_Y -> fsPanel.toggleInvertY();
+            case TOGGLE_GRAPH_CENTER -> fsPanel.toggleGraphInCenter();
+            case TOGGLE_AUTO_TRACK -> fsPanel.toggleAutoTrackInCenter();
+            case RESET_MAIN -> fsPanel.reset(false);
+            case RESET_SCALE -> fsPanel.resetScale(true);
+            case RESET_SCALE_DRAG -> resetScaleAndDrag();
+            case RESET_FULL -> fsPanel.reset(true);
+            case TOGGLE_FULLSCREEN -> toggleFullscreen();
+            case TOGGLE_CONTROLS -> toggleControlsVisibility();
+            case TOGGLE_MENUBAR -> toggleMenuBarVisible();
+            case SAVE_FUNCTION_STATE_TO_FILE -> askSaveFunctionStateToFIle();
+            case LOAD_FUNCTION_STATE_FROM_FILE -> askLoadFunctionStateFromFile();
+            case CLEAR_FUNCTIONS_WITHOUT_DEFINITION -> confirmRemoveFunctionProvidersWithoutDefinition();
+            case LOAD_EXTERNAL_PATH_FUNCTIONS -> askLoadExternalPathFunctions();
+            case LOAD_EXTERNAL_PATH_FUNCTIONS_FROM_DIR -> askLoadExternalPathFunctionsFromDir();
+            case CLEAR_INTERNAL_PATH_FUNCTIONS -> confirmRemoveAllFunctionProviders(FunctionType.INTERNAL_PATH);
+            case CLEAR_EXTERNAL_PATH_FUNCTIONS -> confirmRemoveAllFunctionProviders(FunctionType.EXTERNAL_PATH);
+            case RESET_PATH_FUNCTIONS -> confirmResetPathFunctions();
+            case LOAD_EXTERNAL_PROGRAMMATIC_FUNCTION -> askLoadExternalProgrammaticFunctions();
+            case CLEAR_INTERNAL_PROGRAMMATIC_FUNCTIONS -> confirmRemoveAllFunctionProviders(FunctionType.INTERNAL_PROGRAM);
+            case CLEAR_EXTERNAL_PROGRAMMATIC_FUNCTIONS -> confirmRemoveAllFunctionProviders(FunctionType.EXTERNAL_PROGRAM);
+            case RESET_PROGRAMMATIC_FUNCTIONS -> confirmResetProgrammaticFunctions();
+            case CONFIGURE_ROTOR_FREQUENCY_PROVIDER -> askConfigureFrequencyProvider();
+            case CLEAR_AND_RESET_ROTOR_STATE_MANAGER -> askClearAndResetRotorStateManager();
+            case LOAD_EXTERNAL_ROTOR_STATES_FROM_CSV -> askLoadExternalRotorStatesFromCSV();
+            case SAVE_ALL_ROTOR_STATES_TO_CSV -> askSaveRotorStatesToCSV();
+            case SHOW_FT_UI -> showFtUi();
         }
-
-        setupActionKeyBindings(maps, component.getActionMap());
-    }
-
-
-
-
-    @Nullable
-    private static EnumMap<ActionInfo, UiAction> sActionMap;
-
-    @NotNull
-    public static UiAction getUia(@NotNull ActionInfo info) {
-        UiAction uia = null;
-        if (sActionMap == null) {
-            sActionMap = new EnumMap<>(ActionInfo.class);
-        } else {
-            uia = sActionMap.get(info);
-        }
-
-        if (uia == null) {
-            uia = new UiAction(info);
-            sActionMap.put(info, uia);
-        }
-
-        return uia;
-    }
-
-    @NotNull
-    public UiAction uia(@NotNull ActionInfo info) {
-        final UiAction action = getUia(info);
-        action.ensureListener(mActionHandler);
-        return action;
     }
 
 }

@@ -11,6 +11,7 @@ import util.Format;
 import util.async.Async;
 import util.async.Canceller;
 import util.async.TaskConsumer;
+import util.main.ComplexUtil;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -35,6 +36,9 @@ public class Settings {
     @SerializedName("theme")
     @Nullable
     private String lookAndFeelClassName;
+
+    @SerializedName("numerical_integration_interval_count")
+    private int fourierTransformSimpson13NCurrentDefault = -1;
 
     // DEFAULT
     private Settings() {
@@ -63,6 +67,28 @@ public class Settings {
         return lookAndFeelClassName;
     }
 
+
+    public Settings setFourierTransformSimpson13NCurrentDefault(int fourierTransformSimpson13NCurrentDefault) {
+        if (fourierTransformSimpson13NCurrentDefault < ComplexUtil.FOURIER_TRANSFORM_SIMPSON_13_N_MIN) {
+            fourierTransformSimpson13NCurrentDefault = -1;
+        }
+
+        if (this.fourierTransformSimpson13NCurrentDefault != fourierTransformSimpson13NCurrentDefault) {
+            this.fourierTransformSimpson13NCurrentDefault = fourierTransformSimpson13NCurrentDefault;
+            mModCount++;
+        }
+
+        return this;
+    }
+
+    public int getFourierTransformSimpson13NCurrentDefault() {
+        int val = fourierTransformSimpson13NCurrentDefault;
+        if (val < 1) {
+            val = ComplexUtil.FOURIER_TRANSFORM_SIMPSON_13_N_DEFAULT;
+        }
+
+        return val;
+    }
 
 
     /*...................................  JSON  ...........................................*/

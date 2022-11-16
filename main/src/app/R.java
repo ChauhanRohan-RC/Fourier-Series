@@ -17,6 +17,7 @@ import provider.PathFunctionProvider;
 import util.*;
 import util.async.*;
 import util.live.Listeners;
+import util.main.ComplexUtil;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -42,6 +43,8 @@ public class R {
 
     public interface Listener {
         void onLookAndFeelChanged(@NotNull String className);
+
+        void onFourierTransformSimpson13NCurrentDefaultChanged(int fourierTransformSimpson13NDefault);
     }
 
     private static final Listeners<Listener> sListeners = new Listeners<>();
@@ -137,6 +140,10 @@ public class R {
 
         String lookAndFeel = settings.getLookAndFeelClassName();
         setLookAndFeel(lookAndFeel);
+
+        int intervalCount = settings.getFourierTransformSimpson13NCurrentDefault();
+        setFourierTransformSimpson13NCurrentDefaultC(intervalCount);
+
 //        try {
 //            UIManager.setLookAndFeel(lookAndFeel);
 //
@@ -198,6 +205,32 @@ public class R {
     }
 
 
+
+    protected static void onFourierTransformSimpson13NCurrentDefaultChanged(int currentDefault) {
+        final Settings settings = sSettings;
+        if (settings != null) {
+            settings.setFourierTransformSimpson13NCurrentDefault(currentDefault);
+        }
+
+        sListeners.dispatchOnMainThread(l -> l.onFourierTransformSimpson13NCurrentDefaultChanged(currentDefault));
+    }
+
+    public static boolean setFourierTransformSimpson13NCurrentDefaultC(int fourierTransformSimpson13NCurrentDefaultC) {
+        if (!ComplexUtil.setFourierTransformSimpson13NCurrentDefault(fourierTransformSimpson13NCurrentDefaultC)) {
+            return false;
+        }
+
+        onFourierTransformSimpson13NCurrentDefaultChanged(fourierTransformSimpson13NCurrentDefaultC);
+        return true;
+    }
+
+    public static int getFourierTransformSimpson13NCurrentDefaultC() {
+        return ComplexUtil.getFourierTransformSimpson13NCurrentDefault();
+    }
+
+
+
+
     public static final String COMMENT_TOKEN = "#";
     
     public static final String DISPLAY_NAME_FUNCTION_NOOP = "--select--";
@@ -238,6 +271,7 @@ public class R {
     public static boolean ensureResDir() {
         return FileUtil.ensureDir(DIR_RES);
     }
+
     public static boolean ensureFunctionStateSaveDir() {
         return FileUtil.ensureDir(DIR_FUNCTION_STATE_SAVES);
     }

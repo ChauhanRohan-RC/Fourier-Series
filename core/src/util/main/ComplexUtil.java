@@ -23,7 +23,23 @@ public class ComplexUtil {
     /* Fourier Transform */
     public static final boolean FOURIER_TRANSFORM_CLOCKWISE = true;
     public static final boolean FOURIER_TRANSFORM_USE_TWO_PI = true;
-    public static final int FOURIER_TRANSFORM_SIMPSON_13_N_DEFAULT = 100000;          // TODO: accuracy
+    public static final int FOURIER_TRANSFORM_SIMPSON_13_N_MIN = SIMPSON_13_N_MIN;
+    public static final int FOURIER_TRANSFORM_SIMPSON_13_N_DEFAULT = 100000;
+
+    private static int sFtSimpson13NCurrentDefault = FOURIER_TRANSFORM_SIMPSON_13_N_DEFAULT;
+
+    public static boolean setFourierTransformSimpson13NCurrentDefault(int ftSimpson13NCurrentDefault) {
+        if (ftSimpson13NCurrentDefault < FOURIER_TRANSFORM_SIMPSON_13_N_MIN)
+            return false;
+
+        sFtSimpson13NCurrentDefault = ftSimpson13NCurrentDefault;
+        return true;
+    }
+
+    public static int getFourierTransformSimpson13NCurrentDefault() {
+        return sFtSimpson13NCurrentDefault;
+    }
+
 
     private ComplexUtil() {
     }
@@ -300,7 +316,7 @@ public class ComplexUtil {
 
     @NotNull
     public static Complex fourierTransform(@NotNull ComplexFunctionI f, double frequency, double a, double b, int n) {
-        return simpson13(fourierTransformIntegrand(f, frequency), a, b, n > 0? n: FOURIER_TRANSFORM_SIMPSON_13_N_DEFAULT);
+        return simpson13(fourierTransformIntegrand(f, frequency), a, b, n > 0? n: getFourierTransformSimpson13NCurrentDefault());
     }
 
     @NotNull

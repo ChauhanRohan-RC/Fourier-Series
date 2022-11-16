@@ -163,8 +163,9 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
 
     public final void setRotorFrequencyProvider(@Nullable RotorFrequencyProviderI rotorFrequencyProvider) {
         final RotorFrequencyProviderI old = mRotorFrequencyProvider;
-        if (Objects.equals(old, rotorFrequencyProvider))
+        if (Objects.equals(old, rotorFrequencyProvider)) {
             return;
+        }
 
         if (doInterceptRotorFrequencyProvider(old, rotorFrequencyProvider)) {
             onRotorFrequencyProviderIntercepted(rotorFrequencyProvider);

@@ -15,7 +15,6 @@ import rotor.RotorStateManager;
 import rotor.frequency.RotorFrequencyProviderI;
 import ui.*;
 import ui.action.ActionInfo;
-import ui.action.UiAction;
 import util.*;
 import util.async.*;
 import util.main.ComplexUtil;
@@ -31,12 +30,15 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.List;
 
-public interface Ui {
+public interface Ui extends R.Listener {
 
     Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
 
-    String MAIN_TITLE = "Fourier Series";
-    String FT_TITLE = "Fourier Transform";
+    String TITLE_MAIN = "Fourier Series";
+    String TITLE_FT = "Fourier Transform";
+
+    String TITLE_CONFIGURATIONS = "Configuration";
+
 
     static String getWindowTitle(@NotNull String mainTitle, @NotNull RotorStateManager sm) {
         String title = mainTitle;
@@ -96,7 +98,7 @@ public interface Ui {
     /* .......................................  Message Dialog  ............................. */
 
     static void showMessageDialog(@Nullable Component parent, @NotNull Object msg, @Nullable String title, int type) {
-        JOptionPane.showMessageDialog(parent, msg, Format.isEmpty(title)? MAIN_TITLE: title, type);
+        JOptionPane.showMessageDialog(parent, msg, Format.isEmpty(title)? TITLE_MAIN : title, type);
     }
 
     static void showPlainMessageDialog(@Nullable Component parent, @NotNull Object msg, @Nullable String title) {
@@ -247,6 +249,33 @@ public interface Ui {
 
 
     @NotNull
+    static JMenu createSettingsConfigurationMenu(@NotNull Ui ui) {
+        final JMenu menu = new JMenu(TITLE_CONFIGURATIONS);
+
+        // 1. Numerical Integration
+        final JMenuItem numericalIntegrationIntervals = new JMenuItem("Integration intervals");
+        numericalIntegrationIntervals.addActionListener(e -> askConfigureNumericalIntegrationIntervalCount(ui));
+        menu.add(numericalIntegrationIntervals);
+
+        // 2. TODO: logging
+
+        return menu;
+    }
+
+    @NotNull
+    static JMenu createSettingsMenu(@NotNull Ui ui) {
+        final JMenu settings = new JMenu("Settings");
+
+        settings.add(createSettingsConfigurationMenu(ui));
+        settings.addSeparator();
+
+        settings.add(createThemeSelectorMenu());
+
+        return settings;
+    }
+
+
+    @NotNull
     static JMenu createRotorStatesMenu(@NotNull Function<ActionInfo, ? extends Action> creator) {
         final JMenu menu = new JMenu("Rotor States");
         menu.add(creator.apply(ActionInfo.SAVE_ALL_ROTOR_STATES_TO_CSV));
@@ -254,6 +283,24 @@ public interface Ui {
         menu.addSeparator();
         menu.add(creator.apply(ActionInfo.CLEAR_AND_RESET_ROTOR_STATE_MANAGER));
         return menu;
+    }
+
+
+    static void askConfigureNumericalIntegrationIntervalCount(@NotNull Ui ui) {
+        final String input = (String) JOptionPane.showInputDialog(ui.getFrame(),
+                "Set Numerical integration interval count (blank to reset)\n\nMinimum: " + ComplexUtil.FOURIER_TRANSFORM_SIMPSON_13_N_MIN + "\nDefault: " + ComplexUtil.FOURIER_TRANSFORM_SIMPSON_13_N_DEFAULT,
+                TITLE_CONFIGURATIONS, JOptionPane.PLAIN_MESSAGE, null, null, R.getFourierTransformSimpson13NCurrentDefaultC());
+
+        try {
+            final int val =  Format.isEmpty(input)? ComplexUtil.FOURIER_TRANSFORM_SIMPSON_13_N_DEFAULT: Integer.parseInt(input);
+            if (R.setFourierTransformSimpson13NCurrentDefaultC(val)) {
+                // todo: show snackbar done
+            } else {
+                ui.showWarnMessageDialog("Could not set Numerical Integration interval count to " + val, TITLE_CONFIGURATIONS);
+            }
+        } catch (NumberFormatException exc) {
+            ui.showErrorMessageDialog("Invalid Input: " + input + "\nCan only be an integer", TITLE_CONFIGURATIONS);
+        }
     }
 
 
@@ -771,43 +818,51 @@ public interface Ui {
         if (location == null)
             return;
 
-        String errMsg = null;
-        Throwable err = null;
-
-        try {
+        // TODO: show snackbar
+        Async.execute(() -> {
             final ComplexDomainFunctionI function = R.compileAndLoadExternalProgramFunction(location);
 
             final String displayTitle = R.createExternalProgramFunctionDisplayName(FileUtil.getFullName(location.relativeSourcePath));
             final FunctionMeta meta = new FunctionMeta(FunctionType.EXTERNAL_PROGRAM, displayTitle);
 
-            final FunctionProviderI provider = new SimpleFunctionProvider(meta, function);
-            successConsumer.consume(provider);
+            return new SimpleFunctionProvider(meta, function);
+        }, new TaskConsumer<>() {
+            @Override
+            public void onFailed(@Nullable Throwable err) {
+                String errMsg;
 
-            final String msg = "External programmatic function loaded -> " + displayTitle + "\n\nProject Folder: " + location.classpath + "\nFunction Class: " + location.getClassName();
-            ui.showInfoMessageDialog(msg, null);
-        } catch (ExternalJava.CompilationException compilationException) {
-            errMsg = "Failed to compile External Java Project";
-            err = compilationException;
-        } catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException constructorException) {
-            errMsg = "Function java class must have a public no-argument constructor";
-            err = constructorException;
-        } catch (InstantiationException | InvocationTargetException instantiationException) {
-            errMsg = "failed to Instantiate function class";
-            err = instantiationException;
-        } catch (Throwable t) {
-            errMsg = "Unknown Error in compilation and instantiation of function class";
-            err = t;
-        }
+                if (err instanceof ExternalJava.CompilationException) {
+                    errMsg = "Failed to compile External Java Project";
+                } else if (err instanceof NoSuchMethodException || err instanceof IllegalAccessException || err instanceof IllegalArgumentException) {
+                    errMsg = "Function java class must have a public no-argument constructor";
+                } else if (err instanceof InstantiationException || err instanceof InvocationTargetException) {
+                    errMsg = "failed to Instantiate function class";
+                } else {
+                    errMsg = "Unknown Error in compilation and instantiation of function class";
+                }
 
-        if (Format.notEmpty(errMsg)) {
-            errMsg += "\n\nProject Folder: " + location.classpath + "\nFunction Class: " + location.getClassName();
-            if (err != null) {
-                errMsg += "\nError: " + err.getClass().getSimpleName() + " -> " + err.getMessage();
+                errMsg += "\n\nProject Folder: " + location.classpath + "\nFunction Class: " + location.getClassName();
+                if (err != null) {
+                    errMsg += "\nError: " + err.getClass().getSimpleName() + " -> " + err.getMessage();
+                }
+
+                Log.e(FourierUi.TAG, errMsg, err);
+                ui.showErrorMessageDialog(errMsg, null);
             }
 
-            Log.e(FourierUi.TAG, errMsg, err);
-            ui.showErrorMessageDialog(errMsg, null);
-        }
+            @Override
+            public void onCancelled(@Nullable SimpleFunctionProvider dataProcessedYet) {
+                TaskConsumer.super.onCancelled(dataProcessedYet);
+            }
+
+            @Override
+            public void consume(SimpleFunctionProvider data) {
+                successConsumer.consume(data);
+
+                final String msg = "External programmatic function loaded -> " + data.getFunctionMeta().displayName() + "\n\nProject Folder: " + location.classpath + "\nFunction Class: " + location.getClassName();
+                ui.showInfoMessageDialog(msg, null);
+            }
+        });
     }
 
 }

@@ -1,5 +1,6 @@
 package util;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class Log {
@@ -7,6 +8,7 @@ public class Log {
     public static final String TAG = "LOG";
     public static final boolean DEBUG = true;
 
+    @NotNull
     private static String createMsg(String tag, Object msg) {
         if (tag == null) {
             tag = TAG;

@@ -156,6 +156,11 @@ public class FileUtil {
         return true;
     }
 
+    public static boolean ensureFileParentDir(@NotNull Path file) {
+        final Path dir = file.getParent();
+        return dir == null || ensureDir(dir);
+    }
+
     @NotNull
     public static Path ensureExtension(@NotNull Path path, @NotNull String extWithDot) {
         if (path.toString().endsWith(extWithDot)) {

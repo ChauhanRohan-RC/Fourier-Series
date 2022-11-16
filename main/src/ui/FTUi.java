@@ -1,7 +1,6 @@
 package ui;
 
 import animation.animator.AbstractAnimator;
-import app.App;
 import app.R;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,9 +16,10 @@ import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
-import java.util.*;
 
-public class FTUi extends JFrame implements Ui {
+public class FTUi extends BaseFrame {
+
+    public static final String TAG = "FtUI";
 
     public static final boolean DEFAULT_FULLSCREEN = false;
     public static final boolean DEFAULT_CONTROLS_VISIBLE = true;
@@ -86,8 +86,6 @@ public class FTUi extends JFrame implements Ui {
     @NotNull
     private final FTGraphPanel ftGraphPanel;
 
-    private boolean mFullscreen = DEFAULT_FULLSCREEN;
-
     final JPanel controlPanel;
     final JScrollPane controlScrollPane;
     final JLabel rotorCountText;
@@ -114,24 +112,15 @@ public class FTUi extends JFrame implements Ui {
     final JMenu menuConfig;
     final JMenu menuView;
 
-
     private final JComponent[] rotorDependentComps;              // Ui components that depend on Rotors
-
-    @NotNull
-    private final WindowHandler mWindowHandler = new WindowHandler();
-    @NotNull
-    private final ActionHandler mActionHandler = new ActionHandler();
-    @NotNull
-    private final MouseHandler mMouseHandler = new MouseHandler();
     @NotNull
     private final JSplitPane splitPane;
 
     private boolean ignoreNextCurrentRotorSliderEvent;
 
-
-
     public FTUi(@NotNull RotorStateManager manager) {
-        super(Ui.FT_TITLE);
+        super();
+        setTitle(Ui.TITLE_FT);
         looper = Ui.createLooper(null);
 
         ftWinderPanel = new FTWinderPanel(manager);
@@ -215,8 +204,8 @@ public class FTUi extends JFrame implements Ui {
         menuView.addSeparator();
         menuView.add(uia(ActionInfo.TOGGLE_FULLSCREEN));
 
-        // Theme
-        menuBar.add(Ui.createThemeSelectorMenu());
+        // Settings
+        menuBar.add(Ui.createSettingsMenu(this));
 
         // Ui components that depend on function
         rotorDependentComps = new JComponent[] {
@@ -432,21 +421,16 @@ public class FTUi extends JFrame implements Ui {
 
         // Run
         setupActionKeyBindings(getRootPane(), JComponent.WHEN_IN_FOCUSED_WINDOW, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        addMouseListener(mMouseHandler);
-        addWindowListener(mWindowHandler);
-        addWindowStateListener(mWindowHandler);
-        addWindowFocusListener(mWindowHandler);
+        ftWinderPanel.addMouseListener(this);
 
-        ftWinderPanel.addMouseListener(mMouseHandler);
-//        functionGraphPanel.addMouseListener(mMouseHandler);
-//        ftGraphPanel.addMouseListener(mMouseHandler);
+//        functionGraphPanel.addMouseListener(this);
+//        ftGraphPanel.addMouseListener(this);
 
         final Image appIcon = R.createAppIcon();
         if (appIcon != null) {
             setIconImage(appIcon);
         }
 
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setFocusable(true);
         setResizable(true);
 
@@ -460,22 +444,16 @@ public class FTUi extends JFrame implements Ui {
 
             setControlsVisibleInternal(DEFAULT_CONTROLS_VISIBLE);
             setMenuBarVisibleInternal(DEFAULT_MENUBAR_VISIBLE);
-            setFullscreenInternal(mFullscreen);     // sync
+            setFullscreenInternal(DEFAULT_FULLSCREEN);     // sync
             requestFocusInWindow();
             update();
         });
     }
 
     private void syncTitle() {
-        setTitle(Ui.getWindowTitle(Ui.MAIN_TITLE, ftWinderPanel.getRotorStateManager()));
+        setTitle(Ui.getWindowTitle(Ui.TITLE_FT, ftWinderPanel.getRotorStateManager()));
     }
 
-
-    @Override
-    @NotNull
-    public JFrame getFrame() {
-        return this;
-    }
 
     @NotNull
     public FTWinderPanel getFtWinderPanel() {
@@ -492,41 +470,6 @@ public class FTUi extends JFrame implements Ui {
         return ftGraphPanel;
     }
 
-    private void update() {
-        revalidate();
-        repaint();
-    }
-
-
-    protected void onFullscreenChanged(boolean fullscreen) {
-        update();
-
-        uia(ActionInfo.TOGGLE_FULLSCREEN)
-                .setName(R.getFullscreenText(fullscreen))
-                .setShortDescription(R.getFullscreenShortDescription(fullscreen))
-                .setSelected(fullscreen);
-    }
-
-    public final boolean isFullscreen() {
-        return mFullscreen;
-    }
-
-    private void setFullscreenInternal(boolean fullscreen) {
-        getGraphicsConfiguration().getDevice().setFullScreenWindow(fullscreen? FTUi.this: null);
-//        setMenuBarVisibleInternal(!fullscreen);
-        mFullscreen = fullscreen;
-        onFullscreenChanged(fullscreen);
-    }
-
-    public final void setFullscreen(boolean fullscreen) {
-        if (mFullscreen == fullscreen)
-            return;
-        setFullscreenInternal(fullscreen);
-    }
-
-    public final void toggleFullscreen() {
-        setFullscreen(!mFullscreen);
-    }
 
     protected void onControlsVisibilityChanged(boolean controlsVisible) {
         uia(ActionInfo.TOGGLE_CONTROLS)
@@ -794,7 +737,6 @@ public class FTUi extends JFrame implements Ui {
     }
 
 
-
     public void askConfigureFrequencyProvider() {
         Ui.askConfigureFrequencyProvider(FTUi.this, ftWinderPanel.getRotorStateManager());
     }
@@ -853,7 +795,6 @@ public class FTUi extends JFrame implements Ui {
     }
 
 
-
     private class ConfigMenu extends JMenu {
 
         private ConfigMenu() {
@@ -865,181 +806,56 @@ public class FTUi extends JFrame implements Ui {
         }
     }
 
+    @Override
+    public void onLookAndFeelChanged(@NotNull String className) {
+        super.onLookAndFeelChanged(className);
+    }
 
+    @Override
+    public void onFourierTransformSimpson13NCurrentDefaultChanged(int fourierTransformSimpson13NDefault) {
+        super.onFourierTransformSimpson13NCurrentDefaultChanged(fourierTransformSimpson13NDefault);
 
-
-
-    private class WindowHandler implements WindowListener, WindowStateListener, WindowFocusListener {
-
-        @Override
-        public void windowOpened(WindowEvent e) {
-            App.onWindowOpen(FTUi.this);
-        }
-
-        @Override
-        public void windowClosing(WindowEvent e) {
-            // todo save stuff here
-            App.onWindowClose(FTUi.this);
-        }
-
-        @Override
-        public void windowClosed(WindowEvent e) {
-
-        }
-
-        @Override
-        public void windowIconified(WindowEvent e) {
-
-        }
-
-        @Override
-        public void windowDeiconified(WindowEvent e) {
-
-        }
-
-        @Override
-        public void windowActivated(WindowEvent e) {
-
-        }
-
-        @Override
-        public void windowDeactivated(WindowEvent e) {
-
-        }
-
-        @Override
-        public void windowStateChanged(WindowEvent e) {
-
-        }
-
-        @Override
-        public void windowGainedFocus(WindowEvent e) {
-
-        }
-
-        @Override
-        public void windowLostFocus(WindowEvent e) {
-
+        final RotorStateManager manager = ftWinderPanel.getRotorStateManager();
+        if (!manager.isLoading()) {
+            manager.clearAndReloadAsync();
         }
     }
 
 
-    private class MouseHandler implements MouseListener {
+    /* Mouse */
 
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            if (e.getClickCount() == 2) {
-                toggleFullscreen();
-            }
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-
-        }
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        super.mouseClicked(e);
     }
+
 
 
     /* Actions */
 
-    public class ActionHandler implements UiAction.Listener {
+    @Override
+    public void onActionPropertyChange(@NotNull UiAction action, @NotNull PropertyChangeEvent e) {
+    }
 
-        @Override
-        public void onActionPropertyChange(@NotNull UiAction action, @NotNull PropertyChangeEvent e) {
-        }
-
-        @Override
-        public void onAction(@NotNull UiAction action, @NotNull ActionEvent e) {
-            switch (action.info) {
-                case CANCEL_RUNNING_TASKS -> cancelRunningTasks();
-                case PLAY -> setPlay(true);
-                case PAUSE -> setPlay(false);
-                case STOP -> ftWinderPanel.stop();
-                case TOGGLE_PLAY_PAUSE -> togglePlay();
-                case TOGGLE_POINTS_JOIN -> ftWinderPanel.togglePointsJoining();
-                case RESET_MAIN, RESET_FULL -> ftWinderPanel.reset();
-                case TOGGLE_FULLSCREEN -> toggleFullscreen();
-                case TOGGLE_CONTROLS -> toggleControlsVisibility();
-                case TOGGLE_MENUBAR -> toggleMenuBarVisible();
-                case SAVE_FUNCTION_STATE_TO_FILE ->  askSaveFunctionStateToFIle();
-//                case LOAD_FUNCTION_STATE_FROM_FILE -> askLoadFunctionStateFromFile();
-//                case CLEAR_FUNCTIONS_WITHOUT_DEFINITION -> confirmRemoveFunctionProvidersWithoutDefinition();
-//                case LOAD_EXTERNAL_PATH_FUNCTIONS -> askLoadExternalPathFunctions();
-//                case LOAD_EXTERNAL_PATH_FUNCTIONS_FROM_DIR -> askLoadExternalPathFunctionsFromDir();
-//                case CLEAR_INTERNAL_PATH_FUNCTIONS -> confirmRemoveAllFunctionProviders(FunctionType.INTERNAL_PATH);
-//                case CLEAR_EXTERNAL_PATH_FUNCTIONS -> confirmRemoveAllFunctionProviders(FunctionType.EXTERNAL_PATH);
-//                case RESET_PATH_FUNCTIONS -> confirmResetPathFunctions();
-//                case LOAD_EXTERNAL_PROGRAMMATIC_FUNCTION -> askLoadExternalProgrammaticFunctions();
-//                case CLEAR_INTERNAL_PROGRAMMATIC_FUNCTIONS -> confirmRemoveAllFunctionProviders(FunctionType.INTERNAL_PROGRAM);
-//                case CLEAR_EXTERNAL_PROGRAMMATIC_FUNCTIONS -> confirmRemoveAllFunctionProviders(FunctionType.EXTERNAL_PROGRAM);
-//                case RESET_PROGRAMMATIC_FUNCTIONS -> confirmResetProgrammaticFunctions();
-                case CONFIGURE_ROTOR_FREQUENCY_PROVIDER -> askConfigureFrequencyProvider();
-                case CLEAR_AND_RESET_ROTOR_STATE_MANAGER -> askClearAndResetRotorStateManager();
-                case LOAD_EXTERNAL_ROTOR_STATES_FROM_CSV -> askLoadExternalRotorStatesFromCSV();
-                case SAVE_ALL_ROTOR_STATES_TO_CSV -> askSaveRotorStatesToCSV();
-//                case CONFIGURATIONS -> toggleConfigPopupMenu();
-            }
+    @Override
+    public void onAction(@NotNull UiAction action, @NotNull ActionEvent e) {
+        switch (action.info) {
+            case CANCEL_RUNNING_TASKS -> cancelRunningTasks();
+            case PLAY -> setPlay(true);
+            case PAUSE -> setPlay(false);
+            case STOP -> ftWinderPanel.stop();
+            case TOGGLE_PLAY_PAUSE -> togglePlay();
+            case TOGGLE_POINTS_JOIN -> ftWinderPanel.togglePointsJoining();
+            case RESET_MAIN, RESET_FULL -> ftWinderPanel.reset();
+            case TOGGLE_FULLSCREEN -> toggleFullscreen();
+            case TOGGLE_CONTROLS -> toggleControlsVisibility();
+            case TOGGLE_MENUBAR -> toggleMenuBarVisible();
+            case SAVE_FUNCTION_STATE_TO_FILE ->  askSaveFunctionStateToFIle();
+            case CONFIGURE_ROTOR_FREQUENCY_PROVIDER -> askConfigureFrequencyProvider();
+            case CLEAR_AND_RESET_ROTOR_STATE_MANAGER -> askClearAndResetRotorStateManager();
+            case LOAD_EXTERNAL_ROTOR_STATES_FROM_CSV -> askLoadExternalRotorStatesFromCSV();
+            case SAVE_ALL_ROTOR_STATES_TO_CSV -> askSaveRotorStatesToCSV();
         }
     }
 
-    private void setupActionKeyBindings(@NotNull Collection<InputMap> inputMaps, @NotNull ActionMap actionMap) {
-        ActionInfo.sharedValues().forEach(info -> {
-            if (info.keyStroke != null) {
-                inputMaps.forEach(im -> im.put(info.keyStroke, info));
-            }
-
-            actionMap.put(info, uia(info));
-        });
-    }
-
-    private void setupActionKeyBindings(@NotNull JComponent component, int @NotNull ... inputMapConditions) {
-        final java.util.List<InputMap> maps = new LinkedList<>();
-        for (int i: inputMapConditions) {
-            maps.add(component.getInputMap(i));
-        }
-
-        setupActionKeyBindings(maps, component.getActionMap());
-    }
-
-    @Nullable
-    private static EnumMap<ActionInfo, UiAction> sActionMap;
-
-    @NotNull
-    public static UiAction getUia(@NotNull ActionInfo info) {
-        UiAction uia = null;
-        if (sActionMap == null) {
-            sActionMap = new EnumMap<>(ActionInfo.class);
-        } else {
-            uia = sActionMap.get(info);
-        }
-
-        if (uia == null) {
-            uia = new UiAction(info);
-            sActionMap.put(info, uia);
-        }
-
-        return uia;
-    }
-
-    @NotNull
-    public UiAction uia(@NotNull ActionInfo info) {
-        final UiAction action = getUia(info);
-        action.ensureListener(mActionHandler);
-        return action;
-    }
 }
