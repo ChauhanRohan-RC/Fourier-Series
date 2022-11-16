@@ -1,5 +1,8 @@
 // todo
 1. Add support for csv, or similar format for saving and loading rotor states (may be keep function meta and definition in json, just rotor states in csv)
 
+1. Track center of mass in FTWinder Panel
+2. 2 Separate series, in ft graph panel, delimited by current rotor
+
 2. LOG to file (java logger)
 3. Snackbar (messages and simple confirm)

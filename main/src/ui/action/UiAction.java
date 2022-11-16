@@ -24,10 +24,7 @@ public class UiAction extends BaseAction {
 
     public UiAction(@NotNull ActionInfo info) {
         this.info = info;
-
-        setName(info.displayName)
-                .setShortDescription(info.shortDescription)
-                .setAccelerator(info.keyStroke);
+        useInfo(info);
 
         addPropertyChangeListener(e -> listeners.forEachListener(l -> l.onActionPropertyChange(UiAction.this, e)));
     }

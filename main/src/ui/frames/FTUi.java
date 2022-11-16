@@ -77,8 +77,8 @@ public class FTUi extends BaseFrame {
         }
 
         @Override
-        public void onPointsJoiningEnabledChanged(@NotNull FTWinderPanel panel, boolean pointsJoiningEnabled) {
-            setPointsJoiningEnabled(panel.isPointsJoiningEnabled());
+        public void onFlagsChanged(@NotNull FTWinderPanel panel, int oldFlags, int newFlags) {
+
         }
     };
 
@@ -137,7 +137,7 @@ public class FTUi extends BaseFrame {
         syncTitle();
 
         // controls
-        pointsJoinCheck = new JCheckBox(uia(ActionInfo.TOGGLE_POINTS_JOIN).setSelected(ftWinderPanel.isPointsJoiningEnabled()));
+        pointsJoinCheck = new JCheckBox(ftWinderPanel.getTogglePointsJoinAction());
 
         // Rotor Count
         final int rotorCount = ftWinderPanel.getConstrainedRotorCount();
@@ -723,10 +723,6 @@ public class FTUi extends BaseFrame {
     }
 
 
-    public void setPointsJoiningEnabled(boolean enabled) {
-        ftWinderPanel.setJoinPointsEnabled(enabled);
-        uia(ActionInfo.TOGGLE_POINTS_JOIN).setSelected(enabled);
-    }
 
     private void setRepeatMode(@Nullable AbstractAnimator.RepeatMode repeatMode, boolean fromPanel) {
         if (!fromPanel) {
@@ -811,6 +807,7 @@ public class FTUi extends BaseFrame {
             addSeparator();
             add(functionGraphPanel.createMenu(uia(ActionInfo.CONFIGURE_FUNCTION_GRAPH)));
             add(ftGraphPanel.createMenu(uia(ActionInfo.CONFIGURE_FT_GRAPH)));
+            add(ftWinderPanel.createMenu(uia(ActionInfo.CONFIGURE_FT_WINDER_PANEL)));
         }
     }
 
@@ -848,7 +845,6 @@ public class FTUi extends BaseFrame {
             case PAUSE -> setPlay(false);
             case STOP -> ftWinderPanel.stop();
             case TOGGLE_PLAY_PAUSE -> togglePlay();
-            case TOGGLE_POINTS_JOIN -> ftWinderPanel.togglePointsJoining();
             case RESET_MAIN, RESET_FULL -> ftWinderPanel.reset();
             case TOGGLE_FULLSCREEN -> toggleFullscreen();
             case TOGGLE_CONTROLS -> toggleControlsVisibility();

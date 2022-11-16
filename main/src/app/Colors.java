@@ -37,6 +37,8 @@ public class Colors {
     public static final Color COLOR_RADIUS = new Color(255, 255, 255, 255);
     public static final Color COLOR_TIP_TO_WAVE_JOINT = new Color(115, 250, 255, 217);
     public static final Color COLOR_WAVE = new Color(255, 221, 58, 255);
+    public static final Color COLOR_AXIS = new Color(94, 94, 94);
+    public static final Color COLOR_CENTER_OF_MASS =   new Color(255, 73, 73);
 
     /* Ui colors when graphing in center */
     public static final Color CENTER_COLOR_CIRCLE = new Color(190, 190, 190, 122);

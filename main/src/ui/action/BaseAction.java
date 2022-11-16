@@ -1,5 +1,6 @@
 package ui.action;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -16,6 +17,14 @@ public abstract class BaseAction extends AbstractAction {
 
     public BaseAction(String name, Icon icon) {
         super(name, icon);
+    }
+
+    public BaseAction useInfo(@NotNull ActionInfo info) {
+        setName(info.displayName)
+                .setShortDescription(info.shortDescription)
+                .setAccelerator(info.keyStroke);
+
+        return this;
     }
 
     public BaseAction setName(@Nullable String name) {

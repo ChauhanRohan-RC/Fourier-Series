@@ -10,21 +10,30 @@ import function.definition.ComplexDomainFunctionI;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.knowm.xchart.XChartPanel;
 import rotor.RotorState;
 import rotor.RotorStateManager;
 import rotor.frequency.RotorFrequencyProviderI;
+import ui.action.ActionInfo;
+import ui.action.BaseAction;
+import ui.action.UiAction;
+import util.Flaggable;
 import util.Format;
+import util.async.Function;
 import util.live.Listeners;
 import util.main.ComplexUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-public class FTWinderPanel extends JPanel implements Runnable {
+public class FTWinderPanel extends JPanel implements Runnable, Flaggable {
 
     private static final String TAG = "FourierTransformPanel";
 
@@ -44,8 +53,16 @@ public class FTWinderPanel extends JPanel implements Runnable {
     public static final Interpolator INTERPOLATOR = Interpolator.LINEAR;        // Required for seek operation
 
     private static final int DEFAULT_INTERVAL_COUNT = 2000;
-    private static final boolean DEFAULT_JOIN_POINTS = true;
 
+    public static final int FLAG_JOIN_POINTS = 1;
+    public static final int FLAG_DRAW_AXIS = 1 << 1;
+    public static final int FLAG_DRAW_COM = 1 << 2;
+
+    private static final int DEFAULT_FLAGS = FLAG_JOIN_POINTS | FLAG_DRAW_AXIS | FLAG_DRAW_COM;
+
+    private static final BasicStroke STROKE_WAVE = new BasicStroke(1f);
+    private static final BasicStroke STROKE_AXIS = new BasicStroke(0.9f);
+    private static final BasicStroke STROKE_CENTER_OF_MASS = new BasicStroke(5);
 
     /* Speed */
     public static final long ROTORS_ANIMATION_DURATION_MS_EACH_ROTOR_MIN = 1L;
@@ -108,11 +125,9 @@ public class FTWinderPanel extends JPanel implements Runnable {
 
         void onRotorsFrequencyProviderChanged(@NotNull FTWinderPanel panel, @Nullable RotorFrequencyProviderI old, @Nullable RotorFrequencyProviderI _new);
 
-        void onPointsJoiningEnabledChanged(@NotNull FTWinderPanel panel, boolean pointsJoiningEnabled);
 
+        void onFlagsChanged(@NotNull FTWinderPanel panel, int oldFlags, int newFlags);
     }
-
-
 
 
 
@@ -229,10 +244,16 @@ public class FTWinderPanel extends JPanel implements Runnable {
 //    @NotNull
 //    private final Set<RotorState> rotorStates = new TreeSet<>(RotorState.COMPARATOR_FREQ_ASC);
 
-    private volatile boolean mPointsJoiningEnabled = DEFAULT_JOIN_POINTS;
+    private volatile int mFlags = DEFAULT_FLAGS;
 //    private double mPrevBaseScale = -1;
 
     private final Listeners<Listener> listeners = new Listeners<>();
+
+    private final BaseAction togglePointsJoinAction;
+    private final BaseAction toggleDrawAxisAction;
+    private final BaseAction toggleDrawCOMAction;
+
+    private boolean showPopupMenuOnMouseTrigger = XChartPanel.DEFAULT_SHOW_POPUP_ON_MOUSE_TRIGGER;
 
     public FTWinderPanel(@NotNull RotorStateManager manager) {
         this.manager = manager;
@@ -240,13 +261,62 @@ public class FTWinderPanel extends JPanel implements Runnable {
 
         setBackground(Colors.BG_DARK);
 
+        // Actions
+        togglePointsJoinAction = new FlagAction(ActionInfo.TOGGLE_POINTS_JOIN, FLAG_JOIN_POINTS);
+        toggleDrawAxisAction = new FlagAction(ActionInfo.TOGGLE_DRAW_AXIS, FLAG_DRAW_AXIS);
+        toggleDrawCOMAction = new FlagAction(ActionInfo.TOGGLE_DRAW_COM, FLAG_DRAW_COM);
+
         rotorsAnim.addAnimationListener(rotorsAnimListener);
         manager.ensureListener(managerListener);
         manager.considerInitialize();
 //        if (manager.getRotorCount() > 0) {
 //            rotorsAnim.start();
 //        }
+
+        addMouseListener(new MouseHandler());
     }
+
+    @Override
+    public int getFlags() {
+        return mFlags;
+    }
+
+    @Override
+    public boolean setFlags(final int flags, boolean refresh) {
+        final int old = mFlags;
+        if (Flaggable.areFlagsDifferent(old, flags)) {
+            mFlags = flags;
+            onFlagsChanged(old, flags, refresh);
+            return true;
+        }
+
+        return false;
+    }
+
+    protected void onFlagsChanged(int oldFlags, int newFlags, boolean refresh) {
+        if (refresh) {
+            update();
+        }
+
+        togglePointsJoinAction.setSelected(hasAnyFlag(FLAG_JOIN_POINTS));
+        toggleDrawAxisAction.setSelected(hasAnyFlag(FLAG_DRAW_AXIS));
+        toggleDrawCOMAction.setSelected(hasAnyFlag(FLAG_DRAW_COM));
+        listeners.dispatchOnMainThread(l -> l.onFlagsChanged(FTWinderPanel.this, oldFlags, newFlags));
+    }
+
+
+    public BaseAction getTogglePointsJoinAction() {
+        return togglePointsJoinAction;
+    }
+
+    public BaseAction getToggleDrawAxisAction() {
+        return toggleDrawAxisAction;
+    }
+
+    public BaseAction getToggleDrawCOMAction() {
+        return toggleDrawCOMAction;
+    }
+
 
     @NotNull
     public RotorStateManager getRotorStateManager() {
@@ -393,34 +463,6 @@ public class FTWinderPanel extends JPanel implements Runnable {
     }
 
 
-    public final boolean isPointsJoiningEnabled() {
-        return mPointsJoiningEnabled;
-    }
-
-    protected void onPointsJoiningEnabledChanged(boolean pointsJoiningEnabled) {
-        update();
-        listeners.dispatchOnMainThread(l -> l.onPointsJoiningEnabledChanged(FTWinderPanel.this, pointsJoiningEnabled));
-    }
-
-    public final void setJoinPointsEnabled(boolean pointsJoiningEnabled) {
-        final boolean old = mPointsJoiningEnabled;
-        if (old == pointsJoiningEnabled) {
-            return;
-        }
-
-        mPointsJoiningEnabled = pointsJoiningEnabled;
-        onPointsJoiningEnabledChanged(pointsJoiningEnabled);
-    }
-
-    public boolean togglePointsJoining() {
-        final boolean now = !isPointsJoiningEnabled();
-        setJoinPointsEnabled(now);
-        return now;
-    }
-
-
-
-
     private void syncRotorsAnimator() {
         configureRotorsAnimator(rotorsAnim, manager.getRotorCount(), speedFraction);
     }
@@ -519,11 +561,10 @@ public class FTWinderPanel extends JPanel implements Runnable {
             g.drawString(statusText, 8, height - 18);
         }
 
-
         final int rotorIndex = rotorsAnim.getCurrentValue();
         if (rotorIndex >= 0 && rotorIndex < count) {
             final RotorState state = manager.getRotorState(rotorIndex);
-            final double freq =state.getFrequency();
+            final double freq = state.getFrequency();
 
             // TODO: frequency label
             g.setColor(Colors.FG_DARK);
@@ -571,10 +612,21 @@ public class FTWinderPanel extends JPanel implements Runnable {
                 input += dStep;
             }
 
-            // Actual Drawing
-            g.setColor(Colors.COLOR_WAVE);
+
             g.translate(width / 2, height / 2);
             g.scale(1, -1);
+
+            // Axes
+            if (hasAnyFlag(FLAG_DRAW_AXIS)) {
+                g.setColor(Colors.COLOR_AXIS);
+                g.setStroke(STROKE_AXIS);
+                g.draw(new Line2D.Double(new Point2D.Float(-width / 2f, 0), new Point2D.Float(width / 2f, 0)));      // X-axis
+                g.draw(new Line2D.Double(new Point2D.Float(0, -height / 2f), new Point2D.Float(0, height / 2f)));      // Y-axis
+            }
+
+            // Draw wave
+            g.setColor(Colors.COLOR_WAVE);
+            g.setStroke(STROKE_WAVE);
 
             double baseScale = Math.abs(Math.min(width, height) / Math.max(maxReal - minReal, maxImg - minImg)) * 0.45;
 //            final double prevBaseScale = mPrevBaseScale;
@@ -589,15 +641,23 @@ public class FTWinderPanel extends JPanel implements Runnable {
 
             final ListIterator<Complex> itr = samples.listIterator();
             Point2D prev = null;
-            final boolean joinPoints = mPointsJoiningEnabled;
+            final boolean joinPoints = hasAnyFlag(FLAG_JOIN_POINTS);
 
             while (itr.hasNext()) {
-                final int index = itr.nextIndex();
+//                final int index = itr.nextIndex();
                 final Complex val = itr.next();
 
-                final Point2D point = parseWavePoint(index, val, baseScale);
+                final Point2D point = parseWavePoint(val, baseScale);
                 g.draw(new Line2D.Double(joinPoints && prev != null? prev: point, point));
                 prev = point;
+            }
+
+            if (hasAnyFlag(FLAG_DRAW_COM)) {
+                g.setColor(Colors.COLOR_CENTER_OF_MASS);
+                g.setStroke(STROKE_CENTER_OF_MASS);
+
+                Point2D p = parseWavePoint(state.getCoefficient(), baseScale);
+                g.draw(new Line2D.Double(p, p));
             }
 
 //            rotorStates.add(state);
@@ -608,6 +668,8 @@ public class FTWinderPanel extends JPanel implements Runnable {
 //            g.setColor(new Color(252, 55, 111));
 //            g.translate(0, -getHeight() / 2);
 //            drawTransform(g, false);
+
+
         }
 
 
@@ -626,7 +688,7 @@ public class FTWinderPanel extends JPanel implements Runnable {
 //    }
 
     @NotNull
-    private Point2D parseWavePoint(int index, @NotNull Complex complex, double scale) {
+    private Point2D parseWavePoint(@NotNull Complex complex, double scale) {
         return new Point2D.Double(complex.getReal() * scale, complex.getImaginary() * scale);
     }
 
@@ -635,5 +697,92 @@ public class FTWinderPanel extends JPanel implements Runnable {
         rotorsAnim.update();
     }
 
+    @NotNull
+    public JMenu createMenu(@Nullable Action action) {
+        return new ConfigMenu(action);
+    }
+
+    @NotNull
+    public JPopupMenu createPopupMenu(@Nullable Action action) {
+        return createMenu(action).getPopupMenu();
+    }
+
+    public void showPopupMenu(@Nullable Action action, Component component, int x, int y) {
+        final JPopupMenu menu = createPopupMenu(action);
+        menu.show(component, x, y);
+        menu.getGraphics().dispose();
+    }
+
+    public void showPopupMenu(@Nullable Action action, @NotNull MouseEvent e) {
+        showPopupMenu(action, e.getComponent(), e.getX(), e.getY());
+    }
+
+    public void showPopupMenu(@Nullable Action action) {
+        showPopupMenu(action, this, getWidth() / 2,getHeight() / 2);
+    }
+
+    public void showPopupMenu() {
+        showPopupMenu(null);
+    }
+
+
+
+    public FTWinderPanel setShowPopupMenuOnMouseTrigger(boolean showPopupMenuOnMouseTrigger) {
+        this.showPopupMenuOnMouseTrigger = showPopupMenuOnMouseTrigger;
+        return this;
+    }
+
+    public boolean isShowPopupMenuOnMouseTriggerEnabled() {
+        return showPopupMenuOnMouseTrigger;
+    }
+
+    private class FlagAction extends BaseAction {
+
+        @NotNull
+        private final ActionInfo info;
+        private final int flag;
+
+        public FlagAction(@NotNull ActionInfo info, int flag) {
+            this.info = info;
+            this.flag = flag;
+
+            useInfo(info);
+            setSelected(hasAllFlags(flag));
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            toggleFlag(flag);
+        }
+    }
+
+
+    private class ConfigMenu extends JMenu {
+
+        public ConfigMenu(@Nullable Action action) {
+            super(action);
+
+            add(new JCheckBoxMenuItem(togglePointsJoinAction));
+            add(new JCheckBoxMenuItem(toggleDrawAxisAction));
+            add(new JCheckBoxMenuItem(toggleDrawCOMAction));
+        }
+    }
+
+    private class MouseHandler extends MouseAdapter {
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            if (showPopupMenuOnMouseTrigger && e.isPopupTrigger()) {
+                showPopupMenu(null, e);
+            }
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            if (showPopupMenuOnMouseTrigger && e.isPopupTrigger()) {
+                showPopupMenu(null, e);
+            }
+        }
+    }
 
 }

@@ -43,7 +43,7 @@ import util.async.Consumer;
 public class XChartPanel<T extends Chart<?, ?>> extends JPanel {
 
     public static final String TAG = "XChartPanel";
-    private static final boolean DEFAULT_SHOW_POPUP_ON_MOUSE_TRIGGER = true;
+    public static final boolean DEFAULT_SHOW_POPUP_ON_MOUSE_TRIGGER = true;
 
     public final T chart;
     private final Dimension preferredSize;
@@ -71,7 +71,7 @@ public class XChartPanel<T extends Chart<?, ?>> extends JPanel {
     protected void init() {
 
         // Right-click listener for saving chart
-        this.addMouseListener(new PopUpMenuClickListener());
+        this.addMouseListener(new MouseHandler());
 
         // Control+S key listener for saving chart
         final KeyStroke ctrlS = KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
@@ -543,7 +543,7 @@ public class XChartPanel<T extends Chart<?, ?>> extends JPanel {
 //        }
 //    }
 
-    private class PopUpMenuClickListener extends MouseAdapter {
+    private class MouseHandler extends MouseAdapter {
 
         @Override
         public void mousePressed(MouseEvent e) {

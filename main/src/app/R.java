@@ -464,6 +464,27 @@ public class R {
     }
 
     @NotNull
+    public static String getDrawAxisText() {
+        return "Draw Axis";
+    }
+
+    @NotNull
+    public static String getDrawAxisShortDescription() {
+        return "Draw X and Y axes";
+    }
+
+    @NotNull
+    public static String getDrawCOMText() {
+        return "Draw COM";
+    }
+
+    @NotNull
+    public static String getDrawCOMShortDescription() {
+        return "Draw Center of Mass";
+    }
+
+
+    @NotNull
     public static String getPointsJoiningText() {
         return "Join Points";
     }

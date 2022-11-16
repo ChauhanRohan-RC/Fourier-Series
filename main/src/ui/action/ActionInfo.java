@@ -46,6 +46,9 @@ public enum ActionInfo {
     STOP(R.getStopText(), R.getStopShortDescription(), null, true),
     TOGGLE_PLAY_PAUSE(R.getPlayPauseText(false), R.getPlayPauseShortDescription(false), KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), true),
 
+    TOGGLE_DRAW_AXIS(R.getDrawAxisText(), R.getDrawAxisShortDescription(), null, true),
+    TOGGLE_DRAW_COM(R.getDrawCOMText(), R.getDrawCOMShortDescription(), null, true),
+
     TOGGLE_POINTS_JOIN(R.getPointsJoiningText(), R.getPointsJoiningShortDescription(), KeyStroke.getKeyStroke(KeyEvent.VK_J, InputEvent.CTRL_DOWN_MASK), true),
     TOGGLE_HUE_CYCLE(R.getHueCycleText(), R.getHueCycleShortDescription(), KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK), true),
     INVERT_X(R.getInvertXText(), R.getInvertXShortDescription(), KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.SHIFT_DOWN_MASK), false),
@@ -68,6 +71,8 @@ public enum ActionInfo {
     CONFIGURE_ROTOR_FREQUENCY_PROVIDER(R.getConfigureRotorFrequencyProviderText(), R.getConfigureRotorFrequencyProviderShortDescription(), KeyStroke.getKeyStroke(KeyEvent.VK_F, 0),true),
     CONFIGURE_FUNCTION_GRAPH("Function Graph", "Configure Function Graph",  null, true),
     CONFIGURE_FT_GRAPH("FT Graph", "Configure Fourier Transform Graph", null, true),
+    CONFIGURE_FT_WINDER_PANEL("FT Winder Graph", "Configure Fourier Transform Winder Graph", null, true),
+
 
     SAVE_FUNCTION_STATE_TO_FILE("Save State", "Save Function State", KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK), true),
     LOAD_FUNCTION_STATE_FROM_FILE("Load State", "Load Function State", KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_DOWN_MASK), false),

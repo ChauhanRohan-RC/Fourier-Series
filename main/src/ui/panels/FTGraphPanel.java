@@ -217,8 +217,8 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
         }
 
         @Override
-        public void onPointsJoiningEnabledChanged(@NotNull FTWinderPanel panel, boolean pointsJoiningEnabled) {
-            
+        public void onFlagsChanged(@NotNull FTWinderPanel panel, int oldFlags, int newFlags) {
+
         }
     };
 
