@@ -32,13 +32,18 @@ public class App {
         public void onFTIntegrationIntervalCountChanged(int fourierTransformSimpson13NDefault) {
 
         }
+
+        @Override
+        public void onLogPrefsChanged() {
+
+        }
     };
 
     private static void init() {
-        Log.d(TAG, "Initialising...");
         R.init();
-
         Settings.getSingleton().ensureListener(sSettingListener);
+
+        Log.d(TAG, "Initialising...");
     }
 
     private static void finish() {

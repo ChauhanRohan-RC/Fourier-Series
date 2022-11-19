@@ -1,5 +1,6 @@
 package json;
 
+import app.Settings;
 import com.google.gson.*;
 import function.definition.ColorProviderI;
 import function.definition.ComplexDomainFunctionI;
@@ -88,7 +89,8 @@ public class Json implements JsonSerializationContext, JsonDeserializationContex
         gsonBuilder.registerTypeAdapter(Path.class, new PathGsonAdapter())
                 .registerTypeAdapter(Color.class, new ColorGsonAdapter())
                 .registerTypeAdapter(ExternalJava.Location.class, new ExternalJava.Location.GsonAdapter())
-                .registerTypeAdapter(ExternalProgramFunction.class, new ExternalProgramFunction.GsonAdapter());
+                .registerTypeAdapter(ExternalProgramFunction.class, new ExternalProgramFunction.GsonAdapter())
+                .registerTypeAdapter(Settings.class, new Settings.GsonAdapter());
 
         gson = gsonBuilder.create();
     }

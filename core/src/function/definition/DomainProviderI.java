@@ -2,7 +2,6 @@ package function.definition;
 
 import org.jetbrains.annotations.Nullable;
 
-import util.Log;
 import util.main.ComplexUtil;
 
 import java.awt.*;

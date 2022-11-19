@@ -147,7 +147,6 @@ public class FileUtil {
             try {
                 Files.createDirectories(dir);
             } catch (Throwable t) {
-                Log.e(TAG, "Failed to create directory <" + dir.toAbsolutePath() + ">");
                 return false;
             }
         }

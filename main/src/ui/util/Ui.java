@@ -3,7 +3,6 @@ package ui.util;
 import app.R;
 import app.Settings;
 import function.definition.ComplexDomainFunctionI;
-import function.internal.basic.SineSignal;
 import models.Wrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -275,8 +274,6 @@ public interface Ui {
         numericalIntegrationIntervals.addActionListener(e -> askConfigureNumericalIntegrationIntervalCount(ui));
         menu.add(numericalIntegrationIntervals);
 
-        // 2. TODO: logging
-
         // Last - Reset
 
         menu.addSeparator();
@@ -288,20 +285,33 @@ public interface Ui {
     }
 
     @NotNull
+    static JMenu createSettingsLogsMenu() {
+        final JMenu menu = new JMenu("Logs");
+
+        menu.add(new JCheckBoxMenuItem(Log.getDebugAction()));
+        menu.add(new JCheckBoxMenuItem(Log.getLogToConsoleAction()));
+        menu.add(new JCheckBoxMenuItem(Log.getLogToFileAction()));
+        menu.addSeparator();
+        menu.add(new JMenuItem(Log.getResetAction()));
+        return menu;
+    }
+
+    @NotNull
     static JMenu createSettingsMenu(@NotNull Ui ui) {
         final JMenu menu = new JMenu("Settings");
 
-        // 1. Config
-        menu.add(createSettingsConfigurationMenu(ui));
-
-        // 2. Appearance
+        // 1. Appearance
         menu.add(createSettingsAppearanceMenu());
 
-        // Last: Reset
+        // 2. Config
+        menu.add(createSettingsConfigurationMenu(ui));
+
+        // 3. Logs
+        menu.add(createSettingsLogsMenu());
+
+        // Last: Reset All
         menu.addSeparator();
-        final JMenuItem resetAll = new JMenuItem("Reset All");
-        resetAll.addActionListener(e -> Settings.getSingleton().resetAll());
-        menu.add(resetAll);
+        menu.add(Settings.getResetAllAction());
 
         return menu;
     }

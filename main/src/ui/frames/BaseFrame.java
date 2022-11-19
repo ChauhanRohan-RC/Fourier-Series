@@ -154,6 +154,11 @@ public class BaseFrame extends JFrame implements Ui,
 
     }
 
+    @Override
+    public void onLogPrefsChanged() {
+
+    }
+
     /* Mouse Listeners */
 
     @Override

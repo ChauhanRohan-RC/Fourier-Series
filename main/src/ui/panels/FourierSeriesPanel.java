@@ -186,7 +186,6 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
 
         @Override
         public void onRotorsLoadingChanged(@NotNull RotorStateManager manager, boolean isLoading) {
-            Log.d(TAG, "LOADING: " + isLoading);
 //            if (isLoading) {
 //                setPlay(false);
 //            }
@@ -196,7 +195,6 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
 
         @Override
         public void onRotorsLoadFinished(@NotNull RotorStateManager manager, int count, boolean cancelled) {
-            Log.d(TAG, "onRotorsLoadFinished: count: " + count + ", cancelled: " + cancelled);
             if (!cancelled) {
                 reset(false);
                 setPlay(true);

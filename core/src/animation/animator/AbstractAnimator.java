@@ -3,7 +3,6 @@ package animation.animator;
 import animation.interpolator.Interpolator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import util.Log;
 
 
 public abstract class AbstractAnimator<T> implements Runnable {

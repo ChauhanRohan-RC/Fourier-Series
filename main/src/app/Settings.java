@@ -1,7 +1,7 @@
 package app;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
-import com.google.gson.JsonParseException;
+import com.google.gson.*;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import json.Json;
@@ -13,15 +13,16 @@ import util.Log;
 import util.async.Async;
 import util.async.Canceller;
 import util.async.TaskConsumer;
-import util.live.Listeners;
 import util.live.ListenersI;
 import util.live.WeakListeners;
 import util.main.ComplexUtil;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -34,10 +35,33 @@ public class Settings {
         void onLookAndFeelChanged(@NotNull String className);
 
         void onFTIntegrationIntervalCountChanged(int fourierTransformSimpson13NDefault);
+
+        void onLogPrefsChanged();
     }
 
 
+    /* ................. KEYS ................ */
+
+    // Appearance
+    private static final String PREFS_APPEARANCE = "appearance";
+    private static final String KEY_LOOK_AND_FEEL_CLASS_NAME = "theme";
+
+    // Config
+    private static final String PREFS_CONFIG = "config";
+    private static final String KEY_FT_INTEGRATION_INTERVALS = "numerical_integration_interval_count";
+
+    // Logs
+    private static final String PREFS_LOGS = "logs";
+    private static final String KEY_LOG_DEBUG = "debug";
+    private static final String KEY_LOG_TO_CONSOLE = "console_logging";
+    private static final String KEY_LOG_TO_FILE = "file_logging";
+
+
+
+    // Default Appearance
     public static final String DEFAULT_LOOK_AND_FEEL_CLASSNAME = FlatDarculaLaf.class.getName();
+
+    // Default Config
     public static final int DEFAULT_FT_INTEGRATION_INTERVAL_COUNT = ComplexUtil.FOURIER_TRANSFORM_SIMPSON_13_N_DEFAULT;
 
 
@@ -156,19 +180,33 @@ public class Settings {
 
 
 
-
     @Expose(serialize = false, deserialize = false)
     private transient int mModCount;
 
     @Expose(serialize = false, deserialize = false)
     private transient final ListenersI<Listener> mListeners = new WeakListeners<>();        // Weak Listeners
 
-    @SerializedName("theme")
+    /* Appearance */
     @Nullable
+    @SerializedName(KEY_LOOK_AND_FEEL_CLASS_NAME)
     private volatile String mLookAndFeelClassName;
 
-    @SerializedName("numerical_integration_interval_count")
+    /* Configurations */
+    @SerializedName(KEY_FT_INTEGRATION_INTERVALS)
     private volatile int mFtIntegrationIntervalCount = -1;
+
+    /* Logs */
+    @SerializedName(KEY_LOG_DEBUG)
+    @Nullable
+    private volatile Boolean mLogDebug;
+
+    @SerializedName(KEY_LOG_TO_CONSOLE)
+    @Nullable
+    private volatile Boolean mLogToConsole;
+
+    @SerializedName(KEY_LOG_TO_FILE)
+    @Nullable
+    private volatile Boolean mLogToFile;
 
     // DEFAULT
     private Settings() {
@@ -205,8 +243,16 @@ public class Settings {
      * Apply Settings to internal domains
      *  */
     public void applySettings() {
+        // Appearance
         setLookAndFeel(getLookAndFeelOrDefault());
+
+        // Config
         setFTIntegrationIntervalCount(getFTIntegrationIntervalCountOrDefault());
+
+        // Logs
+        setLogDebug(getLogDebugOrDefault());
+        setLogToConsole(getLogToConsoleOrDefault());
+        setLogToFile(getLogToFileOrDefault());
     }
 
     public void resetAppearance() {
@@ -217,11 +263,17 @@ public class Settings {
         setFTIntegrationIntervalCount(DEFAULT_FT_INTEGRATION_INTERVAL_COUNT);
     }
 
+    public void resetLogs() {
+        setLogDebug(Log.DEFAULT_DEBUG);
+        setLogToConsole(Log.DEFAULT_LOG_TO_CONSOLE);
+        setLogToFile(Log.DEFAULT_LOG_TO_FILE);
+    }
+
     public void resetAll() {
         resetAppearance();
         resetConfig();
+        resetLogs();
     }
-
 
 
     /* .............................. Appearance .......................... */
@@ -321,6 +373,86 @@ public class Settings {
 
 
 
+    /* ........................ LOGS ........................... */
+
+    protected void onLogPrefsChanged() {
+        mListeners.dispatchOnMainThread(Listener::onLogPrefsChanged);
+    }
+
+    @Nullable
+    public Boolean getLogDebug() {
+        return mLogDebug;
+    }
+
+    public boolean getLogDebug(boolean defaultValue) {
+        final Boolean debug = mLogDebug;
+        if (debug != null)
+            return debug;
+        return defaultValue;
+    }
+
+    public boolean getLogDebugOrDefault() {
+        return getLogDebug(Log.DEFAULT_DEBUG);
+    }
+
+    public void setLogDebug(boolean debug) {
+        boolean changed = Log.setDebug(debug);
+        mLogDebug = Log.isDebugEnabled();
+        if (changed) {
+            onLogPrefsChanged();
+        }
+    }
+
+
+    @Nullable
+    public Boolean getLogToConsole() {
+        return mLogToConsole;
+    }
+
+    public boolean getLogToConsole(boolean defaultValue) {
+        final Boolean console = mLogToConsole;
+        if (console != null)
+            return console;
+        return defaultValue;
+    }
+
+    public boolean getLogToConsoleOrDefault() {
+        return getLogToConsole(Log.DEFAULT_LOG_TO_CONSOLE);
+    }
+
+    public void setLogToConsole(boolean console) {
+        boolean changed = Log.setLogToConsole(console);
+        mLogToConsole = Log.isLoggingToConsole();
+        if (changed) {
+            onLogPrefsChanged();
+        }
+    }
+
+
+    @Nullable
+    public Boolean getLogToFile() {
+        return mLogToFile;
+    }
+
+    public boolean getLogToFile(boolean defaultValue) {
+        final Boolean file = mLogToFile;
+        if (file != null)
+            return file;
+        return defaultValue;
+    }
+
+    public boolean getLogToFileOrDefault() {
+        return getLogToFile(Log.DEFAULT_LOG_TO_FILE);
+    }
+
+    public void setLogToFile(boolean logToFile) {
+        boolean changed = Log.setLogToFile(logToFile);
+        mLogToFile = Log.isLoggingToFile();
+        if (changed) {
+            onLogPrefsChanged();
+        }
+    }
+
 
 
     /*...................................  JSON  ...........................................*/
@@ -388,5 +520,113 @@ public class Settings {
     @NotNull
     public static Canceller loadFromJsonAsync(@NotNull Path file, @NotNull TaskConsumer<Settings> consumer) {
         return loadFromJsonAsync(file, R.ENCODING, consumer);
+    }
+
+
+
+    /* Json Adapter */
+
+    public static class GsonAdapter implements JsonSerializer<Settings>, JsonDeserializer<Settings> {
+
+        @Override
+        public JsonElement serialize(Settings src, Type typeOfSrc, JsonSerializationContext context) {
+            // Appearance
+            final JsonObject appearance = new JsonObject();
+            appearance.addProperty(KEY_LOOK_AND_FEEL_CLASS_NAME, getCurrentLookAndFeelClassName());
+
+            // Config
+            final JsonObject config = new JsonObject();
+            config.addProperty(KEY_FT_INTEGRATION_INTERVALS, getCurrentFTIntegrationIntervalCount());
+
+            // LOGS
+            final JsonObject logs = new JsonObject();
+            logs.addProperty(KEY_LOG_DEBUG, Log.isDebugEnabled());
+            logs.addProperty(KEY_LOG_TO_CONSOLE, Log.isLoggingToConsole());
+            logs.addProperty(KEY_LOG_TO_FILE, Log.isLoggingToFile());
+
+            // Finalizing
+            final JsonObject settings = new JsonObject();
+            settings.add(PREFS_APPEARANCE, appearance);
+            settings.add(PREFS_CONFIG, config);
+            settings.add(PREFS_LOGS, logs);
+            return settings;
+        }
+
+        @Override
+        public Settings deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            final JsonObject o = json.getAsJsonObject();
+
+            final Settings settings = new Settings();
+
+            // Appearance
+            final JsonObject appearance = o.getAsJsonObject(PREFS_APPEARANCE);
+            if (appearance != null) {
+                final JsonPrimitive laf = appearance.getAsJsonPrimitive(KEY_LOOK_AND_FEEL_CLASS_NAME);
+                if (laf != null) {
+                    settings.mLookAndFeelClassName = laf.getAsString();
+                }
+            }
+
+            // Config
+            final JsonObject config = o.getAsJsonObject(PREFS_CONFIG);
+            if (config != null) {
+                final JsonPrimitive ftIntegrationIntervals = config.getAsJsonPrimitive(KEY_FT_INTEGRATION_INTERVALS);
+                if (ftIntegrationIntervals != null) {
+                    settings.mFtIntegrationIntervalCount = ftIntegrationIntervals.getAsInt();
+                }
+            }
+
+            // LOg
+            final JsonObject logs = o.getAsJsonObject(PREFS_LOGS);
+            if (logs != null) {
+                final JsonPrimitive debug = logs.getAsJsonPrimitive(KEY_LOG_DEBUG);
+                if (debug != null) {
+                    settings.mLogDebug = debug.getAsBoolean();
+                }
+
+                final JsonPrimitive console = logs.getAsJsonPrimitive(KEY_LOG_TO_CONSOLE);
+                if (console != null) {
+                    settings.mLogToConsole = console.getAsBoolean();
+                }
+
+                final JsonPrimitive file = logs.getAsJsonPrimitive(KEY_LOG_TO_FILE);
+                if (file != null) {
+                    settings.mLogToFile = file.getAsBoolean();
+                }
+            }
+
+            return settings;
+        }
+    }
+
+
+
+    /* Actions */
+
+    private static class ResetAllAction extends AbstractAction {
+
+        public ResetAllAction() {
+            super("Reset Settings");
+            putValue(SHORT_DESCRIPTION, "Reset all preferences");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            getSingleton().resetAll();
+        }
+    }
+
+    @Nullable
+    private static Action sResetAllAction;
+
+    @NotNull
+    public static Action getResetAllAction() {
+        Action action = sResetAllAction;
+        if (action == null) {
+            action = new ResetAllAction();
+            sResetAllAction = action;
+        }
+
+        return action;
     }
 }

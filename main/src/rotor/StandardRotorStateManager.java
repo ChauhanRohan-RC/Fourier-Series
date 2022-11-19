@@ -23,6 +23,7 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
     public static final String TAG = "StandardRotorStateManager";
 
     public static final int DEFAULT_INITIAL_ROTOR_COUNT = 200;
+
     public static final int MAX_ROTORS_LOAD_PER_THREAD = 80;
     public static final boolean SYNCHRONISE_ROTORS_BATCH_LOAD = false;
 
@@ -131,11 +132,13 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
 
 
     protected void onRotorFrequencyProviderChanged(@Nullable RotorFrequencyProviderI old, @Nullable RotorFrequencyProviderI _new) {
+        Log.v(TAG, String.format("Rotor Frequency Provider changed. Function: %s | Old Frequency Provider: %s | New Frequency Provider: %s", functionMeta.getTypedFunctionDisplayName(), old, _new));
         reloadAsync();
         mListeners.dispatchOnMainThread(l -> l.onRotorsFrequencyProviderChanged(StandardRotorStateManager.this, old, _new));
     }
 
     protected void onRotorFrequencyProviderIntercepted(@Nullable RotorFrequencyProviderI rotorFrequencyProvider) {
+        Log.v(TAG, String.format("Rotor Frequency Provider intercepted. Function: %s | Frequency Provider: %s", functionMeta.getTypedFunctionDisplayName(), rotorFrequencyProvider));
         mListeners.dispatchOnMainThread(l -> l.onRotorsFrequencyProviderIntercepted(StandardRotorStateManager.this, rotorFrequencyProvider));
     }
 
@@ -382,6 +385,7 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
 //        }
 
         mIsLoading = true;
+        Log.v(TAG, String.format("Loading %d Rotor States for function %s", totalLoadCount, functionMeta.getTypedFunctionDisplayName()));
         mListeners.dispatchOnMainThread(l -> l.onRotorsLoadingChanged(StandardRotorStateManager.this, true));
 
         final int chunkSize = MAX_ROTORS_LOAD_PER_THREAD;
@@ -418,7 +422,9 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
 //        notifyListeners(l -> l.onRotorsLoadingChanged(false));
         final boolean cancelled = c != null && c.isCancelled();
         if (!cancelled) {
-            Log.d(TAG, (totalLoadCount - startIndex) + " fourier graphSeries coefficients loaded in " + (System.currentTimeMillis() - startMs) + "ms");
+            Log.v(TAG,  String.format("%d Rotor States for function [%s] loaded in %d ms", totalLoadCount, functionMeta.getTypedFunctionDisplayName(), (System.currentTimeMillis() - startMs)));
+        } else {
+            Log.v(TAG, "Rotor States load for function " + functionMeta.getTypedFunctionDisplayName() + " CANCELLED");
         }
 
         mIsLoading = false;
@@ -441,6 +447,7 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
      * Called when rotors load is cancelled by any of the registered load interceptor
      **/
     protected void onRotorsLoadIntercepted(int loadCount) {
+        Log.v(TAG, String.format("%d Rotors Load for function [%s] intercepted", loadCount, functionMeta.getTypedFunctionDisplayName()));
         mListeners.dispatchOnMainThread(l -> l.onRotorsLoadIntercepted(StandardRotorStateManager.this, loadCount));
     }
 
@@ -585,5 +592,10 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
     @Override
     public void onFTIntegrationIntervalCountChanged(int fourierTransformSimpson13NDefault) {
         clearAndReloadAsync();
+    }
+
+    @Override
+    public void onLogPrefsChanged() {
+
     }
 }

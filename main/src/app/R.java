@@ -113,6 +113,7 @@ public class R {
     public static final Path DIR_EXTERNAL_PATH_FUNCTIONS = DIR_MAIN.resolve("PATH_FUNCTIONS");
     public static final Path DIR_FUNCTION_STATE_SAVES = DIR_MAIN.resolve("FUNCTION STATES");
     public static final Path DIR_EXPORTS = DIR_MAIN.resolve("EXPORTS");
+    public static final Path DIR_LOGS = DIR_MAIN.resolve("logs");
 
     public static final Path DIR_RES = DIR_MAIN.resolve("res");
     public static final Path DIR_IMAGE = DIR_RES.resolve("image");
@@ -120,6 +121,10 @@ public class R {
     public static final Path APP_ICON = DIR_IMAGE.resolve("icon.png");
     public static final Path SETTINGS_FILE = DIR_RES.resolve("settings.json");
 
+
+    public static boolean ensureLogsDir() {
+        return FileUtil.ensureDir(DIR_LOGS);
+    }
 
     public static boolean ensureResDir() {
         return FileUtil.ensureDir(DIR_RES);
@@ -147,6 +152,7 @@ public class R {
         ensureExternalProgramsDir();
         ensureExternalPathFunctions();
         ensureExportsDir();
+        ensureLogsDir();
     }
 
     /* App Resources */
