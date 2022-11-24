@@ -1,8 +1,10 @@
 package test;
 
 import app.R;
+import app.Settings;
 import function.internal.basic.MergedFunction;
 import function.internal.basic.SineSignal;
+import org.intellij.lang.annotations.Flow;
 import provider.FunctionMeta;
 import provider.FunctionType;
 import rotor.StandardRotorStateManager;
@@ -12,91 +14,112 @@ import ui.panels.FTWinderPanel;
 import ui.frames.FourierUi;
 import ui.panels.FunctionGraphPanel;
 import ui.util.Ui;
+import util.async.Async;
+import util.async.Consumer;
+import util.async.Task;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 
 public class Test extends JFrame {
 
     public static final String TAG = "TestFrame";
 
+    private int notificationCount;
+
     public Test() {
         super("test Frame");
-
-        final StandardRotorStateManager manager = new StandardRotorStateManager(
-                new MergedFunction(
-                        new SineSignal(3, 40, 0, 0, 1),
-                        new SineSignal(4, 40, 0, 0, 1),
-                        new SineSignal(5, 40, 0, 0, 1)
-                ),
-                new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Test Function"),
-                600
-        );
-
-//        final StandardRotorStateManager manager = new StandardRotorStateManager(
-//                new StepFunction(10, 0, 1),
-//                new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Test Function"),
-//                600
-//        );
-
-//        final StandardRotorStateManager manager = new StandardRotorStateManager(
-//                Providers.FOURIER_PORTRAIT.getFunction(),
-//                Providers.FOURIER_PORTRAIT.getFunctionMeta(),
-//                600
-//        );
-
-        manager.setRotorFrequencyProvider(new FixedStartFrequencyProvider(2.5, 0.005));
-
-        final FunctionGraphPanel functionGraphPanel = new FunctionGraphPanel(manager.getFunction(), manager.getFunctionMeta());
-        final FTWinderPanel ftWinderPanel = new FTWinderPanel(manager);
-        final FTGraphPanel ftGraphPanel = new FTGraphPanel(ftWinderPanel, null);
-        final Timer looper = Ui.createLooper(ftWinderPanel);
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setBounds(Ui.windowBoundsCenterScreen(FourierUi.INITIAL_WIDTH, FourierUi.INITIAL_HEIGHT));
         setMinimumSize(FourierUi.MINIMUM_SIZE);
-//        setSize(400, 700);
-        setLayout(new GridBagLayout());
+        setLayout(new BorderLayout());
 
-        final GridBagConstraints one = new GridBagConstraints();
-        one.gridx = 0;
-        one.gridy = 0;
-        one.gridwidth = 1;
-        one.gridheight = 2;
-        one.weightx = one.weighty = 1;
-        one.fill = GridBagConstraints.BOTH;
-        add(ftWinderPanel, one);
+        final JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new OverlayLayout(mainPanel));
+        mainPanel.setBackground(Color.BLACK);
 
-        final GridBagConstraints two = new GridBagConstraints();
-        two.gridx = 1;
-        two.gridy = 0;
-        two.gridwidth = 1;
-        two.gridheight = 1;
-        two.weightx = two.weighty = 1.25;
-        two.fill = GridBagConstraints.BOTH;
-        add(functionGraphPanel, two);
+        final JPanel contentsPanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
+        contentsPanel.add(new JLabel("Content"));
+        contentsPanel.setBackground(new Color(70, 70, 70));
 
-        final GridBagConstraints three = new GridBagConstraints();
-        three.gridx = 1;
-        three.gridy = 1;
-        three.gridwidth = 1;
-        three.gridheight = 1;
-        three.weightx = three.weighty = 1.25;
-        three.fill = GridBagConstraints.BOTH;
-        add(ftGraphPanel, three);
+        // Overlay
+        final JPanel overlayPanel = new JPanel(new GridBagLayout());
+        overlayPanel.setOpaque(false);
+
+        final JPanel notificationPanel = new JPanel();
+        notificationPanel.setLayout(new GridBagLayout());
+        notificationPanel.setOpaque(false);
+        notificationPanel.setBackground(Color.BLUE.brighter());
+
+        final GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = gbc.gridy = 0;
+        gbc.weightx = gbc.weighty = 1;
+        gbc.gridwidth = gbc.gridheight = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        overlayPanel.add(Box.createGlue(), gbc);
+
+        final GridBagConstraints gbc2 = new GridBagConstraints();
+        gbc2.gridx = gbc2.gridy = 1;
+        gbc2.weightx = gbc2.weighty = 0;
+        gbc2.gridwidth = gbc2.gridheight = 1;
+        overlayPanel.add(notificationPanel, gbc2);
+
+
+        mainPanel.add(overlayPanel);
+        mainPanel.add(contentsPanel);
+
+        // controls
+        final JPanel controlsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        controlsPanel.setBackground(Color.CYAN);
+
+        final JPanel controls = new JPanel();
+        controls.setPreferredSize(new Dimension(100, 80));
+        controlsPanel.add(controls);
+
+        add(controlsPanel, BorderLayout.SOUTH);
+        add(mainPanel, BorderLayout.CENTER);
 
         setVisible(true);
 
-        EventQueue.invokeLater(() -> {
-            functionGraphPanel.drawChart();
-            looper.start();
-        });
+
+        final Consumer<String> not = title -> {
+            final JPanel content = new JPanel(new FlowLayout(FlowLayout.LEADING, 10, 10));
+
+            final JLabel label = new JLabel(title);
+            label.setFont(label.getFont().deriveFont(new Random().nextFloat(10, 40)));
+            content.add(label);
+
+            final GridBagConstraints cons = new GridBagConstraints();
+            cons.gridx = 0;
+            cons.gridy = notificationCount;
+            cons.fill = GridBagConstraints.NONE;
+            cons.weightx = cons.weighty = 0;
+            cons.anchor = GridBagConstraints.EAST;
+            cons.insets = new Insets(5, 5,5, 5);        // margins
+
+            notificationPanel.add(content, cons);
+            notificationPanel.revalidate();
+            notificationCount++;
+
+            Async.uiPost(() -> {
+                notificationPanel.remove(content);
+                notificationPanel.revalidate();
+                notificationCount--;
+            }, 2000);
+        };
+
+        Async.uiPost("First Notification", not, 500);
+        Async.uiPost("Second Notification blah blah blah", not, 1000);
+
     }
 
 
     public static void main(String[] args) {
         R.init();
+        Settings.getSingleton();
         final Test frame = new Test();
     }
 

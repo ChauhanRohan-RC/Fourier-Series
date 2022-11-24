@@ -1,6 +1,5 @@
 package util;
 
-import app.R;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -8,6 +7,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -18,6 +18,19 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.logging.*;
 
+/**
+ * Logging Utility
+ *<br>
+ * <pre>
+ *     There are 2 modes of logging
+ *     1. Console (uses {@link System#out stdout} and {@link System#err stderr})
+ *     2. File logging (create log files on daily basis in {@link #setLogsDir(Path) logsDir})
+ * </pre>
+ *
+ * SETUP<br>
+ * 1. set logs dir wih {@link #setLogsDir(Path)}<br>
+ * 2. call {@link #init()} to initialize with default configurations
+ * */
 public class Log {
 
     public static final String LOGGER_NAME = "complex";
@@ -42,13 +55,62 @@ public class Log {
     private static final Level ERR = new Level("Err", 900) {
     };
 
+
+    /* Formatters */
+
     public static final SimpleDateFormat FORMATTER_FILE_NAME_DAY = new SimpleDateFormat("MMM dd, yyyy");
 
     private static final DateTimeFormatter FOrMATTER_LOG_INSTANT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:n");
 
+
+    /* Files */
+
+    public static final Path DEFAULT_LOGS_DIR = Path.of("", "logs").toAbsolutePath();
+
+    @Nullable
+    private static Path sLogsDir;
+
     @NotNull
-    public static Path createLogFIlePath() {
-        return R.DIR_LOGS.resolve("logs (" + FORMATTER_FILE_NAME_DAY.format(new Date()) + ").txt");
+    public static synchronized Path getLogsDir() {
+        Path dir = sLogsDir;
+        if (dir == null) {
+            dir = DEFAULT_LOGS_DIR;
+        }
+
+        return dir;
+    }
+
+    public static boolean ensureLogsDir() {
+        final Path dir = getLogsDir();
+        if (Files.isDirectory(dir)) {
+            return true;
+        }
+
+        try {
+            Files.createDirectories(dir);
+            return true;
+        } catch (Throwable t) {
+            e(TAG, "Failed to create Logs Directory: " + dir, t);
+        }
+
+        return false;
+    }
+
+    protected static synchronized void onLogsDirChanged() {
+    }
+
+    public static synchronized void setLogsDir(@Nullable Path logsDir) {
+        Path dir = sLogsDir;
+        if (Objects.equals(dir, logsDir))
+            return;
+
+        sLogsDir = logsDir;
+        onLogsDirChanged();
+    }
+
+    @NotNull
+    public static synchronized Path createLogFilePath() {
+        return getLogsDir().resolve("logs (" + FORMATTER_FILE_NAME_DAY.format(new Date()) + ").txt");
     }
 
 
@@ -76,15 +138,15 @@ public class Log {
     private static volatile boolean sFileHandlerAdded;
 
     static {
-
         sLogger = Logger.getLogger(LOGGER_NAME);
         sLogger.setUseParentHandlers(false);
         sLogger.setLevel(Level.ALL);        // ALL
-
-        // Defaults
-        resetDefaults();
     }
 
+
+    public static void init() {
+        resetDefaults();
+    }
 
     /* Reset */
 
@@ -156,7 +218,7 @@ public class Log {
 
     @NotNull
     private static ConsoleHandler createConsoleHandler() {
-        final ConsoleHandler consoleHandler = new ConsoleHandler(WARN.intValue(), new LogFormatter());
+        final ConsoleHandler consoleHandler = new ConsoleHandler(WARN.intValue(), LogFormatter.getSingleton());
         consoleHandler.setLevel(Level.ALL);
         return consoleHandler;
     }
@@ -258,10 +320,10 @@ public class Log {
     @Nullable
     private static FileHandler createFileHandler() {
         try {
-            R.ensureLogsDir();
+            ensureLogsDir();
 
-            final FileHandler handler = new FileHandler(createLogFIlePath().toString(), true);
-            handler.setFormatter(new LogFormatter());
+            final FileHandler handler = new FileHandler(createLogFilePath().toString(), true);
+            handler.setFormatter(LogFormatter.getSingleton());
             return handler;
         } catch (Throwable t) {
             t.printStackTrace();
@@ -437,8 +499,35 @@ public class Log {
     }
 
 
+    public static void stdErr(@NotNull LogRecord record) {
+        final String msg = LogFormatter.getSingleton().format(record);
+        System.err.println(msg);
+
+        final Throwable t = record.getThrown();
+        if (t != null) {
+            t.printStackTrace(System.err);
+        }
+    }
+
+    public static void stdErr(String tag, Object msg, Throwable t) {
+        stdErr(createRecord(ERR, tag, msg, t));
+    }
+
+    public static void stdErr(String tag, Object msg) {
+        stdErr(tag, msg, null);
+    }
+
+    public static void stdErr(Object msg) {
+        stdErr(null, msg);
+    }
+
     public static void e(String tag, Object msg, Throwable t) {
-        log(createRecord(ERR, tag, msg, t));
+        final LogRecord record = createRecord(ERR, tag, msg, t);
+        log(record);
+
+        if (!(isLoggingToConsole() || isLoggingToFile())) {
+            stdErr(record);
+        }
     }
 
     public static void e(String tag, Object msg) {
@@ -453,6 +542,29 @@ public class Log {
 
     private static class LogFormatter extends Formatter {
 
+        @Nullable
+        private static volatile LogFormatter sInstance;
+
+        @NotNull
+        public static LogFormatter getSingleton() {
+            LogFormatter formatter = sInstance;
+            if (formatter != null) {
+                return formatter;
+            }
+
+            synchronized (LogFormatter.class) {
+                formatter = sInstance;
+                if (formatter != null) {
+                    return formatter;
+                }
+
+                formatter = new LogFormatter();
+                sInstance = formatter;
+            }
+
+            return formatter;
+        }
+
         private static String formatInstant(@NotNull Instant instant) {
             ZonedDateTime zdt = ZonedDateTime.ofInstant(instant, ZoneId.systemDefault());
 
@@ -464,6 +576,10 @@ public class Log {
             return zdt_format;
         }
 
+
+
+        private LogFormatter() {
+        }
 
         @Override
         public String getHead(Handler h) {

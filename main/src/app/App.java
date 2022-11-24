@@ -8,6 +8,7 @@ import util.Log;
 import util.async.Async;
 import util.async.TaskCompletionListener;
 
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -43,14 +44,16 @@ public class App {
         R.init();
         Settings.getSingleton().ensureListener(sSettingListener);
 
-        Log.d(TAG, "Initialising...");
+        Log.v(TAG, "Initialising...");
     }
 
     private static void finish() {
-        Log.d(TAG, "Quiting...");
+        Log.v(TAG, "Saving Configurations...");
 
         Settings.considerSave(false, (TaskCompletionListener<Void>) (data, failed, cancelled, error) -> {
             R.finish();
+
+            Log.v(TAG, "Quiting");
             System.exit(0);
         });
     }
@@ -58,13 +61,13 @@ public class App {
     public static void onWindowOpen(@NotNull JFrame frame) {
         sFrames.add(frame);
         sWindowCount++;
-        Log.d(TAG, "onWindowOpen: Title: " + frame.getTitle() + " | WindowCount: " + sWindowCount);
+        Log.v(TAG, "Window Open: Title: " + frame.getTitle() + " | WindowCount: " + sWindowCount);
     }
 
     public static void onWindowClose(@NotNull JFrame frame) {
         sFrames.remove(frame);
         sWindowCount--;
-        Log.d(TAG, "onWindowClose: Title: " + frame.getTitle() + " | WindowCount: " + sWindowCount);
+        Log.v(TAG, "Window Close: Title: " + frame.getTitle() + " | WindowCount: " + sWindowCount);
         if (sWindowCount <= 0) {
             finish();
         }
@@ -82,10 +85,15 @@ public class App {
 
 
 
-
-
     // TODO: Test launcher
     private static void launchTest(String[] args) {
+
+        Async.postIfNotOnMainThread(() -> {
+            final FourierUi ui = new FourierUi(null, -1);
+            ui.setFunctionProvider(Providers.NoopProvider.getSingleton());          // start with None
+
+            R.playSoundClick();
+        });
     }
 
     // TODO: Main production launcher
@@ -96,11 +104,18 @@ public class App {
         });
     }
 
+
+    public static final boolean TEST = false;
+
     public static void main(String[] args) {
         init();
 
-//        launchTest(args);
-        launchMain(args);
+        if (TEST) {
+            Log.v(TAG, "Test session starting...");
+            launchTest(args);
+        } else {
+            launchMain(args);
+        }
     }
 
 }

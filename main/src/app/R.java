@@ -14,17 +14,19 @@ import provider.FunctionMeta;
 import provider.FunctionProviderI;
 import provider.FunctionType;
 import provider.PathFunctionProvider;
+import ui.audio.AudioController;
 import util.*;
 import util.async.*;
-import util.live.Listeners;
-import util.main.ComplexUtil;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.plaf.FontUIResource;
 import javax.tools.JavaFileObject;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileVisitResult;
@@ -32,8 +34,7 @@ import java.nio.file.FileVisitor;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -76,13 +77,17 @@ public class R {
 
     public static void init() {
         ensureDirs();
+        Log.setLogsDir(DIR_LOGS);
+
+//        final Font defaultFont = getFontPdSansRegular();
+//        if (defaultFont != null) {
+//            setDefaultFont(new FontUIResource(defaultFont.deriveFont(12f)));
+//        }
     }
 
     public static void finish() {
 
     }
-
-
 
     public static final String COMMENT_TOKEN = "#";
     
@@ -115,12 +120,118 @@ public class R {
     public static final Path DIR_EXPORTS = DIR_MAIN.resolve("EXPORTS");
     public static final Path DIR_LOGS = DIR_MAIN.resolve("logs");
 
-    public static final Path DIR_RES = DIR_MAIN.resolve("res");
-    public static final Path DIR_IMAGE = DIR_RES.resolve("image");
 
-    public static final Path APP_ICON = DIR_IMAGE.resolve("icon.png");
+    /* .................... Resources ....................... */
+
+    public static final Path DIR_RES = DIR_MAIN.resolve("res");
     public static final Path SETTINGS_FILE = DIR_RES.resolve("settings.json");
 
+
+    // Images
+    public static final Path DIR_IMAGE = DIR_RES.resolve("image");
+    public static final Path APP_ICON = DIR_IMAGE.resolve("icon.png");
+
+    // Fonts
+    public static final Path DIR_FONT = DIR_RES.resolve("font");
+    public static final Path FONT_FILE_AQUIRE = DIR_FONT.resolve("aquire.otf");
+    public static final Path FONT_FILE_PD_SANS_REGULAR = DIR_FONT.resolve("product_sans_regular.ttf");
+
+    public static void setDefaultFont(@NotNull FontUIResource fontUIResource) {
+        int modCount = 0;
+
+        final UIDefaults uiDef = UIManager.getDefaults();
+        if (uiDef != null) {
+            for (Map.Entry<Object, Object> e: uiDef.entrySet()) {
+                if (uiDef.get(e.getKey()) instanceof FontUIResource) {
+                    uiDef.put(e.getKey(), fontUIResource);
+                    modCount++;
+                }
+            }
+        }
+
+        final UIDefaults lafDef = UIManager.getDefaults();
+        if (lafDef != null) {
+            for (Map.Entry<Object, Object> e: lafDef.entrySet()) {
+                if (lafDef.get(e.getKey()) instanceof FontUIResource) {
+                    lafDef.put(e.getKey(), fontUIResource);
+                    modCount++;
+                }
+            }
+        }
+
+        if (modCount > 0) {
+            App.updateAllFramesTree();
+        }
+    }
+
+    @Nullable
+    private static Map<String, Font> sLoadedFonts;
+
+    private static void onFontLoaded(@NotNull String path, @NotNull Font font) {
+        final GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        env.registerFont(font);
+    }
+
+    @Nullable
+    private static synchronized Font loadFont(@NotNull Path path) {
+        final String filePath = path.toAbsolutePath().toString();
+
+        Map<String, Font> cache = sLoadedFonts;
+        Font font;
+        if (cache != null && (font = cache.get(filePath)) != null) {
+            return font;
+        }
+
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT, new File(filePath));
+            if (cache == null) {
+                cache = new HashMap<>();
+                sLoadedFonts = cache;
+            }
+
+            cache.put(filePath, font);
+            onFontLoaded(filePath, font);
+            return font;
+        } catch (Throwable t) {
+            Log.e(TAG, "Failed to load font from file: " + path, t);
+        }
+
+        return null;
+    }
+
+    @Nullable
+    public static Font getFontPdSansRegular() {
+        return loadFont(FONT_FILE_PD_SANS_REGULAR);
+    }
+
+    @Nullable
+    public static Font getFontAquire() {
+        return loadFont(FONT_FILE_AQUIRE);
+    }
+
+
+
+    // Sound
+    public static final Path DIR_SOUND = DIR_RES.resolve("sound");
+    public static final Path SOUND_FILE_CLICK = DIR_SOUND.resolve("test.wav");
+
+    public static final AudioController AUDIO_CONTROLLER = new AudioController();
+
+    public static void playSoundClick() {
+        AUDIO_CONTROLLER.play(1232, url(SOUND_FILE_CLICK), 5, AudioController.ExistsStrategy.KEEP);
+    }
+
+
+    @NotNull
+    public static URL url(@NotNull Path path) {
+        try {
+            return path.toUri().toURL();
+        } catch (Throwable t) {
+            final AssertionError error = new AssertionError("Failed to create URL from Path: " + path, t);
+            Log.e(TAG, error.getMessage(), error.getCause());
+            throw error;
+        }
+    }
 
     public static boolean ensureLogsDir() {
         return FileUtil.ensureDir(DIR_LOGS);
