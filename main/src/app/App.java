@@ -89,10 +89,11 @@ public class App {
     private static void launchTest(String[] args) {
 
         Async.postIfNotOnMainThread(() -> {
+
+//            R.playMusic();
+
             final FourierUi ui = new FourierUi(null, -1);
             ui.setFunctionProvider(Providers.NoopProvider.getSingleton());          // start with None
-
-            R.playSoundClick();
         });
     }
 
@@ -105,7 +106,7 @@ public class App {
     }
 
 
-    public static final boolean TEST = false;
+    public static final boolean TEST = true;
 
     public static void main(String[] args) {
         init();

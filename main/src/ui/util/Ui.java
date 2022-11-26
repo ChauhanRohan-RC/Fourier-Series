@@ -328,6 +328,17 @@ public interface Ui {
     }
 
 
+    @NotNull
+    static JMenu createViewMenu(@NotNull Function<ActionInfo, ? extends Action> creator) {
+        final JMenu menu = new JMenu("View");
+        menu.add(creator.apply(ActionInfo.TOGGLE_MENUBAR));
+        menu.add(creator.apply(ActionInfo.TOGGLE_CONTROLS));
+        menu.addSeparator();
+        menu.add(creator.apply(ActionInfo.TOGGLE_FULLSCREEN));
+        menu.add(creator.apply(ActionInfo.TOGGLE_PRESENTATION_MODE));
+        return menu;
+    }
+
     static void askConfigureNumericalIntegrationIntervalCount(@NotNull Ui ui) {
         final String msg = "Set Numerical integration interval count (blank to reset)\nRotor States needs to be reloaded to take effect Go to Menu > Rotor States > Reload\n\nMinimum: " + ComplexUtil.FOURIER_TRANSFORM_SIMPSON_13_N_MIN + "\nDefault: " + ComplexUtil.FOURIER_TRANSFORM_SIMPSON_13_N_DEFAULT;
 

@@ -7,14 +7,14 @@ import util.async.CancellationProvider;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.FileVisitor;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FileUtil {
 
@@ -166,6 +166,22 @@ public class FileUtil {
         }
 
         return Path.of(path + extWithDot);
+    }
+
+    @NotNull
+    public static List<Path> listDir(@NotNull Path dir, @Nullable Predicate<? super Path> filter) {
+        if (Files.isDirectory(dir)) {
+            try (final Stream<Path> stream = (filter != null? Files.list(dir).filter(filter): Files.list(dir))) {
+                return stream.collect(Collectors.toList());
+            } catch (Throwable ignored) { }
+        }
+
+        return Collections.emptyList();
+    }
+
+    @NotNull
+    public static List<Path> listRegularFiles(@NotNull Path dir) {
+        return listDir(dir, Files::isRegularFile);
     }
 
 

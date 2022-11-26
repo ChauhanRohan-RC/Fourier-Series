@@ -1,0 +1,15 @@
+
+## LOG START -> 2022-11-26 21:49:19:134183200 +05:30[Asia/Calcutta]
+2022-11-26 21:49:19:118552700 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-26 21:49:19:134183200 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-26 21:49:20:143462500 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-26 21:49:22:645577200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Random Signal (Internal Program) 
+2022-11-26 21:49:22:988420300 +05:30[Asia/Calcutta]:Debug: Resources: Music player state changed: IDLE -> OPEN 
+2022-11-26 21:49:23:50844300 +05:30[Asia/Calcutta]:Debug: Resources: Music player state changed: OPEN -> PLAYING 
+2022-11-26 21:49:25:785269500 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Random Signal (Internal Program)] loaded in 3140 ms 
+2022-11-26 21:49:31:234877700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function NS (Doger) (Internal Path) 
+2022-11-26 21:49:33:24157300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [NS (Doger) (Internal Path)] loaded in 1789 ms 
+2022-11-26 21:49:34:379373500 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (NS (Doger)) | WindowCount: 0 
+2022-11-26 21:49:34:380376900 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-26 21:49:34:520847800 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-26 21:49:34:523853600 +05:30[Asia/Calcutta]

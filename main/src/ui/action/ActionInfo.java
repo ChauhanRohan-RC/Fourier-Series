@@ -64,6 +64,8 @@ public enum ActionInfo {
     TOGGLE_FULLSCREEN(R.getFullscreenText(), R.getFullscreenShortDescription(false), KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.SHIFT_DOWN_MASK), false),
     TOGGLE_CONTROLS(R.getToggleControlsText(true), R.getToggleControlsShortDescription(true), KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.SHIFT_DOWN_MASK), false),
     TOGGLE_MENUBAR(R.getToggleMenuBarText(true), R.getToggleMenuBarShortDescription(true), KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.SHIFT_DOWN_MASK), false),
+    TOGGLE_PRESENTATION_MODE(R.getTogglePresentationModeText(false), R.getTogglePresentationModeShortDescription(false), KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.SHIFT_DOWN_MASK), false),
+
 
     SHOW_FT_UI("Fourier Transform Ui", "Show Fourier Transform Ui", KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK), true, false),
 
@@ -84,7 +86,7 @@ public enum ActionInfo {
     CLEAR_AND_RELOAD_ROTOR_STATE_MANAGER("Reload", "Clear all loaded Rotor States and Reload (EXPENSIVE)",  null, true, true),
 
     LOAD_EXTERNAL_PATH_FUNCTIONS("Load Files", "Load Path Functions", KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK), false),
-    LOAD_EXTERNAL_PATH_FUNCTIONS_FROM_DIR("Scan Folder", "Scan Path Functions from Folder", KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.SHIFT_DOWN_MASK), false),
+    LOAD_EXTERNAL_PATH_FUNCTIONS_FROM_DIR("Scan Folder", "Scan Path Functions from Folder", KeyStroke.getKeyStroke(KeyEvent.VK_P, 0), false),
     CLEAR_EXTERNAL_PATH_FUNCTIONS("Clear External", "Remove all external path functions", null, false),
     CLEAR_INTERNAL_PATH_FUNCTIONS("Clear Internal", "Remove all internal path functions", null, false),
     RESET_PATH_FUNCTIONS("Reset", "Reset all path functions to initial state", null, false),

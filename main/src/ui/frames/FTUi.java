@@ -45,11 +45,21 @@ public class FTUi extends BaseFrame {
         @Override
         public void onIsLoadingChanged(@NotNull FTWinderPanel panel, boolean isLoading) {
             syncTitle();
+
+            if (isLoading && !isPlaying()) {
+                R.playMusic();
+            }
         }
 
         @Override
         public void onIsPlayingChanged(@NotNull FTWinderPanel panel, boolean playing) {
             setPlay(panel.isPlaying());
+
+            if (playing) {
+                R.playMusic();
+            } else {
+                R.pauseMusic();
+            }
         }
 
         @Override
@@ -116,7 +126,7 @@ public class FTUi extends BaseFrame {
     final JMenu menuRotorStates;
     final JMenu menuFunctionState;
     final JMenu menuTransform;
-    final JMenu menuView;
+//    final JMenu menuView;
 
     private final JComponent[] rotorDependentComps;              // Ui components that depend on Rotors
     @NotNull
@@ -203,12 +213,13 @@ public class FTUi extends BaseFrame {
         menuBar.add(menuTransform);
 
         // View menu
-        menuView = new JMenu("View");
-        menuBar.add(menuView);
-        menuView.add(uia(ActionInfo.TOGGLE_MENUBAR));
-        menuView.add(uia(ActionInfo.TOGGLE_CONTROLS));
-        menuView.addSeparator();
-        menuView.add(uia(ActionInfo.TOGGLE_FULLSCREEN));
+//        menuView = new JMenu("View");
+//        menuBar.add(menuView);
+//        menuView.add(uia(ActionInfo.TOGGLE_MENUBAR));
+//        menuView.add(uia(ActionInfo.TOGGLE_CONTROLS));
+//        menuView.addSeparator();
+//        menuView.add(uia(ActionInfo.TOGGLE_FULLSCREEN));
+        menuBar.add(Ui.createViewMenu(this::uia));
 
         // Settings
         menuBar.add(Ui.createSettingsMenu(this));
@@ -477,12 +488,19 @@ public class FTUi extends BaseFrame {
     }
 
 
+    @Override
+    protected void onFullscreenChanged(boolean fullscreen) {
+        syncPresentationMode();
+        super.onFullscreenChanged(fullscreen);
+    }
+
     protected void onControlsVisibilityChanged(boolean controlsVisible) {
         uia(ActionInfo.TOGGLE_CONTROLS)
                 .setName(R.getToggleControlsText(controlsVisible))
                 .setShortDescription(R.getToggleControlsShortDescription(controlsVisible))
                 .setSelected(controlsVisible);
 
+        syncPresentationMode();
         update();
         splitPane.resetToPreferredSizes();
     }
@@ -515,6 +533,7 @@ public class FTUi extends BaseFrame {
                 .setShortDescription(R.getToggleMenuBarShortDescription(visible))
                 .setSelected(visible);
 
+        syncPresentationMode();
         update();
     }
 
@@ -537,6 +556,42 @@ public class FTUi extends BaseFrame {
     public final boolean toggleMenuBarVisible() {
         final boolean newState = !isMenuBarVisible();
         setMenuBarVisibleInternal(newState);
+        return newState;
+    }
+
+    protected void onPresentationModeEnabledChanged(boolean presenting) {
+        uia(ActionInfo.TOGGLE_PRESENTATION_MODE)
+                .setName(R.getTogglePresentationModeText(presenting))
+                .setShortDescription(R.getTogglePresentationModeShortDescription(presenting))
+                .setSelected(presenting);
+    }
+
+    private void syncPresentationMode() {
+        onPresentationModeEnabledChanged(isPresenting());
+    }
+
+    public final boolean isPresenting() {
+        return isFullscreen() && !areControlsVisible();
+    }
+
+    private void setPresentationModeEnabledInternal(boolean present) {
+        setMenuBarVisible(!present);
+        setControlsVisible(!present);
+        setFullscreen(present);
+
+        onPresentationModeEnabledChanged(present);
+    }
+
+    public final void setPresentationModeEnabled(boolean present) {
+        if (present == isPresenting())
+            return;
+
+        setPresentationModeEnabledInternal(present);
+    }
+
+    public final boolean togglePresentationMode() {
+        final boolean newState = !isPresenting();
+        setPresentationModeEnabledInternal(newState);
         return newState;
     }
 
@@ -849,6 +904,7 @@ public class FTUi extends BaseFrame {
             case TOGGLE_FULLSCREEN -> toggleFullscreen();
             case TOGGLE_CONTROLS -> toggleControlsVisibility();
             case TOGGLE_MENUBAR -> toggleMenuBarVisible();
+            case TOGGLE_PRESENTATION_MODE -> togglePresentationMode();
             case SAVE_FUNCTION_STATE_TO_FILE ->  askSaveFunctionStateToFIle();
             case CONFIGURE_ROTOR_FREQUENCY_PROVIDER -> askConfigureFrequencyProvider();
             case CLEAR_AND_RESET_ROTOR_STATE_MANAGER -> askClearAndResetRotorStateManager(false);

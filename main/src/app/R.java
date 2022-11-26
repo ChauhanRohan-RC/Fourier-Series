@@ -14,6 +14,7 @@ import provider.FunctionMeta;
 import provider.FunctionProviderI;
 import provider.FunctionType;
 import provider.PathFunctionProvider;
+import ui.audio.AudioPlayer;
 import ui.audio.AudioController;
 import util.*;
 import util.async.*;
@@ -41,6 +42,8 @@ import java.util.stream.Stream;
 public class R {
 
     public static final String TAG = "Resources";
+
+    public static final Random RANDOM = new Random();
 
     @NotNull
     public static final List<UIManager.LookAndFeelInfo> LOOK_AND_FEELS_INTERNAL;
@@ -210,16 +213,145 @@ public class R {
     }
 
 
-
     // Sound
     public static final Path DIR_SOUND = DIR_RES.resolve("sound");
-    public static final Path SOUND_FILE_CLICK = DIR_SOUND.resolve("test.wav");
+    public static final Path DIR_MUSIC = DIR_SOUND.resolve("music");
+
+    public static final Path SOUND_FILE_CLICK = DIR_SOUND.resolve("click.wav");
+    public static final Path SOUND_FILE_HOVER = DIR_SOUND.resolve("hover.wav");
+
+    private static final List<Path> MUSIC_FILES = FileUtil.listRegularFiles(DIR_MUSIC);
+    public static final long SOUND_ID_MUSIC = 23651273;
 
     public static final AudioController AUDIO_CONTROLLER = new AudioController();
 
     public static void playSoundClick() {
-        AUDIO_CONTROLLER.play(1232, url(SOUND_FILE_CLICK), 5, AudioController.ExistsStrategy.KEEP);
+        AUDIO_CONTROLLER.playClip(url(SOUND_FILE_CLICK));
     }
+
+    public static void playSoundHover() {
+        AUDIO_CONTROLLER.playClip(url(SOUND_FILE_CLICK));
+    }
+
+
+//    @Nullable
+//    public static AudioPlayer getMusicPlayer() {
+//        return AUDIO_CONTROLLER.getClipPlayerIfOpen(SOUND_ID_MUSIC);
+//    }
+//
+//    private static final AudioPlayer.Listener sMusicListener = new AudioPlayer.Listener() {
+//        @Override
+//        public void onPlayerStateChanged(@NotNull AudioPlayer player, AudioPlayer.@NotNull State old, AudioPlayer.@NotNull State state) {
+//            if (state == AudioPlayer.State.CLOSED) {
+//                Async.uiPost(R::playMusic, 5);
+//            }
+//        }
+//    };
+//
+//    public static final boolean MUSIC_ENABLED = true;       // TODO: settings and controls
+//
+//    public static void playMusic() {
+//        if (!MUSIC_ENABLED)
+//            return;
+//
+//        final AudioPlayer old = getMusicPlayer();
+//        if (old != null && old.playNoThrow()) {
+//            return;
+//        }
+//
+//        if (MUSIC_FILES.isEmpty())
+//            return;
+//
+//        final int musicIndex = RANDOM.nextInt(0, MUSIC_FILES.size());
+//        final URL url = url(MUSIC_FILES.get(musicIndex));
+//
+//        Async.postIfNotOnMainThread(() -> {
+//            final AudioPlayer player = AUDIO_CONTROLLER.play(SOUND_ID_MUSIC, url, 0, AudioController.ExistsStrategy.KEEP);
+//            if (player != null) {
+//                if (old != null && player != old) {
+//                    old.removeListener(sMusicListener);
+//                }
+//
+//                player.ensureListener(sMusicListener);
+//            }
+//        });
+//    }
+//
+//    public static void pauseMusic() {
+//        final AudioPlayer player = getMusicPlayer();
+//        if (player != null) {
+//            player.pause();
+//        }
+//    }
+//
+//    public static void killMusic() {
+//        final AudioPlayer player = getMusicPlayer();
+//        if (player != null) {
+//            player.closeNoThrow();
+//        }
+//    }
+
+    @Nullable
+    public static AudioPlayer getMusicPlayer() {
+        return AUDIO_CONTROLLER.getPlayerIfOpen(SOUND_ID_MUSIC);
+    }
+
+    private static final AudioPlayer.Listener sMusicListener = new AudioPlayer.Listener() {
+        @Override
+        public void onPlayerStateChanged(@NotNull AudioPlayer player, AudioPlayer.@NotNull State old, AudioPlayer.@NotNull State state) {
+            Log.d(TAG, "Music player state changed: " + old + " -> " + state);
+            if (state == AudioPlayer.State.ENDED) {
+                Async.uiPost(R::playMusic, 100);      // play next
+            }
+        }
+    };
+
+    public static final boolean MUSIC_ENABLED = true;       // TODO: settings and controls
+
+    public static void playMusic() {
+        if (!MUSIC_ENABLED)
+            return;
+
+        final AudioPlayer old = getMusicPlayer();
+        if (old != null && old.playNoThrow()) {
+            return;
+        }
+
+        if (MUSIC_FILES.isEmpty())
+            return;
+
+        final int musicIndex = RANDOM.nextInt(0, MUSIC_FILES.size());
+        final URL url = url(MUSIC_FILES.get(musicIndex));
+
+        Async.postIfNotOnMainThread(() -> {
+            final AudioPlayer player = AUDIO_CONTROLLER.createPlayer(true, SOUND_ID_MUSIC, url, AudioController.ExistsStrategy.KEEP);
+            if (player != null) {
+                if (old != null && player != old) {
+                    old.removeListener(sMusicListener);
+                }
+
+                player.ensureListener(sMusicListener);
+                player.playNoThrow();
+            }
+        });
+    }
+
+    public static void pauseMusic() {
+        final AudioPlayer player = getMusicPlayer();
+        if (player != null) {
+            player.pause();
+        }
+    }
+
+    public static void killMusic() {
+        final AudioPlayer player = getMusicPlayer();
+        if (player != null) {
+            player.closeNoThrow();
+        }
+    }
+
+
+
 
 
     @NotNull
@@ -671,7 +803,7 @@ public class R {
 
     @NotNull
     public static String getToggleControlsShortDescription(boolean controlsShown) {
-        return (controlsShown? "Hide": "Show") + " Controls Dock [Ctrl-C]";
+        return (controlsShown? "Hide": "Show") + " Controls Dock [Shift-C]";
     }
 
     @NotNull
@@ -681,7 +813,17 @@ public class R {
 
     @NotNull
     public static String getToggleMenuBarShortDescription(boolean menuVisible) {
-        return (menuVisible? "Hide": "Show") + " Menu [Ctrl-M]";
+        return (menuVisible? "Hide": "Show") + " Menu [Shift-M]";
+    }
+
+    @NotNull
+    public static String getTogglePresentationModeText(boolean presenting) {
+        return (presenting? "Exit": "Enter") + " Presentation Mode";
+    }
+
+
+    public static String getTogglePresentationModeShortDescription(boolean presenting) {
+        return (presenting? "Leave": "Enter") + " Presentation [Shift-P]";
     }
 
     @NotNull

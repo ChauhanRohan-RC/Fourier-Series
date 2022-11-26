@@ -112,7 +112,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
     final JMenu menuTransform;
     final JMenu menuRotorStates;
     final JMenu menuFunctionState;
-    final JMenu menuView;
+//    final JMenu menuView;
 
     public FourierUi() {
         this(null, 0 /* First */);
@@ -266,12 +266,13 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
         menuTransform.add(uia(ActionInfo.SHOW_FT_UI));
 
         // View menu
-        menuView = new JMenu("View");
-        menuBar.add(menuView);
-        menuView.add(uia(ActionInfo.TOGGLE_MENUBAR));
-        menuView.add(uia(ActionInfo.TOGGLE_CONTROLS));
-        menuView.addSeparator();
-        menuView.add(uia(ActionInfo.TOGGLE_FULLSCREEN));
+//        menuView = new JMenu("View");
+//        menuBar.add(menuView);
+//        menuView.add(uia(ActionInfo.TOGGLE_MENUBAR));
+//        menuView.add(uia(ActionInfo.TOGGLE_CONTROLS));
+//        menuView.addSeparator();
+//        menuView.add(uia(ActionInfo.TOGGLE_FULLSCREEN));
+        menuBar.add(Ui.createViewMenu(this::uia));
 
         // Settings
         menuBar.add(Ui.createSettingsMenu(this));
@@ -522,6 +523,11 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
     }
 
 
+    @Override
+    protected void onFullscreenChanged(boolean fullscreen) {
+        syncPresentationMode();
+        super.onFullscreenChanged(fullscreen);
+    }
 
     protected void onControlsVisibilityChanged(boolean controlsVisible) {
         uia(ActionInfo.TOGGLE_CONTROLS)
@@ -529,6 +535,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
                 .setShortDescription(R.getToggleControlsShortDescription(controlsVisible))
                 .setSelected(controlsVisible);
 
+        syncPresentationMode();
         update();
     }
 
@@ -561,6 +568,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
                 .setShortDescription(R.getToggleMenuBarShortDescription(visible))
                 .setSelected(visible);
 
+        syncPresentationMode();
         update();
     }
 
@@ -585,6 +593,48 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
         setMenuBarVisibleInternal(newState);
         return newState;
     }
+
+
+
+
+    protected void onPresentationModeEnabledChanged(boolean presenting) {
+        uia(ActionInfo.TOGGLE_PRESENTATION_MODE)
+                .setName(R.getTogglePresentationModeText(presenting))
+                .setShortDescription(R.getTogglePresentationModeShortDescription(presenting))
+                .setSelected(presenting);
+    }
+
+    private void syncPresentationMode() {
+        onPresentationModeEnabledChanged(isPresenting());
+    }
+
+    public final boolean isPresenting() {
+        return isFullscreen() && !areControlsVisible();
+    }
+
+    private void setPresentationModeEnabledInternal(boolean present) {
+        setMenuBarVisible(!present);
+        setControlsVisible(!present);
+        setFullscreen(present);
+
+        onPresentationModeEnabledChanged(present);
+    }
+
+    public final void setPresentationModeEnabled(boolean present) {
+        if (present == isPresenting())
+            return;
+
+        setPresentationModeEnabledInternal(present);
+    }
+
+    public final boolean togglePresentationMode() {
+        final boolean newState = !isPresenting();
+        setPresentationModeEnabledInternal(newState);
+        return newState;
+    }
+
+
+
 
     public void setPlay(boolean play) {
         fsPanel.setPlay(play);
@@ -993,6 +1043,12 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
     @Override
     public void onIsPlayingChanged(boolean playing) {
         setPlay(playing);
+
+        if (playing) {
+            R.playMusic();
+        } else {
+            R.pauseMusic();
+        }
     }
 
     @Override
@@ -1060,7 +1116,6 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
             old.removeListener(this);
         sm.ensureListener(this);
         syncTitle();
-
         setHueCycleEnabled(fsPanel.isHueCycleEnabled());
         syncFunctionProviders();
         setPlay(AUTO_PLAY_ON_ROTOR_STATE_MANAGER_CHANGE);
@@ -1161,6 +1216,10 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
     public void onRotorsLoadingChanged(@NotNull RotorStateManager manager, boolean isLoading) {
         syncFunctionDependentOps();
         syncTitle();
+
+        if (isLoading && !isPlaying()) {
+            R.playMusic();
+        }
     }
 
     @Override
@@ -1381,6 +1440,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
             case TOGGLE_FULLSCREEN -> toggleFullscreen();
             case TOGGLE_CONTROLS -> toggleControlsVisibility();
             case TOGGLE_MENUBAR -> toggleMenuBarVisible();
+            case TOGGLE_PRESENTATION_MODE -> togglePresentationMode();
             case SAVE_FUNCTION_STATE_TO_FILE -> askSaveFunctionStateToFIle();
             case LOAD_FUNCTION_STATE_FROM_FILE -> askLoadFunctionStateFromFile();
             case CLEAR_FUNCTIONS_WITHOUT_DEFINITION -> confirmRemoveFunctionProvidersWithoutDefinition();

@@ -505,3 +505,73 @@
 2022-11-24 21:47:25:836562200 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
 2022-11-24 21:47:25:868463400 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
 ## LOG END -> 2022-11-24 21:47:25:871471600 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-24 21:58:34:51178600 +05:30[Asia/Calcutta]
+2022-11-24 21:58:34:51178600 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-24 21:58:34:770426900 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+## LOG END -> 2022-11-24 21:58:55:932926400 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-24 21:58:59:804656100 +05:30[Asia/Calcutta]
+2022-11-24 21:58:59:804656100 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-24 21:58:59:804656100 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-24 21:59:00:510405500 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: OPEN 
+2022-11-24 21:59:00:510405500 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: PLAYING 
+2022-11-24 21:59:00:637588400 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-24 21:59:01:717542200 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: ENDED 
+2022-11-24 21:59:01:717542200 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: CLOSED 
+2022-11-24 21:59:02:156340200 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-11-24 21:59:02:156340200 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-24 21:59:02:187993400 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-24 21:59:02:187993400 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-24 21:59:30:110494000 +05:30[Asia/Calcutta]
+2022-11-24 21:59:30:94864100 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-24 21:59:30:110494000 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-24 21:59:30:760726900 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: OPEN 
+2022-11-24 21:59:30:760726900 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: PLAYING 
+2022-11-24 21:59:30:879751100 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-24 21:59:36:540012400 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: ENDED 
+2022-11-24 21:59:36:540012400 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: CLOSED 
+2022-11-24 21:59:38:925988300 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-11-24 21:59:38:925988300 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-24 21:59:38:957655600 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-24 21:59:38:957655600 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-24 21:59:44:494068700 +05:30[Asia/Calcutta]
+2022-11-24 21:59:44:494068700 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-24 21:59:44:494068700 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-24 21:59:45:160280500 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: OPEN 
+2022-11-24 21:59:45:160280500 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: PLAYING 
+2022-11-24 21:59:45:286460500 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-24 21:59:50:946714800 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: ENDED 
+2022-11-24 21:59:50:946714800 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: CLOSED 
+2022-11-24 21:59:54:167211800 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-11-24 21:59:54:167211800 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-24 21:59:54:198481500 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-24 21:59:54:198481500 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-24 21:59:57:952338900 +05:30[Asia/Calcutta]
+2022-11-24 21:59:57:936715500 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-24 21:59:57:952338900 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-24 21:59:58:602558400 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: OPEN 
+2022-11-24 21:59:58:602558400 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: PLAYING 
+2022-11-24 21:59:58:734583000 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-24 22:00:04:394751600 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: ENDED 
+2022-11-24 22:00:04:394751600 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: CLOSED 
+2022-11-24 22:00:06:565893000 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-11-24 22:00:06:565893000 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-24 22:00:06:597148200 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-24 22:00:06:597148200 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-24 22:00:50:978505800 +05:30[Asia/Calcutta]
+2022-11-24 22:00:50:962875300 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-24 22:00:50:978505800 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-24 22:00:51:641589700 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: OPEN 
+2022-11-24 22:00:51:641589700 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: PLAYING 
+2022-11-24 22:00:51:775645900 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-24 22:00:58:585605100 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: ENDED 
+2022-11-24 22:00:58:585605100 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: CLOSED 
+2022-11-24 22:00:59:304332600 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-11-24 22:00:59:304332600 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-24 22:00:59:335525900 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-24 22:00:59:335525900 +05:30[Asia/Calcutta]

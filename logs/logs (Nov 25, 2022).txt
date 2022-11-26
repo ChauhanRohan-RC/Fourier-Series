@@ -1,0 +1,494 @@
+
+## LOG START -> 2022-11-25 17:43:50:859564800 +05:30[Asia/Calcutta]
+2022-11-25 17:43:50:843937500 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 17:43:50:859564800 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 17:43:52:116004300 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: OPEN 
+2022-11-25 17:43:52:131632500 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: PLAYING 
+2022-11-25 17:43:52:464806000 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 17:43:59:138078100 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: ENDED 
+2022-11-25 17:43:59:148222300 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: CLOSED 
+2022-11-25 17:43:59:988398800 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-11-25 17:43:59:988398800 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 17:44:00:50809500 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 17:44:00:50809500 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 17:44:14:85262700 +05:30[Asia/Calcutta]
+2022-11-25 17:44:14:69623300 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 17:44:14:85262700 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 17:44:15:320281100 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: OPEN 
+2022-11-25 17:44:15:320281100 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 1232, state: PLAYING 
+2022-11-25 17:44:15:642520600 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 17:44:21:382934200 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-11-25 17:44:21:382934200 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 17:44:21:447996400 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 17:44:21:453011500 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 17:44:56:900545200 +05:30[Asia/Calcutta]
+2022-11-25 17:44:56:900545200 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 17:44:56:900545200 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 17:44:58:59475900 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 10000, state: OPEN 
+2022-11-25 17:44:58:64367900 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 10000, state: PLAYING 
+2022-11-25 17:44:58:319426000 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 17:45:11:691859000 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-11-25 17:45:11:691859000 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 17:45:11:745707700 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 17:45:11:760804200 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 17:45:59:890173800 +05:30[Asia/Calcutta]
+2022-11-25 17:45:59:890173800 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 17:45:59:890173800 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 17:46:01:97334400 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 10000, state: OPEN 
+2022-11-25 17:46:01:112962100 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 10000, state: PLAYING 
+2022-11-25 17:46:01:422727900 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 17:46:07:113078900 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 10000, state: CLOSED 
+2022-11-25 17:46:10:532859400 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-11-25 17:46:10:532859400 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 17:46:10:596309400 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 17:46:10:596309400 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 17:46:47:377967400 +05:30[Asia/Calcutta]
+2022-11-25 17:46:47:362331600 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 17:46:47:377967400 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 17:46:48:531527900 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 10000, state: OPEN 
+2022-11-25 17:46:48:531527900 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 10000, state: PLAYING 
+## LOG END -> 2022-11-25 17:46:48:715462400 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 17:46:56:51673800 +05:30[Asia/Calcutta]
+2022-11-25 17:46:56:36047800 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 17:46:56:51673800 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 17:46:57:187127100 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 10000, state: OPEN 
+2022-11-25 17:46:57:187127100 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 10000, state: PLAYING 
+2022-11-25 17:46:57:379616800 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 17:47:03:214694200 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 10000, state: CLOSED 
+2022-11-25 17:47:05:218146800 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 10001, state: OPEN 
+2022-11-25 17:47:05:218146800 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 10001, state: PLAYING 
+2022-11-25 17:47:06:431885300 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 10001, state: ENDED 
+2022-11-25 17:47:06:431885300 +05:30[Asia/Calcutta]:Debug: AudioController: Player state changed: ID: 10001, state: CLOSED 
+2022-11-25 17:47:09:686421700 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-11-25 17:47:09:686421700 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 17:47:09:749352800 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 17:47:09:749352800 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 18:11:52:322133500 +05:30[Asia/Calcutta]
+2022-11-25 18:11:52:301990800 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 18:11:52:322133500 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 18:11:53:79597100 +05:30[Asia/Calcutta]:Err: AudioClipPlayer: Unsupported Audio File format
+URL: file:/D:/RC/Projects/Idea/complex/res/sound/song.mp3 
+javax.sound.sampled.UnsupportedAudioFileException: URL of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1038)
+	at ui.audio.AudioClipPlayer.create(AudioClipPlayer.java:72)
+	at ui.audio.AudioClipPlayer.createNoThrow(AudioClipPlayer.java:92)
+	at ui.audio.AudioController.play(AudioController.java:123)
+	at ui.audio.AudioController.playOnce(AudioController.java:150)
+	at app.R.playSoundClick(R.java:221)
+	at app.App.lambda$launchTest$1(App.java:95)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:742)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+
+2022-11-25 18:11:53:268000800 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 18:12:20:625328200 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-11-25 18:12:20:625328200 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 18:12:20:671796800 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 18:12:20:671796800 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 19:12:29:940609200 +05:30[Asia/Calcutta]
+2022-11-25 19:12:29:924978900 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 19:12:29:940609200 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 19:12:31:511077800 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 19:12:37:530461600 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-11-25 19:12:37:530461600 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 19:12:37:580794000 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 19:12:37:580794000 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 19:13:30:907216300 +05:30[Asia/Calcutta]
+2022-11-25 19:13:30:891587800 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 19:13:30:907216300 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 19:13:31:700420100 +05:30[Asia/Calcutta]:Err: AudioClipPlayer: Unsupported Audio File format
+URL: file:/D:/RC/Projects/Idea/complex/res/sound/song.ogg 
+javax.sound.sampled.UnsupportedAudioFileException: URL of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1038)
+	at ui.audio.AudioClipPlayer.create(AudioClipPlayer.java:72)
+	at ui.audio.AudioClipPlayer.createNoThrow(AudioClipPlayer.java:92)
+	at ui.audio.AudioController.play(AudioController.java:123)
+	at ui.audio.AudioController.playOnce(AudioController.java:150)
+	at app.R.playSoundClick(R.java:221)
+	at app.App.lambda$launchTest$1(App.java:95)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:742)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+
+2022-11-25 19:13:31:927016100 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 19:13:34:360012400 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-11-25 19:13:34:360012400 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 19:13:34:391274100 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 19:13:34:391274100 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 19:14:57:975805100 +05:30[Asia/Calcutta]
+2022-11-25 19:14:57:960175100 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 19:14:57:975805100 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 19:14:58:817259400 +05:30[Asia/Calcutta]:Err: AudioClipPlayer: Unsupported Audio File format
+URL: file:/D:/RC/Projects/Idea/complex/res/sound/song.flac 
+javax.sound.sampled.UnsupportedAudioFileException: URL of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1038)
+	at ui.audio.AudioClipPlayer.create(AudioClipPlayer.java:72)
+	at ui.audio.AudioClipPlayer.createNoThrow(AudioClipPlayer.java:92)
+	at ui.audio.AudioController.play(AudioController.java:123)
+	at ui.audio.AudioController.playOnce(AudioController.java:150)
+	at app.R.playSoundClick(R.java:221)
+	at app.App.lambda$launchTest$1(App.java:95)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:742)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+
+2022-11-25 19:14:59:4812100 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 19:15:08:808068700 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-11-25 19:15:08:808068700 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 19:15:08:854548800 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 19:15:08:854548800 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 19:33:44:235006400 +05:30[Asia/Calcutta]
+2022-11-25 19:33:44:235006400 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 19:33:44:235006400 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 19:33:45:561541800 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 19:34:14:651290300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Joseph Fourier (Internal Path) 
+2022-11-25 19:34:16:646323100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 1995 ms 
+2022-11-25 19:34:31:21599000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Joseph Fourier (Internal Path) 
+2022-11-25 19:34:36:241709200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 5220 ms 
+2022-11-25 19:35:44:171342800 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Joseph Fourier) | WindowCount: 0 
+2022-11-25 19:35:44:171342800 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 19:35:44:201302400 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 19:35:44:201302400 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 19:36:02:60331500 +05:30[Asia/Calcutta]
+2022-11-25 19:36:02:60331500 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 19:36:02:60331500 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 19:36:03:664508500 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 19:36:06:131636500 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-11-25 19:36:06:131636500 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 19:36:06:178526600 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 19:36:06:178526600 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 19:51:46:813689600 +05:30[Asia/Calcutta]
+2022-11-25 19:51:46:799672900 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 19:51:46:813689600 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 19:51:48:211545400 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 19:52:00:473991600 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-11-25 19:52:00:473991600 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 19:52:00:524157900 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 19:52:00:524157900 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 19:53:57:992467500 +05:30[Asia/Calcutta]
+2022-11-25 19:53:57:976836900 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 19:53:57:992467500 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 19:53:58:860136300 +05:30[Asia/Calcutta]:Err: AudioClipPlayer: Unsupported Audio File format
+URL: file:/D:/RC/Projects/Idea/complex/res/sound/hypno2.wav 
+javax.sound.sampled.UnsupportedAudioFileException: URL of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1038)
+	at ui.audio.AudioClipPlayer.create(AudioClipPlayer.java:72)
+	at ui.audio.AudioClipPlayer.createNoThrow(AudioClipPlayer.java:92)
+	at ui.audio.AudioController.play(AudioController.java:123)
+	at ui.audio.AudioController.playOnce(AudioController.java:150)
+	at app.R.playSoundClick(R.java:221)
+	at app.App.lambda$launchTest$1(App.java:95)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:742)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+
+2022-11-25 19:53:59:157106300 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 19:54:00:945982800 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-11-25 19:54:00:945982800 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 19:54:00:977247400 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 19:54:00:992871200 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 20:47:04:801793600 +05:30[Asia/Calcutta]
+2022-11-25 20:47:04:786169000 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 20:47:05:670280300 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 20:47:09:98722300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function NS (PD Sans) (Internal Path) 
+2022-11-25 20:47:10:577765400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [NS (PD Sans) (Internal Path)] loaded in 1479 ms 
+## LOG END -> 2022-11-25 20:47:38:115777300 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 20:48:11:740830100 +05:30[Asia/Calcutta]
+2022-11-25 20:48:11:718481500 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 20:48:12:887907800 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 20:48:16:975634800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function RC (Aquire) (Internal Path) 
+2022-11-25 20:48:18:587049000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [RC (Aquire) (Internal Path)] loaded in 1612 ms 
+## LOG END -> 2022-11-25 20:48:27:713575100 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 20:49:33:379216300 +05:30[Asia/Calcutta]
+2022-11-25 20:49:33:363589400 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 20:49:34:340093500 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 20:49:40:198283800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Circle Function (Internal Program) 
+2022-11-25 20:49:41:663400400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Circle Function (Internal Program)] loaded in 1465 ms 
+2022-11-25 20:49:41:663400400 +05:30[Asia/Calcutta]:Debug: Resources: Music Playing file:/D:/RC/Projects/Idea/complex/res/sound/music/Hypothesis.wav 
+## LOG END -> 2022-11-25 20:50:01:26506000 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 20:51:00:695137400 +05:30[Asia/Calcutta]
+2022-11-25 20:51:00:695137400 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 20:51:00:695137400 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 20:51:01:769858600 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 20:51:03:185646300 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-11-25 20:51:03:185646300 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 20:51:03:216905200 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 20:51:03:216905200 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 20:51:11:667184000 +05:30[Asia/Calcutta]
+2022-11-25 20:51:11:651554900 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 20:51:11:667184000 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 20:51:12:217816100 +05:30[Asia/Calcutta]:Debug: Resources: Music Playing file:/D:/RC/Projects/Idea/complex/res/sound/music/Opus.wav 
+2022-11-25 20:51:12:303905500 +05:30[Asia/Calcutta]:Debug: Resources: Music Play result: true 
+2022-11-25 20:51:12:443363300 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 20:51:14:383240700 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-11-25 20:51:14:383240700 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 20:51:14:408912300 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 20:51:14:415002400 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 20:51:25:483701200 +05:30[Asia/Calcutta]
+2022-11-25 20:51:25:483701200 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 20:51:25:483701200 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 20:51:25:499334800 +05:30[Asia/Calcutta]:Debug: Resources: Music Playing file:/D:/RC/Projects/Idea/complex/res/sound/music/Opus.wav 
+2022-11-25 20:51:25:576300100 +05:30[Asia/Calcutta]:Debug: Resources: Music Play result: true 
+2022-11-25 20:51:26:307927500 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 20:51:29:20820600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function RC (Aquire) (Internal Path) 
+2022-11-25 20:51:30:71258100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [RC (Aquire) (Internal Path)] loaded in 1051 ms 
+2022-11-25 20:51:30:81030100 +05:30[Asia/Calcutta]:Debug: Resources: Music Playing file:/D:/RC/Projects/Idea/complex/res/sound/music/Etude.wav 
+2022-11-25 20:51:30:81030100 +05:30[Asia/Calcutta]:Debug: Resources: Music Play result: true 
+2022-11-25 20:51:41:981293700 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (RC (Aquire)) | WindowCount: 0 
+2022-11-25 20:51:41:981293700 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 20:51:42:2120000 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 20:51:42:2120000 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 20:52:18:696434100 +05:30[Asia/Calcutta]
+2022-11-25 20:52:18:696434100 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 20:52:18:696434100 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 20:52:19:426861900 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 20:52:21:973766100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function RC (One Line) (Internal Path) 
+2022-11-25 20:52:23:97088100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [RC (One Line) (Internal Path)] loaded in 1124 ms 
+2022-11-25 20:52:23:97088100 +05:30[Asia/Calcutta]:Debug: Resources: Music Playing file:/D:/RC/Projects/Idea/complex/res/sound/music/Etude.wav 
+2022-11-25 20:52:23:161907500 +05:30[Asia/Calcutta]:Debug: Resources: Music Play result: true 
+2022-11-25 20:52:42:876442900 +05:30[Asia/Calcutta]:Debug: Resources: Music Playing file:/D:/RC/Projects/Idea/complex/res/sound/music/Hypothesis.wav 
+2022-11-25 20:52:42:879006500 +05:30[Asia/Calcutta]:Debug: Resources: Music Play result: true 
+2022-11-25 20:53:05:301744600 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-11-25 20:53:05:301744600 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 20:53:05:333744800 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 20:53:05:333744800 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 20:54:45:73604500 +05:30[Asia/Calcutta]
+2022-11-25 20:54:45:57977900 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 20:54:45:73604500 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 20:54:45:807247400 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 20:54:55:124069200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function RC (chars) (Internal Program) 
+2022-11-25 20:54:56:516732600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [RC (chars) (Internal Program)] loaded in 1392 ms 
+2022-11-25 20:54:56:516732600 +05:30[Asia/Calcutta]:Debug: FourierUi: playing: true 
+2022-11-25 20:54:57:597711500 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Music Note (Internal Path) 
+2022-11-25 20:54:58:800621300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Music Note (Internal Path)] loaded in 1203 ms 
+2022-11-25 20:55:00:697783900 +05:30[Asia/Calcutta]:Debug: FourierUi: playing: false 
+2022-11-25 20:55:03:815899200 +05:30[Asia/Calcutta]:Debug: FourierUi: playing: true 
+2022-11-25 20:55:08:169049400 +05:30[Asia/Calcutta]:Debug: FourierUi: playing: false 
+2022-11-25 20:55:10:699813300 +05:30[Asia/Calcutta]:Debug: FourierUi: playing: true 
+2022-11-25 20:55:18:358200900 +05:30[Asia/Calcutta]:Debug: FourierUi: playing: false 
+2022-11-25 20:55:22:326546300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function RC (chars) (Internal Program) 
+2022-11-25 20:55:23:591324300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [RC (chars) (Internal Program)] loaded in 1265 ms 
+2022-11-25 20:55:23:591324300 +05:30[Asia/Calcutta]:Debug: FourierUi: playing: true 
+2022-11-25 20:55:26:806120800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Joseph Fourier (Internal Path) 
+2022-11-25 20:55:28:56113500 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 1240 ms 
+2022-11-25 20:55:32:686217600 +05:30[Asia/Calcutta]:Debug: FourierUi: playing: false 
+2022-11-25 20:55:37:159350800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 0 Rotor States for function Joseph Fourier (Internal Path) 
+2022-11-25 20:55:37:159350800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 0 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 0 ms 
+2022-11-25 20:55:44:546227200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Joseph Fourier (Internal Path) 
+2022-11-25 20:55:48:471097000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 3925 ms 
+2022-11-25 20:55:48:476104500 +05:30[Asia/Calcutta]:Debug: FourierUi: playing: true 
+2022-11-25 20:56:08:836373500 +05:30[Asia/Calcutta]:Debug: FourierUi: playing: false 
+2022-11-25 20:56:09:960164000 +05:30[Asia/Calcutta]:Debug: FourierUi: playing: true 
+2022-11-25 20:56:12:696555900 +05:30[Asia/Calcutta]:Debug: FourierUi: playing: false 
+2022-11-25 20:56:13:461620500 +05:30[Asia/Calcutta]:Debug: FourierUi: playing: true 
+2022-11-25 20:56:30:783160100 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Joseph Fourier) | WindowCount: 0 
+2022-11-25 20:56:30:783160100 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 20:56:30:806501300 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 20:56:30:806501300 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 21:01:15:332959800 +05:30[Asia/Calcutta]
+2022-11-25 21:01:15:332959800 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 21:01:15:332959800 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 21:01:16:46541700 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 21:01:19:72262900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function NS (Doger) (Internal Path) 
+2022-11-25 21:01:20:76107300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [NS (Doger) (Internal Path)] loaded in 1004 ms 
+2022-11-25 21:01:53:676340200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function NS (Doger) (Internal Path) 
+2022-11-25 21:01:55:599402000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [NS (Doger) (Internal Path)] loaded in 1923 ms 
+2022-11-25 21:02:34:266347700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function DKV (Aquire) (Internal Path) 
+2022-11-25 21:02:35:136461400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [DKV (Aquire) (Internal Path)] loaded in 870 ms 
+2022-11-25 21:02:51:496478600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function DKV (Aquire) (Internal Path) 
+2022-11-25 21:02:53:496676100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [DKV (Aquire) (Internal Path)] loaded in 2000 ms 
+2022-11-25 21:07:27:574912300 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (DKV (Aquire)) | WindowCount: 0 
+2022-11-25 21:07:27:574912300 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 21:07:27:590543500 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 21:07:27:606176200 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 21:09:01:436102600 +05:30[Asia/Calcutta]
+2022-11-25 21:09:01:420472500 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 21:09:01:436102600 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 21:09:02:287763400 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 21:09:06:451628300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Joseph Fourier (Internal Path) 
+2022-11-25 21:09:07:530016100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 1079 ms 
+2022-11-25 21:09:14:144934600 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Joseph Fourier) | WindowCount: 0 
+2022-11-25 21:09:14:144934600 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 21:09:14:174783300 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 21:09:14:174783300 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 21:09:56:817566100 +05:30[Asia/Calcutta]
+2022-11-25 21:09:56:801937400 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 21:09:56:817566100 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 21:09:57:587856700 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 21:10:01:646111800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Joseph Fourier (Internal Path) 
+2022-11-25 21:10:02:885967100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 1224 ms 
+2022-11-25 21:10:03:551112100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 34 Rotor States for function Joseph Fourier (Internal Path) 
+2022-11-25 21:10:03:551112100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 34 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 0 ms 
+2022-11-25 21:10:05:56269800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Joseph Fourier (Internal Path) 
+2022-11-25 21:10:07:221374900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 2165 ms 
+2022-11-25 21:10:10:613921200 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Joseph Fourier) | WindowCount: 0 
+2022-11-25 21:10:10:613921200 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 21:10:10:631163800 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 21:10:10:641445800 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 21:10:14:270251100 +05:30[Asia/Calcutta]
+2022-11-25 21:10:14:254621400 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 21:10:14:270251100 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 21:10:15:60381600 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 21:10:18:599044700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Joseph Fourier (Internal Path) 
+2022-11-25 21:10:19:942977900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 1328 ms 
+2022-11-25 21:10:20:559715200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 45 Rotor States for function Joseph Fourier (Internal Path) 
+2022-11-25 21:10:20:559715200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 45 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 0 ms 
+2022-11-25 21:10:21:932949600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Joseph Fourier (Internal Path) 
+2022-11-25 21:10:24:257813900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 2325 ms 
+## LOG END -> 2022-11-25 21:13:52:444967100 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 21:13:57:590628300 +05:30[Asia/Calcutta]
+2022-11-25 21:13:57:590628300 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 21:13:57:590628300 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 21:13:58:300066100 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 21:14:01:814693100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Joseph Fourier (Internal Path) 
+2022-11-25 21:14:01:980146500 +05:30[Asia/Calcutta]:Debug: Resources: Mus cplayer state changed: OPEN 
+2022-11-25 21:14:01:980146500 +05:30[Asia/Calcutta]:Debug: Resources: Mus cplayer state changed: PLAYING 
+2022-11-25 21:14:03:151111000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 1321 ms 
+2022-11-25 21:14:25:591265700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Joseph Fourier (Internal Path) 
+2022-11-25 21:14:29:241959100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 3643 ms 
+2022-11-25 21:15:23:581539400 +05:30[Asia/Calcutta]:Debug: Resources: Mus cplayer state changed: ENDED 
+2022-11-25 21:15:23:581539400 +05:30[Asia/Calcutta]:Debug: Resources: Mus cplayer state changed: CLOSED 
+2022-11-25 21:15:23:635379800 +05:30[Asia/Calcutta]:Debug: Resources: Mus cplayer state changed: OPEN 
+2022-11-25 21:15:23:635379800 +05:30[Asia/Calcutta]:Debug: Resources: Mus cplayer state changed: PLAYING 
+2022-11-25 21:16:02:655218600 +05:30[Asia/Calcutta]:Debug: Resources: Mus cplayer state changed: PAUSED 
+2022-11-25 21:16:13:373643100 +05:30[Asia/Calcutta]:Debug: Resources: Mus cplayer state changed: PLAYING 
+2022-11-25 21:16:20:946875000 +05:30[Asia/Calcutta]:Debug: Resources: Mus cplayer state changed: PAUSED 
+2022-11-25 21:16:21:163432300 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Transform (Joseph Fourier) | WindowCount: 2 
+2022-11-25 21:16:22:883282700 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Transform (Joseph Fourier) | WindowCount: 1 
+2022-11-25 21:16:24:499941000 +05:30[Asia/Calcutta]:Debug: Resources: Mus cplayer state changed: PLAYING 
+2022-11-25 21:16:59:473479200 +05:30[Asia/Calcutta]:Debug: Resources: Mus cplayer state changed: ENDED 
+2022-11-25 21:16:59:473479200 +05:30[Asia/Calcutta]:Debug: Resources: Mus cplayer state changed: CLOSED 
+2022-11-25 21:16:59:542862600 +05:30[Asia/Calcutta]:Debug: Resources: Mus cplayer state changed: OPEN 
+2022-11-25 21:16:59:542862600 +05:30[Asia/Calcutta]:Debug: Resources: Mus cplayer state changed: PLAYING 
+2022-11-25 21:18:29:335840500 +05:30[Asia/Calcutta]:Debug: Resources: Mus cplayer state changed: PAUSED 
+2022-11-25 21:18:29:385584400 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Transform (Joseph Fourier) | WindowCount: 2 
+2022-11-25 21:18:34:55809600 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Transform (Joseph Fourier) | WindowCount: 1 
+2022-11-25 21:18:36:876571900 +05:30[Asia/Calcutta]:Debug: Resources: Mus cplayer state changed: PLAYING 
+2022-11-25 21:19:07:987677000 +05:30[Asia/Calcutta]:Debug: Resources: Mus cplayer state changed: ENDED 
+2022-11-25 21:19:07:987677000 +05:30[Asia/Calcutta]:Debug: Resources: Mus cplayer state changed: CLOSED 
+2022-11-25 21:19:08:72655700 +05:30[Asia/Calcutta]:Debug: Resources: Mus cplayer state changed: OPEN 
+2022-11-25 21:19:08:72655700 +05:30[Asia/Calcutta]:Debug: Resources: Mus cplayer state changed: PLAYING 
+2022-11-25 21:19:21:219621000 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Joseph Fourier) | WindowCount: 0 
+2022-11-25 21:19:21:219621000 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 21:19:21:239703900 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 21:19:21:239703900 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 21:23:50:55534200 +05:30[Asia/Calcutta]
+2022-11-25 21:23:50:39904200 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 21:23:50:55534200 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 21:23:50:773727500 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 21:23:59:28181500 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Joseph Fourier (Internal Path) 
+2022-11-25 21:24:00:151079000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 1123 ms 
+2022-11-25 21:24:00:892571700 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Transform (Joseph Fourier) | WindowCount: 2 
+2022-11-25 21:24:03:965970000 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Transform (Joseph Fourier) | WindowCount: 1 
+2022-11-25 21:24:05:335857200 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Transform (Joseph Fourier) | WindowCount: 2 
+2022-11-25 21:24:07:267181100 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Transform (Joseph Fourier) | WindowCount: 1 
+2022-11-25 21:24:13:957531900 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Joseph Fourier) | WindowCount: 0 
+2022-11-25 21:24:13:957531900 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 21:24:13:976088000 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 21:24:13:976088000 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 21:24:17:908714800 +05:30[Asia/Calcutta]
+2022-11-25 21:24:17:893084400 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 21:24:17:908714800 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 21:24:18:584272300 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 21:24:25:998721700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function NS (Doger) (Internal Path) 
+2022-11-25 21:24:27:77633800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [NS (Doger) (Internal Path)] loaded in 1079 ms 
+2022-11-25 21:24:27:542971100 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Transform (NS (Doger)) | WindowCount: 2 
+2022-11-25 21:24:39:922754200 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Transform (NS (Doger)) | WindowCount: 1 
+2022-11-25 21:24:53:2711000 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (NS (Doger)) | WindowCount: 0 
+2022-11-25 21:24:53:2711000 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 21:24:53:32771700 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 21:24:53:32771700 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 21:24:56:613197500 +05:30[Asia/Calcutta]
+2022-11-25 21:24:56:597567600 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 21:24:56:613197500 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 21:24:57:332988200 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 21:24:59:957184000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Random Signal (Internal Program) 
+2022-11-25 21:25:01:741561000 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Transform (Loading Random Signal) | WindowCount: 2 
+2022-11-25 21:25:02:691336600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Random Signal (Internal Program)] loaded in 2734 ms 
+2022-11-25 21:25:15:681252300 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Transform (Random Signal) | WindowCount: 1 
+2022-11-25 21:25:21:611576400 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Random Signal) | WindowCount: 0 
+2022-11-25 21:25:21:611576400 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 21:25:21:636267500 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 21:25:21:641363200 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-25 21:25:29:604997400 +05:30[Asia/Calcutta]
+2022-11-25 21:25:29:589369400 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-25 21:25:29:604997400 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2022-11-25 21:25:30:315897600 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-25 21:25:32:619363000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function NS (Aquire) (Internal Path) 
+2022-11-25 21:25:33:980759400 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Transform (Loading NS (Aquire)) | WindowCount: 2 
+2022-11-25 21:25:34:7257800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [NS (Aquire) (Internal Path)] loaded in 1388 ms 
+2022-11-25 21:26:14:495434200 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Transform (NS (Aquire)) | WindowCount: 1 
+2022-11-25 21:26:20:623080600 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (NS (Aquire)) | WindowCount: 0 
+2022-11-25 21:26:20:623080600 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-25 21:26:20:645432900 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-25 21:26:20:645432900 +05:30[Asia/Calcutta]

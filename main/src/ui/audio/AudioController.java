@@ -1,132 +1,345 @@
+//package ui.audio;
+//
+//import org.jetbrains.annotations.NotNull;
+//import org.jetbrains.annotations.Nullable;
+//import util.CollectionUtil;
+//
+//import java.net.URL;
+//import java.util.*;
+//
+//public class AudioController implements AudioPlayer.Listener {
+//
+//    public static final String TAG = "AudioController";
+//
+//    public interface ExistsStrategy {
+//
+//        ExistsStrategy KEEP = p -> true;
+//
+//        ExistsStrategy CLOSE = p -> {
+//            p.closeNoThrow();
+//            return false;
+//        };
+//
+//
+//        /**
+//         * @return  true to indicate that new player should NOT be created,
+//         * otherwise existing player is closed and new player is created
+//         * */
+//        boolean handleExisting(@NotNull AudioPlayer player);
+//
+//    }
+//
+//
+//
+//    @NotNull
+//    private final Map<Long, AudioPlayer> mOpenCLipPlayers= Collections.synchronizedMap(new HashMap<>());
+//    private long mIdGen = 10000;
+//
+//    @Override
+//    public synchronized void onPlayerStateChanged(@NotNull AudioPlayer player, AudioPlayer.@NotNull State old, AudioPlayer.@NotNull State state) {
+//        switch (state) {
+//            case OPEN -> {
+//                player.ensureListener(AudioController.this);
+//                mOpenCLipPlayers.put(player.getId(), player);
+//            }
+//
+//            case CLOSED -> {
+//                player.removeListener(AudioController.this);
+//                mOpenCLipPlayers.remove(player.getId());
+//            }
+//        }
+//    }
+//
+//    public int openPlayersCount() {
+//        return mOpenCLipPlayers.size();
+//    }
+//
+//    public synchronized void closeAllOpenPlayers() {
+//        final List<AudioPlayer> players = CollectionUtil.linkedListCopy(mOpenCLipPlayers.values());
+//        mOpenCLipPlayers.clear();
+//
+//        players.forEach(AudioPlayer::closeNoThrow);
+//    }
+//
+//    @Nullable
+//    public synchronized AudioPlayer getClipPlayerIfOpen(long id) {
+//        return mOpenCLipPlayers.get(id);
+//    }
+//
+//    @Nullable
+//    public synchronized AudioPlayer getClipPlayerIfOpen(@NotNull URL url) {
+//        for (AudioPlayer player: mOpenCLipPlayers.values()) {
+//            Object tag = player.getTag();
+//            if (tag instanceof URL && url.equals(tag))
+//                return player;
+//        }
+//
+//        return null;
+//    }
+//
+//
+//    public synchronized void closeClipPlayer(long id) {
+//        final AudioPlayer player = getClipPlayerIfOpen(id);
+//        if (player != null) {
+//            player.closeNoThrow();
+//        }
+//    }
+//
+//    public synchronized void closeClipPlayer(@NotNull URL url) {
+//        final AudioPlayer player = getClipPlayerIfOpen(url);
+//        if (player != null) {
+//            player.closeNoThrow();
+//        }
+//    }
+//
+//    @Nullable
+//    public synchronized AudioPlayer play(long id, @NotNull URL url, int loopCount, @NotNull ExistsStrategy existsStrategy) {
+//        final AudioPlayer old = getClipPlayerIfOpen(id);
+//        if (old != null) {
+//            final boolean handled = existsStrategy.handleExisting(old);
+//            if (handled) {
+//                old.playNoThrow();
+//                return old;
+//            }
+//        }
+//
+//        closeClipPlayer(id);
+//        final AudioPlayer player = AudioPlayer.createNoThrow(id, url);
+//        if (player != null) {
+//            player.setCloseOnEnd(true);
+//            player.addListener(this);
+//
+//            if (!player.considerOpenNoThrow()) {
+//                player.removeListener(this);
+//                return null;
+//            }
+//
+//            player.setTag(url);
+//            player.setLoopCount(loopCount);
+//            player.playNoThrow();
+//            return player;
+//        }
+//
+//        return null;
+//    }
+//
+//
+//    public synchronized long nextId() {
+//        return mIdGen++;
+//    }
+//
+//    /**
+//     * Play a sound clip and forget it
+//     * */
+//    public synchronized AudioPlayer playOnce(@NotNull URL url) {
+//        return play(nextId(), url, 0, ExistsStrategy.CLOSE);        // with a custom unique id
+//    }
+//
+//    /**
+//     * Plays a clip forever (loops continuously), and keeps existing player
+//     * */
+//    public synchronized AudioPlayer playForever(long id, @NotNull URL url) {
+//        return play(id, url, AudioPlayer.LOOP_CONTINUOUSLY, ExistsStrategy.KEEP);
+//    }
+//
+//
+//
+//    /**
+//     * @return id of the player, or {@code -1} if sound clip could not be played
+//     * */
+//    public synchronized AudioPlayer playForever(@NotNull URL url) {
+//        final AudioPlayer old = getClipPlayerIfOpen(url);
+//
+//        if (old != null) {
+//            old.setLoopCount(AudioPlayer.LOOP_CONTINUOUSLY);
+//            old.playNoThrow();
+//            return old;
+//        }
+//
+//        return playForever(nextId(), url);
+//    }
+//
+//}
+
+
+
 package ui.audio;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import util.CollectionUtil;
-import util.Log;
-import util.async.Function;
 
 import java.net.URL;
 import java.util.*;
 
-public class AudioController implements AudioClipPlayer.Listener {
+public class AudioController implements AudioPlayer.Listener {
 
     public static final String TAG = "AudioController";
 
-    public enum ExistsStrategy {
-        /**
-         * Keeps the existing player (does NOT create any new player)
-         * */
-        KEEP(p -> true),
+    public interface ExistsStrategy {
 
-//        PAUSE(p -> {
-//            p.pause();
-//            return false;
-//        }),
-//
-//        STOP(p -> {
-//            p.stop();
-//            return false;
-//        }),
+        ExistsStrategy KEEP = p -> true;
 
-        /**
-         * Close existing player (and create new player if needed)
-         * */
-        CLOSE(p -> {
+        ExistsStrategy CLOSE = p -> {
             p.closeNoThrow();
             return false;
-        });
+        };
 
-        // Return true to indicate that new player should NOT be created
-        @Nullable
-        public final Function<AudioClipPlayer, Boolean> existingPlayerHandler;
 
-        ExistsStrategy(@Nullable Function<AudioClipPlayer, Boolean> existingPlayerHandler) {
-            this.existingPlayerHandler = existingPlayerHandler;
-        }
+        /**
+         * @return  true to indicate that new player should NOT be created,
+         * otherwise existing player is closed and new player is created
+         * */
+        boolean handleExisting(@NotNull AudioPlayer player);
+
     }
 
 
 
-
     @NotNull
-    private final Map<Long, AudioClipPlayer> mOpenCLipPlayers= Collections.synchronizedMap(new HashMap<>());
+    private final Map<Long, AudioPlayer> mOpenPlayers = Collections.synchronizedMap(new HashMap<>());
     private long mIdGen = 10000;
 
     @Override
-    public synchronized void onPlayerStateChanged(@NotNull AudioClipPlayer player, AudioClipPlayer.@NotNull State old, AudioClipPlayer.@NotNull State state) {
-        Log.d(TAG, "Player state changed: ID: " + player.getId() + ", state: " + state);
-
+    public synchronized void onPlayerStateChanged(@NotNull AudioPlayer player, AudioPlayer.@NotNull State old, AudioPlayer.@NotNull State state) {
         switch (state) {
             case OPEN -> {
                 player.ensureListener(AudioController.this);
-                mOpenCLipPlayers.put(player.getId(), player);
+                mOpenPlayers.put(player.getId(), player);
             }
 
             case CLOSED -> {
                 player.removeListener(AudioController.this);
-                mOpenCLipPlayers.remove(player.getId());
+                mOpenPlayers.remove(player.getId());
             }
         }
     }
 
     public int openPlayersCount() {
-        return mOpenCLipPlayers.size();
+        return mOpenPlayers.size();
     }
 
     public synchronized void closeAllOpenPlayers() {
-        final List<AudioClipPlayer> players = CollectionUtil.linkedListCopy(mOpenCLipPlayers.values());
-        mOpenCLipPlayers.clear();
+        final List<AudioPlayer> players = CollectionUtil.linkedListCopy(mOpenPlayers.values());
+        mOpenPlayers.clear();
 
-        players.forEach(AudioClipPlayer::closeNoThrow);
+        players.forEach(AudioPlayer::closeNoThrow);
     }
 
     @Nullable
-    public synchronized AudioClipPlayer getClipPlayerIfOpen(long id) {
-        return mOpenCLipPlayers.get(id);
+    public synchronized AudioPlayer getPlayerIfOpen(long id) {
+        return mOpenPlayers.get(id);
     }
 
-    public synchronized void closeClipPlayer(long id) {
-        final AudioClipPlayer player = getClipPlayerIfOpen(id);
+    @Nullable
+    public synchronized AudioPlayer getPlayerIfOpen(@NotNull URL url) {
+        for (AudioPlayer player: mOpenPlayers.values()) {
+            Object tag = player.getTag();
+            if (tag instanceof URL && url.equals(tag))
+                return player;
+        }
+
+        return null;
+    }
+
+
+    public synchronized void closePlayer(long id) {
+        final AudioPlayer player = getPlayerIfOpen(id);
         if (player != null) {
             player.closeNoThrow();
         }
     }
 
-    public synchronized boolean play(long id, @NotNull URL url, int loopCount, @Nullable ExistsStrategy existsStrategy) {
-        if (existsStrategy != null && existsStrategy.existingPlayerHandler != null) {
-            final AudioClipPlayer player = getClipPlayerIfOpen(id);
-            if (player != null) {
-                final boolean handled = existsStrategy.existingPlayerHandler.apply(player);
-                if (handled) {
-                    return true;
-                }
+    public synchronized void closePlayer(@NotNull URL url) {
+        final AudioPlayer player = getPlayerIfOpen(url);
+        if (player != null) {
+            player.closeNoThrow();
+        }
+    }
+
+    @Nullable
+    public synchronized AudioPlayer createPlayer(boolean stream, long id, @NotNull URL url, @NotNull ExistsStrategy existsStrategy) {
+        final AudioPlayer old = getPlayerIfOpen(id);
+        if (old != null) {
+            final boolean handled = existsStrategy.handleExisting(old);
+            if (handled) {
+                return old;
             }
         }
 
-        closeClipPlayer(id);
-        final AudioClipPlayer player = AudioClipPlayer.createNoThrow(id, url);
+        closePlayer(id);
+        final AudioPlayer player = stream? AudioStreamer.createNoThrow(id, url): AudioClipPlayer.createNoThrow(id, url);
         if (player != null) {
             player.setCloseOnEnd(true);
             player.addListener(this);
 
             if (!player.considerOpenNoThrow()) {
                 player.removeListener(this);
-                return false;
+                return null;
             }
 
-//            player.setLoopCount(loopCount);  // TODO: BUG: undefined behaviour, sometimes blocks indefinitely
-            return player.playNoThrow();
+            player.setTag(url);
+            return player;
         }
 
-        return false;
+        return null;
+    }
+
+
+    public synchronized long nextId() {
+        return mIdGen++;
     }
 
     /**
      * Play a sound clip and forget it
      * */
-    public synchronized boolean playOnce(@NotNull URL url) {
-        return play(mIdGen++, url, 0, null);        // with a custom unique id
+    public synchronized AudioPlayer play(boolean stream, @NotNull URL url) {
+        final AudioPlayer player = createPlayer(stream, nextId(), url, ExistsStrategy.CLOSE);  // with a custom unique id
+        if (player != null) {
+            player.playNoThrow();
+        }
+
+        return player;
+    }
+
+    public synchronized AudioPlayer playClip(@NotNull URL url) {
+        return play(false, url);
+    }
+
+    public synchronized AudioPlayer stream(@NotNull URL url) {
+        return play(true, url);
+    }
+
+    /**
+     * Plays a clip forever (loops continuously), and keeps existing player
+     * */
+    public synchronized AudioPlayer playForever(boolean stream, long id, @NotNull URL url) {
+        final AudioPlayer player = createPlayer(stream, id, url, ExistsStrategy.KEEP);
+        if (player != null) {
+            if (player.isLoopSupported()) {
+                player.loopContinuously();
+            }
+
+            player.playNoThrow();
+        }
+
+        return player;
+    }
+
+    public synchronized AudioPlayer playForever(boolean stream, @NotNull URL url) {
+        final AudioPlayer old = getPlayerIfOpen(url);
+
+        if (old != null) {
+            if (old.isLoopSupported()) {
+                old.loopContinuously();
+            }
+
+            old.playNoThrow();
+            return old;
+        }
+
+        return playForever(stream, nextId(), url);
     }
 
 }
+
