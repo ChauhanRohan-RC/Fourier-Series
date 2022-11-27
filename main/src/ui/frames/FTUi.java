@@ -9,6 +9,8 @@ import rotor.RotorStateManager;
 import rotor.frequency.RotorFrequencyProviderI;
 import ui.action.ActionInfo;
 import ui.action.UiAction;
+import ui.audio.MusicPlayer;
+import ui.audio.AuxSoundsPlayer;
 import ui.panels.FTGraphPanel;
 import ui.panels.FTWinderPanel;
 import ui.panels.FunctionGraphPanel;
@@ -47,19 +49,14 @@ public class FTUi extends BaseFrame {
             syncTitle();
 
             if (isLoading && !isPlaying()) {
-                R.playMusic();
+                MusicPlayer.getSingleton().requestPlay(token);
             }
         }
 
         @Override
         public void onIsPlayingChanged(@NotNull FTWinderPanel panel, boolean playing) {
             setPlay(panel.isPlaying());
-
-            if (playing) {
-                R.playMusic();
-            } else {
-                R.pauseMusic();
-            }
+            MusicPlayer.getSingleton().requestPlayPause(token, playing);
         }
 
         @Override
@@ -131,8 +128,10 @@ public class FTUi extends BaseFrame {
     private final JComponent[] rotorDependentComps;              // Ui components that depend on Rotors
     @NotNull
     private final JSplitPane splitPane;
-
     private boolean ignoreNextCurrentRotorSliderEvent;
+
+    @NotNull
+    private final Object token = new Object();
 
     public FTUi(@NotNull RotorStateManager manager) {
         super();
@@ -220,6 +219,10 @@ public class FTUi extends BaseFrame {
 //        menuView.addSeparator();
 //        menuView.add(uia(ActionInfo.TOGGLE_FULLSCREEN));
         menuBar.add(Ui.createViewMenu(this::uia));
+
+        // Music Menu
+        menuBar.add(MusicPlayer.getSingleton().createPlaybackMenu());
+
 
         // Settings
         menuBar.add(Ui.createSettingsMenu(this));
@@ -464,6 +467,7 @@ public class FTUi extends BaseFrame {
             setFullscreenInternal(DEFAULT_FULLSCREEN);     // sync
             requestFocusInWindow();
             update();
+
         });
     }
 
@@ -815,7 +819,18 @@ public class FTUi extends BaseFrame {
         Ui.askSaveRotorStatesToCSV(FTUi.this, ftWinderPanel.getRotorStateManager());
     }
 
+    @Override
+    public void windowOpened(WindowEvent e) {
+        AuxSoundsPlayer.getSingleton().playWindowOpen();
+        super.windowOpened(e);
+    }
 
+    @Override
+    public void windowClosing(WindowEvent e) {
+        MusicPlayer.getSingleton().requestPause(token);
+        AuxSoundsPlayer.getSingleton().playWindowClose();
+        super.windowClosing(e);
+    }
 
     public void cancelRunningTasks() {
         if (ftWinderPanel.getRotorStateManager().isLoading()) {

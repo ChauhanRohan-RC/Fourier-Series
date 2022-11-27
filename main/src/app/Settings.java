@@ -7,6 +7,8 @@ import com.google.gson.annotations.SerializedName;
 import json.Json;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ui.audio.MusicPlayer;
+import ui.audio.AuxSoundsPlayer;
 import util.FileUtil;
 import util.Format;
 import util.Log;
@@ -37,6 +39,8 @@ public class Settings {
         void onFTIntegrationIntervalCountChanged(int fourierTransformSimpson13NDefault);
 
         void onLogPrefsChanged();
+
+        void onSoundPrefChanged();
     }
 
 
@@ -56,6 +60,10 @@ public class Settings {
     private static final String KEY_LOG_TO_CONSOLE = "console_logging";
     private static final String KEY_LOG_TO_FILE = "file_logging";
 
+    // Sounds
+    private static final String PREFS_SOUND = "sound";
+    private static final String KEY_SOUNDS_ENABLED = "aux_sounds_enabled";
+    private static final String KEY_MUSIC_ENABLED = "music_enabled";
 
 
     // Default Appearance
@@ -64,6 +72,9 @@ public class Settings {
     // Default Config
     public static final int DEFAULT_FT_INTEGRATION_INTERVAL_COUNT = ComplexUtil.FOURIER_TRANSFORM_SIMPSON_13_N_DEFAULT;
 
+    // Default sound
+    public static final boolean DEFAULT_AUX_SOUNDS_ENABLED = AuxSoundsPlayer.DEFAULT_ENABLED;
+    public static final boolean DEFAULT_MUSIC_ENABLED = MusicPlayer.DEFAULT_ENABLED;
 
     @NotNull
     public static String getCurrentLookAndFeelClassName() {
@@ -72,6 +83,14 @@ public class Settings {
 
     public static int getCurrentFTIntegrationIntervalCount() {
         return ComplexUtil.getFourierTransformSimpson13NCurrentDefault();
+    }
+
+    public static boolean isCurrentlyAuxSoundsEnabled() {
+        return AuxSoundsPlayer.getSingleton().isEnabled();
+    }
+
+    public static boolean isCurrentlyMusicEnabled() {
+        return MusicPlayer.getSingleton().isEnabled();
     }
 
 
@@ -208,6 +227,15 @@ public class Settings {
     @Nullable
     private volatile Boolean mLogToFile;
 
+    /* Sounds */
+    @SerializedName(KEY_SOUNDS_ENABLED)
+    @Nullable
+    private volatile Boolean mAuxSoundsEnabled;
+
+    @SerializedName(KEY_MUSIC_ENABLED)
+    @Nullable
+    private volatile Boolean mMusicEnabled;
+
     // DEFAULT
     private Settings() {
 //        mLookAndFeelClassName = DEFAULT_LOOK_AND_FEEL_CLASSNAME;
@@ -249,6 +277,10 @@ public class Settings {
         // Config
         setFTIntegrationIntervalCount(getFTIntegrationIntervalCountOrDefault());
 
+        // sounds
+        setAuxSoundsEnabled(getAuxSoundsEnabledOrDefault());
+        setMusicEnabled(getMusicEnabledOrDefault());
+
         // Logs
         setLogDebug(getLogDebugOrDefault());
         setLogToConsole(getLogToConsoleOrDefault());
@@ -263,15 +295,22 @@ public class Settings {
         setFTIntegrationIntervalCount(DEFAULT_FT_INTEGRATION_INTERVAL_COUNT);
     }
 
+    public void resetSound() {
+        setAuxSoundsEnabled(DEFAULT_AUX_SOUNDS_ENABLED);
+        setMusicEnabled(DEFAULT_MUSIC_ENABLED);
+    }
+
     public void resetLogs() {
         setLogDebug(Log.DEFAULT_DEBUG);
         setLogToConsole(Log.DEFAULT_LOG_TO_CONSOLE);
         setLogToFile(Log.DEFAULT_LOG_TO_FILE);
     }
 
+
     public void resetAll() {
         resetAppearance();
         resetConfig();
+        resetSound();
         resetLogs();
     }
 
@@ -454,6 +493,61 @@ public class Settings {
     }
 
 
+    /* .................................. Sounds ...................................... */
+
+    protected void onSoundPrefsChanged() {
+        mListeners.dispatchOnMainThread(Listener::onSoundPrefChanged);
+    }
+
+    @Nullable
+    public Boolean getAuxSoundsEnabled() {
+        return mAuxSoundsEnabled;
+    }
+
+    public boolean getAuxSoundsEnabled(boolean defaultValue) {
+        final Boolean en = mAuxSoundsEnabled;
+        if (en != null)
+            return en;
+        return defaultValue;
+    }
+
+    public boolean getAuxSoundsEnabledOrDefault() {
+        return getAuxSoundsEnabled(DEFAULT_AUX_SOUNDS_ENABLED);
+    }
+
+    public void setAuxSoundsEnabled(boolean soundsEnabled) {
+        boolean changed = AuxSoundsPlayer.getSingleton().setEnabled(soundsEnabled);
+        mAuxSoundsEnabled = AuxSoundsPlayer.getSingleton().isEnabled();
+        if (changed) {
+            onSoundPrefsChanged();
+        }
+    }
+
+
+    @Nullable
+    public Boolean getMusicEnabled() {
+        return mMusicEnabled;
+    }
+
+    public boolean getMusicEnabled(boolean defaultValue) {
+        final Boolean en = mMusicEnabled;
+        if (en != null)
+            return en;
+        return defaultValue;
+    }
+
+    public boolean getMusicEnabledOrDefault() {
+        return getMusicEnabled(DEFAULT_MUSIC_ENABLED);
+    }
+
+    public void setMusicEnabled(boolean musicEnabled) {
+        boolean changed = MusicPlayer.getSingleton().setEnabled(musicEnabled);
+        mMusicEnabled = MusicPlayer.getSingleton().isEnabled();
+        if (changed) {
+            onSoundPrefsChanged();
+        }
+    }
+
 
     /*...................................  JSON  ...........................................*/
 
@@ -538,6 +632,11 @@ public class Settings {
             final JsonObject config = new JsonObject();
             config.addProperty(KEY_FT_INTEGRATION_INTERVALS, getCurrentFTIntegrationIntervalCount());
 
+            // Sound
+            final JsonObject sound = new JsonObject();
+            sound.addProperty(KEY_SOUNDS_ENABLED, isCurrentlyAuxSoundsEnabled());
+            sound.addProperty(KEY_MUSIC_ENABLED, isCurrentlyMusicEnabled());
+
             // LOGS
             final JsonObject logs = new JsonObject();
             logs.addProperty(KEY_LOG_DEBUG, Log.isDebugEnabled());
@@ -548,6 +647,7 @@ public class Settings {
             final JsonObject settings = new JsonObject();
             settings.add(PREFS_APPEARANCE, appearance);
             settings.add(PREFS_CONFIG, config);
+            settings.add(PREFS_SOUND, sound);
             settings.add(PREFS_LOGS, logs);
             return settings;
         }
@@ -573,6 +673,20 @@ public class Settings {
                 final JsonPrimitive ftIntegrationIntervals = config.getAsJsonPrimitive(KEY_FT_INTEGRATION_INTERVALS);
                 if (ftIntegrationIntervals != null) {
                     settings.mFtIntegrationIntervalCount = ftIntegrationIntervals.getAsInt();
+                }
+            }
+
+            // Sound
+            final JsonObject sound = o.getAsJsonObject(PREFS_SOUND);
+            if (sound != null) {
+                final JsonPrimitive auxSounds = sound.getAsJsonPrimitive(KEY_SOUNDS_ENABLED);
+                if (auxSounds != null) {
+                    settings.mAuxSoundsEnabled = auxSounds.getAsBoolean();
+                }
+
+                final JsonPrimitive music = sound.getAsJsonPrimitive(KEY_MUSIC_ENABLED);
+                if (music != null) {
+                    settings.mMusicEnabled = music.getAsBoolean();
                 }
             }
 

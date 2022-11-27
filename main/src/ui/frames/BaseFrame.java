@@ -159,6 +159,11 @@ public class BaseFrame extends JFrame implements Ui,
 
     }
 
+    @Override
+    public void onSoundPrefChanged() {
+
+    }
+
     /* Mouse Listeners */
 
     @Override
@@ -227,7 +232,6 @@ public class BaseFrame extends JFrame implements Ui,
     @Override
     public void windowClosing(WindowEvent e) {
         Settings.getSingleton().removeListener(this);
-
         App.onWindowClose(this);
     }
 

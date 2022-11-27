@@ -16,6 +16,7 @@ import provider.FunctionType;
 import provider.PathFunctionProvider;
 import ui.audio.AudioPlayer;
 import ui.audio.AudioController;
+import ui.audio.source.PathAudioSource;
 import util.*;
 import util.async.*;
 
@@ -221,17 +222,10 @@ public class R {
     public static final Path SOUND_FILE_HOVER = DIR_SOUND.resolve("hover.wav");
 
     public static final List<Path> MUSIC_FILES = FileUtil.listRegularFiles(DIR_MUSIC);
-    public static final long SOUND_ID_MUSIC = 23651273;
 
-    public static final AudioController AUDIO_CONTROLLER = new AudioController();
-
-    public static void playSoundClick() {
-        AUDIO_CONTROLLER.playClip(url(SOUND_FILE_CLICK));
-    }
-
-    public static void playSoundHover() {
-        AUDIO_CONTROLLER.playClip(url(SOUND_FILE_CLICK));
-    }
+//    public static final AudioController AUDIO_CONTROLLER = new AudioController();
+//
+//
 
 
 //    @Nullable
@@ -291,79 +285,79 @@ public class R {
 //        }
 //    }
 
-    @Nullable
-    public static AudioPlayer getMusicPlayer() {
-        return AUDIO_CONTROLLER.getPlayerIfOpen(SOUND_ID_MUSIC);
-    }
-
-    private static final AudioPlayer.Listener sMusicListener = new AudioPlayer.Listener() {
-        @Override
-        public void onPlayerStateChanged(@NotNull AudioPlayer player, AudioPlayer.@NotNull State old, AudioPlayer.@NotNull State state) {
-            Log.d(TAG, "Music player state changed: " + old + " -> " + state);
-            if (state == AudioPlayer.State.ENDED) {
-                Async.uiPost(R::playMusic, 100);      // play next
-            }
-        }
-    };
-
-    public static final boolean MUSIC_ENABLED = true;       // TODO: settings and controls
-
-    public static void playMusic() {
-        if (!MUSIC_ENABLED)
-            return;
-
-        final AudioPlayer old = getMusicPlayer();
-        if (old != null && old.play()) {
-            return;
-        }
-
-        if (MUSIC_FILES.isEmpty())
-            return;
-
-        final int musicIndex = RANDOM.nextInt(0, MUSIC_FILES.size());
-        final URL url = url(MUSIC_FILES.get(musicIndex));
-
-        Async.postIfNotOnMainThread(() -> {
-            final AudioPlayer player = AUDIO_CONTROLLER.createPlayer(true, SOUND_ID_MUSIC, url, AudioController.ExistsStrategy.KEEP);
-            if (player != null) {
-                if (old != null && player != old) {
-                    old.removeListener(sMusicListener);
-                }
-
-                player.ensureListener(sMusicListener);
-                player.play();
-            }
-        });
-    }
-
-    public static void pauseMusic() {
-        final AudioPlayer player = getMusicPlayer();
-        if (player != null) {
-            player.pause();
-        }
-    }
-
-    public static void killMusic() {
-        final AudioPlayer player = getMusicPlayer();
-        if (player != null) {
-            player.close();
-        }
-    }
-
-
-
-
-
-    @NotNull
-    public static URL url(@NotNull Path path) {
-        try {
-            return path.toUri().toURL();
-        } catch (Throwable t) {
-            final AssertionError error = new AssertionError("Failed to create URL from Path: " + path, t);
-            Log.e(TAG, error.getMessage(), error.getCause());
-            throw error;
-        }
-    }
+//    @Nullable
+//    public static AudioPlayer getMusicPlayer() {
+//        return AUDIO_CONTROLLER.getPlayerIfOpen(SOUND_ID_MUSIC);
+//    }
+//
+//    private static final AudioPlayer.Listener sMusicListener = new AudioPlayer.Listener() {
+//        @Override
+//        public void onPlayerStateChanged(@NotNull AudioPlayer player, AudioPlayer.@NotNull State old, AudioPlayer.@NotNull State state) {
+//            Log.d(TAG, "Music player state changed: " + old + " -> " + state);
+//            if (state == AudioPlayer.State.ENDED) {
+//                Async.uiPost(R::playMusic, 100);      // play next
+//            }
+//        }
+//    };
+//
+//    public static final boolean MUSIC_ENABLED = true;       // TODO: settings and controls
+//
+//    public static void playMusic() {
+//        if (!MUSIC_ENABLED)
+//            return;
+//
+//        final AudioPlayer old = getMusicPlayer();
+//        if (old != null && old.play()) {
+//            return;
+//        }
+//
+//        if (MUSIC_FILES.isEmpty())
+//            return;
+//
+//        final int musicIndex = RANDOM.nextInt(0, MUSIC_FILES.size());
+//        final URL url = url(MUSIC_FILES.get(musicIndex));
+//
+//        Async.postIfNotOnMainThread(() -> {
+//            final AudioPlayer player = AUDIO_CONTROLLER.createPlayer(true, SOUND_ID_MUSIC, url, AudioController.ExistsStrategy.KEEP);
+//            if (player != null) {
+//                if (old != null && player != old) {
+//                    old.removeListener(sMusicListener);
+//                }
+//
+//                player.ensureListener(sMusicListener);
+//                player.play();
+//            }
+//        });
+//    }
+//
+//    public static void pauseMusic() {
+//        final AudioPlayer player = getMusicPlayer();
+//        if (player != null) {
+//            player.pause();
+//        }
+//    }
+//
+//    public static void killMusic() {
+//        final AudioPlayer player = getMusicPlayer();
+//        if (player != null) {
+//            player.close();
+//        }
+//    }
+//
+//
+//
+//
+//
+//    @NotNull
+//    public static URL url(@NotNull Path path) {
+//        try {
+//            return path.toUri().toURL();
+//        } catch (Throwable t) {
+//            final AssertionError error = new AssertionError("Failed to create URL from Path: " + path, t);
+//            Log.e(TAG, error.getMessage(), error.getCause());
+//            throw error;
+//        }
+//    }
 
     public static boolean ensureLogsDir() {
         return FileUtil.ensureDir(DIR_LOGS);

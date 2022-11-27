@@ -3,7 +3,6 @@ package ui.audio;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ui.audio.source.AudioSource;
-import util.Log;
 import util.live.Listeners;
 import util.live.ListenersI;
 
@@ -24,9 +23,12 @@ public class AudioListPlayer implements AutoCloseable, AudioPlayer.Listener, Lis
     }
 
     public interface Listener {
+
         void onListPlayerStateChanged(@NotNull AudioListPlayer listPlayer, @NotNull AudioPlayer.State oldState, @NotNull AudioPlayer.State newState);
 
         void onCurrentPlayerChanged(@NotNull AudioListPlayer listPlayer, @NotNull Indices oldIndices, @NotNull Indices newIndices);
+
+        void onListPlayerEnabledChanged(@NotNull AudioListPlayer listPlayer, boolean enabled);
     }
 
 
@@ -76,7 +78,7 @@ public class AudioListPlayer implements AutoCloseable, AudioPlayer.Listener, Lis
 
         // Previous Loop
         if (loopCount == AudioPlayer.LOOP_CONTINUOUSLY || curLoopIndex > 0) {
-            return new Indices(curLoopIndex - 1, playersCount - 1);
+            return new Indices(Math.max(curLoopIndex - 1, 0), playersCount - 1);
         }
 
         return null;
@@ -90,6 +92,8 @@ public class AudioListPlayer implements AutoCloseable, AudioPlayer.Listener, Lis
     @NotNull
     private volatile AudioPlayer.State mState = AudioPlayer.State.IDLE;
 
+    private volatile boolean mEnabled = true;
+
     private volatile int mCurPlayerIndex;
     private volatile int mCurLoopIndex;
     private volatile int mLoopCount;
@@ -99,8 +103,7 @@ public class AudioListPlayer implements AutoCloseable, AudioPlayer.Listener, Lis
     @NotNull
     private final Listeners<Listener> mListeners = new Listeners<>();
 
-    public AudioListPlayer(boolean stream, @NotNull List<AudioSource> sources) {
-
+    public AudioListPlayer(boolean stream, @NotNull List<? extends AudioSource> sources) {
         final AtomicInteger i = new AtomicInteger(0);
         this.players = sources.stream().map(s -> {
             final AudioPlayer player = createPlayer(stream, i.getAndIncrement(), s);
@@ -111,6 +114,10 @@ public class AudioListPlayer implements AutoCloseable, AudioPlayer.Listener, Lis
 
     public int getCount() {
         return players.size();
+    }
+
+    public boolean hasSources() {
+        return getCount() > 0;
     }
 
     @NotNull
@@ -130,6 +137,12 @@ public class AudioListPlayer implements AutoCloseable, AudioPlayer.Listener, Lis
             return null;
 
         return getPlayerAt(mCurPlayerIndex);
+    }
+
+    @Nullable
+    public AudioSource getCurrentSource() {
+        final AudioPlayer player = getCurrentPlayer();
+        return player != null? player.getSource(): null;
     }
 
 
@@ -193,6 +206,14 @@ public class AudioListPlayer implements AutoCloseable, AudioPlayer.Listener, Lis
         }
     }
 
+    public synchronized void togglePlayPause() {
+        if (isPlaying()) {
+            pause();
+        } else {
+            play();
+        }
+    }
+
     public synchronized void stop() {
         if (!isPlaying())
             return;
@@ -214,7 +235,7 @@ public class AudioListPlayer implements AutoCloseable, AudioPlayer.Listener, Lis
      * @return if the new player is now started (opening or playing)
      * */
     private synchronized boolean play(@NotNull Indices indices) {
-        if (!indices.areValid(mLoopCount, getCount()))
+        if (!(mEnabled && indices.areValid(mLoopCount, getCount())))
             return false;
 
         final int curPlayerIndex = mCurPlayerIndex;
@@ -365,9 +386,10 @@ public class AudioListPlayer implements AutoCloseable, AudioPlayer.Listener, Lis
         updateState(newState, true);
     }
 
-
-
-
+    @NotNull
+    public AudioPlayer.State getState() {
+        return mState;
+    }
 
     protected void onLoopCountChanged(int oldLoopCount, int loopCount) {
 
@@ -409,12 +431,18 @@ public class AudioListPlayer implements AutoCloseable, AudioPlayer.Listener, Lis
         players.forEach(AudioPlayer::close);
     }
 
+
+    protected void doReset() {
+
+    }
+
     // Reset back to idle state
-    public void reset() {
+    public final void reset() {
         closeAllPlayers();
         mCurLoopIndex = 0;
         mCurPlayerIndex = 0;
-        forceState(AudioPlayer.State.IDLE);
+        doReset();
+        updateState(AudioPlayer.State.IDLE);
     }
 
     @Override
@@ -423,6 +451,41 @@ public class AudioListPlayer implements AutoCloseable, AudioPlayer.Listener, Lis
         mCurLoopIndex = 0;
         mCurPlayerIndex = 0;
         forceState(AudioPlayer.State.CLOSED);
+    }
+
+
+    public boolean isEnabled() {
+        return mEnabled;
+    }
+
+
+    protected void onEnabledChanged(final boolean enabled) {
+        if (!enabled) {
+            reset();
+        }
+
+        mListeners.dispatchOnMainThread(l -> l.onListPlayerEnabledChanged(AudioListPlayer.this, enabled));
+    }
+
+    private void setEnabledInternal(boolean enabled) {
+        mEnabled = enabled;
+        onEnabledChanged(enabled);
+    }
+
+    /**
+     * @return whether enabled state is changed
+     * */
+    public boolean setEnabled(boolean enabled) {
+        final boolean old = mEnabled;
+        if (old == enabled)
+            return false;
+
+        setEnabledInternal(enabled);
+        return true;
+    }
+
+    public void toggleEnabled() {
+        setEnabledInternal(!mEnabled);
     }
 
 

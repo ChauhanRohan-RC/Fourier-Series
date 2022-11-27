@@ -118,6 +118,8 @@ public interface AudioPlayer extends AutoCloseable, ListenersI<AudioPlayer.Liste
     @NotNull
     AudioSource getSource();
 
+    boolean isStreaming();
+
     State getState();
 
     @Nullable

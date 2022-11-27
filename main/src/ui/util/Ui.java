@@ -14,6 +14,8 @@ import rotor.FunctionState;
 import rotor.RotorStateManager;
 import rotor.frequency.RotorFrequencyProviderI;
 import ui.action.ActionInfo;
+import ui.audio.AuxSoundsPlayer;
+import ui.audio.MusicPlayer;
 import ui.frames.FTUi;
 import ui.frames.FourierUi;
 import ui.panels.ExternalProgramPanel;
@@ -297,6 +299,21 @@ public interface Ui {
     }
 
     @NotNull
+    static JMenu createSettingsSoundsMenu() {
+        final JMenu menu = new JMenu("Sound");
+
+        menu.add(new JCheckBoxMenuItem(AuxSoundsPlayer.getSingleton().getEnabledAction()));
+        menu.add(new JCheckBoxMenuItem(MusicPlayer.getSingleton().getEnabledAction()));
+
+        // Last - Reset
+        menu.addSeparator();
+        final JMenuItem resetSound = new JMenuItem("Reset Sound");
+        resetSound.addActionListener(e -> Settings.getSingleton().resetSound());
+        menu.add(resetSound);
+        return menu;
+    }
+
+    @NotNull
     static JMenu createSettingsMenu(@NotNull Ui ui) {
         final JMenu menu = new JMenu("Settings");
 
@@ -306,7 +323,10 @@ public interface Ui {
         // 2. Config
         menu.add(createSettingsConfigurationMenu(ui));
 
-        // 3. Logs
+        // 3. Sound
+        menu.add(createSettingsSoundsMenu());
+
+        // 4. Logs
         menu.add(createSettingsLogsMenu());
 
         // Last: Reset All

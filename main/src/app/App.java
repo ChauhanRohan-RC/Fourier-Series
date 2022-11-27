@@ -38,6 +38,11 @@ public class App {
         public void onLogPrefsChanged() {
 
         }
+
+        @Override
+        public void onSoundPrefChanged() {
+
+        }
     };
 
     private static void init() {
@@ -88,13 +93,6 @@ public class App {
     // TODO: Test launcher
     private static void launchTest(String[] args) {
 
-        Async.postIfNotOnMainThread(() -> {
-
-//            R.playMusic();
-
-            final FourierUi ui = new FourierUi(null, -1);
-            ui.setFunctionProvider(Providers.NoopProvider.getSingleton());          // start with None
-        });
     }
 
     // TODO: Main production launcher
@@ -106,7 +104,7 @@ public class App {
     }
 
 
-    public static final boolean TEST = true;
+    public static final boolean TEST = false;
 
     public static void main(String[] args) {
         init();

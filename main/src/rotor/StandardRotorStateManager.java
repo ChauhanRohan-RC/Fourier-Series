@@ -598,4 +598,9 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
     public void onLogPrefsChanged() {
 
     }
+
+    @Override
+    public void onSoundPrefChanged() {
+
+    }
 }

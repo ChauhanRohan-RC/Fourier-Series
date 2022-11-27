@@ -94,6 +94,11 @@ public class AudioClipPlayer extends AbstractLinePlayer {
     }
 
     @Override
+    public boolean isStreaming() {
+        return false;
+    }
+
+    @Override
     protected @Nullable DataLine getLine() {
         return mClip;
     }

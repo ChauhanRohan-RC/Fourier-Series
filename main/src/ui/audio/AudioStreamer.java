@@ -93,6 +93,11 @@ public class AudioStreamer extends AbstractLinePlayer implements Runnable {
     }
 
     @Override
+    public boolean isStreaming() {
+        return true;
+    }
+
+    @Override
     protected @Nullable DataLine getLine() {
         return mLine;
     }

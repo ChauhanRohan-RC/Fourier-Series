@@ -12,6 +12,8 @@ import rotor.StandardRotorStateManager;
 import rotor.frequency.RotorFrequencyProviderI;
 import ui.action.ActionInfo;
 import ui.action.UiAction;
+import ui.audio.MusicPlayer;
+import ui.audio.AuxSoundsPlayer;
 import ui.panels.FourierSeriesPanel;
 import ui.util.Ui;
 import util.Log;
@@ -113,6 +115,9 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
     final JMenu menuRotorStates;
     final JMenu menuFunctionState;
 //    final JMenu menuView;
+
+    @NotNull
+    private final Object token = new Object();
 
     public FourierUi() {
         this(null, 0 /* First */);
@@ -273,6 +278,9 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
 //        menuView.addSeparator();
 //        menuView.add(uia(ActionInfo.TOGGLE_FULLSCREEN));
         menuBar.add(Ui.createViewMenu(this::uia));
+
+        // Music Menu
+        menuBar.add(MusicPlayer.getSingleton().createPlaybackMenu());
 
         // Settings
         menuBar.add(Ui.createSettingsMenu(this));
@@ -1043,12 +1051,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
     @Override
     public void onIsPlayingChanged(boolean playing) {
         setPlay(playing);
-
-        if (playing) {
-            R.playMusic();
-        } else {
-            R.pauseMusic();
-        }
+        MusicPlayer.getSingleton().requestPlayPause(token, playing);
     }
 
     @Override
@@ -1218,7 +1221,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
         syncTitle();
 
         if (isLoading && !isPlaying()) {
-            R.playMusic();
+            MusicPlayer.getSingleton().requestPlay(token);
         }
     }
 
@@ -1361,6 +1364,19 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
         Ui.askSaveRotorStatesToCSV(FourierUi.this, fsPanel.getRotorStateManager());
     }
 
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+        AuxSoundsPlayer.getSingleton().playWindowOpen();
+        super.windowOpened(e);
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        MusicPlayer.getSingleton().requestPause(token);
+        AuxSoundsPlayer.getSingleton().playWindowClose();
+        super.windowClosing(e);
+    }
 
     @Nullable
     private FTUi prevFtUi;
