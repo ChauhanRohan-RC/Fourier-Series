@@ -538,6 +538,13 @@ public class Log {
         e(null, msg);
     }
 
+    public static void e(String tag, Throwable t) {
+        if (t == null)
+            return;
+
+        final Throwable cause = t.getCause();
+        e(tag, t.getMessage(), cause != null? cause: t);
+    }
 
 
     private static class LogFormatter extends Formatter {

@@ -9,6 +9,8 @@ import provider.FunctionMeta;
 import provider.FunctionType;
 import rotor.StandardRotorStateManager;
 import rotor.frequency.FixedStartFrequencyProvider;
+import ui.audio.AudioListPlayer;
+import ui.audio.source.PathAudioSource;
 import ui.panels.FTGraphPanel;
 import ui.panels.FTWinderPanel;
 import ui.frames.FourierUi;
@@ -21,6 +23,7 @@ import util.async.Task;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 
 public class Test extends JFrame {
@@ -120,7 +123,17 @@ public class Test extends JFrame {
     public static void main(String[] args) {
         R.init();
         Settings.getSingleton();
-        final Test frame = new Test();
+//        final Test frame = new Test();
+
+        final AudioListPlayer player = new AudioListPlayer(true, R.MUSIC_FILES.stream().map(PathAudioSource::new).collect(Collectors.toList()));
+        player.play();
+
+        Async.uiPost(player::playNext, 2000);
+        Async.uiPost(player::pause, 4000);
+        Async.uiPost(player::play, 6000);
+
+        Async.uiPost(player::reset, 8000);
+        Async.uiPost(player::play, 9000);
     }
 
 }

@@ -2,89 +2,125 @@ package ui.audio;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import util.Log;
+import ui.audio.source.AudioSource;
 import util.async.Async;
-import util.live.Listeners;
-import util.live.ListenersI;
 
 import javax.sound.sampled.*;
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.net.URL;
-import java.util.Collection;
-
 
 public class AudioStreamer extends AbstractLinePlayer implements Runnable {
 
     public static final String TAG = "AudioStreamer";
 
-    private static int bufferSize(@NotNull AudioFormat format) {
-        return ((int) (format.getFrameRate() / 2)) * format.getFrameSize();     // 0.5 seconds worth of data
-    }
+    private static final int DEFAULT_BUFFER_SIZE = 102400;      // 100 kb
 
-    /**
-     * Creates Sound player for the given URL
-     *
-     * @param id id of the player
-     * @param url url of the audio file
-     *
-     * @return Sound player for the given URL
-     * @throws CreationException if there is an error creating the sound player. Use its {@link CreationException#getCause() cause}
-     * to get actual exception
-     * */
-    @NotNull
-    public static AudioStreamer create(long id, @NotNull URL url) throws CreationException {
-        try {
-            AudioInputStream stream = AudioSystem.getAudioInputStream(url);
-            final AudioFormat baseFormat = stream.getFormat();
-            final AudioFormat newFormat = AudioPlayer.transformAudioFormat(baseFormat);
-            if (newFormat != baseFormat) {
-                stream = AudioSystem.getAudioInputStream(newFormat, stream);
+    private static int bufferSize(@Nullable AudioFormat format) {
+        if (format == null)
+            return DEFAULT_BUFFER_SIZE;
+
+        final float secs = 0.5f;
+
+        if (format.getSampleRate() != AudioSystem.NOT_SPECIFIED) {
+            int sampleBits = format.getSampleSizeInBits();
+            if (sampleBits == AudioSystem.NOT_SPECIFIED) {
+                sampleBits = 16;        // 2 bytes
             }
 
-            final SourceDataLine clip = AudioSystem.getSourceDataLine(newFormat);
-
-            return new AudioStreamer(id, stream, clip);
-        } catch (UnsupportedAudioFileException e) {
-            throw new CreationException("Unsupported Audio File format\nURL: " + url, e);
-        } catch (LineUnavailableException e) {
-            throw new CreationException("Sound clip could not be initialised due to system restrictions\nURL: " + url, e);
-        } catch (IOException e) {
-            throw new CreationException("I/O error in initialising Audio Stream\nURL: " + url, e);
-        } catch (IllegalArgumentException e) {
-            throw new CreationException("No installed mixer supports sound clip\nURL: " + url, e);
-        } catch (Throwable t) {
-            throw new CreationException("Unknown error in initialising Audio Clip Player\nURL: " + url, t);
+            return ((int) (format.getSampleRate() * (sampleBits / 8f) * secs));
         }
+
+        if (format.getFrameRate() != AudioSystem.NOT_SPECIFIED && format.getFrameSize() != AudioSystem.NOT_SPECIFIED) {
+            return ((int) (format.getFrameRate() * format.getFrameSize() * secs));
+        }
+
+        return DEFAULT_BUFFER_SIZE;
     }
 
+
+//    /**
+//     * Creates Sound player for the given URL
+//     *
+//     * @param id id of the player
+//     * @param url url of the audio file
+//     *
+//     * @return Sound player for the given URL
+//     * @throws CreationException if there is an error creating the sound player. Use its {@link CreationException#getCause() cause}
+//     * to get actual exception
+//     * */
+//    @NotNull
+//    public static AudioStreamer create(long id, @NotNull URL url) throws CreationException {
+//
+//    }
+//
+//    @Nullable
+//    public static AudioStreamer createNoThrow(long id, @NotNull URL url) {
+//        try {
+//            return create(id, url);
+//        } catch (CreationException e) {
+//            Log.e(TAG, e.getMessage(), e.getCause());
+//        }
+//
+//        return null;
+//    }
+
+
+
+    @NotNull
+    private final AudioSource source;
+
     @Nullable
-    public static AudioStreamer createNoThrow(long id, @NotNull URL url) {
-        try {
-            return create(id, url);
-        } catch (CreationException e) {
-            Log.e(TAG, e.getMessage(), e.getCause());
+    private volatile AudioInputStream mStream;
+    @Nullable
+    private volatile SourceDataLine mLine;
+
+    private volatile boolean run;
+    private volatile byte[] buff;
+
+    public AudioStreamer(long id, @NotNull AudioSource source) {
+        super(id);
+        this.source = source;
+    }
+
+    @Override
+    public @NotNull String logTAG() {
+        return TAG;
+    }
+
+    @NotNull
+    @Override
+    public AudioSource getSource() {
+        return source;
+    }
+
+    @Override
+    protected @Nullable DataLine getLine() {
+        return mLine;
+    }
+
+    @Override
+    protected @Nullable AudioFormat getFormat() {
+        final AudioInputStream stream = mStream;
+        if (stream != null) {
+            return stream.getFormat();
         }
 
         return null;
     }
 
+    public long getFrameLength() {
+        final AudioInputStream stream = mStream;
+        if (stream != null) {
+            return stream.getFrameLength();
+        }
+
+        return AudioSystem.NOT_SPECIFIED;
+    }
 
 
-    @NotNull
-    private final AudioInputStream stream;
-    @NotNull
-    private final SourceDataLine line;
 
-    private volatile boolean run;
-    private volatile byte[] buff;
-
-    private AudioStreamer(long id, @NotNull AudioInputStream stream, @NotNull SourceDataLine line) {
-        super(id);
-        this.stream = stream;
-        this.line = line;
-
-        this.line.addLineListener(this);
+    private byte @NotNull[] createBuffer() {
+        final SourceDataLine _line = mLine;
+        return new byte[_line != null? _line.getBufferSize(): bufferSize(getFormat())];
     }
 
     private byte[] ensureBuffer() {
@@ -93,7 +129,7 @@ public class AudioStreamer extends AbstractLinePlayer implements Runnable {
             synchronized (this) {
                 b = buff;
                 if (b == null) {
-                    b = new byte[isOpen()? line.getBufferSize(): bufferSize(getFormat())];
+                    b = createBuffer();
                     buff = b;
                 }
             }
@@ -104,6 +140,11 @@ public class AudioStreamer extends AbstractLinePlayer implements Runnable {
 
     @Override
     public void run() {
+        final AudioInputStream stream = mStream;
+        final SourceDataLine line = mLine;
+        if (stream == null || line == null)
+            return;
+
         final byte[] buffer = ensureBuffer();
 
         while (run) {
@@ -116,37 +157,22 @@ public class AudioStreamer extends AbstractLinePlayer implements Runnable {
                     break;
                 }
             } catch (IOException e) {
-                Log.e(TAG, "failed to write data to line", e);
-                stop();
+                onError(new PlayerException("failed to write audio data to stream line", e));
                 break;
             }
         }
     }
 
     protected synchronized void onStateChanged(@NotNull State old, @NotNull State newState) {
-        if (newState == State.PAUSED || newState == State.STOPPED || newState == State.ENDED || newState == State.CLOSED) {
+        if (newState == State.PAUSED || newState == State.STOPPED || newState == State.ENDED || newState == State.ERROR || newState == State.CLOSED) {
             run = false;
 
             if (newState == State.STOPPED) {
-                // todo reset input stream
+                // todo reset input stream to start if seekable
             }
         }
     }
 
-
-    @Override
-    protected @NotNull DataLine getLine() {
-        return line;
-    }
-
-    @Override
-    protected @NotNull AudioFormat getFormat() {
-        return stream.getFormat();
-    }
-
-    public long getFrameLength() {
-        return stream.getFrameLength();
-    }
 
 
     @Override
@@ -175,34 +201,93 @@ public class AudioStreamer extends AbstractLinePlayer implements Runnable {
         throw new UnsupportedOperationException();
     }
 
-    public synchronized void considerOpen() throws PlayerException {
+    public synchronized boolean considerOpen() {
         if (isOpen())
-            return;
+            return true;
 
         try {
-            final AudioFormat format = getFormat();
-            line.open(format, bufferSize(format));
+            final AudioInputStream stream = AudioPlayer.openAudioInputStream(source);
+            mStream = stream;
+
+            final AudioFormat format = stream.getFormat();
+
+            // Detach
+            final SourceDataLine oldLine = mLine;
+            if (oldLine != null) {
+                oldLine.removeLineListener(this);
+                mLine = null;
+            }
+
+            final SourceDataLine newLine = AudioSystem.getSourceDataLine(format);
+            mLine = newLine;
+
             ensureBuffer();
+            newLine.addLineListener(this);
+            newLine.open(format, bufferSize(format));
+            return true;
+        } catch (PlayerException e) {
+            onError(e);
+        } catch (LineUnavailableException e) {
+            onError(new PlayerException("Audio data line could not be initialised due to system restrictions\nAudio Source: " + source, e));
+        } catch (IllegalArgumentException e) {
+            onError(new PlayerException("No installed mixer supports sound clip\nAudio Source: " + source, e));
         } catch (Throwable t) {
-            throw new PlayerException("Failed to open SourceDataLine", t);
+            onError(new PlayerException("Unknown error in initialising Audio Player\nAudio Source: " + source, t));
         }
+
+        return false;
     }
 
-    private void considerRun() {
-        if (!run) {
-            run = true;
-            Async.execute(this);
+    private boolean considerRun() {
+        if (run) {
+            return true;
         }
+
+        if (mStream == null || mLine == null)
+            return false;
+
+        run = true;
+        Async.execute(this);
+        return true;
     }
 
     @Override
-    public synchronized void play() throws PlayerException {
+    public synchronized boolean play() {
         if (isPlaying())
-            return;
+            return true;
 
-        considerOpen();
-        considerRun();
-        line.start();
+        if (!considerOpen())
+            return false;
+
+        final SourceDataLine line = mLine;
+        if (line == null)
+            return false;
+
+        try {
+            if (considerRun()) {
+                line.start();
+                return true;
+            }
+        } catch (Throwable t) {
+            onError(new PlayerException("Failed to play audio stream", t));
+        }
+
+        return false;
     }
 
+
+    @Override
+    protected synchronized void doClose() throws Exception {
+        final SourceDataLine line = mLine;
+        if (line != null) {
+            line.close();
+            mLine = null;
+        }
+
+        final AudioInputStream stream = mStream;
+        if (stream != null) {
+            stream.close();
+            mStream = null;
+        }
+    }
 }

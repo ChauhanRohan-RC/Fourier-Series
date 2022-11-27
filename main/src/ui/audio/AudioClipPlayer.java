@@ -2,11 +2,9 @@ package ui.audio;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import util.Log;
+import ui.audio.source.AudioSource;
 
 import javax.sound.sampled.*;
-import java.io.IOException;
-import java.net.URL;
 
 
 /**
@@ -20,67 +18,67 @@ public class AudioClipPlayer extends AbstractLinePlayer {
     public static final String TAG = "AudioClipPlayer";
 
 
-    /**
-     * Creates Sound player for the given URL
-     *
-     * @param id id of the player
-     * @param url url of the audio file
-     *
-     * @return Sound player for the given URL
-     * @throws CreationException if there is an error creating the sound player. Use its {@link CreationException#getCause() cause}
-     * to get actual exception
-     * */
+//    /**
+//     * Creates Sound player for the given URL
+//     *
+//     * @param id id of the player
+//     * @param url url of the audio file
+//     *
+//     * @return Sound player for the given URL
+//     * @throws CreationException if there is an error creating the sound player. Use its {@link CreationException#getCause() cause}
+//     * to get actual exception
+//     * */
+//    @NotNull
+//    public static AudioClipPlayer create(long id, @NotNull URL url) throws CreationException {
+//        try {
+//            AudioInputStream stream = AudioSystem.getAudioInputStream(url);
+//            final AudioFormat baseFormat = stream.getFormat();
+//            final AudioFormat newFormat = AudioPlayer.transformAudioFormat(baseFormat);
+//            if (newFormat != baseFormat) {
+//                stream = AudioSystem.getAudioInputStream(newFormat, stream);
+//            }
+//
+//            final Clip clip = AudioSystem.getClip();
+//
+//            return new AudioClipPlayer(id, stream, clip);
+//        } catch (UnsupportedAudioFileException e) {
+//            throw new CreationException("Unsupported Audio File format\nURL: " + url, e);
+//        } catch (LineUnavailableException e) {
+//            throw new CreationException("Sound clip could not be initialised due to system restrictions\nURL: " + url, e);
+//        } catch (IOException e) {
+//            throw new CreationException("I/O error in initialising Audio Stream\nURL: " + url, e);
+//        } catch (IllegalArgumentException e) {
+//            throw new CreationException("No installed mixer supports sound clip\nURL: " + url, e);
+//        } catch (Throwable t) {
+//            throw new CreationException("Unknown error in initialising Audio Clip Player\nURL: " + url, t);
+//        }
+//    }
+//
+//    @Nullable
+//    public static AudioClipPlayer createNoThrow(long id, @NotNull URL url) {
+//        try {
+//            return create(id, url);
+//        } catch (CreationException e) {
+//            Log.e(TAG, e.getMessage(), e.getCause());
+//        }
+//
+//        return null;
+//    }
+
+
+
+
     @NotNull
-    public static AudioClipPlayer create(long id, @NotNull URL url) throws CreationException {
-        try {
-            AudioInputStream stream = AudioSystem.getAudioInputStream(url);
-            final AudioFormat baseFormat = stream.getFormat();
-            final AudioFormat newFormat = AudioPlayer.transformAudioFormat(baseFormat);
-            if (newFormat != baseFormat) {
-                stream = AudioSystem.getAudioInputStream(newFormat, stream);
-            }
-
-            final Clip clip = AudioSystem.getClip();
-
-            return new AudioClipPlayer(id, stream, clip);
-        } catch (UnsupportedAudioFileException e) {
-            throw new CreationException("Unsupported Audio File format\nURL: " + url, e);
-        } catch (LineUnavailableException e) {
-            throw new CreationException("Sound clip could not be initialised due to system restrictions\nURL: " + url, e);
-        } catch (IOException e) {
-            throw new CreationException("I/O error in initialising Audio Stream\nURL: " + url, e);
-        } catch (IllegalArgumentException e) {
-            throw new CreationException("No installed mixer supports sound clip\nURL: " + url, e);
-        } catch (Throwable t) {
-            throw new CreationException("Unknown error in initialising Audio Clip Player\nURL: " + url, t);
-        }
-    }
+    private final AudioSource source;
 
     @Nullable
-    public static AudioClipPlayer createNoThrow(long id, @NotNull URL url) {
-        try {
-            return create(id, url);
-        } catch (CreationException e) {
-            Log.e(TAG, e.getMessage(), e.getCause());
-        }
+    private volatile AudioInputStream mStream;
+    @Nullable
+    private volatile Clip mClip;
 
-        return null;
-    }
-
-
-
-
-    @NotNull
-    private final AudioInputStream stream;
-    @NotNull
-    private final Clip clip;
-
-    private AudioClipPlayer(long id, @NotNull AudioInputStream stream, @NotNull Clip newClip) {
+    public AudioClipPlayer(long id, @NotNull AudioSource source) {
         super(id);
-        this.stream = stream;
-        this.clip = newClip;
-
-        clip.addLineListener(this);
+        this.source = source;
     }
 
 
@@ -89,36 +87,59 @@ public class AudioClipPlayer extends AbstractLinePlayer {
         return TAG;
     }
 
+    @NotNull
     @Override
-    protected @NotNull DataLine getLine() {
-        return clip;
+    public AudioSource getSource() {
+        return source;
     }
 
     @Override
-    protected @NotNull AudioFormat getFormat() {
-        return stream.getFormat();
+    protected @Nullable DataLine getLine() {
+        return mClip;
     }
+
+    @Override
+    protected @Nullable AudioFormat getFormat() {
+        final AudioInputStream stream = mStream;
+
+        if (stream != null) {
+            return stream.getFormat();
+        }
+
+        return null;
+    }
+
+    @Override
+    public long getFrameLength() {
+        final AudioInputStream stream = mStream;
+        if (stream != null) {
+            return stream.getFrameLength();
+        }
+
+        final Clip clip = mClip;
+        if (clip != null) {
+            return clip.getFrameLength();
+        }
+
+        return AudioSystem.NOT_SPECIFIED;
+    }
+
+    @Override
+    public long getMicrosecondLength() {
+        final Clip clip = mClip;
+        if (clip != null) {
+            return clip.getMicrosecondLength();
+        }
+
+        return AudioSystem.NOT_SPECIFIED;
+    }
+
 
     @Override
     protected synchronized void onStateChanged(@NotNull State old, @NotNull State newState) {
 
     }
 
-    @Override
-    public long getFrameLength() {
-        return clip.getFrameLength();
-    }
-
-    @Override
-    public long getMicrosecondLength() {
-        return clip.getMicrosecondLength();
-    }
-
-
-    @Override
-    public boolean isLoopSupported() {
-        return true;
-    }
 
     @Override
     public boolean isSeekSupported() {
@@ -127,30 +148,81 @@ public class AudioClipPlayer extends AbstractLinePlayer {
 
     @Override
     public void setFramePosition(int frames) {
-        clip.setFramePosition(frames);
+        final Clip clip = mClip;
+        if (clip != null && clip.isOpen()) {
+            clip.setFramePosition(frames);
+        }
     }
 
     @Override
     public void setMicrosecondPosition(long microseconds) {
-        clip.setMicrosecondPosition(microseconds);
-    }
-
-
-    public synchronized void considerOpen() throws PlayerException {
-        if (isOpen())
-            return;
-
-        try {
-            clip.open(stream);
-        } catch (Throwable t) {
-            throw new PlayerException("Failed to open sound clip", t);
+        final Clip clip = mClip;
+        if (clip != null && clip.isOpen()) {
+            clip.setMicrosecondPosition(microseconds);
         }
     }
 
 
+    public synchronized boolean considerOpen() {
+        if (isOpen())
+            return true;
+
+        try {
+            final AudioInputStream stream = AudioPlayer.openAudioInputStream(source);
+            mStream = stream;
+
+            // Detach
+            final Clip oldClip = mClip;
+            if (oldClip != null) {
+                oldClip.removeLineListener(this);
+                mClip = null;
+            }
+
+            final Clip newClip = AudioSystem.getClip();
+            mClip = newClip;
+
+            newClip.addLineListener(this);
+            newClip.open(stream);
+            return true;
+        } catch (PlayerException e) {
+            onError(e);
+        } catch (LineUnavailableException e) {
+            onError(new PlayerException("Audio data line could not be initialised due to system restrictions\nAudio Source: " + source, e));
+        } catch (IllegalArgumentException e) {
+            onError(new PlayerException("No installed mixer supports sound clip\nAudio Source: " + source, e));
+        } catch (Throwable t) {
+            onError(new PlayerException("Unknown error in initialising Audio Player\nAudio Source: " + source, t));
+        }
+
+        return false;
+    }
+
+    @Override
+    protected synchronized void doClose() throws Exception {
+        final Clip clip = mClip;
+        if (clip != null) {
+            clip.close();
+            mClip = null;
+        }
+
+        final AudioInputStream stream = mStream;
+        if (stream != null) {
+            stream.close();
+            mStream = null;
+        }
+    }
+
+    @Override
+    public boolean isLoopSupported() {
+        return true;
+    }
+
     @Override
     public void setLoopPointFrames(int start, int end) throws IllegalArgumentException, UnsupportedOperationException {
-        clip.setLoopPoints(start, end);
+        final Clip clip = mClip;
+        if (clip != null && clip.isOpen()) {
+            clip.setLoopPoints(start, end);
+        }
     }
 
     @Override

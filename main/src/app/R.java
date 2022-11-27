@@ -220,7 +220,7 @@ public class R {
     public static final Path SOUND_FILE_CLICK = DIR_SOUND.resolve("click.wav");
     public static final Path SOUND_FILE_HOVER = DIR_SOUND.resolve("hover.wav");
 
-    private static final List<Path> MUSIC_FILES = FileUtil.listRegularFiles(DIR_MUSIC);
+    public static final List<Path> MUSIC_FILES = FileUtil.listRegularFiles(DIR_MUSIC);
     public static final long SOUND_ID_MUSIC = 23651273;
 
     public static final AudioController AUDIO_CONTROLLER = new AudioController();
@@ -313,7 +313,7 @@ public class R {
             return;
 
         final AudioPlayer old = getMusicPlayer();
-        if (old != null && old.playNoThrow()) {
+        if (old != null && old.play()) {
             return;
         }
 
@@ -331,7 +331,7 @@ public class R {
                 }
 
                 player.ensureListener(sMusicListener);
-                player.playNoThrow();
+                player.play();
             }
         });
     }
@@ -346,7 +346,7 @@ public class R {
     public static void killMusic() {
         final AudioPlayer player = getMusicPlayer();
         if (player != null) {
-            player.closeNoThrow();
+            player.close();
         }
     }
 

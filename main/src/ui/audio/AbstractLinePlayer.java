@@ -2,19 +2,18 @@ package ui.audio;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import util.Log;
 import util.live.Listeners;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
+import javax.sound.sampled.*;
 import java.util.Collection;
 
 public abstract class AbstractLinePlayer implements AudioPlayer, LineListener {
 
     public enum StopMode {
         PAUSE,
-        STOP_EXPLICIT
+        STOP_EXPLICIT,
+        ERROR
     }
 
 
@@ -36,6 +35,9 @@ public abstract class AbstractLinePlayer implements AudioPlayer, LineListener {
     private final Listeners<Listener> mListeners = new Listeners<>();
     @Nullable
     private volatile Object mTag;
+
+    @Nullable
+    private volatile PlayerException mError;
     
     public AbstractLinePlayer(long id) {
         this.id = id;
@@ -52,6 +54,12 @@ public abstract class AbstractLinePlayer implements AudioPlayer, LineListener {
     }
 
     @Override
+    public boolean isOpen() {
+        final DataLine line = getLine();
+        return line != null && line.isOpen();
+    }
+
+    @Override
     public @Nullable Object getTag() {
         return mTag;
     }
@@ -61,31 +69,64 @@ public abstract class AbstractLinePlayer implements AudioPlayer, LineListener {
         mTag = tag;
     }
 
-    @NotNull
+    @Override
+    public @Nullable PlayerException getError() {
+        return mError;
+    }
+
+    protected void setError(@Nullable PlayerException error) {
+        mError = error;
+    }
+
+    protected void onError(@Nullable PlayerException error) {
+        setError(error);
+        if (error != null) {
+            Log.e(logTAG(), error);
+        }
+
+        forceState(State.ERROR);
+    }
+
+
+    @Nullable
     protected abstract DataLine getLine();
 
-    @NotNull
-    protected abstract AudioFormat getFormat();
-
+    @Nullable
+    protected AudioFormat getFormat() {
+        final DataLine line = getLine();
+        return line != null? line.getFormat(): null;
+    }
 
 
     @Override
     public int getFramePosition() {
-        return getLine().getFramePosition();
+        final DataLine line = getLine();
+        return line != null? line.getFramePosition(): AudioSystem.NOT_SPECIFIED;
     }
 
     @Override
     public long getLongFramePosition() {
-        return getLine().getLongFramePosition();
+        final DataLine line = getLine();
+        return line != null? line.getLongFramePosition(): AudioSystem.NOT_SPECIFIED;
     }
 
     public long getMicrosecondLength() {
-        return (long) (getFrameLength() / getFormat().getFrameRate());
+        final AudioFormat format = getFormat();
+        final float frameRate;
+        if (format == null || (frameRate = format.getFrameRate()) == AudioSystem.NOT_SPECIFIED)
+            return AudioSystem.NOT_SPECIFIED;
+
+        final long fl = getFrameLength();
+        if (fl == AudioSystem.NOT_SPECIFIED)
+            return AudioSystem.NOT_SPECIFIED;
+
+        return (long) (fl / frameRate);
     }
 
     @Override
     public long getMicrosecondPosition() {
-        return getLine().getMicrosecondPosition();
+        final DataLine line = getLine();
+        return line != null? line.getMicrosecondPosition(): AudioSystem.NOT_SPECIFIED;
     }
 
     @Override
@@ -120,8 +161,10 @@ public abstract class AbstractLinePlayer implements AudioPlayer, LineListener {
             if (stopMode == StopMode.PAUSE) {
                 updateState(State.PAUSED);
             } else if (stopMode == StopMode.STOP_EXPLICIT) {
-                updateState(State.STOPPED);
-            } else {
+                forceState(State.STOPPED);
+            } else if (stopMode == StopMode.ERROR) {
+                forceState(State.ERROR);
+            }  else {
                 boolean ended = true;
                 if (isLoopSupported()) {
                     final int nextLoop = mCurLoop + 1;
@@ -135,22 +178,30 @@ public abstract class AbstractLinePlayer implements AudioPlayer, LineListener {
                 }
 
                 if (ended) {
-                    updateState(State.ENDED);
+                    forceState(State.ENDED);
                 }
             }
         } else if (LineEvent.Type.CLOSE.equals(event.getType())) {
-            updateState(State.CLOSED);
+            forceState(State.CLOSED);
         }
     }
 
 
-    private synchronized void updateState(@NotNull State newState) {
+    private synchronized void updateState(@NotNull State newState, boolean force) {
         final State old = mState;
-        if (old == newState)
+        if (!force && old == newState)
             return;
 
         mState = newState;
         onStateChangedInternal(old, newState);
+    }
+
+    private synchronized void updateState(@NotNull State newState) {
+        updateState(newState, false);
+    }
+
+    private synchronized void forceState(@NotNull State newState) {
+        updateState(newState, true);
     }
 
     private synchronized void onStateChangedInternal(@NotNull State old, @NotNull State newState) {
@@ -162,7 +213,7 @@ public abstract class AbstractLinePlayer implements AudioPlayer, LineListener {
         mListeners.forEachListener(l -> l.onPlayerStateChanged(AbstractLinePlayer.this, old, newState));
 
         if (newState == State.ENDED && mCloseOnEnd) {
-            closeNoThrow();
+            close();
         }
     }
 
@@ -238,19 +289,30 @@ public abstract class AbstractLinePlayer implements AudioPlayer, LineListener {
 //    }
 
     @Override
-    public void play() throws PlayerException {
+    public boolean play() {
         if (isPlaying())
-            return;
+            return true;
 
-        considerOpen();
+        if (!considerOpen())
+            return false;
 
-        if (isSeekSupported()) {
-            final int lastFramePos = getLastPausedFramePosition();
-            setFramePosition(lastFramePos != -1? lastFramePos: 0);
+        final DataLine line = getLine();
+        if (line != null) {
+            try {
+                if (isSeekSupported()) {
+                    final int lastFramePos = getLastPausedFramePosition();
+                    setFramePosition(lastFramePos != -1? lastFramePos: 0);
+                }
+
+                line.start();
+                invalidateLastPausedFramePosition();
+                return true;
+            } catch (Throwable t) {
+                onError(new PlayerException("failed to play audio", t));
+            }
         }
 
-        getLine().start();
-        invalidateLastPausedFramePosition();
+        return false;
     }
 
     @Override
@@ -258,35 +320,55 @@ public abstract class AbstractLinePlayer implements AudioPlayer, LineListener {
         if (!isPlaying())
             return;
 
+        final DataLine line = getLine();
+        if (line == null)
+            return;
+
         mLastPausedFrame = getFramePosition();
         markNextStopAs(StopMode.PAUSE);
-        getLine().stop();
+        line.stop();
     }
 
-    private synchronized void doStop(boolean ifPlaying, @Nullable StopMode stopMode) {
+    protected synchronized void stopLine(boolean ifPlaying, @Nullable StopMode stopMode) {
         if (ifPlaying && !isPlaying())
             return;
 
+        final DataLine line = getLine();
+        if (line == null)
+            return;
+
         markNextStopAs(stopMode);
-        getLine().stop();
+        line.stop();
     }
 
     protected void end() {
-        doStop(true, null);
+        stopLine(true, null);
     }
 
     @Override
     public synchronized final void stop() {
         if (isPlaying()) {
-            doStop(false, StopMode.STOP_EXPLICIT);
+            stopLine(false, StopMode.STOP_EXPLICIT);
         } else if (isPaused()) {
-            updateState(State.STOPPED);
+            forceState(State.STOPPED);
         }
     }
 
+
+    protected synchronized void doClose() throws Exception {
+        final DataLine line = getLine();
+        if (line != null)
+            line.close();
+    }
+
     @Override
-    public synchronized void close() throws Exception {
-        getLine().close();
+    public synchronized void close() {
+        try {
+            doClose();
+        } catch (Throwable t) {
+            setError(new PlayerException("Exception in closing audio data line...force closing now", t));
+            forceState(State.CLOSED);      // mark as closed
+        }
     }
 
     @Override

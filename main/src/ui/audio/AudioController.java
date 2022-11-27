@@ -167,6 +167,8 @@ package ui.audio;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ui.audio.source.AudioSource;
+import ui.audio.source.URLAudioSource;
 import util.CollectionUtil;
 
 import java.net.URL;
@@ -181,7 +183,7 @@ public class AudioController implements AudioPlayer.Listener {
         ExistsStrategy KEEP = p -> true;
 
         ExistsStrategy CLOSE = p -> {
-            p.closeNoThrow();
+            p.close();
             return false;
         };
 
@@ -223,7 +225,7 @@ public class AudioController implements AudioPlayer.Listener {
         final List<AudioPlayer> players = CollectionUtil.linkedListCopy(mOpenPlayers.values());
         mOpenPlayers.clear();
 
-        players.forEach(AudioPlayer::closeNoThrow);
+        players.forEach(AudioPlayer::close);
     }
 
     @Nullable
@@ -232,28 +234,32 @@ public class AudioController implements AudioPlayer.Listener {
     }
 
     @Nullable
-    public synchronized AudioPlayer getPlayerIfOpen(@NotNull URL url) {
+    public synchronized AudioPlayer getPlayerIfOpen(@NotNull AudioSource source) {
         for (AudioPlayer player: mOpenPlayers.values()) {
-            Object tag = player.getTag();
-            if (tag instanceof URL && url.equals(tag))
+            if (source.equals(player.getSource()))
                 return player;
         }
 
         return null;
     }
 
+    @Nullable
+    public synchronized AudioPlayer getPlayerIfOpen(@NotNull URL url) {
+        return getPlayerIfOpen(new URLAudioSource(url));
+    }
+
 
     public synchronized void closePlayer(long id) {
         final AudioPlayer player = getPlayerIfOpen(id);
         if (player != null) {
-            player.closeNoThrow();
+            player.close();
         }
     }
 
     public synchronized void closePlayer(@NotNull URL url) {
         final AudioPlayer player = getPlayerIfOpen(url);
         if (player != null) {
-            player.closeNoThrow();
+            player.close();
         }
     }
 
@@ -268,21 +274,19 @@ public class AudioController implements AudioPlayer.Listener {
         }
 
         closePlayer(id);
-        final AudioPlayer player = stream? AudioStreamer.createNoThrow(id, url): AudioClipPlayer.createNoThrow(id, url);
-        if (player != null) {
-            player.setCloseOnEnd(true);
-            player.addListener(this);
+        final AudioSource source = new URLAudioSource(url);
+        final AudioPlayer player = stream? new AudioStreamer(id, source): new AudioClipPlayer(id, source);
+        player.setCloseOnEnd(true);
+        player.addListener(this);
 
-            if (!player.considerOpenNoThrow()) {
-                player.removeListener(this);
-                return null;
-            }
-
-            player.setTag(url);
-            return player;
+        if (!player.considerOpen()) {
+            player.removeListener(this);
+            return null;
         }
 
-        return null;
+        player.setTag(url);
+        return player;
+
     }
 
 
@@ -296,7 +300,7 @@ public class AudioController implements AudioPlayer.Listener {
     public synchronized AudioPlayer play(boolean stream, @NotNull URL url) {
         final AudioPlayer player = createPlayer(stream, nextId(), url, ExistsStrategy.CLOSE);  // with a custom unique id
         if (player != null) {
-            player.playNoThrow();
+            player.play();
         }
 
         return player;
@@ -320,7 +324,7 @@ public class AudioController implements AudioPlayer.Listener {
                 player.loopContinuously();
             }
 
-            player.playNoThrow();
+            player.play();
         }
 
         return player;
@@ -334,7 +338,7 @@ public class AudioController implements AudioPlayer.Listener {
                 old.loopContinuously();
             }
 
-            old.playNoThrow();
+            old.play();
             return old;
         }
 

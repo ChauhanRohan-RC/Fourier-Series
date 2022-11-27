@@ -187,7 +187,7 @@ public class ExternalJava {
 
         @Override
         public InputStream openInputStream() throws IOException {
-            return Files.newInputStream(location.getSourcePath());
+            return new BufferedInputStream(Files.newInputStream(location.getSourcePath()));
         }
 
         @Override
@@ -202,7 +202,7 @@ public class ExternalJava {
 
         @Override
         public OutputStream openOutputStream() throws IOException {
-            return Files.newOutputStream(location.getSourcePath());
+            return new BufferedOutputStream(Files.newOutputStream(location.getSourcePath()));
         }
 
         @Override

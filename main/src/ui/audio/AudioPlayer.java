@@ -1,24 +1,27 @@
 package ui.audio;
 
+import org.apache.batik.svggen.font.table.GsubTable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ui.audio.source.AudioSource;
 import util.Log;
 import util.live.ListenersI;
 
-import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.*;
+import java.io.IOException;
 
 public interface AudioPlayer extends AutoCloseable, ListenersI<AudioPlayer.Listener> {
 
-    class CreationException extends RuntimeException {
-
-        public CreationException(String message, Throwable cause) {
-            super(message, cause);
-        }
-    }
+//    class CreationException extends RuntimeException {
+//
+//        public CreationException(String message, Throwable cause) {
+//            super(message, cause);
+//        }
+//    }
 
     class PlayerException extends RuntimeException {
 
-        public PlayerException(String message, Throwable cause) {
+        public PlayerException(String message, @NotNull Throwable cause) {
             super(message, cause);
         }
     }
@@ -45,18 +48,58 @@ public interface AudioPlayer extends AutoCloseable, ListenersI<AudioPlayer.Liste
         return base;
     }
 
+    @NotNull
+    static AudioFileFormat transformAudioFileFormat(@NotNull AudioFileFormat format) {
+        final AudioFormat af = format.getFormat();
+        if (af == null)
+            return format;
+
+        final AudioFormat newAf = transformAudioFormat(af);
+        if (af == newAf || af.matches(newAf))
+            return format;
+
+        return new AudioFileFormat(format.getType(), newAf, format.getFrameLength(), format.properties());
+    }
+
+    @NotNull
+    static AudioInputStream openAudioInputStream(@NotNull AudioSource source) throws PlayerException {
+        try {
+            AudioInputStream stream = source.openAudioInputStream();
+            final AudioFormat baseFormat = stream.getFormat();
+            final AudioFormat newFormat = transformAudioFormat(baseFormat);
+            if (newFormat != baseFormat) {
+                stream = AudioSystem.getAudioInputStream(newFormat, stream);
+            }
+
+            return stream;
+        } catch (UnsupportedAudioFileException e) {
+            throw new PlayerException("Unsupported Audio File format\nAudio Source: " + source, e);
+        } catch (IOException e) {
+            throw new PlayerException("I/O error in initialising Audio Stream\nAudio Source: " + source, e);
+        } catch (Throwable t) {
+            throw new PlayerException("Unknown error in loading audio\nAudio Source: " + source, t);
+        }
+    }
+
 
     int LOOP_CONTINUOUSLY = -1;
 
 
     enum State {
-        IDLE,
-        OPEN,
+
         PLAYING,
         PAUSED,
         STOPPED,
         ENDED,
-        CLOSED
+        OPEN,
+
+        ERROR,
+        CLOSED,
+        IDLE;
+
+        boolean isAtLeast(@NotNull State state) {
+            return ordinal() <= state.ordinal();
+        }
     }
 
     interface Listener {
@@ -72,6 +115,9 @@ public interface AudioPlayer extends AutoCloseable, ListenersI<AudioPlayer.Liste
 
     long getId();
 
+    @NotNull
+    AudioSource getSource();
+
     State getState();
 
     @Nullable
@@ -79,10 +125,11 @@ public interface AudioPlayer extends AutoCloseable, ListenersI<AudioPlayer.Liste
 
     void setTag(@Nullable Object tag);
 
-
+    @Nullable
+    PlayerException getError();
 
     default boolean isOpen() {
-        return getState() == State.OPEN;
+        return getState().isAtLeast(State.OPEN);
     }
 
     default boolean isPlaying() {
@@ -109,46 +156,46 @@ public interface AudioPlayer extends AutoCloseable, ListenersI<AudioPlayer.Liste
 
     void setCloseOnEnd(boolean closeOnEnd);
 
-    void considerOpen() throws PlayerException;
+    boolean considerOpen();
 
-    default boolean considerOpenNoThrow() {
-        try {
-            considerOpen();
-            return true;
-        } catch (PlayerException e) {
-            Log.e(logTAG(), e.getMessage(), e.getCause());
-            return false;
-        }
-    }
+//    default boolean considerOpenNoThrow() {
+//        try {
+//            considerOpen();
+//            return true;
+//        } catch (PlayerException e) {
+//            Log.e(logTAG(), e);
+//            return false;
+//        }
+//    }
 
-    void play() throws PlayerException;
+    boolean play();
 
     void pause();
 
     void stop();
 
     @Override
-    void close() throws Exception;
+    void close();
 
 
-    default boolean playNoThrow() {
-        try {
-            play();
-            return true;
-        } catch (PlayerException e) {
-            Log.e(logTAG(), e.getMessage(), e.getCause());
-        }
+//    default boolean playNoThrow() {
+//        try {
+//            play();
+//            return true;
+//        } catch (PlayerException e) {
+//            Log.e(logTAG(), e);
+//        }
+//
+//        return false;
+//    }
 
-        return false;
-    }
-
-    default void closeNoThrow() {
-        try {
-            close();
-        } catch (Throwable t) {
-            Log.e(logTAG(), "Exception in closing clip", t);
-        }
-    }
+//    default void closeNoThrow() {
+//        try {
+//            close();
+//        } catch (Throwable t) {
+//            Log.e(logTAG(), "Exception in closing clip", t);
+//        }
+//    }
 
 
 
