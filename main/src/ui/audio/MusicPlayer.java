@@ -13,14 +13,17 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class MusicPlayer extends AudioListPlayer {
 
+    public static final String TAG = "MusicPlayer";
+    public static final String LOG_TAG = TAG;
+
     public static final boolean DEFAULT_ENABLED = true;
     public static final boolean DEFAULT_SHUFFLE = true;
     public static final boolean DEFAULT_STREAM = true;
+    public static final boolean DEFAULT_LOG_ENABLED = true;
 
     public static final int DEFAULT_LOOP_COUNT = AudioPlayer.LOOP_CONTINUOUSLY;
 
@@ -37,6 +40,7 @@ public class MusicPlayer extends AudioListPlayer {
         final MusicPlayer player = new MusicPlayer(DEFAULT_STREAM, sources);
         player.setLoopCount(DEFAULT_LOOP_COUNT);
         player.setEnabled(DEFAULT_ENABLED);
+        player.setLogEnabled(DEFAULT_LOG_ENABLED);
         return player;
     }
 
@@ -85,6 +89,11 @@ public class MusicPlayer extends AudioListPlayer {
         resetAction = new ResetAction();
     }
 
+    @Override
+    public @NotNull String logTag() {
+        return LOG_TAG;
+    }
+
     public synchronized void requestPlay(@NotNull Object token) {
         mPlayRequests.add(token);
         play();
@@ -110,7 +119,6 @@ public class MusicPlayer extends AudioListPlayer {
         super.doReset();
         mPlayRequests.clear();
     }
-
 
     @NotNull
     public Action getPlaybackMenuAction() {
@@ -160,6 +168,8 @@ public class MusicPlayer extends AudioListPlayer {
         menu.addSeparator();
         menu.add(getPlayPrevAction());
         menu.add(getPlayNextAction());
+        menu.addSeparator();
+        menu.add(getResetAction());
         return menu;
     }
 
@@ -179,6 +189,7 @@ public class MusicPlayer extends AudioListPlayer {
     @Override
     public void onPlayerStateChanged(@NotNull AudioPlayer player, AudioPlayer.@NotNull State old, AudioPlayer.@NotNull State state) {
         super.onPlayerStateChanged(player, old, state);
+
 //        syncActions();
     }
 

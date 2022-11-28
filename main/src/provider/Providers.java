@@ -1,6 +1,5 @@
 package provider;
 
-import app.R;
 import function.definition.ComplexDomainFunctionI;
 import function.graphic.CharMerger;
 import function.internal.basic.*;
@@ -8,8 +7,10 @@ import function.internal.chars.CharC;
 import function.internal.chars.CharR;
 import org.apache.batik.parser.ParseException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 import util.CollectionUtil;
+import util.Log;
 import util.main.ComplexUtil;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ import java.util.List;
 import java.util.Random;
 
 public class Providers {
+
+    public static final String TAG = "Providers";
 
     /* ......................... No-op provider ........................... */
 
@@ -83,7 +86,7 @@ public class Providers {
 
 
     @NotNull
-    public static MergedFunction createRandomSignal() {
+    public static ComplexDomainFunctionI createRandomSignal() {
         final Random r = new Random();
         final int len = r.nextInt(1, 5);
         final ComplexDomainFunctionI[] functions = new ComplexDomainFunctionI[len];
@@ -91,7 +94,9 @@ public class Providers {
             functions[i] = new SineSignal(r.nextFloat(1, 10), r.nextInt(4, 30), r.nextDouble(0, ComplexUtil.TWo_PI), r.nextFloat(0, 1), r.nextFloat(0.5f, 5f));
         }
 
-        return new MergedFunction(functions);
+        final ComplexDomainFunctionI result = new MergedFunction(MergedFunction.MergeMode.UNION, functions);
+        Log.v(TAG, "Random Signal: " + result);
+        return result;
     }
 
     /* Static */
@@ -104,9 +109,9 @@ public class Providers {
 
     public static final FunctionProviderI CIRCLE_FUNCTION = new SimpleFunctionProvider(new FunctionMeta(FunctionType.INTERNAL_PROGRAM,"Circle Function"), new CircleFunction());
 
-    public static final FunctionProviderI SINE_SIGNAL = new SimpleFunctionProvider(new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Sine Signal"), new MergedFunction(
+    public static final FunctionProviderI SINE_SIGNAL = new SimpleFunctionProvider(new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Sine Signal"), new MergedFunction(MergedFunction.MergeMode.UNION,
             new SineSignal(1, 10, 0, 0, 1),
-            new SineSignal(2, 10, 0, 0, 1)
+            new SineSignal(2, 20, 0, 0, 1)
     ));
 
     public static final FunctionProviderI RANDOM_SIGNAL = new BaseFunctionProvider(new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Random Signal"), Providers::createRandomSignal);

@@ -68,14 +68,13 @@ public class AuxSoundsPlayer extends AudioController {
 
     @Nullable
     public AudioPlayer playWindowOpen() {
-        return playClick();     // TODO change
+        return playClip(R.SOUND_FILE_WINDOW_OPEN);
     }
 
     @Nullable
     public AudioPlayer playWindowClose() {
-        return playClick();     // TODO change
+        return playClip(R.SOUND_FILE_WINDOW_CLOSE);
     }
-
 
     @Nullable
     public AudioPlayer playClick() {
@@ -84,7 +83,12 @@ public class AuxSoundsPlayer extends AudioController {
 
     @Nullable
     public AudioPlayer playHover() {
-        return playClip(R.SOUND_FILE_HOVER);        // TODO: bug not working
+        return playClip(R.SOUND_FILE_HOVER);
+    }
+
+    @Nullable
+    public AudioPlayer playBeep() {
+        return playClip(R.SOUND_FILE_BEEP);
     }
 
     public void closeAllClips() {

@@ -3,6 +3,7 @@ package ui.audio;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ui.audio.source.AudioSource;
+import util.Log;
 import util.live.Listeners;
 import util.live.ListenersI;
 
@@ -13,12 +14,17 @@ import java.util.stream.Collectors;
 
 public class AudioListPlayer implements AutoCloseable, AudioPlayer.Listener, ListenersI<AudioListPlayer.Listener> {
 
-    public static final String TAG = "AudioListPlayer";
+    private static final String DEFAULT_LOG_TAG = "AudioListPlayer";
 
     public record Indices(int loopIndex, int playerIndex) {
 
         boolean areValid(int loopCount, int playersCount) {
             return playerIndex >= 0 && playerIndex < playersCount && (loopIndex >= 0 && (loopCount == AudioPlayer.LOOP_CONTINUOUSLY || loopIndex <= loopCount));
+        }
+
+        @Override
+        public String toString() {
+            return String.format("[Loop: %d, Player: %d]", loopIndex, playerIndex);
         }
     }
 
@@ -29,6 +35,9 @@ public class AudioListPlayer implements AutoCloseable, AudioPlayer.Listener, Lis
         void onCurrentPlayerChanged(@NotNull AudioListPlayer listPlayer, @NotNull Indices oldIndices, @NotNull Indices newIndices);
 
         void onListPlayerEnabledChanged(@NotNull AudioListPlayer listPlayer, boolean enabled);
+
+        default void onListPlayerLogEnabledChanged(@NotNull AudioListPlayer listPlayer, boolean enabled) {
+        }
     }
 
 
@@ -93,6 +102,7 @@ public class AudioListPlayer implements AutoCloseable, AudioPlayer.Listener, Lis
     private volatile AudioPlayer.State mState = AudioPlayer.State.IDLE;
 
     private volatile boolean mEnabled = true;
+    private volatile boolean mLogEnabled;
 
     private volatile int mCurPlayerIndex;
     private volatile int mCurLoopIndex;
@@ -110,6 +120,11 @@ public class AudioListPlayer implements AutoCloseable, AudioPlayer.Listener, Lis
             player.setCloseOnEnd(true); // auto
             return player;
         }).collect(Collectors.toList());
+    }
+
+    @NotNull
+    public String logTag() {
+        return DEFAULT_LOG_TAG;
     }
 
     public int getCount() {
@@ -227,6 +242,10 @@ public class AudioListPlayer implements AutoCloseable, AudioPlayer.Listener, Lis
 
 
     protected void onPlayerChanged(@NotNull Indices prevIndices, @NotNull Indices indices) {
+        if (mLogEnabled) {
+            Log.v(logTag(), String.format("PlayerChanged: %s -> %s", prevIndices, indices));
+        }
+
         mListeners.forEachListener(l -> l.onCurrentPlayerChanged(AudioListPlayer.this, prevIndices, indices));
     }
 
@@ -323,8 +342,14 @@ public class AudioListPlayer implements AutoCloseable, AudioPlayer.Listener, Lis
 
     @Override
     public void onPlayerStateChanged(@NotNull AudioPlayer player, AudioPlayer.@NotNull State old, AudioPlayer.@NotNull State state) {
+        final boolean isCurrentPlayer = player == getCurrentPlayer();
+
+        if (mLogEnabled) {
+            Log.v(logTag(), String.format("PlayerStateChanged: %s: IS_CURRENT: %b : %s -> %s", player, isCurrentPlayer, old, state));
+        }
+
         // Current player
-        if (player == getCurrentPlayer()) {
+        if (isCurrentPlayer) {
             switch (state) {
                 case OPEN -> {
                     if (!isOpen()) {
@@ -340,18 +365,27 @@ public class AudioListPlayer implements AutoCloseable, AudioPlayer.Listener, Lis
                         forceEnd();
                     }
                 }
-                case CLOSED -> {
+
+                case CLOSING -> {
+
+                } case CLOSED -> {
 
                 }
             }
         }
 
+        // Detach on close
+        if (state == AudioPlayer.State.CLOSED) {
+            player.removeListener(this);
+        }
     }
 
 
 
     protected synchronized void onStateChanged(@NotNull AudioPlayer.State old, @NotNull AudioPlayer.State newState) {
-
+        if (mLogEnabled) {
+            Log.v(logTag(), String.format("StateChanged: %s -> %s", old, newState));
+        }
     }
 
     private synchronized void onStateChangedInternal(@NotNull AudioPlayer.State old, @NotNull AudioPlayer.State newState) {
@@ -427,7 +461,14 @@ public class AudioListPlayer implements AutoCloseable, AudioPlayer.Listener, Lis
 
 
 
-    private void closeAllPlayers() {
+    private void closeAllPlayers(boolean detachListener) {
+        if (detachListener) {
+            final AudioPlayer player = getCurrentPlayer();
+            if (player != null) {
+                player.removeListener(this);
+            }
+        }
+
         players.forEach(AudioPlayer::close);
     }
 
@@ -438,16 +479,17 @@ public class AudioListPlayer implements AutoCloseable, AudioPlayer.Listener, Lis
 
     // Reset back to idle state
     public final void reset() {
-        closeAllPlayers();
+        closeAllPlayers(false);
         mCurLoopIndex = 0;
         mCurPlayerIndex = 0;
+
         doReset();
-        updateState(AudioPlayer.State.IDLE);
+        forceState(AudioPlayer.State.IDLE);
     }
 
     @Override
     public void close() {
-        closeAllPlayers();
+        closeAllPlayers(false);
         mCurLoopIndex = 0;
         mCurPlayerIndex = 0;
         forceState(AudioPlayer.State.CLOSED);
@@ -487,6 +529,34 @@ public class AudioListPlayer implements AutoCloseable, AudioPlayer.Listener, Lis
     public void toggleEnabled() {
         setEnabledInternal(!mEnabled);
     }
+
+
+
+    public boolean isLogEnabled() {
+        return mLogEnabled;
+    }
+
+    protected void onLogEnabledChanged(final boolean logEnabled) {
+        mListeners.dispatchOnMainThread(l -> l.onListPlayerLogEnabledChanged(AudioListPlayer.this, logEnabled));
+    }
+
+    private void setLogEnabledInternal(boolean logEnabled) {
+        mLogEnabled = logEnabled;
+        onLogEnabledChanged(logEnabled);
+    }
+
+    public void setLogEnabled(boolean logsEnabled) {
+        final boolean old = mLogEnabled;
+        if (old == logsEnabled)
+            return;
+
+        setLogEnabledInternal(logsEnabled);
+    }
+
+    public void toggleLogEnabled() {
+        setLogEnabledInternal(!mLogEnabled);
+    }
+
 
 
     @Override

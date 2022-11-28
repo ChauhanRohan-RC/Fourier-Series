@@ -10,42 +10,79 @@ import rotor.frequency.RotorFrequencyProviderI;
 
 import java.util.Arrays;
 import java.util.Collection;
-
+import java.util.StringJoiner;
 
 public class MergedFunction implements ComplexDomainFunctionI {
 
+    public enum MergeMode {
+        UNION,
+        INTERSECTION
+    }
+
+
+    @NotNull
+    private final MergeMode mergeMode;
     @NotNull
     private final Collection<ComplexDomainFunctionI> functions;
     private final double domainStart;
     private final double domainEnd;
 
-    public MergedFunction(@NotNull Collection<ComplexDomainFunctionI> functions) {
+    private final long domainTravelMsMin;
+    private final long domainTravelMsMax;
+    private final long domainTravelMsDef;
+
+    public MergedFunction(@NotNull MergeMode mergeMode, @NotNull Collection<ComplexDomainFunctionI> functions) {
+        this.mergeMode = mergeMode;
         this.functions = functions;
 
-        double start = Double.MIN_VALUE;
-        double end = Double.MAX_VALUE;
-        for (ComplexDomainFunctionI func: functions) {
-            start = Math.max(start, func.getDomainStart());
-            end = Math.min(end, func.getDomainEnd());
-        }
+        if (functions.isEmpty()) {
+            domainStart = 0;
+            domainEnd = 0;
+            domainTravelMsMin = -1;
+            domainTravelMsMax = -1;
+            domainTravelMsDef = -1;
+        } else {
+            double start = 0;
+            double end = 0;
+            long msDef = 0;
+            boolean first = true;
 
-        domainStart = start;
-        domainEnd = end;
+            for (ComplexDomainFunctionI func: functions) {
+                msDef = Math.max(msDef, func.getDomainAnimationDurationMsDefault());
+
+                if (first) {
+                    start = func.getDomainStart();
+                    end = func.getDomainEnd();
+                    first = false;
+                    continue;
+                }
+
+                switch (mergeMode) {
+                    case INTERSECTION -> {
+                        start = Math.max(start, func.getDomainStart());
+                        end = Math.min(end, func.getDomainEnd());
+                    } case UNION -> {
+                        start = Math.min(start, func.getDomainStart());
+                        end = Math.max(end, func.getDomainEnd());
+                    } default -> throw new AssertionError("Unknown merge mode: " + mergeMode);
+                }
+            }
+
+            domainStart = start;
+            domainEnd = end;
+            domainTravelMsDef = msDef;
+            domainTravelMsMin = (long) (msDef / 10f);
+            domainTravelMsMax = msDef * 20;
+        }
     }
 
-    public MergedFunction(@NotNull ComplexDomainFunctionI... functions) {
-        this(Arrays.asList(functions));
+    public MergedFunction(@NotNull MergeMode mergeMode, @NotNull ComplexDomainFunctionI... functions) {
+        this(mergeMode, Arrays.asList(functions));
     }
 
-    @Override
-    public @NotNull Complex compute(double input) {
-        final ComplexSum sum = new ComplexSum();
-
-        for (ComplexDomainFunctionI func: functions) {
-            sum.add(func.compute(input));
-        }
-
-        return sum.toComplex();
+    @NotNull
+    public MergeMode getMergeMode() {
+        return mergeMode;
     }
 
     @Override
@@ -59,12 +96,51 @@ public class MergedFunction implements ComplexDomainFunctionI {
     }
 
     @Override
+    public @NotNull Complex compute(double input) {
+        final ComplexSum sum = new ComplexSum();
+
+        for (ComplexDomainFunctionI func: functions) {
+            if (func.isWithinDomain(input)) {
+                sum.add(func.compute(input));
+            }
+        }
+
+        return sum.toComplex();
+    }
+
+
+    @Override
+    public long getDomainAnimationDurationMsMin() {
+        if (domainTravelMsMin != -1)
+            return domainTravelMsMin;
+
+        return ComplexDomainFunctionI.super.getDomainAnimationDurationMsMin();
+    }
+
+    @Override
+    public long getDomainAnimationDurationMsMax() {
+        if (domainTravelMsMax != -1)
+            return domainTravelMsMax;
+
+        return ComplexDomainFunctionI.super.getDomainAnimationDurationMsMax();
+    }
+
+    @Override
+    public long getDomainAnimationDurationMsDefault() {
+        if (domainTravelMsDef != -1)
+            return domainTravelMsDef;
+
+        return ComplexDomainFunctionI.super.getDomainAnimationDurationMsDefault();
+    }
+
+
+    @Override
     public @Nullable FunctionGraphMode getDefaultGraphMode() {
         if (functions.isEmpty()) {
             return ComplexDomainFunctionI.super.getDefaultGraphMode();
         }
 
-        return functions.iterator().next().getDefaultGraphMode();
+        return functions.iterator().next().getDefaultGraphMode();           // first graph mode
     }
 
     @Override
@@ -73,6 +149,18 @@ public class MergedFunction implements ComplexDomainFunctionI {
             return ComplexDomainFunctionI.super.getFunctionDefaultFrequencyProvider();
         }
 
-        return functions.iterator().next().getFunctionDefaultFrequencyProvider();
+        return functions.iterator().next().getFunctionDefaultFrequencyProvider();           // first frequency provider
+    }
+
+    @Override
+    public String toString() {
+        final StringJoiner sj = new StringJoiner("\n\t", "", "\n]");
+        sj.add("MergedFUnction[ mergeMode=" + mergeMode);
+
+        for (ComplexDomainFunctionI f: functions) {
+            sj.add(f.toString());
+        }
+
+        return sj.toString();
     }
 }

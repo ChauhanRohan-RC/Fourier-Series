@@ -214,12 +214,15 @@ public class R {
     }
 
 
-    // Sound
+    // Sound TODO: change sounds
     public static final Path DIR_SOUND = DIR_RES.resolve("sound");
     public static final Path DIR_MUSIC = DIR_SOUND.resolve("music");
 
+    public static final Path SOUND_FILE_WINDOW_OPEN = DIR_SOUND.resolve("window_open.wav");
+    public static final Path SOUND_FILE_WINDOW_CLOSE = DIR_SOUND.resolve("window_close.wav");
     public static final Path SOUND_FILE_CLICK = DIR_SOUND.resolve("click.wav");
     public static final Path SOUND_FILE_HOVER = DIR_SOUND.resolve("hover.wav");
+    public static final Path SOUND_FILE_BEEP = DIR_SOUND.resolve("beep.wav");
 
     public static final List<Path> MUSIC_FILES = FileUtil.listRegularFiles(DIR_MUSIC);
 

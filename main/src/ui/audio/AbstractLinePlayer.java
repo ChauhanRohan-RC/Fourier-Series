@@ -13,7 +13,8 @@ public abstract class AbstractLinePlayer implements AudioPlayer, LineListener {
     public enum StopMode {
         PAUSE,
         STOP_EXPLICIT,
-        ERROR
+        ERROR,
+        CLOSE
     }
 
 
@@ -81,7 +82,7 @@ public abstract class AbstractLinePlayer implements AudioPlayer, LineListener {
     protected void onError(@Nullable PlayerException error) {
         setError(error);
         if (error != null) {
-            Log.e(logTAG(), error);
+            Log.e(logTag(), error);
         }
 
         forceState(State.ERROR);
@@ -150,21 +151,24 @@ public abstract class AbstractLinePlayer implements AudioPlayer, LineListener {
 
     @Override
     public void update(LineEvent event) {
+        final StopMode stopMode = mNextStopMode;
+        mNextStopMode = null;
+
         if (LineEvent.Type.OPEN.equals(event.getType())) {
             updateState(State.OPEN);
         } else if (LineEvent.Type.START.equals(event.getType())) {
             updateState(State.PLAYING);
         } else if (LineEvent.Type.STOP.equals(event.getType())) {
-            final StopMode stopMode = mNextStopMode;
-            mNextStopMode = null;
-
             if (stopMode == StopMode.PAUSE) {
                 updateState(State.PAUSED);
             } else if (stopMode == StopMode.STOP_EXPLICIT) {
                 forceState(State.STOPPED);
             } else if (stopMode == StopMode.ERROR) {
                 forceState(State.ERROR);
-            }  else {
+            } else if (stopMode == StopMode.CLOSE) {
+                forceState(State.CLOSING);
+                // will close after this, so do nothing (see {@link #close()})
+            } else {
                 boolean ended = true;
                 if (isLoopSupported()) {
                     final int nextLoop = mCurLoop + 1;
@@ -177,7 +181,7 @@ public abstract class AbstractLinePlayer implements AudioPlayer, LineListener {
                     }
                 }
 
-                if (ended) {
+                if (ended) {;
                     forceState(State.ENDED);
                 }
             }
@@ -362,13 +366,23 @@ public abstract class AbstractLinePlayer implements AudioPlayer, LineListener {
     }
 
     @Override
-    public synchronized void close() {
+    public synchronized final void close() {
+        if (isPlaying()) {
+            markNextStopAs(StopMode.CLOSE);     // closing a running line will dispatch stop event
+        }
+
         try {
             doClose();
         } catch (Throwable t) {
             setError(new PlayerException("Exception in closing audio data line...force closing now", t));
             forceState(State.CLOSED);      // mark as closed
         }
+    }
+
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(source: " + getSource().getDisplayName() + ")";
     }
 
     @Override

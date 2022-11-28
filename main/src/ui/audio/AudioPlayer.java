@@ -1,23 +1,14 @@
 package ui.audio;
 
-import org.apache.batik.svggen.font.table.GsubTable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ui.audio.source.AudioSource;
-import util.Log;
 import util.live.ListenersI;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
 
 public interface AudioPlayer extends AutoCloseable, ListenersI<AudioPlayer.Listener> {
-
-//    class CreationException extends RuntimeException {
-//
-//        public CreationException(String message, Throwable cause) {
-//            super(message, cause);
-//        }
-//    }
 
     class PlayerException extends RuntimeException {
 
@@ -94,6 +85,7 @@ public interface AudioPlayer extends AutoCloseable, ListenersI<AudioPlayer.Liste
         OPEN,
 
         ERROR,
+        CLOSING,
         CLOSED,
         IDLE;
 
@@ -107,9 +99,8 @@ public interface AudioPlayer extends AutoCloseable, ListenersI<AudioPlayer.Liste
     }
 
 
-
     @NotNull
-    default String logTAG() {
+    default String logTag() {
         return getClass().getSimpleName();
     }
 

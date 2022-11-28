@@ -80,4 +80,22 @@ public class SineSignal implements SignalFunctionI {
     public @Nullable RotorFrequencyProviderI getFunctionDefaultFrequencyProvider() {
         return new FixedStartFrequencyProvider(frequency - 1, 0.05);
     }
+
+    @Override
+    public String toString() {
+        String core = "SineSignal(" +
+                "frequency=" + frequency + "Hz" +
+                ", duration=" + duration + "s" +
+                ", phase=" + phaseRad + "rad";
+
+        if (resultAddant != 0) {
+            core += ", addant=" + resultAddant;
+        }
+
+        if (resultMultiplier != 1) {
+            core += ", multiplier=" + resultMultiplier;
+        }
+
+        return core + ")";
+    }
 }

@@ -1122,6 +1122,10 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
         setHueCycleEnabled(fsPanel.isHueCycleEnabled());
         syncFunctionProviders();
         setPlay(AUTO_PLAY_ON_ROTOR_STATE_MANAGER_CHANGE);
+
+        if (old != null && sm != old && !sm.isNoOp()) {
+            AuxSoundsPlayer.getSingleton().playBeep();
+        }
     }
 
     @Override

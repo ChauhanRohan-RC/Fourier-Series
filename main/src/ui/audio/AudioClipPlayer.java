@@ -83,7 +83,7 @@ public class AudioClipPlayer extends AbstractLinePlayer {
 
 
     @Override
-    public @NotNull String logTAG() {
+    public @NotNull String logTag() {
         return TAG;
     }
 

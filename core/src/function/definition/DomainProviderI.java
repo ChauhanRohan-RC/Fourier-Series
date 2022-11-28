@@ -12,6 +12,17 @@ public interface DomainProviderI extends ColorProviderI {
 
     double getDomainEnd();
 
+    default boolean isWithinDomain(double input) {
+        final double start = getDomainStart();
+        final double end = getDomainEnd();
+
+        if (start <= end) {
+            return input >= start && input <= end;
+        }
+
+        return input >= end && input <= start;
+    }
+
     default double getSampleDomainStep(int sampleCount) {
         return sampleCount < 2? 0: getDomainRange() / (sampleCount - 1);
     }

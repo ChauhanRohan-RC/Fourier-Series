@@ -82,7 +82,7 @@ public class AudioStreamer extends AbstractLinePlayer implements Runnable {
     }
 
     @Override
-    public @NotNull String logTAG() {
+    public @NotNull String logTag() {
         return TAG;
     }
 

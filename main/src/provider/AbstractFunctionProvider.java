@@ -20,6 +20,7 @@ public abstract class AbstractFunctionProvider implements FunctionProviderI {
     @Nullable
     private volatile ComplexDomainFunctionI mFunction;
 
+
     public AbstractFunctionProvider(@NotNull FunctionMeta meta) {
         this.meta = meta;
     }

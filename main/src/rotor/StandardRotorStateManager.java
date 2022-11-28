@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import provider.FunctionMeta;
 import rotor.frequency.RotorFrequencyProviderI;
+import ui.audio.AuxSoundsPlayer;
 import util.CollectionUtil;
 import util.live.Listeners;
 import util.Log;
@@ -135,6 +136,8 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
         Log.v(TAG, String.format("Rotor Frequency Provider changed. Function: %s | Old Frequency Provider: %s | New Frequency Provider: %s", functionMeta.getTypedFunctionDisplayName(), old, _new));
         reloadAsync();
         mListeners.dispatchOnMainThread(l -> l.onRotorsFrequencyProviderChanged(StandardRotorStateManager.this, old, _new));
+
+        AuxSoundsPlayer.getSingleton().playBeep();
     }
 
     protected void onRotorFrequencyProviderIntercepted(@Nullable RotorFrequencyProviderI rotorFrequencyProvider) {
