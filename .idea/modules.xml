@@ -2,8 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/main/main.iml" filepath="$PROJECT_DIR$/main/main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/audio/audio.iml" filepath="$PROJECT_DIR$/app/audio/audio.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/chart/chart.iml" filepath="$PROJECT_DIR$/app/chart/chart.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/core/core.iml" filepath="$PROJECT_DIR$/app/core/core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/main/main.iml" filepath="$PROJECT_DIR$/app/main/main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/uiutil/uiutil.iml" filepath="$PROJECT_DIR$/app/uiutil/uiutil.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/util/util.iml" filepath="$PROJECT_DIR$/app/util/util.iml" />
     </modules>
   </component>
 </project>

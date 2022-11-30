@@ -1,0 +1,137 @@
+
+## LOG START -> 2022-11-29 09:11:01:95914400 +05:30[Asia/Calcutta]
+2022-11-29 09:11:01:95914400 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-29 09:11:02:943534700 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-29 09:11:07:795331500 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function RC (Aquire) (Internal Path) 
+2022-11-29 09:11:07:870410000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-11-29 09:11:08:213580000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : IDLE -> OPEN 
+2022-11-29 09:11:08:213580000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-11-29 09:11:08:283892600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : OPEN -> PLAYING 
+2022-11-29 09:11:08:283892600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-11-29 09:11:09:625481800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [RC (Aquire) (Internal Path)] loaded in 1814 ms 
+2022-11-29 09:11:23:669668300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : PLAYING -> PAUSED 
+2022-11-29 09:11:23:669668300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2022-11-29 09:11:23:681131600 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (RC (Aquire)) | WindowCount: 0 
+2022-11-29 09:11:23:681131600 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-29 09:11:23:733815800 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-29 09:11:23:733815800 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-29 11:45:32:188258000 +05:30[Asia/Calcutta]
+2022-11-29 11:45:32:172634900 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-29 11:45:33:577276100 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-29 11:45:38:594136000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-11-29 11:45:38:740180300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New-Etude): IS_CURRENT: true : IDLE -> OPEN 
+2022-11-29 11:45:38:740180300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-11-29 11:45:38:915779200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New-Etude): IS_CURRENT: true : OPEN -> PLAYING 
+2022-11-29 11:45:38:915779200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-11-29 11:46:33:417368300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> IDLE 
+2022-11-29 11:46:33:417368300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New-Etude): IS_CURRENT: true : PLAYING -> CLOSING 
+2022-11-29 11:46:33:418674300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New-Etude): IS_CURRENT: true : CLOSING -> CLOSED 
+2022-11-29 11:46:39:792076900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-11-29 11:46:39:838754900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New-Etude): IS_CURRENT: true : CLOSED -> OPEN 
+2022-11-29 11:46:39:838754900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-11-29 11:46:39:957257700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New-Etude): IS_CURRENT: true : OPEN -> PLAYING 
+2022-11-29 11:46:39:957257700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-11-29 11:46:52:739268700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function RC (Aquire) (Internal Path) 
+2022-11-29 11:46:54:246045400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [RC (Aquire) (Internal Path)] loaded in 1502 ms 
+2022-11-29 11:47:01:304696300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New-Etude): IS_CURRENT: true : PLAYING -> PAUSED 
+2022-11-29 11:47:01:305208300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2022-11-29 11:47:01:313386400 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (RC (Aquire)) | WindowCount: 0 
+2022-11-29 11:47:01:313386400 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-29 11:47:01:335062900 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-29 11:47:01:335062900 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-29 11:52:36:831945200 +05:30[Asia/Calcutta]
+2022-11-29 11:52:36:816320100 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-29 11:52:37:888786000 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-29 11:52:56:36318200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function RC (Aquire) (Internal Path) 
+2022-11-29 11:52:56:81031400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-11-29 11:52:56:297979600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : IDLE -> OPEN 
+2022-11-29 11:52:56:297979600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-11-29 11:52:56:303670100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : OPEN -> PLAYING 
+2022-11-29 11:52:56:303670100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-11-29 11:52:57:763083600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [RC (Aquire) (Internal Path)] loaded in 1712 ms 
+2022-11-29 11:53:14:527977000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : PLAYING -> PAUSED 
+2022-11-29 11:53:14:528029600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2022-11-29 11:53:14:971851100 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Transform (RC (Aquire)) | WindowCount: 2 
+2022-11-29 11:53:14:971851100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : PAUSED -> PLAYING 
+2022-11-29 11:53:14:971851100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PAUSED -> PLAYING 
+2022-11-29 11:53:18:280650600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : PLAYING -> PAUSED 
+2022-11-29 11:53:18:280650600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2022-11-29 11:53:18:288314800 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Transform (RC (Aquire)) | WindowCount: 1 
+2022-11-29 11:53:23:921596500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 1] 
+2022-11-29 11:53:23:961851100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: true : IDLE -> OPEN 
+2022-11-29 11:53:24:33285800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: true : OPEN -> PLAYING 
+2022-11-29 11:53:24:33285800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PAUSED -> PLAYING 
+2022-11-29 11:53:28:810671800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> IDLE 
+2022-11-29 11:53:28:810671800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: false : PLAYING -> CLOSING 
+2022-11-29 11:53:28:811582100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: false : CLOSING -> CLOSED 
+2022-11-29 11:53:31:812073800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-11-29 11:53:31:889460300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : CLOSED -> OPEN 
+2022-11-29 11:53:31:889460300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-11-29 11:53:31:890129800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : OPEN -> PLAYING 
+2022-11-29 11:53:31:890129800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-11-29 11:53:33:884322400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> IDLE 
+2022-11-29 11:53:33:887054800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : PLAYING -> CLOSING 
+2022-11-29 11:53:33:887464000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : CLOSING -> CLOSED 
+2022-11-29 11:53:37:359034000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 1] 
+2022-11-29 11:53:37:399163800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: true : CLOSED -> OPEN 
+2022-11-29 11:53:37:399163800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-11-29 11:53:37:484119900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: true : OPEN -> PLAYING 
+2022-11-29 11:53:37:484119900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-11-29 11:53:43:424827200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Sine Signal (Internal Program) 
+2022-11-29 11:53:45:225068500 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Sine Signal (Internal Program)] loaded in 1800 ms 
+2022-11-29 11:53:46:301150300 +05:30[Asia/Calcutta]:Verbose: Providers: Random Signal: MergedFUnction[ mergeMode=UNION
+	SineSignal(frequency=9.911907196044922Hz, duration=22.0s, phase=5.368898820106217rad, addant=0.8762925863265991, multiplier=0.7355033159255981)
+	SineSignal(frequency=6.5261969566345215Hz, duration=19.0s, phase=5.938713158499572rad, addant=0.9095358848571777, multiplier=2.0122337341308594)
+	SineSignal(frequency=4.059576034545898Hz, duration=27.0s, phase=2.4272609963406033rad, addant=0.22099292278289795, multiplier=1.8362159729003906)
+	SineSignal(frequency=9.670777320861816Hz, duration=16.0s, phase=0.5344495794647378rad, addant=0.30347657203674316, multiplier=3.4937987327575684)
+] 
+2022-11-29 11:53:46:318739300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Random Signal (Internal Program) 
+2022-11-29 11:53:49:66143400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Random Signal (Internal Program)] loaded in 2747 ms 
+2022-11-29 11:53:51:704277400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: true : PLAYING -> PAUSED 
+2022-11-29 11:53:51:704277400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2022-11-29 11:53:51:822930800 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Transform (Random Signal) | WindowCount: 2 
+2022-11-29 11:53:51:822930800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: true : PAUSED -> PLAYING 
+2022-11-29 11:53:51:824290500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PAUSED -> PLAYING 
+2022-11-29 11:53:56:861927900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Random Signal (Internal Program) 
+2022-11-29 11:54:05:385102300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Random Signal (Internal Program)] loaded in 8524 ms 
+2022-11-29 11:54:17:34938200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Rotor Frequency Provider changed. Function: Random Signal (Internal Program) | Old Frequency Provider: null | New Frequency Provider: BoundedFrequencyProvider{frequencyStart=3.0, frequencyEnd=10.0} 
+2022-11-29 11:54:17:34938200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Random Signal (Internal Program) 
+2022-11-29 11:54:24:268717800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Random Signal (Internal Program)] loaded in 7234 ms 
+2022-11-29 11:55:13:927652400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: true : PLAYING -> ENDED 
+2022-11-29 11:55:13:938815700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 1] -> [Loop: 0, Player: 2] 
+2022-11-29 11:55:13:987551300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : IDLE -> OPEN 
+2022-11-29 11:55:14:50779300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : OPEN -> PLAYING 
+2022-11-29 11:55:30:466640400 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Transform (Random Signal) | WindowCount: 1 
+2022-11-29 11:55:35:553809000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Sine Signal (Internal Program) 
+2022-11-29 11:55:37:650120400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Sine Signal (Internal Program)] loaded in 2096 ms 
+2022-11-29 11:55:47:972675100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : PLAYING -> PAUSED 
+2022-11-29 11:55:47:972675100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2022-11-29 11:55:48:47845600 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Transform (Sine Signal) | WindowCount: 2 
+2022-11-29 11:55:48:49304100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : PAUSED -> PLAYING 
+2022-11-29 11:55:48:49996900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PAUSED -> PLAYING 
+2022-11-29 11:55:59:537031700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : PLAYING -> PAUSED 
+2022-11-29 11:55:59:537031700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2022-11-29 11:56:12:753472100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : PAUSED -> PLAYING 
+2022-11-29 11:56:12:753657900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PAUSED -> PLAYING 
+2022-11-29 11:56:34:226897400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Rotor Frequency Provider changed. Function: Sine Signal (Internal Program) | Old Frequency Provider: null | New Frequency Provider: BoundedFrequencyProvider{frequencyStart=0.0, frequencyEnd=3.0} 
+2022-11-29 11:56:34:228406800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Sine Signal (Internal Program) 
+2022-11-29 11:56:36:128987500 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Sine Signal (Internal Program)] loaded in 1900 ms 
+2022-11-29 11:56:40:345049900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Sine Signal (Internal Program) 
+2022-11-29 11:56:45:611407800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Sine Signal (Internal Program)] loaded in 5266 ms 
+2022-11-29 11:57:36:726086300 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Transform (Sine Signal) | WindowCount: 1 
+2022-11-29 11:57:42:768013400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : PLAYING -> PAUSED 
+2022-11-29 11:57:42:768585900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2022-11-29 11:57:42:773825000 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Sine Signal) | WindowCount: 0 
+2022-11-29 11:57:42:773825000 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-29 11:57:42:789619700 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-29 11:57:42:798632200 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-11-29 19:50:36:176342300 +05:30[Asia/Calcutta]
+2022-11-29 19:50:36:176342300 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-29 19:50:38:369216000 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-29 19:50:46:676243900 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-11-29 19:50:46:676243900 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-29 19:50:46:769396900 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-29 19:50:46:769396900 +05:30[Asia/Calcutta]

@@ -1,0 +1,852 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="920c81d2-1616-4813-a234-c053d39f4992" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/PROGRAMS.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/core.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/app.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/audio/audio.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/chart/chart.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/chart/src/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/chart/src/xchart/XYSeriesData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/main/src/models/graph/FunctionGraphData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/uiutil/uiutil.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../app/util/util.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/artifacts/core_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/artifacts/core_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/artifacts/core_src_zip.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/artifacts/main_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/artifacts/main_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/libraries/commons_csv_1_9_0_javadoc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/libraries/commons_csv_1_9_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/libraries/soundlibs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/libraries/soundlibs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/core_src.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core-src.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core.jar" beforeDir="false" afterPath="$PROJECT_DIR$/core.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/core.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/core.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/animation/animator/AbstractAnimator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/uiutil/src/animation/animator/AbstractAnimator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/animation/animator/Animator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/uiutil/src/animation/animator/Animator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/animation/animator/DoubleAnimator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/uiutil/src/animation/animator/DoubleAnimator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/animation/animator/FloatAnimator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/uiutil/src/animation/animator/FloatAnimator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/animation/animator/IntAnimator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/uiutil/src/animation/animator/IntAnimator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/animation/interpolator/AccelerateInterpolator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/uiutil/src/animation/interpolator/AccelerateInterpolator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/animation/interpolator/AnticipateInterpolator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/uiutil/src/animation/interpolator/AnticipateInterpolator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/animation/interpolator/AnticipateOvershootInterpolator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/uiutil/src/animation/interpolator/AnticipateOvershootInterpolator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/animation/interpolator/CycleInterpolator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/uiutil/src/animation/interpolator/CycleInterpolator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/animation/interpolator/DecelerateInterpolator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/uiutil/src/animation/interpolator/DecelerateInterpolator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/animation/interpolator/Interpolator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/uiutil/src/animation/interpolator/Interpolator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/ComplexDomainFunctionWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/ComplexDomainFunctionWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/RotorStatesFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/RotorStatesFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/definition/ColorHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/definition/ColorHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/definition/ColorProviderI.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/definition/ColorProviderI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/definition/ComplexDomainFunctionI.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/definition/ComplexDomainFunctionI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/definition/ComplexFunctionI.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/definition/ComplexFunctionI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/definition/DiscreteFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/definition/DiscreteFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/definition/DiscreteFunctionI.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/definition/DiscreteFunctionI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/definition/DiscreteSignal.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/definition/DiscreteSignal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/definition/DiscreteSignalI.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/definition/DiscreteSignalI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/definition/DomainProviderI.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/definition/DomainProviderI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/definition/SignalFunctionI.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/definition/SignalFunctionI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/graphic/CharFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/graphic/CharFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/graphic/CharMerger.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/graphic/CharMerger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/graphic/GraphicFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/graphic/GraphicFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/internal/basic/CircleFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/internal/basic/CircleFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/internal/basic/MergedFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/internal/basic/MergedFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/internal/basic/RectFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/internal/basic/RectFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/internal/basic/SineSignal.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/internal/basic/SineSignal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/internal/basic/StepFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/internal/basic/StepFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/internal/chars/CharC.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/internal/chars/CharC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/internal/chars/CharR.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/internal/chars/CharR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/path/CubicCurvePath.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/path/CubicCurvePath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/path/LinePath.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/path/LinePath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/path/PathFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/path/PathFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/path/PathFunctionMerger.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/path/PathFunctionMerger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/function/path/QuadCurvePath.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/path/QuadCurvePath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/models/ComplexSum.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/models/ComplexSum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/models/Pair.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/models/Pair.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/models/RealTransform.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/models/RealTransform.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/models/Size.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/models/Size.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/models/Triangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/models/Triangle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/models/Wrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/models/Wrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/models/graph/FunctionGraphData.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/models/graph/FunctionGraphMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/models/FunctionGraphMode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/models/graph/GraphSeries.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/rotor/RotorState.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/rotor/RotorState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/rotor/RotorStateProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/rotor/RotorStateProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/rotor/frequency/BoundedFrequencyProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/rotor/frequency/BoundedFrequencyProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/rotor/frequency/CenteringFrequencyProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/rotor/frequency/CenteringFrequencyProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/rotor/frequency/FixedStartFrequencyProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/rotor/frequency/FixedStartFrequencyProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/rotor/frequency/IndexFrequencyProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/rotor/frequency/IndexFrequencyProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/rotor/frequency/RotorFrequencyProviderI.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/rotor/frequency/RotorFrequencyProviderI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/CollectionUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/misc/CollectionUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/FileUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/misc/FileUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/Flaggable.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/misc/Flaggable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/Format.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/misc/Format.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/OpenFileFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/models/OpenFileFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/Async.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/Async.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/BiConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/BiConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/BiFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/BiFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/BiIOFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/BiIOFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/CFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/CFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/CRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/CRun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/CTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/CTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/CVoidFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/CVoidFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/CancellationProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/CancellationProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/Canceller.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/Canceller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/Consumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/Function.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/Function.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/IOConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/IOConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/IOFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/IOFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/IOTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/IOTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/IntConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/IntConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/LongConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/LongConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/Task.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/TaskCompletionListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/TaskCompletionListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/TaskConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/TaskConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/ThrowableCFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/ThrowableCFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/ThrowableCTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/ThrowableCTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/ThrowableFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/ThrowableFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/ThrowableRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/ThrowableRunnable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/ThrowableTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/ThrowableTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/async/TriFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/TriFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/json/ColorGsonAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/util/json/ColorGsonAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/json/GsonTypeAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/util/json/GsonTypeAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/json/JsonParsable.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/util/json/JsonParsable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/json/PathGsonAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/util/json/PathGsonAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/live/BaseLive.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/live/BaseLive.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/live/Listeners.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/live/Listeners.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/live/ListenersI.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/live/ListenersI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/live/Live.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/live/Live.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/live/MutableLive.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/live/MutableLive.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/live/WeakListeners.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/live/WeakListeners.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/main/ComplexUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/util/main/ComplexUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../core/src/util/main/PathUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/util/main/PathUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/META-INF/maven/org.knowm.xchart/xchart/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/META-INF/maven/org.knowm.xchart/xchart/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/META-INF/maven/org.knowm.xchart/xchart/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/META-INF/maven/org.knowm.xchart/xchart/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/app/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/app/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/app/Colors.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/app/Colors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/app/R.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/app/R.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/app/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/app/Settings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/json/Json.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/json/Json.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/models/graph/FTGraphData.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/models/graph/FTGraphData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/models/graph/FTGraphMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/models/graph/FTGraphMode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/AnnotationImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/AnnotationImage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/AnnotationLine.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/AnnotationLine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/AnnotationText.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/AnnotationText.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/AnnotationTextPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/AnnotationTextPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/BitmapEncoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/BitmapEncoder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/BoxChart.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/BoxChart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/BoxChartBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/BoxChartBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/BoxSeries.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/BoxSeries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/BubbleChart.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/BubbleChart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/BubbleChartBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/BubbleChartBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/BubbleSeries.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/BubbleSeries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/CSVExporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/CSVExporter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/CSVImporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/CSVImporter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/CategoryChart.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/CategoryChart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/CategoryChartBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/CategoryChartBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/CategorySeries.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/CategorySeries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/DialChart.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/DialChart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/DialChartBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/DialChartBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/DialSeries.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/DialSeries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/GifEncoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/GifEncoder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/HeatMapChart.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/HeatMapChart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/HeatMapChartBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/HeatMapChartBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/HeatMapSeries.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/HeatMapSeries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/Histogram.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/Histogram.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/OHLCChart.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/OHLCChart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/OHLCChartBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/OHLCChartBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/OHLCSeries.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/OHLCSeries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/PdfboxGraphicsEncoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/PdfboxGraphicsEncoder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/PieChart.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/PieChart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/PieChartBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/PieChartBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/PieSeries.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/PieSeries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/QuickChart.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/QuickChart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/RadarChart.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/RadarChart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/RadarChartBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/RadarChartBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/RadarSeries.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/RadarSeries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/SwingWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/SwingWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/VectorGraphicsEncoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/VectorGraphicsEncoder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/XChartPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/XChartPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/XYChart.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/XYChart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/XYChartBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/XYChartBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/XYSeries.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/XYSeries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/ChartBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/ChartBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Annotation.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Annotation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Axis.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Axis.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/AxisPair.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/AxisPair.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/AxisTick.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/AxisTick.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/AxisTickCalculator_.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/AxisTickCalculator_.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/AxisTickCalculator_Callback.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/AxisTickCalculator_Callback.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/AxisTickCalculator_Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/AxisTickCalculator_Category.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/AxisTickCalculator_Date.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/AxisTickCalculator_Date.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/AxisTickCalculator_Logarithmic.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/AxisTickCalculator_Logarithmic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/AxisTickCalculator_Number.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/AxisTickCalculator_Number.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/AxisTickLabels.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/AxisTickLabels.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/AxisTickMarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/AxisTickMarks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/AxisTitle.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/AxisTitle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/BoxPlotData.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/BoxPlotData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/BoxPlotDataCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/BoxPlotDataCalculator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Chart.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Chart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/ChartButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/ChartButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/ChartPart.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/ChartPart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/ChartTitle.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/ChartTitle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/ChartZoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/ChartZoom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Cursor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Cursor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Formatter_Custom.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Formatter_Custom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Formatter_LogNumber.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Formatter_LogNumber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Formatter_Number.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Formatter_Number.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Formatter_String.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Formatter_String.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Legend_.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Legend_.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Legend_Bubble.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Legend_Bubble.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Legend_HeatMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Legend_HeatMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Legend_Marker.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Legend_Marker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Legend_OHLC.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Legend_OHLC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Legend_Pie.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Legend_Pie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/PlotContent_.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/PlotContent_.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/PlotContent_Box.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/PlotContent_Box.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/PlotContent_Bubble.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/PlotContent_Bubble.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/PlotContent_Category_Bar.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/PlotContent_Category_Bar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/PlotContent_Dial.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/PlotContent_Dial.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/PlotContent_HeatMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/PlotContent_HeatMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/PlotContent_OHLC.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/PlotContent_OHLC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/PlotContent_Pie.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/PlotContent_Pie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/PlotContent_Radar.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/PlotContent_Radar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/PlotContent_XY.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/PlotContent_XY.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/PlotSurface_.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/PlotSurface_.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/PlotSurface_AxesChart.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/PlotSurface_AxesChart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/PlotSurface_Pie.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/PlotSurface_Pie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Plot_.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Plot_.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Plot_AxesChart.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Plot_AxesChart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Plot_Box.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Plot_Box.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Plot_Bubble.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Plot_Bubble.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Plot_Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Plot_Category.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Plot_Circular.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Plot_Circular.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Plot_Dial.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Plot_Dial.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Plot_HeatMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Plot_HeatMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Plot_OHLC.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Plot_OHLC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Plot_Pie.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Plot_Pie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Plot_Radar.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Plot_Radar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/Plot_XY.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/Plot_XY.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/RenderableSeries.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/RenderableSeries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/chartpart/ToolTips.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/chartpart/ToolTips.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/series/AxesChartSeries.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/series/AxesChartSeries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/series/AxesChartSeriesCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/series/AxesChartSeriesCategory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/series/AxesChartSeriesNumericalNoErrorBars.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/series/AxesChartSeriesNumericalNoErrorBars.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/series/MarkerSeries.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/series/MarkerSeries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/series/NoMarkersSeries.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/series/NoMarkersSeries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/series/Series.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/series/Series.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/style/SeriesColorMarkerLineStyle.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/style/SeriesColorMarkerLineStyle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/internal/style/SeriesColorMarkerLineStyleCycler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/internal/style/SeriesColorMarkerLineStyleCycler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/AxesChartStyler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/AxesChartStyler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/BoxStyler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/BoxStyler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/BubbleStyler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/BubbleStyler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/CategoryStyler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/CategoryStyler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/DialStyler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/DialStyler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/HeatMapStyler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/HeatMapStyler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/OHLCStyler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/OHLCStyler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/PieStyler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/PieStyler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/RadarStyler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/RadarStyler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/Styler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/Styler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/XYStyler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/XYStyler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/colors/BaseSeriesColors.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/colors/BaseSeriesColors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/colors/ChartColor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/colors/ChartColor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/colors/ColorBlindFriendlySeriesColors.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/colors/ColorBlindFriendlySeriesColors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/colors/FontColorDetector.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/colors/FontColorDetector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/colors/GGPlot2SeriesColors.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/colors/GGPlot2SeriesColors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/colors/MatlabSeriesColors.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/colors/MatlabSeriesColors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/colors/PrinterFriendlySeriesColors.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/colors/PrinterFriendlySeriesColors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/colors/SeriesColors.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/colors/SeriesColors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/colors/XChartSeriesColors.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/colors/XChartSeriesColors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/lines/BaseSeriesLines.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/lines/BaseSeriesLines.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/lines/GGPlot2SeriesLines.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/lines/GGPlot2SeriesLines.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/lines/MatlabSeriesLines.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/lines/MatlabSeriesLines.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/lines/NoneStroke.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/lines/NoneStroke.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/lines/SeriesLines.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/lines/SeriesLines.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/lines/XChartSeriesLines.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/lines/XChartSeriesLines.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/markers/BaseSeriesMarkers.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/markers/BaseSeriesMarkers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/markers/Circle.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/markers/Circle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/markers/Cross.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/markers/Cross.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/markers/Diamond.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/markers/Diamond.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/markers/GGPlot2SeriesMarkers.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/markers/GGPlot2SeriesMarkers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/markers/Marker.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/markers/Marker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/markers/MatlabSeriesMarkers.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/markers/MatlabSeriesMarkers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/markers/None.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/markers/None.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/markers/Oval.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/markers/Oval.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/markers/Plus.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/markers/Plus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/markers/Rectangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/markers/Rectangle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/markers/SeriesMarkers.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/markers/SeriesMarkers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/markers/Square.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/markers/Square.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/markers/Trapezoid.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/markers/Trapezoid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/markers/TriangleDown.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/markers/TriangleDown.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/markers/TriangleUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/markers/TriangleUp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/markers/XChartSeriesMarkers.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/markers/XChartSeriesMarkers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/theme/AbstractBaseTheme.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/theme/AbstractBaseTheme.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/theme/GGPlot2Theme.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/theme/GGPlot2Theme.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/theme/MatlabTheme.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/theme/MatlabTheme.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/theme/Theme.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/theme/Theme.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/org/knowm/xchart/style/theme/XChartTheme.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/chart/src/xchart/style/theme/XChartTheme.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/provider/AbstractFunctionProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/provider/AbstractFunctionProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/provider/BaseFunctionProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/provider/BaseFunctionProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/provider/FunctionMeta.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/provider/FunctionMeta.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/provider/FunctionProviderI.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/provider/FunctionProviderI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/provider/FunctionProviders.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/provider/FunctionProviders.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/provider/FunctionType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/provider/FunctionType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/provider/PathFunctionProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/provider/PathFunctionProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/provider/Providers.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/provider/Providers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/provider/SimpleFunctionProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/provider/SimpleFunctionProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/rotor/FunctionState.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/rotor/FunctionState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/rotor/RotorStateManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/rotor/RotorStateManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/rotor/StandardRotorStateManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/rotor/StandardRotorStateManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/test/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/test/Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/DarkChartTheme.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/ui/DarkChartTheme.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/action/ActionInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/ui/action/ActionInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/action/BaseAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/uiutil/src/action/BaseAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/action/UiAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/ui/action/UiAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/audio/AbstractLinePlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/audio/src/player/AbstractLinePlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/audio/AudioClipPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/audio/src/player/AudioClipPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/audio/AudioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/audio/src/misc/AudioController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/audio/AudioListPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/audio/src/misc/AudioListPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/audio/AudioPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/audio/src/player/AudioPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/audio/AudioStreamer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/audio/src/player/AudioStreamer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/audio/AuxSoundsPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/ui/AuxSoundsPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/audio/MusicPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/ui/MusicPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/audio/source/AudioSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/audio/src/source/AudioSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/audio/source/PathAudioSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/audio/src/source/PathAudioSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/audio/source/StreamAudioSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/audio/src/source/StreamAudioSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/audio/source/URLAudioSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/audio/src/source/URLAudioSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/frames/BaseFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/ui/frames/BaseFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/frames/FTUi.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/ui/frames/FTUi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/frames/FourierUi.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/ui/frames/FourierUi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/panels/ExternalProgramPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/ui/panels/ExternalProgramPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/panels/ExternalRotorStatesLoadPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/ui/panels/ExternalRotorStatesLoadPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/panels/FTGraphPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/ui/panels/FTGraphPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/panels/FTWinderPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/ui/panels/FTWinderPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/panels/FourierSeriesPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/ui/panels/FourierSeriesPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/panels/FrequencyProviderSelectorPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/ui/panels/FrequencyProviderSelectorPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/panels/FunctionGraphPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/ui/panels/FunctionGraphPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/util/ChooserConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/uiutil/src/misc/ChooserConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/util/Drawable.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/uiutil/src/misc/Drawable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/util/DrawableFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/uiutil/src/misc/DrawableFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/util/Keyboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/uiutil/src/misc/Keyboard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/util/ScrollablePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/uiutil/src/misc/ScrollablePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/ui/util/Ui.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/ui/util/Ui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/util/DirStat.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/models/DirStat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/util/ExternalJava.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/misc/ExternalJava.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/util/ExternalProgramFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/util/ExternalProgramFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../main/src/util/Log.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/misc/Log.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/artifacts/core_jar/core.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../out/artifacts/core_jar/core.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/artifacts/core_src_zip/core-src.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/PROGRAMS/PROGRAMS.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/PROGRAMS/core-src.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/PROGRAMS/core.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../out/artifacts/main_jar/PROGRAMS/core.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/main.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../out/artifacts/main_jar/main.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/animation/animator/AbstractAnimator$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/animation/animator/AbstractAnimator$EndMode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/animation/animator/AbstractAnimator$RepeatMode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/animation/animator/AbstractAnimator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/animation/animator/Animator$AnimationListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/animation/animator/Animator$AnimationListenerAdapter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/animation/animator/Animator$AnimationUpdateListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/animation/animator/Animator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/animation/animator/DoubleAnimator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/animation/animator/FloatAnimator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/animation/animator/IntAnimator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/animation/interpolator/AccelerateInterpolator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/animation/interpolator/AnticipateInterpolator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/animation/interpolator/AnticipateOvershootInterpolator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/animation/interpolator/CycleInterpolator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/animation/interpolator/DecelerateInterpolator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/animation/interpolator/Interpolator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/function/definition/ComplexDomainFunctionI.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/function/definition/ComplexDomainFunctionI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/function/definition/SignalFunctionI.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/function/definition/SignalFunctionI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/function/graphic/CharMerger.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/function/graphic/CharMerger.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/function/graphic/GraphicFunction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/function/graphic/GraphicFunction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/function/internal/basic/MergedFunction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/function/internal/basic/MergedFunction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/function/path/PathFunction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/function/path/PathFunction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/models/Pair$Bool.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/models/Pair$Byte.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/models/Pair$Char.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/models/Pair$Double.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/models/Pair$Float.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/models/Pair$Int.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/models/Pair$Long.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/models/Pair$Str.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/models/Pair$Uno.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/models/Pair.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/models/RealTransform.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/models/RealTransform.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/models/Size.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/models/Triangle.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/models/Wrapper$Bool.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/models/Wrapper$Doub.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/models/Wrapper$Int.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/models/Wrapper$Long.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/models/Wrapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/models/graph/FunctionGraphData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/models/graph/FunctionGraphMode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/models/graph/GraphSeries.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/rotor/frequency/CenteringFrequencyProvider.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/rotor/frequency/CenteringFrequencyProvider.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/rotor/frequency/IndexFrequencyProvider.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/rotor/frequency/IndexFrequencyProvider.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/CollectionUtil$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/CollectionUtil$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/CollectionUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/FileUtil$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/FileUtil$PathInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/FileUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/Flaggable$Base.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/Flaggable$VolatileFlags.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/Flaggable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/Format.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/OpenFileFilter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/Async$CExecutor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/Async$Executor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/Async.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/BiConsumer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/BiFunction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/BiIOFunction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/CFunction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/CRun.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/CTask.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/CVoidFunction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/CancellationProvider.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/Canceller$BaseC.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/Canceller$FutureC.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/Canceller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/Consumer$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/Consumer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/Function.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/IOConsumer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/IOFunction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/IOTask.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/IntConsumer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/LongConsumer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/Task.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/TaskCompletionListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/TaskConsumer$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/TaskConsumer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/ThrowableCFunction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/ThrowableCTask.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/ThrowableFunction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/ThrowableRunnable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/ThrowableTask.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/async/TriFunction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/json/GsonTypeAdapter.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/util/json/GsonTypeAdapter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/live/BaseLive$Observer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/live/BaseLive.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/live/Listeners.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/live/ListenersI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/live/Live.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/live/MutableLive.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/live/WeakListeners.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/main/ComplexUtil$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/util/main/ComplexUtil$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/main/ComplexUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/util/main/ComplexUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/main/PathUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/util/main/PathUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/app/App$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/app/App$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/app/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/app/App.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/app/R$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/app/R$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/app/R$LoadResult.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/app/R$LoadResult.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/app/R.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/app/R.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/app/Settings$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/app/Settings$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/app/Settings$GsonAdapter.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/app/Settings$GsonAdapter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/app/Settings.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/app/Settings.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/json/Json.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/json/Json.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/models/graph/FTGraphData.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/models/graph/FTGraphData.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/AnnotationImage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/AnnotationLine.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/AnnotationText.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/AnnotationTextPanel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/BitmapEncoder$BitmapFormat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/BitmapEncoder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/BoxChart.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/BoxChartBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/BoxSeries.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/BubbleChart.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/BubbleChartBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/BubbleSeries$BubbleSeriesRenderStyle.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/BubbleSeries.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/CSVExporter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/CSVImporter$DataOrientation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/CSVImporter$SeriesData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/CSVImporter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/CategoryChart.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/CategoryChartBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/CategorySeries$CategorySeriesRenderStyle.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/CategorySeries.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/DialChart.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/DialChartBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/DialSeries.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/GifEncoder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/HeatMapChart.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/HeatMapChartBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/HeatMapSeries.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/Histogram.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/OHLCChart$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/OHLCChart.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/OHLCChartBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/OHLCSeries$OHLCSeriesRenderStyle.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/OHLCSeries.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/PdfboxGraphicsEncoder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/PieChart.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/PieChartBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/PieSeries$PieSeriesRenderStyle.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/PieSeries.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/QuickChart.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/RadarChart.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/RadarChartBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/RadarSeries.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/SwingWrapper$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/SwingWrapper$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/SwingWrapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/VectorGraphicsEncoder$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/VectorGraphicsEncoder$PDFBoxProcessor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/VectorGraphicsEncoder$VectorGraphicsFormat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/VectorGraphicsEncoder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/XChartPanel$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/XChartPanel$ExportAction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/XChartPanel$MouseHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/XChartPanel$OpsMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/XChartPanel$PrintAction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/XChartPanel$Printer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/XChartPanel$SaveAction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/XChartPanel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/XYChart$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/XYChart.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/XYChartBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/XYSeries$XYSeriesRenderStyle.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/XYSeries.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/ChartBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/Utils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Annotation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Axis$Direction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Axis.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/AxisPair.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/AxisTick.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/AxisTickCalculator_.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/AxisTickCalculator_Callback.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/AxisTickCalculator_Category.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/AxisTickCalculator_Date$TimeSpan.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/AxisTickCalculator_Date.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/AxisTickCalculator_Logarithmic.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/AxisTickCalculator_Number.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/AxisTickLabels$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/AxisTickLabels.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/AxisTickMarks.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/AxisTitle.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/BoxPlotData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/BoxPlotDataCalculator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Chart.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/ChartButton$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/ChartButton.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/ChartPart.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/ChartTitle.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/ChartZoom.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Cursor$DataPoint.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Cursor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Formatter_Custom.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Formatter_LogNumber.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Formatter_Number.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Formatter_String.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Legend_$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Legend_.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Legend_Bubble.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Legend_HeatMap$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Legend_HeatMap.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Legend_Marker.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Legend_OHLC.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Legend_Pie.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/PlotContent_.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/PlotContent_Box.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/PlotContent_Bubble.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/PlotContent_Category_Bar.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/PlotContent_Dial.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/PlotContent_HeatMap.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/PlotContent_OHLC.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/PlotContent_Pie.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/PlotContent_Radar.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/PlotContent_XY.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/PlotSurface_.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/PlotSurface_AxesChart.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/PlotSurface_Pie.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Plot_.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Plot_AxesChart.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Plot_Box.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Plot_Bubble.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Plot_Category.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Plot_Circular.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Plot_Dial.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Plot_HeatMap.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Plot_OHLC.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Plot_Pie.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Plot_Radar.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/Plot_XY.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/RenderableSeries$LegendRenderType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/RenderableSeries.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/ToolTips$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/ToolTips$ToolTip.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/chartpart/ToolTips.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/series/AxesChartSeries.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/series/AxesChartSeriesCategory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/series/AxesChartSeriesNumericalNoErrorBars.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/series/MarkerSeries.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/series/NoMarkersSeries.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/series/Series$DataType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/series/Series.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/style/SeriesColorMarkerLineStyle.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/internal/style/SeriesColorMarkerLineStyleCycler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/AxesChartStyler$TextAlignment.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/AxesChartStyler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/BoxStyler$BoxplotCalCulationMethod.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/BoxStyler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/BubbleStyler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/CategoryStyler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/DialStyler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/HeatMapStyler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/OHLCStyler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/PieStyler$ClockwiseDirectionType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/PieStyler$LabelType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/PieStyler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/RadarStyler$RadarRenderStyle.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/RadarStyler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/Styler$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/Styler$ChartButtonPosition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/Styler$ChartTheme.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/Styler$LegendLayout.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/Styler$LegendPosition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/Styler$ToolTipType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/Styler$YAxisPosition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/Styler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/XYStyler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/colors/BaseSeriesColors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/colors/ChartColor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/colors/ColorBlindFriendlySeriesColors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/colors/FontColorDetector.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/colors/GGPlot2SeriesColors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/colors/MatlabSeriesColors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/colors/PrinterFriendlySeriesColors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/colors/SeriesColors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/colors/XChartSeriesColors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/lines/BaseSeriesLines.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/lines/GGPlot2SeriesLines.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/lines/MatlabSeriesLines.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/lines/NoneStroke.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/lines/SeriesLines.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/lines/XChartSeriesLines.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/markers/BaseSeriesMarkers.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/markers/Circle.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/markers/Cross.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/markers/Diamond.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/markers/GGPlot2SeriesMarkers.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/markers/Marker.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/markers/MatlabSeriesMarkers.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/markers/None.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/markers/Oval.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/markers/Plus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/markers/Rectangle.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/markers/SeriesMarkers.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/markers/Square.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/markers/Trapezoid.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/markers/TriangleDown.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/markers/TriangleUp.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/markers/XChartSeriesMarkers.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/theme/AbstractBaseTheme.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/theme/GGPlot2Theme.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/theme/MatlabTheme.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/theme/Theme.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/org/knowm/xchart/style/theme/XChartTheme.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/provider/BaseFunctionProvider.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/provider/BaseFunctionProvider.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/provider/FunctionProviderI.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/provider/FunctionProviderI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/provider/FunctionProviders.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/provider/FunctionProviders.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/provider/Providers$NoOpProviderException.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/provider/Providers$NoOpProviderException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/provider/Providers$NoopProvider.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/provider/Providers$NoopProvider.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/provider/Providers.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/provider/Providers.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/rotor/FunctionState.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/rotor/FunctionState.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/rotor/RotorStateManager$NoOp.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/rotor/RotorStateManager$NoOp.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/rotor/RotorStateManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/rotor/RotorStateManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/rotor/StandardRotorStateManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/rotor/StandardRotorStateManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/test/Test.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/test/Test.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/DarkChartTheme.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/DarkChartTheme.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/action/ActionInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/action/ActionInfo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/action/BaseAction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/action/UiAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/action/UiAction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/AbstractLinePlayer$StopMode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/AbstractLinePlayer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/AudioClipPlayer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/AudioController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/AudioController$ExistsStrategy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/AudioController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/AudioListPlayer$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/AudioListPlayer$Indices.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/AudioListPlayer$Listener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/AudioListPlayer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/AudioPlayer$Listener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/AudioPlayer$PlayerException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/AudioPlayer$State.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/AudioPlayer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/AudioStreamer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/AuxSoundsPlayer$EnabledAction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/AuxSoundsPlayer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/MusicPlayer$EnabledAction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/MusicPlayer$PlayNextAction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/MusicPlayer$PlayPauseAction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/MusicPlayer$PlaybackMenuAction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/MusicPlayer$ResetAction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/MusicPlayer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/source/AudioSource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/source/PathAudioSource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/source/StreamAudioSource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/audio/source/URLAudioSource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/frames/BaseFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/frames/BaseFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/frames/FTUi$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/frames/FTUi$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/frames/FTUi$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/frames/FTUi$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/frames/FTUi$TransformMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/frames/FTUi$TransformMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/frames/FTUi.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/frames/FTUi.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/frames/FourierUi$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/frames/FourierUi$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/frames/FourierUi.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/frames/FourierUi.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/ExternalProgramPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/ExternalProgramPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/ExternalRotorStatesLoadPanel$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/ExternalRotorStatesLoadPanel$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/ExternalRotorStatesLoadPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/ExternalRotorStatesLoadPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FTGraphPanel$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FTGraphPanel$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FTGraphPanel$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FTGraphPanel$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FTGraphPanel$DrawAsLiveAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FTGraphPanel$DrawAsLiveAction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FTGraphPanel$GraphModeAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FTGraphPanel$GraphModeAction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FTGraphPanel$InvertXAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FTGraphPanel$InvertXAction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FTGraphPanel$InvertYAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FTGraphPanel$InvertYAction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FTGraphPanel$MapperInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FTGraphPanel$MapperInfo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FTGraphPanel$SeriesType.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FTGraphPanel$SeriesType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FTGraphPanel$SmoothAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FTGraphPanel$SmoothAction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FTGraphPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FTGraphPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FTWinderPanel$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FTWinderPanel$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FTWinderPanel$ConfigMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FTWinderPanel$ConfigMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FTWinderPanel$FlagAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FTWinderPanel$FlagAction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FTWinderPanel$MouseHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FTWinderPanel$MouseHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FTWinderPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FTWinderPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FourierSeriesPanel$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FourierSeriesPanel$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FourierSeriesPanel$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FourierSeriesPanel$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FourierSeriesPanel$ComponentListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FourierSeriesPanel$ComponentListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FourierSeriesPanel$MouseHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FourierSeriesPanel$MouseHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FourierSeriesPanel$PanelListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FourierSeriesPanel$PanelListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FourierSeriesPanel$WavePoint.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FourierSeriesPanel$WavePoint.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FourierSeriesPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FourierSeriesPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FrequencyProviderSelectorPanel$Entry.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FrequencyProviderSelectorPanel$Entry.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FrequencyProviderSelectorPanel$ItemPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FrequencyProviderSelectorPanel$ItemPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FrequencyProviderSelectorPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FrequencyProviderSelectorPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FunctionGraphPanel$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FunctionGraphPanel$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FunctionGraphPanel$GraphModeAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FunctionGraphPanel$GraphModeAction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FunctionGraphPanel$InvertXAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FunctionGraphPanel$InvertXAction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FunctionGraphPanel$InvertYAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FunctionGraphPanel$InvertYAction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FunctionGraphPanel$Listener.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FunctionGraphPanel$Listener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FunctionGraphPanel$SmoothAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FunctionGraphPanel$SmoothAction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FunctionGraphPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FunctionGraphPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/ChooserConfig$Builder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/ChooserConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/Drawable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/DrawableFrame.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/Keyboard.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/ScrollablePanel$IncrementInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/ScrollablePanel$IncrementType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/ScrollablePanel$ScrollableSizeHint.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/ScrollablePanel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/Ui.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/util/Ui.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/util/DirStat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/util/ExternalJava$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/util/ExternalJava$CompilationException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/util/ExternalJava$JavaObject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/util/ExternalJava$Location$GsonAdapter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/util/ExternalJava$Location.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/util/ExternalJava.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/util/ExternalProgramFunction$GsonAdapter.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/util/ExternalProgramFunction$GsonAdapter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/util/ExternalProgramFunction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/util/ExternalProgramFunction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/util/Log$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/util/Log$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/util/Log$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/util/Log$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/util/Log$ConsoleHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/util/Log$DebugAction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/util/Log$LogFormatter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/util/Log$LogToConsoleAction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/util/Log$LogToFileAction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/util/Log$ResetAction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/util/Log.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../res/sound/music/Etude.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../res/sound/music/Euler's Clock.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../res/sound/music/Fractals.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../res/sound/music/Hypothesis.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../res/sound/music/New Etude.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../res/sound/music/Opus.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../res/sound/music/Quaternions.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../res/sound/music/Sixes.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../res/sound/music/Stepwise.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../res/sound/music/Trinkets.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../res/sound/music/Wading.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../res/sound/music/Wallis Ballade.mp3" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2IGTXxQzqAco1dGBDeUlZj4k7dQ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="920c81d2-1616-4813-a234-c053d39f4992" name="Changes" comment="" />
+      <created>1669806966607</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1669806966607</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

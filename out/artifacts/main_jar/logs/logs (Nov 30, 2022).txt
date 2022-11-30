@@ -1,0 +1,25 @@
+
+## LOG START -> 2022-11-30 16:43:08:152108300 +05:30[Asia/Calcutta]
+2022-11-30 16:43:08:152108300 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-11-30 16:43:08:774871700 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-11-30 16:43:12:648524700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Joseph Fourier (Internal Path) 
+2022-11-30 16:43:12:689156400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-11-30 16:43:12:866862900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : IDLE -> OPEN 
+2022-11-30 16:43:12:870154800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-11-30 16:43:12:903900500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : OPEN -> PLAYING 
+2022-11-30 16:43:12:903900500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-11-30 16:43:13:929922700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 1281 ms 
+2022-11-30 16:43:16:605709700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Joseph Fourier (Internal Path) 
+2022-11-30 16:43:18:870627200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : PLAYING -> PAUSED 
+2022-11-30 16:43:18:870627200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2022-11-30 16:43:18:939151800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 2333 ms 
+2022-11-30 16:43:19:117326800 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Transform (Loading Joseph Fourier) | WindowCount: 2 
+2022-11-30 16:43:19:117326800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : PAUSED -> PLAYING 
+2022-11-30 16:43:19:117326800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PAUSED -> PLAYING 
+2022-11-30 16:44:21:239427900 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Transform (Joseph Fourier) | WindowCount: 1 
+2022-11-30 16:44:22:622150100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : PLAYING -> PAUSED 
+2022-11-30 16:44:22:622150100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2022-11-30 16:44:22:626753100 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Joseph Fourier) | WindowCount: 0 
+2022-11-30 16:44:22:626753100 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-11-30 16:44:22:673928000 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+## LOG END -> 2022-11-30 16:44:22:673928000 +05:30[Asia/Calcutta]
