@@ -1,0 +1,17 @@
+{
+  "appearance": {
+    "theme": "com.formdev.flatlaf.FlatDarculaLaf"
+  },
+  "config": {
+    "numerical_integration_interval_count": 100000
+  },
+  "sound": {
+    "aux_sounds_enabled": true,
+    "music_enabled": true
+  },
+  "logs": {
+    "debug": true,
+    "console_logging": true,
+    "file_logging": true
+  }
+}
