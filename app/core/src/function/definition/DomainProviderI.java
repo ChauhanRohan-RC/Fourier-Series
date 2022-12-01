@@ -62,7 +62,7 @@ public interface DomainProviderI extends ColorProviderI {
      * @return default domain range travel duration (milliseconds)
      * */
     default long getDomainAnimationDurationMsDefault() {
-        return 4000;
+        return 10000;                                            // Default Speed
     }
 
     /**
@@ -82,7 +82,7 @@ public interface DomainProviderI extends ColorProviderI {
      * @return maximum domain range travel duration (milliseconds)
      * */
     default long getDomainAnimationDurationMsMax() {
-        return 10000;                                           // slowest speed
+        return 50000;                                           // slowest speed
     }
 
 

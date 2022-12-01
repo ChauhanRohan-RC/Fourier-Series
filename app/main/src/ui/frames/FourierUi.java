@@ -255,7 +255,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
         menuPathFunctions.add(uia(ActionInfo.RESET_PATH_FUNCTIONS));
 
         // Rotor States Menu
-        menuRotorStates = Ui.createRotorStatesMenu(this::uia);
+        menuRotorStates = Ui.createRotorStatesMenu(this::uia, true);
         menuBar.add(menuRotorStates);
 
         // Function State menu
@@ -1207,9 +1207,12 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
     public boolean onInterceptRotorsLoad(@NotNull RotorStateManager manager, int loadCount) {
         final boolean noDefinition = !manager.getFunctionMeta().hasBaseDefinition();
         if (noDefinition) {
-            final int initialCount = manager.getFunctionMeta().initialRotorCount();
-            if (initialCount < loadCount) {
-                return !confirmModifNoDefinitionFunctions();
+            final boolean otherSupported = manager.getFunction().frequenciesExceptExplicitSupported();
+            if (otherSupported) {
+                final int initialCount = manager.getFunctionMeta().initialRotorCount();
+                if (initialCount < loadCount) {
+                    return !confirmModifNoDefinitionFunctions();
+                }
             }
         }
 
@@ -1244,7 +1247,10 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
     public boolean onInterceptRotorFrequencyProvider(@NotNull RotorStateManager manager, @Nullable RotorFrequencyProviderI old, @Nullable RotorFrequencyProviderI _new) {
         final boolean noDefinition = !manager.getFunctionMeta().hasBaseDefinition();
         if (noDefinition && !Objects.equals(old, _new)) {
-            return !confirmModifNoDefinitionFunctions();
+            final boolean otherSupported = manager.getFunction().frequenciesExceptExplicitSupported();
+            if (otherSupported) {
+                return !confirmModifNoDefinitionFunctions();
+            }
         }
 
         return RotorStateManager.Listener.super.onInterceptRotorFrequencyProvider(manager, old, _new);
@@ -1366,6 +1372,11 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
         Ui.askLoadExternalRotorStatesFromCSV(FourierUi.this, fsPanel.getRotorStateManager());
     }
 
+    public void askLoadExternalRotorStateFunctionFromCSV() {
+        Ui.askLoadExternalRotorStateFunctionFromCSV(FourierUi.this, functionProviders::ensureAddSelect);
+    }
+
+
     public void askSaveRotorStatesToCSV() {
         Ui.askSaveRotorStatesToCSV(FourierUi.this, fsPanel.getRotorStateManager());
     }
@@ -1479,6 +1490,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
             case CLEAR_AND_RESET_ROTOR_STATE_MANAGER -> askClearAndResetRotorStateManager(false);
             case CLEAR_AND_RELOAD_ROTOR_STATE_MANAGER -> askClearAndResetRotorStateManager(true);
             case LOAD_EXTERNAL_ROTOR_STATES_FROM_CSV -> askLoadExternalRotorStatesFromCSV();
+            case LOAD_EXTERNAL_ROTOR_STATE_FUNCTION_FROM_CSV -> askLoadExternalRotorStateFunctionFromCSV();
             case SAVE_ALL_ROTOR_STATES_TO_CSV -> askSaveRotorStatesToCSV();
             case SHOW_FT_UI -> showFtUi();
         }

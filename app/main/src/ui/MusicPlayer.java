@@ -2,6 +2,7 @@ package ui;
 
 import action.BaseAction;
 import app.R;
+import async.Async;
 import misc.AudioListPlayer;
 import misc.Log;
 import org.jetbrains.annotations.NotNull;
@@ -16,6 +17,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class MusicPlayer extends AudioListPlayer {
@@ -29,6 +31,9 @@ public class MusicPlayer extends AudioListPlayer {
     public static final boolean DEFAULT_LOG_ENABLED = true;
 
     public static final int DEFAULT_LOOP_COUNT = AudioPlayer.LOOP_CONTINUOUSLY;
+
+    private static final int REQUEST_DELAY_MS = 500;
+
 
     @Nullable
     private static MusicPlayer sInstance;
@@ -65,6 +70,8 @@ public class MusicPlayer extends AudioListPlayer {
 
 
     private volatile boolean mLogEnabled;
+    @NotNull
+    private final AtomicInteger mRequestedActionId = new AtomicInteger();
 
     @NotNull
     private final Set<Object> mPlayRequests;
@@ -94,14 +101,25 @@ public class MusicPlayer extends AudioListPlayer {
         resetAction = new ResetAction();
     }
 
+
+
+    private void enqueueRequest(@NotNull Runnable action) {
+        final int id = mRequestedActionId.incrementAndGet();
+        Async.uiPost(() -> {
+            if (mRequestedActionId.get() == id) {
+                action.run();
+            }
+        }, REQUEST_DELAY_MS);
+    }
+
     public synchronized void requestPlay(@NotNull Object token) {
         mPlayRequests.add(token);
-        play();
+        enqueueRequest(this::play);
     }
 
     public synchronized void requestPause(@NotNull Object token) {
         if (mPlayRequests.remove(token) && mPlayRequests.isEmpty()) {
-            pause();
+            enqueueRequest(this::pause);
         }
     }
 

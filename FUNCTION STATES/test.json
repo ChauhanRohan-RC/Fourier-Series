@@ -1,2924 +1,821 @@
 {
-  "saveTimestamp": 1669805296151,
-  "functionName": "NS (PD Sans)",
-  "functionType": "INTERNAL_PATH",
-  "_function": {
-    "_class_name": "function.path.PathFunctionMerger",
-    "_data": {
-      "bounds": {
-        "_class_name": "java.awt.Rectangle",
-        "_data": {
-          "x": 31,
-          "y": 35,
-          "width": 46,
-          "height": 30
-        }
-      },
-      "segments": [
-        {
-          "_class_name": "function.path.LinePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 31.000089645385742,
-                "y": 36.53142166137695
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 31.00008773803711,
-                "y": 64.3714370727539
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.LinePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 31.00008773803711,
-                "y": 64.3714370727539
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 35.39383316040039,
-                "y": 64.3714370727539
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.LinePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 35.39383316040039,
-                "y": 64.3714370727539
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 35.39383316040039,
-                "y": 48.54617691040039
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.LinePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 35.39383316040039,
-                "y": 48.54617691040039
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 35.16053771972656,
-                "y": 43.18036651611328
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.LinePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 35.16053771972656,
-                "y": 43.18036651611328
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 35.39383316040039,
-                "y": 43.18036651611328
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.LinePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 35.39383316040039,
-                "y": 43.18036651611328
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 48.38065719604492,
-                "y": 64.3714370727539
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.LinePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 48.38065719604492,
-                "y": 64.3714370727539
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 52.968814849853516,
-                "y": 64.3714370727539
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.LinePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 52.968814849853516,
-                "y": 64.3714370727539
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 52.968814849853516,
-                "y": 36.53142166137695
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.LinePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 52.968814849853516,
-                "y": 36.53142166137695
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 48.61395263671875,
-                "y": 36.53142166137695
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.LinePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 48.61395263671875,
-                "y": 36.53142166137695
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 48.61395263671875,
-                "y": 51.345733642578125
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.LinePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 48.61395263671875,
-                "y": 51.345733642578125
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 48.847251892089844,
-                "y": 56.711544036865234
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.LinePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 48.847251892089844,
-                "y": 56.711544036865234
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 48.61395263671875,
-                "y": 56.711544036865234
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.LinePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 48.61395263671875,
-                "y": 56.711544036865234
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 36.2492561340332,
-                "y": 36.53142166137695
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.LinePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 36.2492561340332,
-                "y": 36.53142166137695
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 31.000089645385742,
-                "y": 36.53142166137695
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.LinePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 31.000089645385742,
-                "y": 36.53142166137695
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 66.4999771118164,
-                "y": 35.909297943115234
-              }
-            },
-            "isContinuityLink": true,
-            "colorProvider": {
-              "_class_name": "function.definition.ColorProviderI$Static",
-              "_data": {
-                "color": 0
-              }
-            }
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 66.4999771118164,
-                "y": 35.909297943115234
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 65.20388793945312,
-                "y": 35.909297943115234
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 64.01148986816406,
-                "y": 36.11667251586914
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 62.92277145385742,
-                "y": 36.53142166137695
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 62.92277145385742,
-                "y": 36.53142166137695
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 61.859981536865234,
-                "y": 36.92024612426758
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 60.939754486083984,
-                "y": 37.464603424072266
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 60.16210174560547,
-                "y": 38.164493560791016
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 60.16210174560547,
-                "y": 38.164493560791016
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 59.38444519042969,
-                "y": 38.864383697509766
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 58.77528381347656,
-                "y": 39.6809196472168
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 58.33461380004883,
-                "y": 40.614105224609375
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 58.33461380004883,
-                "y": 40.614105224609375
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 57.919864654541016,
-                "y": 41.521366119384766
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 57.71249008178711,
-                "y": 42.49343490600586
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 57.71249008178711,
-                "y": 43.53030776977539
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 57.71249008178711,
-                "y": 43.53030776977539
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 57.71249008178711,
-                "y": 44.64494323730469
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 57.90690231323242,
-                "y": 45.61701202392578
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 58.29573059082031,
-                "y": 46.446510314941406
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 58.29573059082031,
-                "y": 46.446510314941406
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 58.710479736328125,
-                "y": 47.27600860595703
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 59.22891616821289,
-                "y": 48.0018196105957
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 59.85103988647461,
-                "y": 48.62394332885742
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 59.85103988647461,
-                "y": 48.62394332885742
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 60.49908447265625,
-                "y": 49.22014236450195
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 61.21193313598633,
-                "y": 49.73857879638672
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 61.98958969116211,
-                "y": 50.17925262451172
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 61.98958969116211,
-                "y": 50.17925262451172
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 62.79316329956055,
-                "y": 50.59400177001953
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 63.57081985473633,
-                "y": 50.93098449707031
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 64.32254791259766,
-                "y": 51.19020080566406
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.LinePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 64.32254791259766,
-                "y": 51.19020080566406
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 66.07227325439453,
-                "y": 51.812320709228516
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 66.07227325439453,
-                "y": 51.812320709228516
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 67.08322143554688,
-                "y": 52.17522430419922
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 67.95160675048828,
-                "y": 52.53813171386719
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 68.67741394042969,
-                "y": 52.90103530883789
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 68.67741394042969,
-                "y": 52.90103530883789
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 69.40322875976562,
-                "y": 53.23801803588867
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 69.98646545410156,
-                "y": 53.600921630859375
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 70.42713928222656,
-                "y": 53.989749908447266
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 70.42713928222656,
-                "y": 53.989749908447266
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 70.86781311035156,
-                "y": 54.378578186035156
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 71.19183349609375,
-                "y": 54.8062858581543
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 71.39920806884766,
-                "y": 55.27288055419922
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 71.39920806884766,
-                "y": 55.27288055419922
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 71.6065902709961,
-                "y": 55.73947525024414
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 71.71027374267578,
-                "y": 56.257911682128906
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 71.71027374267578,
-                "y": 56.828189849853516
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 71.71027374267578,
-                "y": 56.828189849853516
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 71.71027374267578,
-                "y": 57.476234436035156
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 71.56770324707031,
-                "y": 58.046512603759766
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 71.28256225585938,
-                "y": 58.53902816772461
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 71.28256225585938,
-                "y": 58.53902816772461
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 71.0233383178711,
-                "y": 59.03154373168945
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 70.67340087890625,
-                "y": 59.446292877197266
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 70.23272705078125,
-                "y": 59.78327560424805
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 70.23272705078125,
-                "y": 59.78327560424805
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 69.79206085205078,
-                "y": 60.12025833129883
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 69.27362060546875,
-                "y": 60.37947463989258
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 68.67742156982422,
-                "y": 60.56092834472656
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 68.67742156982422,
-                "y": 60.56092834472656
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 68.08121490478516,
-                "y": 60.716453552246094
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 67.45909881591797,
-                "y": 60.79422378540039
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 66.81105041503906,
-                "y": 60.79422378540039
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 66.81105041503906,
-                "y": 60.79422378540039
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 66.03339385986328,
-                "y": 60.79422378540039
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 65.32054901123047,
-                "y": 60.664615631103516
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 64.67250061035156,
-                "y": 60.4053955078125
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 64.67250061035156,
-                "y": 60.4053955078125
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 64.05037689208984,
-                "y": 60.12025833129883
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 63.48009490966797,
-                "y": 59.74439239501953
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 62.9616584777832,
-                "y": 59.27779769897461
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 62.9616584777832,
-                "y": 59.27779769897461
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 62.46914291381836,
-                "y": 58.81120681762695
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 62.04143142700195,
-                "y": 58.266849517822266
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 61.67852783203125,
-                "y": 57.64472579956055
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 61.67852783203125,
-                "y": 57.64472579956055
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 61.34154510498047,
-                "y": 56.996681213378906
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 61.08232879638672,
-                "y": 56.30975341796875
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 60.900875091552734,
-                "y": 55.58394241333008
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.LinePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 60.900875091552734,
-                "y": 55.58394241333008
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 56.701541900634766,
-                "y": 57.29478073120117
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 56.701541900634766,
-                "y": 57.29478073120117
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 57.064449310302734,
-                "y": 58.56494903564453
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 57.5828857421875,
-                "y": 59.679588317871094
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 58.25685119628906,
-                "y": 60.638694763183594
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 58.25685119628906,
-                "y": 60.638694763183594
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 58.930816650390625,
-                "y": 61.59780502319336
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 59.708473205566406,
-                "y": 62.4013786315918
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 60.589813232421875,
-                "y": 63.04942321777344
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 60.589813232421875,
-                "y": 63.04942321777344
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 61.497074127197266,
-                "y": 63.69746780395508
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 62.46914291381836,
-                "y": 64.1770248413086
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 63.50601577758789,
-                "y": 64.48808288574219
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 63.50601577758789,
-                "y": 64.48808288574219
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 64.56880950927734,
-                "y": 64.82506561279297
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 65.65752410888672,
-                "y": 64.99356079101562
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 66.77216339111328,
-                "y": 64.99356079101562
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.LinePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 66.77216339111328,
-                "y": 64.99356079101562
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 66.77215576171875,
-                "y": 64.9935531616211
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 66.77215576171875,
-                "y": 64.9935531616211
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 67.83494567871094,
-                "y": 64.9935531616211
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 68.92366027832031,
-                "y": 64.83802032470703
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 70.03829956054688,
-                "y": 64.52696228027344
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 70.03829956054688,
-                "y": 64.52696228027344
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 71.15293884277344,
-                "y": 64.21589660644531
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 72.16388702392578,
-                "y": 63.723384857177734
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 73.07115173339844,
-                "y": 63.04941940307617
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 73.07115173339844,
-                "y": 63.04941940307617
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 73.9784164428711,
-                "y": 62.37545394897461
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 74.7171859741211,
-                "y": 61.53299331665039
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 75.28746795654297,
-                "y": 60.52204513549805
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 75.28746795654297,
-                "y": 60.52204513549805
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 75.8836669921875,
-                "y": 59.48517608642578
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 76.18177032470703,
-                "y": 58.240928649902344
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 76.18177032470703,
-                "y": 56.789306640625
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 76.18177032470703,
-                "y": 56.789306640625
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 76.18177032470703,
-                "y": 55.59690475463867
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 75.98735046386719,
-                "y": 54.54707336425781
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 75.59852600097656,
-                "y": 53.639808654785156
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 75.59852600097656,
-                "y": 53.639808654785156
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 75.23562622070312,
-                "y": 52.7325439453125
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 74.7171859741211,
-                "y": 51.94192886352539
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 74.04322052001953,
-                "y": 51.26796340942383
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 74.04322052001953,
-                "y": 51.26796340942383
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 73.36925506591797,
-                "y": 50.56807327270508
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 72.57864379882812,
-                "y": 49.97187423706055
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 71.67137908935547,
-                "y": 49.4793586730957
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 71.67137908935547,
-                "y": 49.4793586730957
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 70.76412200927734,
-                "y": 48.98684310913086
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 69.76612854003906,
-                "y": 48.55913162231445
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 68.67741394042969,
-                "y": 48.19622802734375
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.LinePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 68.67741394042969,
-                "y": 48.19622802734375
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 66.92769622802734,
-                "y": 47.57410430908203
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 66.92769622802734,
-                "y": 47.57410430908203
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 65.34646606445312,
-                "y": 47.029747009277344
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 64.14110565185547,
-                "y": 46.459468841552734
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 63.311607360839844,
-                "y": 45.86326599121094
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 63.311607360839844,
-                "y": 45.86326599121094
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 62.50802993774414,
-                "y": 45.24114227294922
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 62.10624313354492,
-                "y": 44.437564849853516
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 62.10624313354492,
-                "y": 43.452537536621094
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 62.10624313354492,
-                "y": 43.452537536621094
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 62.10624313354492,
-                "y": 42.960025787353516
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 62.22289276123047,
-                "y": 42.50639343261719
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 62.4561882019043,
-                "y": 42.091644287109375
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 62.4561882019043,
-                "y": 42.091644287109375
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 62.689483642578125,
-                "y": 41.67689514160156
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 63.000545501708984,
-                "y": 41.31399154663086
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 63.389373779296875,
-                "y": 41.0029296875
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 63.389373779296875,
-                "y": 41.0029296875
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 63.80412292480469,
-                "y": 40.691871643066406
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 64.28367614746094,
-                "y": 40.45857620239258
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 64.82803344726562,
-                "y": 40.303043365478516
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 64.82803344726562,
-                "y": 40.303043365478516
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 65.37239074707031,
-                "y": 40.1215934753418
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 65.95562744140625,
-                "y": 40.03086471557617
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 66.57775115966797,
-                "y": 40.03086471557617
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 66.57775115966797,
-                "y": 40.03086471557617
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 67.27763366699219,
-                "y": 40.03086471557617
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 67.88680267333984,
-                "y": 40.134552001953125
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 68.40523529052734,
-                "y": 40.34192657470703
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 68.40523529052734,
-                "y": 40.34192657470703
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 68.94959259033203,
-                "y": 40.54930114746094
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 69.41619110107422,
-                "y": 40.80851745605469
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 69.80501556396484,
-                "y": 41.11957931518555
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 69.80501556396484,
-                "y": 41.11957931518555
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 70.19384002685547,
-                "y": 41.430641174316406
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 70.50489807128906,
-                "y": 41.79354476928711
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 70.73819732666016,
-                "y": 42.20829391479492
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 70.73819732666016,
-                "y": 42.20829391479492
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 70.9974136352539,
-                "y": 42.59712219238281
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 71.19182586669922,
-                "y": 42.98594665527344
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 71.3214340209961,
-                "y": 43.37477493286133
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.LinePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 71.3214340209961,
-                "y": 43.37477493286133
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 75.28746795654297,
-                "y": 41.70281982421875
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 75.28746795654297,
-                "y": 41.70281982421875
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 75.08009338378906,
-                "y": 41.10661697387695
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 74.75607299804688,
-                "y": 40.47153091430664
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 74.31539916992188,
-                "y": 39.79756546020508
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 74.31539916992188,
-                "y": 39.79756546020508
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 73.90065002441406,
-                "y": 39.097679138183594
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 73.34333038330078,
-                "y": 38.46259307861328
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 72.64344024658203,
-                "y": 37.89231491088867
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 72.64344024658203,
-                "y": 37.89231491088867
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 71.94355010986328,
-                "y": 37.32203674316406
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 71.0751724243164,
-                "y": 36.85544204711914
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 70.03829956054688,
-                "y": 36.49253845214844
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.CubicCurvePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 70.03829956054688,
-                "y": 36.49253845214844
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 69.02735137939453,
-                "y": 36.10371017456055
-              }
-            },
-            "p2": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 67.84790802001953,
-                "y": 35.909297943115234
-              }
-            },
-            "p3": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 66.4999771118164,
-                "y": 35.909297943115234
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.LinePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 66.4999771118164,
-                "y": 35.909297943115234
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 66.4999771118164,
-                "y": 35.909297943115234
-              }
-            },
-            "isContinuityLink": false,
-            "colorProvider": null
-          }
-        },
-        {
-          "_class_name": "function.path.LinePath",
-          "_data": {
-            "p0": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 66.4999771118164,
-                "y": 35.909297943115234
-              }
-            },
-            "p1": {
-              "_class_name": "java.awt.geom.Point2D$Double",
-              "_data": {
-                "x": 31.000089645385742,
-                "y": 36.53142166137695
-              }
-            },
-            "isContinuityLink": true,
-            "colorProvider": {
-              "_class_name": "function.definition.ColorProviderI$Static",
-              "_data": {
-                "color": 0
-              }
-            }
-          }
-        }
-      ],
-      "animDurationDefault": 136000,
-      "animDurationMin": 13600,
-      "animDurationMax": 408000,
-      "zoom": 1.0,
-      "center": true
-    }
-  },
+  "saveTimestamp": 1669896928359,
+  "functionName": "Random Signal",
   "domainStart": 0.0,
-  "domainEnd": 68.0,
+  "domainEnd": 23.0,
   "numericalIntegrationIntervalCount": -1,
   "defaultFrequencyProvider": {
-    "_class_name": "rotor.frequency.CenteringFrequencyProvider",
+    "_class_name": "rotor.frequency.FixedStartFrequencyProvider",
     "_data": {
-      "frequencyMultiplier": 0.014705882352941176
+      "startFrequency": 6.6833038330078125,
+      "frequencyStep": 0.05
     }
   },
   "frequencyProvider": null,
-  "domainAnimationMillsMin": 13600,
-  "domainAnimationMillsMax": 408000,
-  "domainAnimationMillsDefault": 136000,
+  "domainAnimationMillsMin": 400,
+  "domainAnimationMillsMax": 80000,
+  "domainAnimationMillsDefault": 4000,
   "rotorCount": 200,
   "rotor_states": {
-    "-1.4705882352941175": {
-      "magnitude": 0.009704864478638973,
-      "phase": -1.8683862735005383
-    },
-    "-1.4558823529411764": {
-      "magnitude": 0.009020142107579985,
-      "phase": 2.7312009366983867
-    },
-    "-1.4411764705882353": {
-      "magnitude": 0.02118337804605666,
-      "phase": 2.671245903140428
-    },
-    "-1.4264705882352942": {
-      "magnitude": 0.03012841923655247,
-      "phase": -3.1105222476406102
-    },
-    "-1.4117647058823528": {
-      "magnitude": 0.020765774239468626,
-      "phase": -2.7512213636116836
-    },
-    "-1.3970588235294117": {
-      "magnitude": 0.016616592573355297,
-      "phase": -2.49489477824761
-    },
-    "-1.3823529411764706": {
-      "magnitude": 0.018008498283745067,
-      "phase": -3.047864544513828
-    },
-    "-1.3676470588235294": {
-      "magnitude": 0.02067214703715515,
-      "phase": -2.4060302832630422
-    },
-    "-1.3529411764705883": {
-      "magnitude": 0.022234950950673935,
-      "phase": -1.6679536420718228
-    },
-    "-1.338235294117647": {
-      "magnitude": 0.021533208756214593,
-      "phase": -0.599759260625124
-    },
-    "-1.3235294117647058": {
-      "magnitude": 0.017834180546177088,
-      "phase": 0.6463287419009848
-    },
-    "-1.3088235294117647": {
-      "magnitude": 0.024659016733224175,
-      "phase": 1.8282040103299662
-    },
-    "-1.2941176470588236": {
-      "magnitude": 0.022808153034961653,
-      "phase": 2.6847723675748565
-    },
-    "-1.2794117647058822": {
-      "magnitude": 0.016494374169562172,
-      "phase": -2.7090432952368366
-    },
-    "-1.2647058823529411": {
-      "magnitude": 0.006558128874675137,
-      "phase": -3.0565993478419653
-    },
-    "-1.25": {
-      "magnitude": 0.01079402845283903,
-      "phase": 2.4986665590501924
-    },
-    "-1.2352941176470589": {
-      "magnitude": 0.01929522643265894,
-      "phase": -2.8938046483258275
-    },
-    "-1.2205882352941175": {
-      "magnitude": 0.025493035533243804,
-      "phase": -1.7992978291073753
-    },
-    "-1.2058823529411764": {
-      "magnitude": 0.03376570411801349,
-      "phase": -0.8995857957886868
-    },
-    "-1.1911764705882353": {
-      "magnitude": 0.03712939132095732,
-      "phase": 0.08479042658470742
-    },
-    "-1.1764705882352942": {
-      "magnitude": 0.0345364094724245,
-      "phase": 0.8994325077603734
-    },
-    "-1.161764705882353": {
-      "magnitude": 0.023297333858219166,
-      "phase": 1.823270810340283
-    },
-    "-1.1470588235294117": {
-      "magnitude": 0.010122199479252003,
-      "phase": 2.7545831643668985
-    },
-    "-1.1323529411764706": {
-      "magnitude": 0.007582927486537787,
-      "phase": -0.8074424380918485
-    },
-    "-1.1176470588235294": {
-      "magnitude": 0.014861590784461998,
-      "phase": 0.5194347347919349
-    },
-    "-1.1029411764705883": {
-      "magnitude": 0.017366519540371626,
-      "phase": 1.09530813524854
-    },
-    "-1.088235294117647": {
-      "magnitude": 0.013770516926370609,
-      "phase": 2.1068148044733315
-    },
-    "-1.0735294117647058": {
-      "magnitude": 0.0044545902048677855,
-      "phase": 2.47757090583647
-    },
-    "-1.0588235294117647": {
-      "magnitude": 6.654521528756985E-4,
-      "phase": 2.904580975786614
-    },
-    "-1.0441176470588236": {
-      "magnitude": 0.0040476686282530415,
-      "phase": 1.4120554185759795
-    },
-    "-1.0294117647058822": {
-      "magnitude": 0.004427373818929738,
-      "phase": 2.7001574105686386
-    },
-    "-1.0147058823529411": {
-      "magnitude": 0.002955084048665526,
-      "phase": 1.771686461102777
-    },
-    "-1.0": {
-      "magnitude": 0.0017149716703109728,
-      "phase": -1.844440377609016
-    },
-    "-0.9852941176470588": {
-      "magnitude": 0.004980694055635906,
-      "phase": 1.9213789554595493
-    },
-    "-0.9705882352941176": {
-      "magnitude": 0.005032333793990444,
-      "phase": -2.543734147145182
-    },
-    "-0.9558823529411764": {
-      "magnitude": 0.006439517518023543,
-      "phase": -2.727792460405326
-    },
-    "-0.9411764705882353": {
-      "magnitude": 0.006798350609581697,
-      "phase": -1.5659487709543385
-    },
-    "-0.9264705882352942": {
-      "magnitude": 0.013019483909623823,
-      "phase": -2.8386610908086576
-    },
-    "-0.9117647058823529": {
-      "magnitude": 0.021019909167290553,
-      "phase": -2.435410838727474
-    },
-    "-0.8970588235294118": {
-      "magnitude": 0.02232652316464266,
-      "phase": -2.3744353987345317
-    },
-    "-0.8823529411764706": {
-      "magnitude": 0.01261674355768138,
-      "phase": -1.3517924303575957
-    },
-    "-0.8676470588235294": {
-      "magnitude": 0.007394201495109083,
-      "phase": -3.0153795416326243
-    },
-    "-0.8529411764705882": {
-      "magnitude": 0.015173116491079768,
-      "phase": 2.6015736406982235
-    },
-    "-0.8382352941176471": {
-      "magnitude": 0.031766158235181585,
-      "phase": 3.0323545033948456
-    },
-    "-0.8235294117647058": {
-      "magnitude": 0.02909547761321161,
-      "phase": 2.683150111949176
-    },
-    "-0.8088235294117647": {
-      "magnitude": 0.06419820259503074,
-      "phase": 3.1133834685519903
-    },
-    "-0.7941176470588235": {
-      "magnitude": 0.11611026021941057,
-      "phase": -2.9636372571809524
-    },
-    "-0.7794117647058824": {
-      "magnitude": 0.16390685643499558,
-      "phase": -2.39047988090657
-    },
-    "-0.7647058823529411": {
-      "magnitude": 0.16566457490784237,
-      "phase": -1.9274317476596043
-    },
-    "-0.75": {
-      "magnitude": 0.1458552927046383,
-      "phase": -1.2569752344489773
-    },
-    "-0.7352941176470588": {
-      "magnitude": 0.054938017080077624,
-      "phase": -0.6920716395995571
-    },
-    "-0.7205882352941176": {
-      "magnitude": 0.0343492554955436,
-      "phase": 2.5823174103776654
-    },
-    "-0.7058823529411764": {
-      "magnitude": 0.09685601646400992,
-      "phase": -2.869472413694766
-    },
-    "-0.6911764705882353": {
-      "magnitude": 0.10516123939919234,
-      "phase": -2.0308057744792745
-    },
-    "-0.6764705882352942": {
-      "magnitude": 0.06334581869599969,
-      "phase": -1.7707761126431825
-    },
-    "-0.6617647058823529": {
-      "magnitude": 0.0363687457266646,
-      "phase": 3.1300330071884397
-    },
-    "-0.6470588235294118": {
-      "magnitude": 0.15886190696692606,
-      "phase": -2.9340432533922396
-    },
-    "-0.6323529411764706": {
-      "magnitude": 0.21880196035034197,
-      "phase": -2.323885584282823
-    },
-    "-0.6176470588235294": {
-      "magnitude": 0.25054001362613904,
-      "phase": -1.7800383832373738
-    },
-    "-0.6029411764705882": {
-      "magnitude": 0.12518870548747202,
-      "phase": -1.00740628474538
-    },
-    "-0.5882352941176471": {
-      "magnitude": 0.010643798440871271,
-      "phase": 1.2945019530394413
-    },
-    "-0.5735294117647058": {
-      "magnitude": 0.15931895154575829,
-      "phase": 2.9540017471810622
-    },
-    "-0.5588235294117647": {
-      "magnitude": 0.21235057194009285,
-      "phase": -2.5148538498767405
-    },
-    "-0.5441176470588235": {
-      "magnitude": 0.18773566687908552,
-      "phase": -1.9280184658395394
-    },
-    "-0.5294117647058824": {
-      "magnitude": 0.10254649209883461,
-      "phase": -0.795167603941551
-    },
-    "-0.5147058823529411": {
-      "magnitude": 0.05127373331095976,
-      "phase": 1.9192672604942698
-    },
-    "-0.5": {
-      "magnitude": 0.14413506930967418,
-      "phase": 3.066833494485059
-    },
-    "-0.4852941176470588": {
-      "magnitude": 0.16500132965460104,
-      "phase": -2.6318924032539566
-    },
-    "-0.47058823529411764": {
-      "magnitude": 0.09649556232070927,
-      "phase": -1.8670585788498815
-    },
-    "-0.45588235294117646": {
-      "magnitude": 0.09322273608566277,
-      "phase": 2.734094527546899
-    },
-    "-0.4411764705882353": {
-      "magnitude": 0.2249137039885643,
-      "phase": 2.6714057527185484
-    },
-    "-0.4264705882352941": {
-      "magnitude": 0.3357573225788892,
-      "phase": -3.109853846411802
-    },
-    "-0.4117647058823529": {
-      "magnitude": 0.24391477459382077,
-      "phase": -2.7511164881003776
-    },
-    "-0.39705882352941174": {
-      "magnitude": 0.20493521128142558,
-      "phase": -2.5100521108527323
-    },
-    "-0.38235294117647056": {
-      "magnitude": 0.23145676906989368,
-      "phase": -3.0290188188302984
-    },
-    "-0.3676470588235294": {
-      "magnitude": 0.2895019411741032,
-      "phase": -2.401184898256645
-    },
-    "-0.3529411764705882": {
-      "magnitude": 0.3217029077572686,
-      "phase": -1.6488723365988605
-    },
-    "-0.3382352941176471": {
-      "magnitude": 0.3373400903186969,
-      "phase": -0.6276529856299152
-    },
-    "-0.3235294117647059": {
-      "magnitude": 0.2942513739115463,
-      "phase": 0.6389891877444344
-    },
-    "-0.3088235294117647": {
-      "magnitude": 0.44741014353245545,
-      "phase": 1.8307127730366202
-    },
-    "-0.29411764705882354": {
-      "magnitude": 0.4382624565164341,
-      "phase": 2.6839058881845705
-    },
-    "-0.27941176470588236": {
-      "magnitude": 0.34363520309898166,
-      "phase": -2.686211737467927
-    },
-    "-0.2647058823529412": {
-      "magnitude": 0.162880115269286,
-      "phase": -3.0383615698006987
-    },
-    "-0.25": {
-      "magnitude": 0.27438074482633334,
-      "phase": 2.5394485246369576
-    },
-    "-0.23529411764705882": {
-      "magnitude": 0.5352454699920782,
-      "phase": -2.9175776932755952
-    },
-    "-0.22058823529411764": {
-      "magnitude": 0.7730039749721014,
-      "phase": -1.7762051827185328
-    },
-    "-0.20588235294117646": {
-      "magnitude": 1.1668862032604796,
-      "phase": -0.9090683138602423
-    },
-    "-0.19117647058823528": {
-      "magnitude": 1.3949502764812929,
-      "phase": 0.0752310001700638
-    },
-    "-0.1764705882352941": {
-      "magnitude": 1.5358298834188744,
-      "phase": 0.9287364709911355
-    },
-    "-0.16176470588235295": {
-      "magnitude": 1.2054294346953836,
-      "phase": 1.7584369051344135
-    },
-    "-0.14705882352941177": {
-      "magnitude": 0.6604535216689078,
-      "phase": 2.8426366277706285
-    },
-    "-0.1323529411764706": {
-      "magnitude": 0.3989927018645814,
-      "phase": -0.8563922313992979
-    },
-    "-0.11764705882352941": {
-      "magnitude": 1.3846671061800775,
-      "phase": 0.5681342669844711
-    },
-    "-0.10294117647058823": {
-      "magnitude": 2.294478616390025,
-      "phase": 0.9990574815752137
-    },
-    "-0.08823529411764705": {
-      "magnitude": 1.8678082151875786,
-      "phase": 2.1696153220006362
-    },
-    "-0.07352941176470588": {
-      "magnitude": 1.0324298680483968,
-      "phase": 2.809688430664072
-    },
-    "-0.058823529411764705": {
-      "magnitude": 1.9655358110895578,
-      "phase": 2.2859061187857392
-    },
-    "-0.044117647058823525": {
-      "magnitude": 2.820112364453797,
-      "phase": 0.7345064832511325
-    },
-    "-0.029411764705882353": {
-      "magnitude": 5.850515226617977,
-      "phase": 1.3818771453206453
-    },
-    "-0.014705882352941176": {
-      "magnitude": 4.233589306730648,
-      "phase": -3.0803295063800844
-    },
-    "0.0": {
-      "magnitude": 7.142207518882786,
-      "phase": -0.014893403792961337
-    },
-    "0.014705882352941176": {
-      "magnitude": 8.6432734854094,
-      "phase": -1.9393712586918954
-    },
-    "0.029411764705882353": {
-      "magnitude": 3.8158493929316593,
-      "phase": -2.794891211243082
-    },
-    "0.044117647058823525": {
-      "magnitude": 0.6306224430244428,
-      "phase": -2.5834616856937656
-    },
-    "0.058823529411764705": {
-      "magnitude": 4.792451288179445,
-      "phase": -2.0673911738255133
-    },
-    "0.07352941176470588": {
-      "magnitude": 2.1993718851928277,
-      "phase": -2.9514090965537316
-    },
-    "0.08823529411764705": {
-      "magnitude": 1.4157739967877288,
-      "phase": -2.3513159854506505
-    },
-    "0.10294117647058823": {
-      "magnitude": 2.1612688780214038,
-      "phase": -2.3969774937381625
-    },
-    "0.11764705882352941": {
-      "magnitude": 0.9062347132039924,
-      "phase": -1.8120451713403125
-    },
-    "0.1323529411764706": {
-      "magnitude": 0.3063756504921961,
-      "phase": 2.7749796891406917
-    },
-    "0.14705882352941177": {
-      "magnitude": 0.5133898808210462,
-      "phase": 2.425884801692774
-    },
-    "0.16176470588235295": {
-      "magnitude": 0.9579298673670138,
-      "phase": 3.0176182531355473
-    },
-    "0.1764705882352941": {
-      "magnitude": 0.6577670785615921,
-      "phase": 2.638998314621256
-    },
-    "0.19117647058823528": {
-      "magnitude": 1.1631072539574878,
-      "phase": 3.1317105179357863
-    },
-    "0.20588235294117646": {
-      "magnitude": 1.692985348721462,
-      "phase": -3.0290321549365977
-    },
-    "0.22058823529411764": {
-      "magnitude": 2.014303708182476,
-      "phase": -2.3651595362198483
-    },
-    "0.23529411764705882": {
-      "magnitude": 1.7809135470490711,
-      "phase": -1.9231624484422902
-    },
-    "0.25": {
-      "magnitude": 1.28659908543184,
-      "phase": -1.2712554906207825
-    },
-    "0.2647058823529412": {
-      "magnitude": 0.42609746764357326,
-      "phase": -0.6429529783759219
-    },
-    "0.27941176470588236": {
-      "magnitude": 0.20077388712548822,
-      "phase": 2.5070621475340595
-    },
-    "0.29411764705882354": {
-      "magnitude": 0.5622696202754255,
-      "phase": -2.8462697395555123
-    },
-    "0.3088235294117647": {
-      "magnitude": 0.5292726152384877,
-      "phase": -2.0610438751401463
-    },
-    "0.3235294117647059": {
-      "magnitude": 0.2740042625026984,
-      "phase": -1.7685755274255264
-    },
-    "0.3382352941176471": {
-      "magnitude": 0.1254434153876954,
-      "phase": 3.135084798471979
-    },
-    "0.3529411764705882": {
-      "magnitude": 0.5259065003002636,
-      "phase": -2.9362474782861216
-    },
-    "0.3676470588235294": {
-      "magnitude": 0.6480217230266198,
-      "phase": -2.325530770319544
-    },
-    "0.38235294117647056": {
-      "magnitude": 0.6653794847290333,
-      "phase": -1.7860541965262715
-    },
-    "0.39705882352941174": {
-      "magnitude": 0.28745634888508925,
-      "phase": -0.956476834123542
-    },
-    "0.4117647058823529": {
-      "magnitude": 0.022686581059136905,
-      "phase": 0.4687141227242768
-    },
-    "0.4264705882352941": {
-      "magnitude": 0.3029481991674157,
-      "phase": 2.987066738131516
-    },
-    "0.4411764705882353": {
-      "magnitude": 0.3398553486640207,
-      "phase": -2.5128593208410557
-    },
-    "0.45588235294117646": {
-      "magnitude": 0.26782904029544424,
-      "phase": -1.919351803970303
-    },
-    "0.47058823529411764": {
-      "magnitude": 0.13056809804006367,
-      "phase": -0.8320263771818992
-    },
-    "0.4852941176470588": {
-      "magnitude": 0.054850961348618804,
-      "phase": 1.9273764006364913
-    },
-    "0.5": {
-      "magnitude": 0.14966861060179013,
-      "phase": 3.061693862888404
-    },
-    "0.5147058823529411": {
-      "magnitude": 0.15192107901098223,
-      "phase": -2.642232359444287
-    },
-    "0.5294117647058824": {
-      "magnitude": 0.0724656049010147,
-      "phase": -1.8708635412660695
-    },
-    "0.5441176470588235": {
-      "magnitude": 0.06313323855399348,
-      "phase": 2.726179772320769
-    },
-    "0.5588235294117647": {
-      "magnitude": 0.14200797717120908,
-      "phase": 2.67099654623333
-    },
-    "0.5735294117647058": {
-      "magnitude": 0.18745805347995603,
-      "phase": -3.1115100757083165
-    },
-    "0.5882352941176471": {
-      "magnitude": 0.119740634998655,
-      "phase": -2.751365049964356
-    },
-    "0.6029411764705882": {
-      "magnitude": 0.08968678415834046,
-      "phase": -2.475109003426224
-    },
-    "0.6176470588235294": {
-      "magnitude": 0.09211427199272995,
-      "phase": -3.0703339504672584
-    },
-    "0.6323529411764706": {
-      "magnitude": 0.0953505128159189,
-      "phase": -2.4118127013656903
-    },
-    "0.6470588235294118": {
-      "magnitude": 0.09887955689346578,
-      "phase": -1.6881072726131756
-    },
-    "0.6617647058823529": {
-      "magnitude": 0.08805924747622604,
-      "phase": -0.5712268463366011
-    },
-    "0.6764705882352942": {
-      "magnitude": 0.06919405080387084,
-      "phase": 0.6531543786183367
-    },
-    "0.6911764705882353": {
-      "magnitude": 0.08761952141555081,
-      "phase": 1.825916121519333
-    },
-    "0.7058823529411764": {
-      "magnitude": 0.07713875956097678,
-      "phase": 2.6854830048598166
-    },
-    "0.7205882352941176": {
-      "magnitude": 0.052272356087669905,
-      "phase": -2.7265436787131856
-    },
-    "0.7352941176470588": {
-      "magnitude": 0.018176880355056813,
-      "phase": -3.071848184473267
-    },
-    "0.75": {
-      "magnitude": 0.029676242482424193,
-      "phase": 2.470741552984256
-    },
-    "0.7647058823529411": {
-      "magnitude": 0.0501650121989991,
-      "phase": -2.879026968924252
-    },
-    "0.7794117647058824": {
-      "magnitude": 0.06287715553774233,
-      "phase": -1.8121672272175675
-    },
-    "0.7941176470588235": {
-      "magnitude": 0.07756631812062499,
-      "phase": -0.8946127832531542
-    },
-    "0.8088235294117647": {
-      "magnitude": 0.08176152135129694,
-      "phase": 0.0890987797148608
-    },
-    "0.8235294117647058": {
-      "magnitude": 0.07048368822063339,
-      "phase": 0.8868690133426046
-    },
-    "0.8382352941176471": {
-      "magnitude": 0.04474795060211493,
-      "phase": 1.8483607283012025
-    },
-    "0.8529411764705882": {
-      "magnitude": 0.017885477632512865,
-      "phase": 2.721279819053786
-    },
-    "0.8676470588235294": {
-      "magnitude": 0.014027571257904799,
-      "phase": -0.7975690473846567
-    },
-    "0.8823529411764706": {
-      "magnitude": 0.0236488445861417,
-      "phase": 0.5059240227663023
-    },
-    "0.8970588235294118": {
-      "magnitude": 0.025384273178070807,
-      "phase": 1.1215669114433255
-    },
-    "0.9117647058823529": {
-      "magnitude": 0.020035869736514694,
-      "phase": 2.096208553761244
-    },
-    "0.9264705882352942": {
-      "magnitude": 0.005964029453283075,
-      "phase": 2.4211155109644764
-    },
-    "0.9411764705882353": {
-      "magnitude": 5.80787332955603E-4,
-      "phase": -2.0969964964078756
-    },
-    "0.9558823529411764": {
-      "magnitude": 0.004855702343014241,
-      "phase": 1.4837007730278475
-    },
-    "0.9705882352941176": {
-      "magnitude": 0.005210246890597634,
-      "phase": 2.7607089123030635
-    },
-    "0.9852941176470588": {
-      "magnitude": 0.0032238923195746358,
-      "phase": 1.7630523829244722
-    },
-    "1.0": {
-      "magnitude": 0.0017150003646639286,
-      "phase": -1.8444404965062855
-    },
-    "1.0147058823529411": {
-      "magnitude": 0.004520587260217921,
-      "phase": 1.929052535020241
-    },
-    "1.0294117647058822": {
-      "magnitude": 0.004390676360093975,
-      "phase": -2.5538152606463482
-    },
-    "1.0441176470588236": {
-      "magnitude": 0.005035206609531327,
-      "phase": -2.7250862008213605
-    },
-    "1.0588235294117647": {
-      "magnitude": 0.00626586714782702,
-      "phase": -1.692355977547343
-    },
-    "1.0735294117647058": {
-      "magnitude": 0.009774193316156992,
-      "phase": -2.8549322617500787
-    },
-    "1.088235294117647": {
-      "magnitude": 0.013867198366614392,
-      "phase": -2.4262704136025954
-    },
-    "1.1029411764705883": {
-      "magnitude": 0.015525968108277112,
-      "phase": -2.3795381839547676
-    },
-    "1.1176470588235294": {
-      "magnitude": 0.008156369670987864,
-      "phase": -1.4671782279098962
-    },
-    "1.1323529411764706": {
-      "magnitude": 0.004213912359017929,
-      "phase": -3.1254506976367624
-    },
-    "1.1470588235294117": {
-      "magnitude": 0.008377353914854682,
-      "phase": 2.5564091587541813
-    },
-    "1.161764705882353": {
-      "magnitude": 0.017103486995720375,
-      "phase": 3.027897155291707
-    },
-    "1.1764705882352942": {
-      "magnitude": 0.014416685105222257,
-      "phase": 2.6695581838911107
-    },
-    "1.1911764705882353": {
-      "magnitude": 0.029713734838700726,
-      "phase": 3.1193164026146287
-    },
-    "1.2058823529411764": {
-      "magnitude": 0.04998680541674171,
-      "phase": -2.9856674313669456
-    },
-    "1.2205882352941175": {
-      "magnitude": 0.06645079953776681,
-      "phase": -2.3814195959374915
-    },
-    "1.2352941176470589": {
-      "magnitude": 0.06391541716009212,
-      "phase": -1.9257880044418247
-    },
-    "1.25": {
-      "magnitude": 0.052089071747860385,
-      "phase": -1.2626180673903935
-    },
-    "1.2647058823529411": {
-      "magnitude": 0.018604914622532696,
-      "phase": -0.6714493425969551
-    },
-    "1.2794117647058822": {
-      "magnitude": 0.010312358125537767,
-      "phase": 2.5518174484322858
-    },
-    "1.2941176470588236": {
-      "magnitude": 0.028917499278160702,
-      "phase": -2.8588815663985714
-    },
-    "1.3088235294117647": {
-      "magnitude": 0.02938995176506732,
-      "phase": -2.045111113622022
-    },
-    "1.3235294117647058": {
-      "magnitude": 0.016462267786746997,
-      "phase": -1.7697063116361405
-    },
-    "1.338235294117647": {
-      "magnitude": 0.008448608494521472,
-      "phase": 3.1324526978827127
-    },
-    "1.3529411764705883": {
-      "magnitude": 0.03605132010871554,
-      "phase": -2.9351860881252114
-    },
-    "1.3676470588235294": {
-      "magnitude": 0.0468038100756886,
-      "phase": -2.3247710466039964
-    },
-    "1.3823529411764706": {
-      "magnitude": 0.05050813556500317,
-      "phase": -1.783392306075718
-    },
-    "1.3970588235294117": {
-      "magnitude": 0.023254482483058378,
-      "phase": -0.9785092050463225
-    },
-    "1.4117647058823528": {
-      "magnitude": 0.00174230907363402,
-      "phase": 0.7995411772643886
-    },
-    "1.4264705882352942": {
-      "magnitude": 0.026542590981727534,
-      "phase": 2.9741679291941185
-    },
-    "1.4411764705882353": {
-      "magnitude": 0.03187902302466404,
-      "phase": -2.5136338160830647
-    },
-    "1.4558823529411764": {
-      "magnitude": 0.02624648222289409,
-      "phase": -1.9225863550480333
+    "6.6833038330078125": {
+      "magnitude": 0.0014806854824901687,
+      "phase": 1.9019430915572464
+    },
+    "6.733303833007812": {
+      "magnitude": 0.012311659345207953,
+      "phase": -0.9194165890392185
+    },
+    "6.783303833007812": {
+      "magnitude": 0.030022242711913543,
+      "phase": -0.5262639440833976
+    },
+    "6.833303833007813": {
+      "magnitude": 0.03699206533842568,
+      "phase": -0.10318386857589214
+    },
+    "6.883303833007813": {
+      "magnitude": 0.0408659692600856,
+      "phase": 0.4122200934981675
+    },
+    "6.9333038330078125": {
+      "magnitude": 0.032964257269022204,
+      "phase": 0.7897737011455791
+    },
+    "6.983303833007812": {
+      "magnitude": 0.016180305819753025,
+      "phase": 1.357629510994667
+    },
+    "7.033303833007812": {
+      "magnitude": 0.004597418147954445,
+      "phase": -1.0089837819020637
+    },
+    "7.083303833007813": {
+      "magnitude": 0.03167448347532533,
+      "phase": -0.8781116701836266
+    },
+    "7.133303833007813": {
+      "magnitude": 0.050565146886358506,
+      "phase": -0.42620865910654054
+    },
+    "7.1833038330078125": {
+      "magnitude": 0.06632020069708348,
+      "phase": 0.05991306664456418
+    },
+    "7.233303833007812": {
+      "magnitude": 0.06518978854628038,
+      "phase": 0.48483347311785996
+    },
+    "7.283303833007812": {
+      "magnitude": 0.04938170835352145,
+      "phase": 0.9952583599191911
+    },
+    "7.333303833007813": {
+      "magnitude": 0.017752677086935367,
+      "phase": 1.3440814064611193
+    },
+    "7.383303833007813": {
+      "magnitude": 0.03243523833738136,
+      "phase": -1.2280504460201038
+    },
+    "7.4333038330078125": {
+      "magnitude": 0.08831442167616901,
+      "phase": -0.7579321573693292
+    },
+    "7.483303833007812": {
+      "magnitude": 0.15373601470852,
+      "phase": -0.28951824935505344
+    },
+    "7.533303833007812": {
+      "magnitude": 0.2113306682731407,
+      "phase": 0.16579815244375756
+    },
+    "7.583303833007813": {
+      "magnitude": 0.2610573094795047,
+      "phase": 0.6427794013621505
+    },
+    "7.633303833007813": {
+      "magnitude": 0.29326554589502635,
+      "phase": 1.0999331183052194
+    },
+    "7.6833038330078125": {
+      "magnitude": 2.3105530337551863,
+      "phase": 1.5735832858965666
+    },
+    "7.733303833007812": {
+      "magnitude": 0.2929012550770299,
+      "phase": 2.037740453580463
+    },
+    "7.783303833007812": {
+      "magnitude": 0.25755030690662334,
+      "phase": 2.5054717816313556
+    },
+    "7.833303833007813": {
+      "magnitude": 0.2105950051199613,
+      "phase": 2.979085892563134
+    },
+    "7.883303833007813": {
+      "magnitude": 0.1496645046298577,
+      "phase": -2.8472720834462284
+    },
+    "7.9333038330078125": {
+      "magnitude": 0.08793686365524131,
+      "phase": -2.3531764333119565
+    },
+    "7.983303833007812": {
+      "magnitude": 0.031221958597651735,
+      "phase": -1.922615812152731
+    },
+    "8.033303833007812": {
+      "magnitude": 0.01735866742502251,
+      "phase": 1.6314825721102975
+    },
+    "8.083303833007813": {
+      "magnitude": 0.04670271643864789,
+      "phase": 2.1625308336376654
+    },
+    "8.133303833007812": {
+      "magnitude": 0.06437983814930937,
+      "phase": 2.642500839508874
+    },
+    "8.183303833007812": {
+      "magnitude": 0.0619829761522269,
+      "phase": 3.090247418038205
+    },
+    "8.233303833007813": {
+      "magnitude": 0.050107257758628725,
+      "phase": -2.6794694466649593
+    },
+    "8.283303833007812": {
+      "magnitude": 0.029322391229863617,
+      "phase": -2.2673664480375137
+    },
+    "8.333303833007813": {
+      "magnitude": 0.004876428618727786,
+      "phase": -1.4657350778060698
+    },
+    "8.383303833007812": {
+      "magnitude": 0.01454481304247099,
+      "phase": 1.8280114884781697
+    },
+    "8.433303833007812": {
+      "magnitude": 0.03202133791205852,
+      "phase": 2.2952107780694404
+    },
+    "8.483303833007813": {
+      "magnitude": 0.03658358054532227,
+      "phase": 2.7471284595009875
+    },
+    "8.533303833007812": {
+      "magnitude": 0.03636720132617661,
+      "phase": -3.0130357292072736
+    },
+    "8.583303833007813": {
+      "magnitude": 0.026678183395223324,
+      "phase": -2.610461741027413
+    },
+    "8.633303833007812": {
+      "magnitude": 0.012600176145791297,
+      "phase": -1.9845420009407981
+    },
+    "8.683303833007812": {
+      "magnitude": 0.0010379899246548202,
+      "phase": 1.6818652447672904
+    },
+    "8.733303833007813": {
+      "magnitude": 0.016286928052857943,
+      "phase": 1.9264200333340655
+    },
+    "8.783303833007812": {
+      "magnitude": 0.022703354540913188,
+      "phase": 2.4068947271244943
+    },
+    "8.833303833007813": {
+      "magnitude": 0.027598564958420602,
+      "phase": 2.9308297402172627
+    },
+    "8.883303833007812": {
+      "magnitude": 0.02342218748606808,
+      "phase": -2.9518747077569105
+    },
+    "8.933303833007812": {
+      "magnitude": 0.015904591376110146,
+      "phase": -2.347974649217177
+    },
+    "8.983303833007813": {
+      "magnitude": 0.00616460197309062,
+      "phase": -2.048366266434027
+    },
+    "9.033303833007812": {
+      "magnitude": 0.006538803706001346,
+      "phase": 1.4775322005610485
+    },
+    "9.083303833007813": {
+      "magnitude": 0.013241966997163804,
+      "phase": 2.0710559815476417
+    },
+    "9.133303833007812": {
+      "magnitude": 0.020645093045225677,
+      "phase": 2.584868860954416
+    },
+    "9.183303833007812": {
+      "magnitude": 0.01971521553618824,
+      "phase": 2.9916838146125793
+    },
+    "9.233303833007813": {
+      "magnitude": 0.01688855975867405,
+      "phase": -2.697273943340148
+    },
+    "9.283303833007812": {
+      "magnitude": 0.010068606875034478,
+      "phase": -2.3741662045193386
+    },
+    "9.333303833007813": {
+      "magnitude": 0.0012753958039921605,
+      "phase": -0.4690503759759882
+    },
+    "9.383303833007812": {
+      "magnitude": 0.006215722125833291,
+      "phase": 1.746695485664852
+    },
+    "9.433303833007812": {
+      "magnitude": 0.014641836416105133,
+      "phase": 2.228377446012852
+    },
+    "9.483303833007813": {
+      "magnitude": 0.015737190682886672,
+      "phase": 2.6541066521237084
+    },
+    "9.533303833007812": {
+      "magnitude": 0.016381463619312402,
+      "phase": -3.0441840137515173
+    },
+    "9.583303833007813": {
+      "magnitude": 0.011885481746150455,
+      "phase": -2.7085473604176875
+    },
+    "9.633303833007812": {
+      "magnitude": 0.005091960925031663,
+      "phase": -1.9028453660395543
+    },
+    "9.683303833007812": {
+      "magnitude": 9.077598862940458E-4,
+      "phase": 1.5823693671028938
+    },
+    "9.733303833007813": {
+      "magnitude": 0.009341933340114903,
+      "phase": 1.8491840964224593
+    },
+    "9.783303833007812": {
+      "magnitude": 0.011676986200614498,
+      "phase": 2.3192381847299273
+    },
+    "9.833303833007813": {
+      "magnitude": 0.014831234977359425,
+      "phase": 2.890662128009628
+    },
+    "9.883303833007812": {
+      "magnitude": 0.012218194198499273,
+      "phase": -3.0437060806970138
+    },
+    "9.933303833007812": {
+      "magnitude": 0.008097332546188737,
+      "phase": -2.337725869871529
+    },
+    "9.983303833007813": {
+      "magnitude": 0.003058345387671404,
+      "phase": -2.1600967754009868
+    },
+    "10.033303833007812": {
+      "magnitude": 0.004734156650613412,
+      "phase": 1.3945337309997594
+    },
+    "10.083303833007813": {
+      "magnitude": 0.0077216467194401025,
+      "phase": 1.9889922345029318
+    },
+    "10.133303833007812": {
+      "magnitude": 0.012553288421512612,
+      "phase": 2.5378122480763268
+    },
+    "10.183303833007812": {
+      "magnitude": 0.011458305974939862,
+      "phase": 2.9050814528858266
+    },
+    "10.233303833007813": {
+      "magnitude": 0.009832175327141063,
+      "phase": -2.7113641157426946
+    },
+    "10.283303833007812": {
+      "magnitude": 0.00578998880196908,
+      "phase": -2.467211157530781
+    },
+    "10.333303833007813": {
+      "magnitude": 0.0012643890846513138,
+      "phase": 0.23069625349853096
+    },
+    "10.383303833007812": {
+      "magnitude": 0.004045984651524352,
+      "phase": 1.6714361031649294
+    },
+    "10.433303833007812": {
+      "magnitude": 0.009811590143598248,
+      "phase": 2.1754185245276934
+    },
+    "10.483303833007813": {
+      "magnitude": 0.009910250711850258,
+      "phase": 2.5721965351355536
+    },
+    "10.533303833007812": {
+      "magnitude": 0.01046560529234605,
+      "phase": -3.0706247965611655
+    },
+    "10.583303833007813": {
+      "magnitude": 0.007443624403729101,
+      "phase": -2.793995396705754
+    },
+    "10.633303833007812": {
+      "magnitude": 0.002844878096395327,
+      "phase": -1.7953251801553163
+    },
+    "10.683303833007812": {
+      "magnitude": 8.112047195600291E-4,
+      "phase": 1.4910511440532341
+    },
+    "10.733303833007813": {
+      "magnitude": 0.006847615979178313,
+      "phase": 1.7910334096202158
+    },
+    "10.783303833007814": {
+      "magnitude": 0.00783737829647655,
+      "phase": 2.2417376912716627
+    },
+    "10.833303833007813": {
+      "magnitude": 0.010169229595054563,
+      "phase": 2.856628224842149
+    },
+    "10.883303833007812": {
+      "magnitude": 0.008140131408260774,
+      "phase": -3.1238514580888013
+    },
+    "10.933303833007812": {
+      "magnitude": 0.005193108694926106,
+      "phase": -2.3236003047631355
+    },
+    "10.983303833007813": {
+      "magnitude": 0.0019063258425317544,
+      "phase": -2.2580546950854226
+    },
+    "11.033303833007814": {
+      "magnitude": 0.0038995610177509307,
+      "phase": 1.3384800683979954
+    },
+    "11.083303833007813": {
+      "magnitude": 0.005477544684381159,
+      "phase": 1.9158429559915024
+    },
+    "11.133303833007812": {
+      "magnitude": 0.009120409495104707,
+      "phase": 2.4984802859608615
+    },
+    "11.183303833007812": {
+      "magnitude": 0.008013543671973926,
+      "phase": 2.8293118837317
+    },
+    "11.233303833007813": {
+      "magnitude": 0.0068078611169381615,
+      "phase": -2.7226021141650194
+    },
+    "11.283303833007814": {
+      "magnitude": 0.00396585017167775,
+      "phase": -2.5477110052288863
+    },
+    "11.333303833007813": {
+      "magnitude": 0.0013669332588539856,
+      "phase": 0.4427225410057734
+    },
+    "11.383303833007812": {
+      "magnitude": 0.00304586782313326,
+      "phase": 1.6028416240698138
+    },
+    "11.433303833007812": {
+      "magnitude": 0.007506484377067018,
+      "phase": 2.1320565064366033
+    },
+    "11.483303833007813": {
+      "magnitude": 0.007214665276776755,
+      "phase": 2.5003009994783434
+    },
+    "11.533303833007814": {
+      "magnitude": 0.0076470445919533375,
+      "phase": -3.0933509512837665
+    },
+    "11.583303833007813": {
+      "magnitude": 0.00535311969653108,
+      "phase": -2.868152322761109
+    },
+    "11.633303833007812": {
+      "magnitude": 0.0018403679023086877,
+      "phase": -1.662722234202928
+    },
+    "11.683303833007812": {
+      "magnitude": 7.375302884952806E-4,
+      "phase": 1.4081239664837737
+    },
+    "11.733303833007813": {
+      "magnitude": 0.005524443787195764,
+      "phase": 1.7449388666684
+    },
+    "11.783303833007814": {
+      "magnitude": 0.005908755908269949,
+      "phase": 2.1734038551163044
+    },
+    "11.833303833007813": {
+      "magnitude": 0.007752872997956424,
+      "phase": 2.8273777915988862
+    },
+    "11.883303833007812": {
+      "magnitude": 0.006067180810690218,
+      "phase": 3.089535289143805
+    },
+    "11.933303833007812": {
+      "magnitude": 0.0037121072562967972,
+      "phase": -2.306517800495788
+    },
+    "11.983303833007813": {
+      "magnitude": 0.001326125555714143,
+      "phase": -2.3433430474918615
+    },
+    "12.033303833007814": {
+      "magnitude": 0.0033845194018098717,
+      "phase": 1.2962700977922
+    },
+    "12.083303833007813": {
+      "magnitude": 0.004269338903113999,
+      "phase": 1.8508617748702747
+    },
+    "12.133303833007812": {
+      "magnitude": 0.007210871690373673,
+      "phase": 2.465010543971892
+    },
+    "12.183303833007812": {
+      "magnitude": 0.006149346086342887,
+      "phase": 2.7630930628244927
+    },
+    "12.233303833007813": {
+      "magnitude": 0.00514604961179864,
+      "phase": -2.7316226590716566
+    },
+    "12.283303833007814": {
+      "magnitude": 0.0029753890376369033,
+      "phase": -2.617187233499102
+    },
+    "12.333303833007813": {
+      "magnitude": 0.0013992887804756503,
+      "phase": 0.5235909551014553
+    },
+    "12.383303833007812": {
+      "magnitude": 0.002470066611518377,
+      "phase": 1.5408721928723956
+    },
+    "12.433303833007812": {
+      "magnitude": 0.006140267130075679,
+      "phase": 2.09569683897065
+    },
+    "12.483303833007813": {
+      "magnitude": 0.005677180238912493,
+      "phase": 2.437228326947205
+    },
+    "12.533303833007814": {
+      "magnitude": 0.006005078899195629,
+      "phase": -3.1130938445830734
+    },
+    "12.583303833007813": {
+      "magnitude": 0.004155503679136004,
+      "phase": -2.932487462848847
+    },
+    "12.633303833007812": {
+      "magnitude": 0.0013131463048036646,
+      "phase": -1.5096746960742324
+    },
+    "12.683303833007812": {
+      "magnitude": 6.79792851608067E-4,
+      "phase": 1.3333796209626927
+    },
+    "12.733303833007813": {
+      "magnitude": 0.00468686385002787,
+      "phase": 1.7071109146733399
+    },
+    "12.783303833007814": {
+      "magnitude": 0.0047574632084098215,
+      "phase": 2.113175515615697
+    },
+    "12.833303833007813": {
+      "magnitude": 0.0062738307979294675,
+      "phase": 2.801941500318888
+    },
+    "12.883303833007812": {
+      "magnitude": 0.0048263644502703085,
+      "phase": 3.028708965312635
+    },
+    "12.933303833007812": {
+      "magnitude": 0.0028305556466773213,
+      "phase": -2.287210925569849
+    },
+    "12.983303833007813": {
+      "magnitude": 9.846223844340387E-4,
+      "phase": -2.417453193353418
+    },
+    "13.033303833007814": {
+      "magnitude": 0.0030209430712623054,
+      "phase": 1.2624994349706529
+    },
+    "13.083303833007813": {
+      "magnitude": 0.0035174999676540033,
+      "phase": 1.7931982672074775
+    },
+    "13.133303833007812": {
+      "magnitude": 0.005989215312361508,
+      "phase": 2.4361213384689866
+    },
+    "13.183303833007812": {
+      "magnitude": 0.004990858380410344,
+      "phase": 2.705153127817852
+    },
+    "13.233303833007813": {
+      "magnitude": 0.004103977115173154,
+      "phase": -2.7389001715477095
+    },
+    "13.283303833007814": {
+      "magnitude": 0.0023615397597094617,
+      "phase": -2.6771932109715446
+    },
+    "13.333303833007813": {
+      "magnitude": 0.0013909779106674055,
+      "phase": 0.5602000669600319
+    },
+    "13.383303833007812": {
+      "magnitude": 0.0020954903800920405,
+      "phase": 1.48515255339015
+    },
+    "13.433303833007812": {
+      "magnitude": 0.005228226903570357,
+      "phase": 2.0646522021255205
+    },
+    "13.483303833007813": {
+      "magnitude": 0.004689722595215649,
+      "phase": 2.3818176017741495
+    },
+    "13.533303833007814": {
+      "magnitude": 0.004933525430046223,
+      "phase": -3.1304045199345856
+    },
+    "13.583303833007813": {
+      "magnitude": 0.003386588342435447,
+      "phase": -2.9884133604420247
+    },
+    "13.633303833007812": {
+      "magnitude": 0.001014050979916868,
+      "phase": -1.3455591951687256
+    },
+    "13.683303833007812": {
+      "magnitude": 6.334085832760415E-4,
+      "phase": 1.2663267880438647
+    },
+    "13.733303833007813": {
+      "magnitude": 0.004100355163010492,
+      "phase": 1.6752889974326628
+    },
+    "13.783303833007814": {
+      "magnitude": 0.0039956392222797255,
+      "phase": 2.060020726143534
+    },
+    "13.833303833007813": {
+      "magnitude": 0.0052747972207193615,
+      "phase": 2.77960200994608
+    },
+    "13.883303833007812": {
+      "magnitude": 0.0040060494985233,
+      "phase": 2.9755690468292206
+    },
+    "13.933303833007812": {
+      "magnitude": 0.0022544275306885823,
+      "phase": -2.2662690408805726
+    },
+    "13.983303833007813": {
+      "magnitude": 7.63166556351109E-4,
+      "phase": -2.4819501866339158
+    },
+    "14.033303833007814": {
+      "magnitude": 0.0027441374628149624,
+      "phase": 1.2344500123848252
+    },
+    "14.083303833007813": {
+      "magnitude": 0.003005575374658696,
+      "phase": 1.7419953048709265
+    },
+    "14.133303833007812": {
+      "magnitude": 0.005137417247999708,
+      "phase": 2.410894452723144
+    },
+    "14.183303833007812": {
+      "magnitude": 0.004205111859350434,
+      "phase": 2.654319897635814
+    },
+    "14.233303833007813": {
+      "magnitude": 0.003393997822062102,
+      "phase": -2.7447940898282175
+    },
+    "14.283303833007814": {
+      "magnitude": 0.0019473611437686533,
+      "phase": -2.7291652305271086
+    },
+    "14.333303833007813": {
+      "magnitude": 0.00136256079387387,
+      "phase": 0.5778362989556758
+    },
+    "14.383303833007812": {
+      "magnitude": 0.0018319526237889614,
+      "phase": 1.4351526662091834
+    },
+    "14.433303833007812": {
+      "magnitude": 0.004571765115060227,
+      "phase": 2.0377653077164095
+    },
+    "14.483303833007813": {
+      "magnitude": 0.004004334699830769,
+      "phase": 2.33300592453852
+    },
+    "14.533303833007814": {
+      "magnitude": 0.004180857302792819,
+      "phase": 3.137479128440721
+    },
+    "14.583303833007813": {
+      "magnitude": 0.0028542142914741563,
+      "phase": -3.037199378164659
+    },
+    "14.633303833007812": {
+      "magnitude": 8.370543064690477E-4,
+      "phase": -1.182595792690689
+    },
+    "14.683303833007812": {
+      "magnitude": 5.9528583678111E-4,
+      "phase": 1.2063181251209287
+    },
+    "14.733303833007813": {
+      "magnitude": 0.003662111683434303,
+      "phase": 1.648019455862538
+    },
+    "14.783303833007812": {
+      "magnitude": 0.0034553618743048196,
+      "phase": 2.0129916381311377
+    },
+    "14.833303833007813": {
+      "magnitude": 0.00455434695806283,
+      "phase": 2.7598152083703984
+    },
+    "14.883303833007814": {
+      "magnitude": 0.0034258127457104447,
+      "phase": 2.928973859695878
+    },
+    "14.933303833007812": {
+      "magnitude": 0.0018533582808578496,
+      "phase": -2.244169654529082
+    },
+    "14.983303833007813": {
+      "magnitude": 6.096644209678453E-4,
+      "phase": -2.5383019255497388
+    },
+    "15.033303833007812": {
+      "magnitude": 0.0025231076691891252,
+      "phase": 1.2105604738554425
+    },
+    "15.083303833007813": {
+      "magnitude": 0.0026346943360241256,
+      "phase": 1.6964452831093968
+    },
+    "15.133303833007814": {
+      "magnitude": 0.004507805379746792,
+      "phase": 2.3886507406814883
+    },
+    "15.183303833007812": {
+      "magnitude": 0.0036387114722301554,
+      "phase": 2.609558377005759
+    },
+    "15.233303833007813": {
+      "magnitude": 0.002881741012124916,
+      "phase": -2.7495800784561237
+    },
+    "15.283303833007812": {
+      "magnitude": 0.0016507244735598124,
+      "phase": -2.7743619823863224
+    },
+    "15.333303833007813": {
+      "magnitude": 0.0013247016918302697,
+      "phase": 0.5860785176320212
+    },
+    "15.383303833007814": {
+      "magnitude": 0.0016360366110510069,
+      "phase": 1.390292341323652
+    },
+    "15.433303833007812": {
+      "magnitude": 0.00407410555458357,
+      "phase": 2.0142087564328905
+    },
+    "15.483303833007813": {
+      "magnitude": 0.003501633120284276,
+      "phase": 2.289855536855504
+    },
+    "15.533303833007812": {
+      "magnitude": 0.0036241142081885856,
+      "phase": 3.123856046639113
+    },
+    "15.583303833007813": {
+      "magnitude": 0.0024651546990756396,
+      "phase": -3.079943450957811
+    },
+    "15.633303833007814": {
+      "magnitude": 7.29004317095853E-4,
+      "phase": -1.031763896341344
+    },
+    "15.683303833007812": {
+      "magnitude": 5.63299372024529E-4,
+      "phase": 1.1526464912355707
+    },
+    "15.733303833007813": {
+      "magnitude": 0.0033195757947954716,
+      "phase": 1.62431255087549
+    },
+    "15.783303833007812": {
+      "magnitude": 0.003052500725500039,
+      "phase": 1.971247376722708
+    },
+    "15.833303833007813": {
+      "magnitude": 0.0040099389937334135,
+      "phase": 2.7421598373021716
+    },
+    "15.883303833007814": {
+      "magnitude": 0.002994687478161685,
+      "phase": 2.8879399594052746
+    },
+    "15.933303833007812": {
+      "magnitude": 0.0015610547170707737,
+      "phase": -2.2213012073569742
+    },
+    "15.983303833007813": {
+      "magnitude": 4.97959823614651E-4,
+      "phase": -2.587806557094647
+    },
+    "16.033303833007814": {
+      "magnitude": 0.0023407733424612998,
+      "phase": 1.1898454678945327
+    },
+    "16.08330383300781": {
+      "magnitude": 0.0023534531353066085,
+      "phase": 1.655817285548248
+    },
+    "16.133303833007815": {
+      "magnitude": 0.004022363807040412,
+      "phase": 2.3688747172960793
+    },
+    "16.183303833007812": {
+      "magnitude": 0.0032116155426437187,
+      "phase": 2.569977566863135
+    },
+    "16.233303833007813": {
+      "magnitude": 0.002496233281487229,
+      "phase": -2.7534719013758173
+    },
+    "16.283303833007814": {
+      "magnitude": 0.0014286471830711341,
+      "phase": -2.8138538303826666
+    },
+    "16.33330383300781": {
+      "magnitude": 0.0012829119099246056,
+      "phase": 0.5892391290554357
+    },
+    "16.383303833007815": {
+      "magnitude": 0.001484283236014813,
+      "phase": 1.3499994614663096
+    },
+    "16.433303833007812": {
+      "magnitude": 0.003682284074872953,
+      "phase": 1.9933711265824674
+    },
+    "16.483303833007813": {
+      "magnitude": 0.0031173523103195885,
+      "phase": 2.251557330328559
+    },
+    "16.533303833007814": {
+      "magnitude": 0.003196156431405563,
+      "phase": 3.1116497624419224
+    },
+    "16.58330383300781": {
+      "magnitude": 0.0021690279120085095,
+      "phase": -3.117574828011408
+    },
+    "16.633303833007815": {
+      "magnitude": 6.606972073933551E-4,
+      "phase": -0.8996144058079619
     }
   }
 }

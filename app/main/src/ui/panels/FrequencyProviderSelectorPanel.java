@@ -4,6 +4,7 @@ import misc.Format;
 import misc.Log;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import rotor.RotorStateManager;
 import rotor.frequency.*;
 import ui.util.Ui;
 import async.Function;
@@ -111,7 +112,7 @@ public class FrequencyProviderSelectorPanel extends JPanel {
             }
         }
 
-        private void setOpsEnabled(boolean enabled) {
+        protected void setOpsEnabled(boolean enabled) {
             opsPanel.setEnabled(enabled);
             opsPanel.setVisible(enabled);
 
@@ -126,7 +127,7 @@ public class FrequencyProviderSelectorPanel extends JPanel {
         final Entry indexMultiplier;
 
         public IndexFpPanel() {
-            super("Integers");
+            super("Indices");
             indexMultiplier = new Entry("Indices Multiplier", String.valueOf(IndexFrequencyProvider.DEFAULT_INDEX_MULTIPLIER));
             radioButton.setActionCommand(FP_INDEX);
             radioButton.setToolTipText("Rotor Frequency = Rotor Index * Multiplier");
@@ -183,11 +184,27 @@ public class FrequencyProviderSelectorPanel extends JPanel {
         }
     }
 
+    private static class ExplicitFpPanel extends ItemPanel {
+
+        @NotNull
+        private final ExplicitFrequencyProvider fp;
+
+        public ExplicitFpPanel(@NotNull ExplicitFrequencyProvider fp) {
+            super("Explicit (Internal)");
+            this.fp = fp;
+            radioButton.setActionCommand(FP_EXPLICIT);
+            radioButton.setToolTipText("frequencies Internally defined by the function. At other frequencies, transform might break");
+
+            setOpsEnabled(false);
+        }
+    }
+
 
     private static final String FP_INDEX = "index";
     private static final String FP_CENTERING = "centering";
     private static final String FP_FIXED_START = "fixed_start";
     private static final String FP_BOUNDED = "bounded";
+    private static final String FP_EXPLICIT = "explicit";
 
     private static final Map<Class<? extends RotorFrequencyProviderI>, String> CLASS_TO_TYPE;
 
@@ -197,6 +214,7 @@ public class FrequencyProviderSelectorPanel extends JPanel {
         CLASS_TO_TYPE.put(CenteringFrequencyProvider.class, FP_CENTERING);
         CLASS_TO_TYPE.put(FixedStartFrequencyProvider.class, FP_FIXED_START);
         CLASS_TO_TYPE.put(BoundedFrequencyProvider.class, FP_BOUNDED);
+        CLASS_TO_TYPE.put(ExplicitFrequencyProvider.class, FP_EXPLICIT);
     }
 
     @NotNull
@@ -217,18 +235,50 @@ public class FrequencyProviderSelectorPanel extends JPanel {
     private final CenteringFpPanel centeringFpPanel;
     private final FixedStartFpPanel fixedStartFpPanel;
     private final BoundFpPanel boundFpPanel;
+    @Nullable
+    private final ExplicitFpPanel explicitFpPanel;
 
-    public FrequencyProviderSelectorPanel(@Nullable RotorFrequencyProviderI currentProvider, @NotNull RotorFrequencyProviderI defaultProvider) {
+    public FrequencyProviderSelectorPanel(@NotNull RotorStateManager manager) {
+        this(manager.getManagerRotorFrequencyProviderOrDefault(),
+                manager.getManagerDefaultRotorFrequencyProvider(),
+                manager.getFunction().getExplicitFrequencyProvider());
+    }
+
+    public FrequencyProviderSelectorPanel(@Nullable RotorFrequencyProviderI currentProvider,
+                                          @NotNull RotorFrequencyProviderI defaultProvider) {
+        this(currentProvider, defaultProvider, null);
+    }
+
+    public FrequencyProviderSelectorPanel(@Nullable RotorFrequencyProviderI currentProvider,
+                                          @NotNull RotorFrequencyProviderI defaultProvider,
+                                          @Nullable ExplicitFrequencyProvider explicitProvider) {
+
+        if (explicitProvider == null) {
+            if (currentProvider instanceof ExplicitFrequencyProvider efp) {
+                explicitProvider = efp;
+            } else if (defaultProvider instanceof ExplicitFrequencyProvider efp) {
+                explicitProvider = efp;
+            }
+        }
+
         indexFpPanel = new IndexFpPanel();
         centeringFpPanel = new CenteringFpPanel();
         fixedStartFpPanel = new FixedStartFpPanel();
         boundFpPanel = new BoundFpPanel();
+        if (explicitProvider != null) {
+            explicitFpPanel = new ExplicitFpPanel(explicitProvider);
+        } else {
+            explicitFpPanel = null;
+        }
 
         radioGroup = new ButtonGroup();
         radioGroup.add(indexFpPanel.radioButton);
         radioGroup.add(centeringFpPanel.radioButton);
         radioGroup.add(fixedStartFpPanel.radioButton);
         radioGroup.add(boundFpPanel.radioButton);
+        if (explicitFpPanel != null) {
+            radioGroup.add(explicitFpPanel.radioButton);
+        }
 
         root = new JPanel();
         root.setLayout(new BoxLayout(root, BoxLayout.Y_AXIS));
@@ -236,6 +286,9 @@ public class FrequencyProviderSelectorPanel extends JPanel {
         root.add(centeringFpPanel);
         root.add(fixedStartFpPanel);
         root.add(boundFpPanel);
+        if (explicitFpPanel != null) {
+            root.add(explicitFpPanel);
+        }
 
         scrollPane = new JScrollPane(root, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setPreferredSize(MIN_SIZE.getSize());
@@ -264,6 +317,9 @@ public class FrequencyProviderSelectorPanel extends JPanel {
         centeringFpPanel.sync();
         fixedStartFpPanel.sync();
         boundFpPanel.sync();
+        if (explicitFpPanel != null) {
+            explicitFpPanel.sync();
+        }
 
         Ui.extractDialog(scrollPane, d -> {
             d.setResizable(true);
@@ -294,12 +350,20 @@ public class FrequencyProviderSelectorPanel extends JPanel {
     }
 
     @NotNull
-    public ItemPanel getItemPanel(@NotNull String type) {
+    private ItemPanel getItemPanel(@NotNull String type) {
         return switch (type) {
             case FP_INDEX -> indexFpPanel;
             case FP_CENTERING -> centeringFpPanel;
             case FP_FIXED_START -> fixedStartFpPanel;
             case FP_BOUNDED -> boundFpPanel;
+            case FP_EXPLICIT -> {
+                if (explicitFpPanel != null) {
+                    yield explicitFpPanel;
+                }
+
+                throw new AssertionError("No Explicit Frequency Provider defined");
+            }
+
             default -> throw new AssertionError("Unknown Frequency Provider type: " + type);
         };
     }
@@ -315,7 +379,6 @@ public class FrequencyProviderSelectorPanel extends JPanel {
         final String type = radioGroup.getSelection().getActionCommand();
         if (Format.isEmpty(type))
             return null;
-
 
         String err = null;
         String warn = null;
@@ -407,7 +470,15 @@ public class FrequencyProviderSelectorPanel extends JPanel {
                     fp.setFrequencyStart(start);
                     fp.setFrequencyEnd(end);
                     frequencyProvider = fp;
-                } default -> throw new AssertionError("Invalid Frequency Provider Type: " + type);
+                } case FP_EXPLICIT -> {
+                    if (explicitFpPanel == null) {
+                        throw new AssertionError("No Explicit Frequency Provider defined!");
+                    }
+
+                    frequencyProvider = explicitFpPanel.fp;
+                }
+
+                default -> throw new AssertionError("Invalid Frequency Provider Type: " + type);
             }
         } catch (NumberFormatException numExc) {
             Log.e(TAG, "Invalid input", numExc);

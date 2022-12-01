@@ -71,10 +71,10 @@ public enum ActionInfo implements ActionInfoI {
     SHOW_FT_UI("Fourier Transform Ui", "Show Fourier Transform Ui", KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK), true, false),
 
     /* FT Configurations */
-    CONFIGURE_ROTOR_FREQUENCY_PROVIDER(R.getConfigureRotorFrequencyProviderText(), R.getConfigureRotorFrequencyProviderShortDescription(), KeyStroke.getKeyStroke(KeyEvent.VK_F, 0),true),
-    CONFIGURE_FUNCTION_GRAPH("Function Graph", "Configure Function Graph",  null, true),
-    CONFIGURE_FT_GRAPH("FT Graph", "Configure Fourier Transform Graph", null, true),
-    CONFIGURE_FT_WINDER_PANEL("FT Winder Graph", "Configure Fourier Transform Winder Graph", null, true),
+    CONFIGURE_ROTOR_FREQUENCY_PROVIDER(R.getConfigureRotorFrequencyProviderText(), R.getConfigureRotorFrequencyProviderShortDescription(), KeyStroke.getKeyStroke(KeyEvent.VK_F, 0),true, false),
+    CONFIGURE_FUNCTION_GRAPH("Function Graph", "Configure Function Graph",  null, true, false),
+    CONFIGURE_FT_GRAPH("FT Graph", "Configure Fourier Transform Graph", null, true, false),
+    CONFIGURE_FT_WINDER_PANEL("FT Winder Graph", "Configure Fourier Transform Winder Graph", null, true, false),
 
 
     SAVE_FUNCTION_STATE_TO_FILE("Save State", "Save Function State", KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK), true),
@@ -82,7 +82,9 @@ public enum ActionInfo implements ActionInfoI {
     CLEAR_FUNCTIONS_WITHOUT_DEFINITION("Clear Without Definition", "Remove all loaded functions without internal definitions", null, false),
 
     SAVE_ALL_ROTOR_STATES_TO_CSV("Save As CSV", "Save all loaded Rotor States to CSV file",  null, true, false),
-    LOAD_EXTERNAL_ROTOR_STATES_FROM_CSV("Load From CSV", "Load external Rotor States from CSV file",  null, true, false),
+    LOAD_EXTERNAL_ROTOR_STATES_FROM_CSV("Load From CSV", "Load external Rotor States for current function from CSV file",  null, true, false),
+    LOAD_EXTERNAL_ROTOR_STATE_FUNCTION_FROM_CSV("Load Function From CSV", "Load external Rotor State Function from CSV file",  null, false, false),
+
     CLEAR_AND_RESET_ROTOR_STATE_MANAGER("Delete All", "Clear all loaded Rotor States (EXPENSIVE)",  null, true, false),
     CLEAR_AND_RELOAD_ROTOR_STATE_MANAGER("Reload", "Clear all loaded Rotor States and Reload (EXPENSIVE)",  null, true, true),
 

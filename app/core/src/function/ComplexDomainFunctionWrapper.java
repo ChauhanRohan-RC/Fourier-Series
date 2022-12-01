@@ -3,9 +3,12 @@ package function;
 import function.definition.ColorHandler;
 import function.definition.ColorProviderI;
 import function.definition.ComplexDomainFunctionI;
+import models.FunctionGraphMode;
+import models.RealTransform;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import rotor.frequency.ExplicitFrequencyProvider;
 import rotor.frequency.RotorFrequencyProviderI;
 
 import java.awt.*;
@@ -32,9 +35,31 @@ public class ComplexDomainFunctionWrapper implements ComplexDomainFunctionI, Col
         return base.compute(input);
     }
 
+    /* Frequency */
+
+    @Override
+    public boolean isFrequencySupported(double frequency) {
+        return base.isFrequencySupported(frequency);
+    }
+
+    @Override
+    public boolean frequenciesExceptExplicitSupported() {
+        return base.frequenciesExceptExplicitSupported();
+    }
+
+    @Override
+    public @Nullable ExplicitFrequencyProvider getExplicitFrequencyProvider() {
+        return base.getExplicitFrequencyProvider();
+    }
+
     @Override
     public @Nullable RotorFrequencyProviderI getFunctionDefaultFrequencyProvider() {
         return base.getFunctionDefaultFrequencyProvider();
+    }
+
+    @Override
+    public @Nullable FunctionGraphMode getDefaultGraphMode() {
+        return base.getDefaultGraphMode();
     }
 
     /* Domain */
@@ -50,8 +75,18 @@ public class ComplexDomainFunctionWrapper implements ComplexDomainFunctionI, Col
     }
 
     @Override
+    public boolean isWithinDomain(double input) {
+        return base.isWithinDomain(input);
+    }
+
+    @Override
     public double getDomainRange() {
         return base.getDomainRange();
+    }
+
+    @Override
+    public double getSampleDomainStep(int sampleCount) {
+        return base.getSampleDomainStep(sampleCount);
     }
 
     @Override
@@ -83,7 +118,33 @@ public class ComplexDomainFunctionWrapper implements ComplexDomainFunctionI, Col
     public long domainAnimationSpeedFractionToDurationMs(float fraction) {
         return base.domainAnimationSpeedFractionToDurationMs(fraction);
     }
+    
+    /* Sampling */
 
+    @Override
+    public double @NotNull [] createSamplesDomain(int sampleCount) {
+        return base.createSamplesDomain(sampleCount);
+    }
+
+    @Override
+    public @NotNull Complex @NotNull [] createSamplesRange(int sampleCount) {
+        return base.createSamplesRange(sampleCount);
+    }
+
+    @Override
+    public @NotNull Complex @NotNull [] createSamplesRange(double @NotNull [] samplesDomain) {
+        return base.createSamplesRange(samplesDomain);
+    }
+
+    @Override
+    public double @NotNull [] createSamplesRealRange(int sampleCount, @NotNull RealTransform realTransform) {
+        return base.createSamplesRealRange(sampleCount, realTransform);
+    }
+
+    @Override
+    public double @NotNull [] createSamplesRealRange(double @NotNull [] samplesDomain, @NotNull RealTransform realTransform) {
+        return base.createSamplesRealRange(samplesDomain, realTransform);
+    }
 
     /* Colors */
 
@@ -149,5 +210,33 @@ public class ComplexDomainFunctionWrapper implements ComplexDomainFunctionI, Col
         return colorProviderOverride != null? colorProviderOverride.getColor(input): base.getColor(input);
     }
 
+
+    /* Object */
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+
+        if (o instanceof ComplexDomainFunctionWrapper wrapper) {
+            return base.equals(wrapper.base);
+        }
+
+        if (o instanceof ComplexDomainFunctionI func) {
+            return base.equals(func);
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Wrapper(" + base + ")";
+    }
 
 }

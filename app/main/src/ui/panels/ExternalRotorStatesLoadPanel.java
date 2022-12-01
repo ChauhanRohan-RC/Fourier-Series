@@ -21,6 +21,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
+/**
+ * Loads Rotor States from a CSV file for an existing function
+ *
+ * @see ExternalRotorStateFunctionLoadPanel
+ * */
 public class ExternalRotorStatesLoadPanel extends JPanel {
 
     public static final String TAG = "ExternalRotorStatesLoadPanel";
@@ -28,17 +33,12 @@ public class ExternalRotorStatesLoadPanel extends JPanel {
     private static final Dimension ENTRY_DIMENSION = new Dimension(300, 30);
 
     private final Ui parent;
-    private final JLabel infoLabel;
     private final JTextField fileEntry;
     private final JButton browseButton;
     private final JCheckBox checkBox;
 
     public ExternalRotorStatesLoadPanel(@NotNull Ui parent) {
         this.parent = parent;
-
-        infoLabel = new JLabel("Select a file to load Rotor States");
-        infoLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        infoLabel.setHorizontalTextPosition(SwingConstants.LEFT);
 
         fileEntry = new JTextField();
         fileEntry.setPreferredSize(ENTRY_DIMENSION.getSize());
@@ -50,11 +50,11 @@ public class ExternalRotorStatesLoadPanel extends JPanel {
         checkBox.setHorizontalAlignment(SwingConstants.LEFT);
 
         setLayout(new GridLayout(0, 1, 6, 6));
-        add(infoLabel);
 
         final JPanel entryPanel = new JPanel(new BorderLayout(10, 10));
         entryPanel.add(browseButton, BorderLayout.EAST);
         entryPanel.add(fileEntry, BorderLayout.CENTER);
+        entryPanel.setBorder(BorderFactory.createTitledBorder("Select File to load Rotor States"));
         add(entryPanel);
 
         add(checkBox);

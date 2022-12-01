@@ -81,6 +81,7 @@ public class SineSignal implements SignalFunctionI {
         return new FixedStartFrequencyProvider(frequency - 1, 0.05);
     }
 
+
     @Override
     public String toString() {
         String core = "SineSignal(" +

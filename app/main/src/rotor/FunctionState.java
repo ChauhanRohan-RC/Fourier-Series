@@ -14,6 +14,7 @@ import json.Json;
 import misc.CollectionUtil;
 import misc.FileUtil;
 import misc.Format;
+import misc.Log;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
@@ -38,6 +39,8 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class FunctionState {
+
+    public static final String TAG = "FunctionState";
 
     public static final boolean FUNCTION_SERIALIZATION_ENABLED = true;
     public static final boolean DEFAULT_SERIALIZE_FUNCTION = true;
@@ -344,16 +347,15 @@ public class FunctionState {
                 .toList(): Collections.emptyList();
     }
 
-    public enum RotorStateHeader {
-        Frequency,
-        Magnitude,
-        Phase
-    }
 
-    public static final CSVFormat ROTOR_STATES_CSV_FORMAT = CSVFormat.EXCEL.builder()
+    private static final String ROTOR_STATE_CSV_HEADER_FREQUENCY = "FREQUENCY (Hz)";
+    private static final String ROTOR_STATE_CSV_HEADER_MAGNITUDE = "MAGNITUDE";
+    private static final String ROTOR_STATE_CSV_HEADER_PHASE = "PHASE (rad)";
+
+
+    private static final CSVFormat ROTOR_STATES_CSV_FORMAT = CSVFormat.EXCEL.builder()
             .setCommentMarker('#')
-            .setHeader(RotorStateHeader.class)
-            .setSkipHeaderRecord(true)
+            .setHeader(ROTOR_STATE_CSV_HEADER_FREQUENCY, ROTOR_STATE_CSV_HEADER_MAGNITUDE, ROTOR_STATE_CSV_HEADER_PHASE)
             .setIgnoreHeaderCase(true)
             .setAllowDuplicateHeaderNames(false)
             .setIgnoreEmptyLines(true)
@@ -361,12 +363,20 @@ public class FunctionState {
             .setAutoFlush(true)
             .build();
 
+    @NotNull
+    public static CSVFormat createCSVFormat(boolean reader, Object... headerComments) {
+        return ROTOR_STATES_CSV_FORMAT.builder()
+                .setSkipHeaderRecord(reader)                 // write headers
+                .setHeaderComments(headerComments)          // header comments
+                .build();
+    }
+
+
+
     /* write */
 
     public static void writeRotorStatesASCSV(@NotNull Appendable writer, @Nullable Map<Double, RotorCoefficient> states, Object... headerComments) throws IOException {
-        final CSVFormat format = ROTOR_STATES_CSV_FORMAT.builder().setHeaderComments(headerComments).build();
-
-        try (final CSVPrinter printer = new CSVPrinter(writer, format)) {
+        try (final CSVPrinter printer = new CSVPrinter(writer, createCSVFormat(false, headerComments))) {
             if (CollectionUtil.isEmpty(states))
                 return;
 
@@ -378,9 +388,7 @@ public class FunctionState {
     }
 
     public static void writeRotorStatesASCSV(@NotNull Appendable writer, @Nullable Collection<RotorState> states, Object... headerComments) throws IOException {
-        final CSVFormat format = ROTOR_STATES_CSV_FORMAT.builder().setHeaderComments(headerComments).build();
-
-        try (final CSVPrinter printer = new CSVPrinter(writer, format)) {
+        try (final CSVPrinter printer = new CSVPrinter(writer, createCSVFormat(false, headerComments))) {
             if (CollectionUtil.isEmpty(states))
                 return;
 
@@ -392,8 +400,8 @@ public class FunctionState {
 
     @Nullable
     public Object[] getRotorStatesCSVHeaderComment() {
-        return new String[]{
-                "______Function State (Meta)______",
+        return new String[] {
+                "%%______Function State (Meta)______%%",
                 "save_timestamp: " + saveTimestamp,
                 "function: " + (Format.notEmpty(functionName)? functionName: R.DISPLAY_NAME_FUNCTION_UNKNOWN),
                 "function_type: " + (functionType != null? functionType.displayName: "Unknown Type"),
@@ -401,7 +409,8 @@ public class FunctionState {
                 "domain_end: " + domainEnd,
                 "numerical_integration_intervals: " + numericalIntegrationIntervalCount,
                 "rotor_states_count: " + CollectionUtil.size(allRotorStates),
-                "_______Rotor States_______"
+                "",
+                "%%_______Rotor States_______%%"
         };
     }
 
@@ -434,12 +443,20 @@ public class FunctionState {
     @NotNull
     public static List<RotorState> readRotorStatesFromCSV(@NotNull Reader csv) throws IOException, NumberFormatException, NullPointerException {
         final List<RotorState> states = new ArrayList<>();
-        try (final CSVParser parser = CSVParser.parse(csv, ROTOR_STATES_CSV_FORMAT)) {
-            for (CSVRecord record: parser) {
-                states.add(new RotorState(
-                        Double.parseDouble(record.get(RotorStateHeader.Frequency)),
-                        ComplexUtil.polar(Double.parseDouble(record.get(RotorStateHeader.Magnitude)), Double.parseDouble(record.get(RotorStateHeader.Phase)))
-                ));
+        try (final CSVParser parser = CSVParser.parse(csv, createCSVFormat(true))) {
+            final Iterator<CSVRecord> itr = parser.iterator();
+
+            while (itr.hasNext()) {
+                try {
+                    final CSVRecord record = itr.next();
+
+                    states.add(new RotorState(
+                            Double.parseDouble(record.get(ROTOR_STATE_CSV_HEADER_FREQUENCY)),
+                            ComplexUtil.polar(Double.parseDouble(record.get(ROTOR_STATE_CSV_HEADER_MAGNITUDE)), Double.parseDouble(record.get(ROTOR_STATE_CSV_HEADER_PHASE)))
+                    ));
+                } catch (NumberFormatException num) {
+                    Log.w(TAG, String.format("Exception while loading Rotor State from CSV at line %d. ignoring anyway....", parser.getCurrentLineNumber()), num);
+                }
             }
         }
 

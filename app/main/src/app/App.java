@@ -4,6 +4,8 @@ import misc.Log;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 import provider.Providers;
+import ui.AuxSoundsPlayer;
+import ui.MusicPlayer;
 import ui.frames.FourierUi;
 import async.Async;
 import async.TaskCompletionListener;
@@ -58,8 +60,14 @@ public class App {
             R.finish();
 
             Log.v(TAG, "Quiting");
-            System.exit(0);
+            quit();
         });
+    }
+    private static void quit() {
+//        AuxSoundsPlayer.getSingleton().closeAllClips();
+        MusicPlayer.getSingleton().close();
+        Async.shutDown();
+        System.exit(0);
     }
 
     public static void onWindowOpen(@NotNull JFrame frame) {

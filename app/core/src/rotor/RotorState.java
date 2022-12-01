@@ -86,6 +86,9 @@ public class RotorState implements Comparable<RotorState> {
 
     @NotNull
     public final Complex getTip(double input) {
+        if (mCoefficientAbs == 0)
+            return Complex.ZERO;
+
         return new Complex(0, mTipCoefficient * input).exp().multiply(mCoefficient);
     }
 

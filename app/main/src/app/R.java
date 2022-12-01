@@ -449,6 +449,7 @@ public class R {
 
     public static final String DISPLAY_NAME_TOKEN_EXT_PATH = "ext_path";
     public static final String DISPLAY_NAME_TOKEN_EXT_PROGRAM = "ext_program";
+    public static final String DISPLAY_NAME_TOKEN_EXT_ROTOR_STATE = "ext_rotors";
     public static final String DISPLAY_NAME_TOKEN_LOADED = "loaded";
 
     @NotNull
@@ -475,6 +476,12 @@ public class R {
     public static String createExternalProgramFunctionDisplayName(@NotNull String fullName) {
         return displayNameWithToken(fullName, DISPLAY_NAME_TOKEN_EXT_PROGRAM);
     }
+
+    @NotNull
+    public static String createExternalRotorStateFunctionDisplayName(@NotNull String fullName) {
+        return displayNameWithToken(fullName, DISPLAY_NAME_TOKEN_EXT_ROTOR_STATE);
+    }
+
 
     @NotNull
     public static String createExternallyLoadedFunctionDisplayName(@NotNull String fullName) {

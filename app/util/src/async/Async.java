@@ -482,7 +482,7 @@ public class Async {
     }
 
 
-    private static void shutDown() {
+    public static void shutDown() {
         THREAD_POOL_EXECUTOR.shutdownNow();
     }
 }

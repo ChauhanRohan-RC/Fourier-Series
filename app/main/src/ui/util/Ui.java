@@ -2,6 +2,7 @@ package ui.util;
 
 import app.R;
 import app.Settings;
+import function.RotorStatesFunction;
 import function.definition.ComplexDomainFunctionI;
 import misc.*;
 import models.Wrapper;
@@ -12,6 +13,7 @@ import provider.FunctionProviderI;
 import provider.FunctionType;
 import provider.SimpleFunctionProvider;
 import rotor.FunctionState;
+import rotor.RotorState;
 import rotor.RotorStateManager;
 import rotor.frequency.RotorFrequencyProviderI;
 import ui.action.ActionInfo;
@@ -20,6 +22,7 @@ import ui.MusicPlayer;
 import ui.frames.FTUi;
 import ui.frames.FourierUi;
 import ui.panels.ExternalProgramPanel;
+import ui.panels.ExternalRotorStateFunctionLoadPanel;
 import ui.panels.ExternalRotorStatesLoadPanel;
 import ui.panels.FrequencyProviderSelectorPanel;
 import async.*;
@@ -327,13 +330,19 @@ public interface Ui {
     }
 
     @NotNull
-    static JMenu createRotorStatesMenu(@NotNull Function<ActionInfo, ? extends Action> creator) {
+    static JMenu createRotorStatesMenu(@NotNull Function<ActionInfo, ? extends Action> creator, boolean externalRotorStateFunctionLoadSupported) {
         final JMenu menu = new JMenu("Rotor States");
         menu.add(creator.apply(ActionInfo.SAVE_ALL_ROTOR_STATES_TO_CSV));
         menu.add(creator.apply(ActionInfo.LOAD_EXTERNAL_ROTOR_STATES_FROM_CSV));
         menu.addSeparator();
         menu.add(creator.apply(ActionInfo.CLEAR_AND_RESET_ROTOR_STATE_MANAGER));
         menu.add(creator.apply(ActionInfo.CLEAR_AND_RELOAD_ROTOR_STATE_MANAGER));
+
+        if (externalRotorStateFunctionLoadSupported) {
+            menu.addSeparator();
+            menu.add(creator.apply(ActionInfo.LOAD_EXTERNAL_ROTOR_STATE_FUNCTION_FROM_CSV));
+        }
+
         return menu;
     }
 
@@ -415,6 +424,12 @@ public interface Ui {
         panel.showDialog(manager);
     }
 
+    static void askLoadExternalRotorStateFunctionFromCSV(@NotNull Ui ui, @NotNull Consumer<FunctionProviderI> successCallback) {
+        final ExternalRotorStateFunctionLoadPanel panel = new ExternalRotorStateFunctionLoadPanel(ui);
+        panel.showDialog(successCallback);
+    }
+
+
     static void askSaveRotorStatesToCSV(@NotNull Ui ui, @NotNull RotorStateManager manager) {
         final String err;
 
@@ -480,7 +495,7 @@ public interface Ui {
             return;
         }
 
-        final FrequencyProviderSelectorPanel panel = new FrequencyProviderSelectorPanel(manager.getManagerRotorFrequencyProviderOrDefault(), manager.getManagerDefaultRotorFrequencyProvider());
+        final FrequencyProviderSelectorPanel panel = new FrequencyProviderSelectorPanel(manager);
         final RotorFrequencyProviderI freqProvider = panel.showDialog(ui.getFrame());
         if (freqProvider != null) {
             manager.setRotorFrequencyProvider(freqProvider);

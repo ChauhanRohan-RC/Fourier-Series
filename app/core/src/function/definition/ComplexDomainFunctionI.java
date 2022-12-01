@@ -6,11 +6,14 @@ import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import rotor.frequency.CenteringFrequencyProvider;
+import rotor.frequency.ExplicitFrequencyProvider;
 import rotor.frequency.RotorFrequencyProviderI;
 import util.json.JsonParsable;
 import util.main.ComplexUtil;
 
-public interface ComplexDomainFunctionI extends ComplexFunctionI, DomainProviderI, JsonParsable {
+public interface ComplexDomainFunctionI extends ComplexFunctionI, DomainProviderI, FrequencySupportProviderI, JsonParsable {
+
+    /* ............................. Sampling ....................... */
 
     default double @NotNull[] createSamplesDomain(int sampleCount) {
         if (sampleCount < 1)
@@ -95,32 +98,18 @@ public interface ComplexDomainFunctionI extends ComplexFunctionI, DomainProvider
         return realRange;
     }
 
-//    default double @NotNull[] createSamplesRealRange(double @NotNull[] samplesDomain) {
-//        return createSamplesRealRange(samplesDomain, Complex::getReal);
-//    }
-//
-//    default double @NotNull[] createSamplesImaginaryRange(double @NotNull[] samplesDomain) {
-//        return createSamplesRealRange(samplesDomain, Complex::getImaginary);
-//    }
-//
-//    default double @NotNull[] createSamplesMagnitudeRange(double @NotNull[] samplesDomain) {
-//        return createSamplesRealRange(samplesDomain, Complex::abs);
-//    }
-//
-//    default double @NotNull[] createSamplesArgumentRange(double @NotNull[] samplesDomain) {
-//        return createSamplesRealRange(samplesDomain, Complex::getArgument);
-//    }
 
 
-    @Nullable
-    default RotorFrequencyProviderI getFunctionDefaultFrequencyProvider() {
-        return getDefaultFrequencyProvider(getDomainRange());
+
+    /* .......................... Frequency .................. */
+    /**
+     * {@inheritDoc}
+     * */
+    @Override
+    default boolean isFrequencySupported(double frequency) {
+        return true;
     }
 
-    @Nullable
-    default FunctionGraphMode getDefaultGraphMode() {
-        return FunctionGraphMode.OUTPUT_SPACE;
-    }
 
     @NotNull
     static RotorFrequencyProviderI getDefaultFrequencyProvider(double divisor) {
@@ -134,4 +123,33 @@ public interface ComplexDomainFunctionI extends ComplexFunctionI, DomainProvider
         fp.setFrequencyMultiplier(multiplier);
         return fp;
     }
+
+    @Nullable
+    default RotorFrequencyProviderI getFunctionDefaultFrequencyProvider() {
+        return getDefaultFrequencyProvider(getDomainRange());
+    }
+
+    @Override
+    @Nullable
+    default ExplicitFrequencyProvider getExplicitFrequencyProvider() {
+        return null;
+    }
+
+    @Override
+    default boolean frequenciesExceptExplicitSupported() {
+        return true;
+    }
+
+
+    /* ........................... Misc ........................... */
+
+    /**
+     * @return the default {@link FunctionGraphMode GraphMode}
+     * */
+    @Nullable
+    default FunctionGraphMode getDefaultGraphMode() {
+        return FunctionGraphMode.OUTPUT_SPACE;
+    }
+
+
 }

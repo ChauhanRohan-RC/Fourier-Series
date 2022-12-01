@@ -1,7 +1,20 @@
 package models;
 
+import function.definition.ComplexDomainFunctionI;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Defines how {@link ComplexDomainFunctionI ComplexFunction} graph should be plotted<br>
+ * A complex Function has 3 dimensions
+ * <p>
+ *     1. Input dimension (real, 1D)<br>
+ *     2. Output dimension (complex, 2D)
+ * </p>
+ * <br>
+ * This class defines how a 3D complex function should be sampled and plotted over 2D space
+ *
+ * @see ComplexDomainFunctionI#getDefaultGraphMode() DefaultGraphMode
+ * */
 public enum FunctionGraphMode {
 
     OUTPUT_SPACE("Complex Output Space",

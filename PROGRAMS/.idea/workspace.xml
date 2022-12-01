@@ -2,20 +2,89 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="920c81d2-1616-4813-a234-c053d39f4992" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/logs/logs (Nov 30, 2022).txt" beforeDir="false" afterPath="$PROJECT_DIR$/../out/artifacts/main_jar/logs/logs (Nov 30, 2022).txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/res/sound/music/Etude.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/res/sound/music/Euler's Clock.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/res/sound/music/Fractals.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/res/sound/music/Hypothesis.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/res/sound/music/New Etude.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/res/sound/music/Opus.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/res/sound/music/Quaternions.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/res/sound/music/Sixes.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/res/sound/music/Stepwise.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/res/sound/music/Trinkets.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/res/sound/music/Wading.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/res/sound/music/Wallis Ballade.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../res/settings.json" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/artifacts/core_src_zip.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/artifacts/core_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/artifacts/core_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FUNCTION STATES/rc_aq_states.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FUNCTION STATES/test.json" beforeDir="false" afterPath="$PROJECT_DIR$/../FUNCTION STATES/test.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/core.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/core.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core.jar" beforeDir="false" afterPath="$PROJECT_DIR$/core.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/core/src/function/ComplexDomainFunctionWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/ComplexDomainFunctionWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/core/src/function/RotorStatesFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/RotorStatesFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/core/src/function/definition/ComplexDomainFunctionI.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/definition/ComplexDomainFunctionI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/core/src/function/definition/ComplexFunctionI.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/definition/ComplexFunctionI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/core/src/function/definition/DomainProviderI.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/definition/DomainProviderI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/core/src/function/internal/basic/MergedFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/internal/basic/MergedFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/core/src/function/internal/basic/SineSignal.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/internal/basic/SineSignal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/core/src/models/FunctionGraphMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/models/FunctionGraphMode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/core/src/rotor/RotorState.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/rotor/RotorState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/core/src/util/main/ComplexUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/util/main/ComplexUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/main/src/app/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/app/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/main/src/app/R.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/app/R.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/main/src/rotor/FunctionState.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/rotor/FunctionState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/main/src/ui/MusicPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/ui/MusicPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/main/src/ui/action/ActionInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/ui/action/ActionInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/main/src/ui/frames/FTUi.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/ui/frames/FTUi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/main/src/ui/frames/FourierUi.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/ui/frames/FourierUi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/main/src/ui/panels/ExternalRotorStatesLoadPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/ui/panels/ExternalRotorStatesLoadPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/main/src/ui/panels/FrequencyProviderSelectorPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/ui/panels/FrequencyProviderSelectorPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/main/src/ui/util/Ui.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/main/src/ui/util/Ui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/util/src/async/Async.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/async/Async.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/util/src/misc/CollectionUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/util/src/misc/CollectionUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/artifacts/core_jar/core.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../out/artifacts/core_jar/core.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/PROGRAMS/core.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../out/artifacts/main_jar/PROGRAMS/core.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/main.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../out/artifacts/main_jar/main.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/function/ComplexDomainFunctionWrapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/function/ComplexDomainFunctionWrapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/function/RotorStatesFunction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/function/RotorStatesFunction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/function/definition/ComplexDomainFunctionI.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/function/definition/ComplexDomainFunctionI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/function/definition/ComplexFunctionI.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/function/definition/ComplexFunctionI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/function/definition/DomainProviderI.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/function/definition/DomainProviderI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/function/internal/basic/MergedFunction$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/function/internal/basic/MergedFunction$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/function/internal/basic/MergedFunction$MergeMode.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/function/internal/basic/MergedFunction$MergeMode.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/function/internal/basic/MergedFunction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/function/internal/basic/MergedFunction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/function/internal/basic/SineSignal.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/function/internal/basic/SineSignal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/models/FunctionGraphMode.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/models/FunctionGraphMode.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/rotor/RotorState.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/rotor/RotorState.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/main/ComplexUtil$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/util/main/ComplexUtil$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/core/util/main/ComplexUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/util/main/ComplexUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/app/App$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/app/App$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/app/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/app/App.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/app/R$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/app/R$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/app/R$LoadResult.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/app/R$LoadResult.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/app/R.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/app/R.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/rotor/FunctionState$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/rotor/FunctionState$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/rotor/FunctionState$RotorCoefficient.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/rotor/FunctionState$RotorCoefficient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/rotor/FunctionState$RotorStateHeader.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/rotor/FunctionState.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/rotor/FunctionState.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/MusicPlayer$EnabledAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/MusicPlayer$EnabledAction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/MusicPlayer$PlayNextAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/MusicPlayer$PlayNextAction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/MusicPlayer$PlayPauseAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/MusicPlayer$PlayPauseAction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/MusicPlayer$PlaybackMenuAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/MusicPlayer$PlaybackMenuAction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/MusicPlayer$ResetAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/MusicPlayer$ResetAction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/MusicPlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/MusicPlayer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/action/ActionInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/action/ActionInfo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/frames/FTUi.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/frames/FTUi.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/frames/FourierUi$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/frames/FourierUi$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/frames/FourierUi.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/frames/FourierUi.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/ExternalRotorStatesLoadPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/ExternalRotorStatesLoadPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FrequencyProviderSelectorPanel$BoundFpPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FrequencyProviderSelectorPanel$BoundFpPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FrequencyProviderSelectorPanel$CenteringFpPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FrequencyProviderSelectorPanel$CenteringFpPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FrequencyProviderSelectorPanel$Entry.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FrequencyProviderSelectorPanel$Entry.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FrequencyProviderSelectorPanel$FixedStartFpPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FrequencyProviderSelectorPanel$FixedStartFpPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FrequencyProviderSelectorPanel$IndexFpPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FrequencyProviderSelectorPanel$IndexFpPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FrequencyProviderSelectorPanel$ItemPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FrequencyProviderSelectorPanel$ItemPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/FrequencyProviderSelectorPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/FrequencyProviderSelectorPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/util/Ui$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/util/Ui.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/util/Ui.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/util/async/Async.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/util/async/Async.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/util/misc/CollectionUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/util/misc/CollectionUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../res/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../res/settings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,16 +111,17 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "D:/RC/Projects/Idea/complex/PROGRAMS/core-src.zip",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

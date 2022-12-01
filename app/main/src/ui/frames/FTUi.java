@@ -244,7 +244,7 @@ public class FTUi extends BaseFrame {
         setJMenuBar(menuBar);
 
         // Rotor States Menu
-        menuRotorStates = Ui.createRotorStatesMenu(this::uia);
+        menuRotorStates = Ui.createRotorStatesMenu(this::uia, false);
         menuBar.add(menuRotorStates);
 
         // Function State menu

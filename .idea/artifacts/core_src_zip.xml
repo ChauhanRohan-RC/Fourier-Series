@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact name="core-src.zip">
+    <output-path>$PROJECT_DIR$/out/artifacts/core_src_zip</output-path>
+    <root id="root">
+      <element id="archive" name="core-src.zip">
+        <element id="module-source" name="core" />
+        <element id="module-source" name="util" />
+      </element>
+      <element id="artifact" artifact-name="core:jar" />
+    </root>
+  </artifact>
+</component>

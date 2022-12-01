@@ -181,7 +181,9 @@ public interface CollectionUtil {
     }
 
 
-
+    static double @NotNull[] toDoubleArray(@NotNull Collection<? extends Number> c) {
+        return c.stream().mapToDouble(Number::doubleValue).toArray();
+    }
 
     static boolean contentEquals(@Nullable Collection<?> one, @Nullable Collection<?> two) {
         if (one == two)
@@ -208,5 +210,7 @@ public interface CollectionUtil {
 
         return !(e1.hasNext() || e2.hasNext());
     }
+
+
 
 }

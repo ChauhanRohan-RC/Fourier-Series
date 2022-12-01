@@ -3,11 +3,14 @@ package util.main;
 import function.ComplexDomainFunctionWrapper;
 import function.definition.ComplexFunctionI;
 import function.definition.ComplexDomainFunctionI;
+import function.definition.FrequencySupportProviderI;
 import models.ComplexSum;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 
 public class ComplexUtil {
+
+    public static final String TAG = "ComplexUtil";
 
     public static final double PI = Math.PI;
     public static final double HALF_PI = PI / 2;
@@ -293,6 +296,10 @@ public class ComplexUtil {
 
     @NotNull
     public static ComplexFunctionI fourierTransformIntegrand(@NotNull ComplexFunctionI f, double frequency, boolean clockwise) {
+        if (f instanceof FrequencySupportProviderI fsp && !fsp.isFrequencySupported(frequency)) {
+            return ComplexFunctionI.ZERO;
+        }
+
         final double pre = getFourierExpTermPowerCoefficient(getDirection(clockwise), frequency);
         return t -> f.compute(t).multiply(new Complex(0,pre * t).exp());
     }
@@ -305,11 +312,11 @@ public class ComplexUtil {
 
     @NotNull
     public static ComplexDomainFunctionI fourierTransformIntegrand(@NotNull ComplexDomainFunctionI f, double frequency, boolean clockwise) {
-        final ComplexFunctionI func = fourierTransformIntegrand((ComplexFunctionI) f, frequency, clockwise);
+        final ComplexFunctionI ft = fourierTransformIntegrand((ComplexFunctionI) f, frequency, clockwise);
         return new ComplexDomainFunctionWrapper(f) {
             @Override
             public @NotNull Complex compute(double input) {
-                return func.compute(input);
+                return ft.compute(input);
             }
         };
     }
@@ -320,15 +327,18 @@ public class ComplexUtil {
     }
 
 
-    /* ................................. Fourier Series ................................... */
-
-    // Must be complimentary of coefficient direction
-    public static int getFourierSeriesRotorTipDirection() {
-        return getDirection(!FOURIER_TRANSFORM_CLOCKWISE);
-    }
-
+    /**
+     * Core method where integration happens
+     *
+     * @return fourier transform value of a function for a certain "winding" frequency
+     * */
     @NotNull
     public static Complex fourierTransform(@NotNull ComplexFunctionI f, double frequency, double a, double b, int n) {
+        // If frequency is not supported
+        if (f instanceof FrequencySupportProviderI fsp && !fsp.isFrequencySupported(frequency)) {
+            return Complex.ZERO;
+        }
+
         return simpson13(fourierTransformIntegrand(f, frequency), a, b, n > 0? n: getFourierTransformSimpson13NCurrentDefault());
     }
 
@@ -352,6 +362,13 @@ public class ComplexUtil {
         return fourierTransform(f, frequency, f.getNumericalIntegrationIntervalCount());
     }
 
+
+    /* ................................. Fourier Series ................................... */
+
+    // Must be complimentary of coefficient direction
+    public static int getFourierSeriesRotorTipDirection() {
+        return getDirection(!FOURIER_TRANSFORM_CLOCKWISE);
+    }
 
 
     /**
