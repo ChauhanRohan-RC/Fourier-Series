@@ -1,5 +1,7 @@
 package app;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.*;
 
 public class Colors {
@@ -47,7 +49,8 @@ public class Colors {
     public static final Color CENTER_COLOR_TIP = new Color(246, 246, 246, 230);
     public static final Color CENTER_COLOR_RADIUS = new Color(250, 250, 250, 230);
     public static final Color CENTER_COLOR_TIP_TO_WAVE_JOINT = new Color(115, 250, 255, 204);
-    public static final Color CENTER_COLOR_WAVE = new Color(255, 218, 77, 255);
+//    public static final Color CENTER_COLOR_WAVE = new Color(255, 218, 77, 255);
+
 
     public static Color getCircleColor(boolean graphingInCenter) {
         return graphingInCenter? CENTER_COLOR_CIRCLE: COLOR_CIRCLE;
@@ -65,7 +68,21 @@ public class Colors {
         return graphingInCenter? CENTER_COLOR_TIP_TO_WAVE_JOINT: COLOR_TIP_TO_WAVE_JOINT;
     }
 
-    public static Color getWaveColor(boolean graphingInCenter) {
-        return graphingInCenter? CENTER_COLOR_WAVE: COLOR_WAVE;
+
+    public static Color getStaticWaveColor() {
+        return COLOR_WAVE;
+    }
+
+    @NotNull
+    public static Color getDynamicWaveColor(int id) {
+        if (!Settings.getSingleton().getDynamicColorsEnabledOrDefault()) {
+            return getStaticWaveColor();
+        }
+
+        if (id < 0) {
+            id = -id;
+        }
+
+        return THEME_COLORS[id % THEME_COLORS.length];
     }
 }

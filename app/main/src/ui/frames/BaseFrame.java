@@ -150,17 +150,27 @@ public class BaseFrame extends JFrame implements Ui,
     }
 
     @Override
+    public void onAppearancePreferencesChanged() {
+
+    }
+
+    @Override
     public void onFTIntegrationIntervalCountChanged(int fourierTransformSimpson13NDefault) {
 
     }
 
     @Override
-    public void onLogPrefsChanged() {
+    public void onConfigPreferencesChanged() {
 
     }
 
     @Override
-    public void onSoundPrefChanged() {
+    public void onLogPreferencesChanged() {
+
+    }
+
+    @Override
+    public void onSoundPreferencesChanged() {
 
     }
 

@@ -1,5 +1,6 @@
 package player;
 
+import async.Async;
 import misc.Log;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -293,27 +294,29 @@ public abstract class AbstractLinePlayer implements AudioPlayer, LineListener {
 //    }
 
     @Override
-    public void play() {
+    public synchronized void play() {
         if (isPlaying())
             return;
 
-        if (!considerOpen())
-            return;
+        Async.execute(() -> {
+            if (!considerOpen())
+                return;
 
-        final DataLine line = getLine();
-        if (line != null) {
-            try {
-                if (isSeekSupported()) {
-                    final int lastFramePos = getLastPausedFramePosition();
-                    setFramePosition(lastFramePos != -1? lastFramePos: 0);
+            final DataLine line = getLine();
+            if (line != null) {
+                try {
+                    if (isSeekSupported()) {
+                        final int lastFramePos = getLastPausedFramePosition();
+                        setFramePosition(lastFramePos != -1? lastFramePos: 0);
+                    }
+
+                    line.start();
+                    invalidateLastPausedFramePosition();
+                } catch (Throwable t) {
+                    onError(new PlayerException("failed to play audio", t));
                 }
-
-                line.start();
-                invalidateLastPausedFramePosition();
-            } catch (Throwable t) {
-                onError(new PlayerException("failed to play audio", t));
             }
-        }
+        });
     }
 
     @Override

@@ -78,6 +78,8 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
     }
 
 
+    int getId();
+
     @NotNull
     FunctionMeta getFunctionMeta();
 
@@ -501,6 +503,11 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
                 return 0;
             }
         };
+
+        @Override
+        public int getId() {
+            return 0;
+        }
 
         @Override
         public @NotNull FunctionMeta getFunctionMeta() {

@@ -1,5 +1,6 @@
 package app;
 
+import action.BaseAction;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.google.gson.*;
 import com.google.gson.annotations.Expose;
@@ -36,11 +37,15 @@ public class Settings {
     public interface Listener {
         void onLookAndFeelChanged(@NotNull String className);
 
+        void onAppearancePreferencesChanged();
+
         void onFTIntegrationIntervalCountChanged(int fourierTransformSimpson13NDefault);
 
-        void onLogPrefsChanged();
+        void onConfigPreferencesChanged();
 
-        void onSoundPrefChanged();
+        void onLogPreferencesChanged();
+
+        void onSoundPreferencesChanged();
     }
 
 
@@ -49,6 +54,7 @@ public class Settings {
     // Appearance
     private static final String PREFS_APPEARANCE = "appearance";
     private static final String KEY_LOOK_AND_FEEL_CLASS_NAME = "theme";
+    private static final String KEY_DYNAMIC_COLORS = "dynamic_colors";
 
     // Config
     private static final String PREFS_CONFIG = "config";
@@ -68,6 +74,7 @@ public class Settings {
 
     // Default Appearance
     public static final String DEFAULT_LOOK_AND_FEEL_CLASSNAME = FlatDarculaLaf.class.getName();
+    public static final boolean DEFAULT_DYNAMIC_COLORS_ENABLED = true;
 
     // Default Config
     public static final int DEFAULT_FT_INTEGRATION_INTERVAL_COUNT = ComplexUtil.FOURIER_TRANSFORM_SIMPSON_13_N_DEFAULT;
@@ -103,6 +110,10 @@ public class Settings {
     @NotNull
     private static Settings createDefault() {
         return new Settings();
+    }
+
+    public static void init() {
+        getSingleton();
     }
 
     /**
@@ -210,6 +221,10 @@ public class Settings {
     @SerializedName(KEY_LOOK_AND_FEEL_CLASS_NAME)
     private volatile String mLookAndFeelClassName;
 
+    @Nullable
+    @SerializedName(KEY_DYNAMIC_COLORS)
+    private volatile Boolean mDynamicColorsEnabled;
+
     /* Configurations */
     @SerializedName(KEY_FT_INTEGRATION_INTERVALS)
     private volatile int mFtIntegrationIntervalCount = -1;
@@ -235,6 +250,21 @@ public class Settings {
     @SerializedName(KEY_MUSIC_ENABLED)
     @Nullable
     private volatile Boolean mMusicEnabled;
+
+    /* Actions */
+
+    @Nullable
+    private volatile BaseAction mDynamicColorsAction;
+
+    @Nullable
+    private BaseAction mResetAppearanceAction;
+    @Nullable
+    private BaseAction mResetConfigAction;
+    @Nullable
+    private BaseAction mResetSoundAction;
+    @Nullable
+    private BaseAction mResetAllAction;
+
 
     // DEFAULT
     private Settings() {
@@ -273,6 +303,7 @@ public class Settings {
     public void applySettings() {
         // Appearance
         setLookAndFeel(getLookAndFeelOrDefault());
+        setDynamicColorsEnabled(getDynamicColorsEnabledOrDefault());
 
         // Config
         setFTIntegrationIntervalCount(getFTIntegrationIntervalCountOrDefault());
@@ -289,6 +320,7 @@ public class Settings {
 
     public void resetAppearance() {
         setLookAndFeel(DEFAULT_LOOK_AND_FEEL_CLASSNAME);
+        setDynamicColorsEnabled(DEFAULT_DYNAMIC_COLORS_ENABLED);
     }
 
     public void resetConfig() {
@@ -307,11 +339,17 @@ public class Settings {
     }
 
 
+    protected void onReset() {
+        syncActions();
+    }
+
     public void resetAll() {
         resetAppearance();
         resetConfig();
         resetSound();
         resetLogs();
+
+        onReset();
     }
 
 
@@ -366,6 +404,44 @@ public class Settings {
 
 
 
+    @Nullable
+    public Boolean getDynamicColorsEnabled() {
+        return mDynamicColorsEnabled;
+    }
+
+    public boolean getDynamicColorsEnabled(boolean defaultValue) {
+        final Boolean en = mDynamicColorsEnabled;
+        if (en != null)
+            return en;
+        return defaultValue;
+    }
+
+    public boolean getDynamicColorsEnabledOrDefault() {
+        return getDynamicColorsEnabled(DEFAULT_DYNAMIC_COLORS_ENABLED);
+    }
+
+
+    protected void onDynamicColorsEnabledChanged(boolean dynamicColorsEnabled) {
+        syncActions();
+
+        mListeners.dispatchOnMainThread(Listener::onAppearancePreferencesChanged);
+    }
+
+    public void setDynamicColorsEnabled(final @Nullable Boolean dynamicColorsEnabled) {
+        final boolean toSet = dynamicColorsEnabled != null? dynamicColorsEnabled: DEFAULT_DYNAMIC_COLORS_ENABLED;
+        final Boolean val = mDynamicColorsEnabled;
+        if (val != null && val == toSet)
+            return;
+
+        mDynamicColorsEnabled = toSet;
+        onDynamicColorsEnabledChanged(toSet);
+    }
+
+    public void toggleDynamicColorsEnabled() {
+        setDynamicColorsEnabled(!getDynamicColorsEnabledOrDefault());
+    }
+
+
     /* ................................. Config .................................... */
 
     protected void onFTIntegrationIntervalCountChanged(int intervalCount) {
@@ -415,7 +491,7 @@ public class Settings {
     /* ........................ LOGS ........................... */
 
     protected void onLogPrefsChanged() {
-        mListeners.dispatchOnMainThread(Listener::onLogPrefsChanged);
+        mListeners.dispatchOnMainThread(Listener::onLogPreferencesChanged);
     }
 
     @Nullable
@@ -496,7 +572,7 @@ public class Settings {
     /* .................................. Sounds ...................................... */
 
     protected void onSoundPrefsChanged() {
-        mListeners.dispatchOnMainThread(Listener::onSoundPrefChanged);
+        mListeners.dispatchOnMainThread(Listener::onSoundPreferencesChanged);
     }
 
     @Nullable
@@ -545,6 +621,101 @@ public class Settings {
         mMusicEnabled = MusicPlayer.getSingleton().isEnabled();
         if (changed) {
             onSoundPrefsChanged();
+        }
+    }
+
+
+    /* Actions */
+
+    @NotNull
+    public Action getToggleDynamicColorsAction() {
+        BaseAction action = mDynamicColorsAction;
+        if (action == null) {
+            synchronized (this) {
+                action = mDynamicColorsAction;
+                if (action == null) {
+                    action = new DynamicColorsAction();
+                    mDynamicColorsAction = action;
+                }
+            }
+        }
+
+        return action;
+    }
+
+    @NotNull
+    public Action getResetAppearanceAction() {
+        BaseAction action = mResetAppearanceAction;
+        if (action == null) {
+            synchronized (this) {
+                action = mResetAppearanceAction;
+                if (action == null) {
+                    action = new ResetAppearanceAction();
+                    mResetAppearanceAction = action;
+                }
+            }
+        }
+
+        return action;
+    }
+
+    @NotNull
+    public Action getResetConfigAction() {
+        BaseAction action = mResetConfigAction;
+        if (action == null) {
+            synchronized (this) {
+                action = mResetConfigAction;
+                if (action == null) {
+                    action = new ResetConfigAction();
+                    mResetConfigAction = action;
+                }
+            }
+        }
+
+        return action;
+    }
+
+    @NotNull
+    public Action getResetSoundAction() {
+        BaseAction action = mResetSoundAction;
+        if (action == null) {
+            synchronized (this) {
+                action = mResetSoundAction;
+                if (action == null) {
+                    action = new ResetSoundAction();
+                    mResetSoundAction = action;
+                }
+            }
+        }
+
+        return action;
+    }
+
+    @NotNull
+    public Action getResetLogsAction() {
+        return Log.getResetAction();
+    }
+
+    @NotNull
+    public Action getResetAllAction() {
+        BaseAction action = mResetAllAction;
+        if (action == null) {
+            synchronized (this) {
+                action = mResetAllAction;
+                if (action == null) {
+                    action = new ResetAllAction();
+                    mResetAllAction = action;
+                }
+            }
+        }
+
+        return action;
+    }
+
+    protected void syncActions() {
+        final BaseAction dca = mDynamicColorsAction;
+        if (dca != null) {
+            dca.setSelected(getDynamicColorsEnabledOrDefault());
         }
     }
 
@@ -627,6 +798,7 @@ public class Settings {
             // Appearance
             final JsonObject appearance = new JsonObject();
             appearance.addProperty(KEY_LOOK_AND_FEEL_CLASS_NAME, getCurrentLookAndFeelClassName());
+            appearance.addProperty(KEY_DYNAMIC_COLORS, src.getDynamicColorsEnabledOrDefault());
 
             // Config
             final JsonObject config = new JsonObject();
@@ -664,6 +836,11 @@ public class Settings {
                 final JsonPrimitive laf = appearance.getAsJsonPrimitive(KEY_LOOK_AND_FEEL_CLASS_NAME);
                 if (laf != null) {
                     settings.mLookAndFeelClassName = laf.getAsString();
+                }
+
+                final JsonPrimitive dynamicColors = appearance.getAsJsonPrimitive(KEY_DYNAMIC_COLORS);
+                if (dynamicColors != null) {
+                    settings.mDynamicColorsEnabled = dynamicColors.getAsBoolean();
                 }
             }
 
@@ -717,30 +894,74 @@ public class Settings {
 
     /* Actions */
 
-    private static class ResetAllAction extends AbstractAction {
+    private class DynamicColorsAction extends BaseAction {
 
-        public ResetAllAction() {
-            super("Reset Settings");
-            putValue(SHORT_DESCRIPTION, "Reset all preferences");
+        private DynamicColorsAction() {
+            setName("Dynamic Colors");
+            setShortDescription("Toggle dynamic colors in function drawing");
+            setSelected(getDynamicColorsEnabledOrDefault());
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            getSingleton().resetAll();
+            toggleDynamicColorsEnabled();
         }
     }
 
-    @Nullable
-    private static Action sResetAllAction;
 
-    @NotNull
-    public static Action getResetAllAction() {
-        Action action = sResetAllAction;
-        if (action == null) {
-            action = new ResetAllAction();
-            sResetAllAction = action;
+    private class ResetAppearanceAction extends BaseAction {
+
+        public ResetAppearanceAction() {
+            setName("Reset Appearance");
+            setShortDescription("Reset appearance preferences");
         }
 
-        return action;
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            resetAppearance();
+        }
     }
+
+
+    private class ResetConfigAction extends BaseAction {
+
+        public ResetConfigAction() {
+            setName("Reset Configuration");
+            setShortDescription("Reset configuration preferences");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            resetConfig();
+        }
+    }
+
+    private class ResetSoundAction extends BaseAction {
+
+        public ResetSoundAction() {
+            setName("Reset Sound Settings");
+            setShortDescription("Reset sound and music preferences");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            resetSound();
+        }
+    }
+
+
+
+    private class ResetAllAction extends BaseAction {
+
+        public ResetAllAction() {
+            setName("Reset Settings");
+            setShortDescription("Reset all preferences");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            resetAll();
+        }
+    }
+
 }

@@ -45,7 +45,7 @@ public class ExternalJava {
     @NotNull
     public static String toClassName(@NotNull String relSrcPath, boolean removeExt) {
         if (removeExt) {
-            relSrcPath = FileUtil.splitExtFromPath(relSrcPath, true).first;
+            relSrcPath = FileUtil.splitExtensionFromPath(relSrcPath, true).first;
         }
 
         return relSrcPath.replace(File.separatorChar, '.');

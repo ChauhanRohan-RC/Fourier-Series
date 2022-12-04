@@ -1,5 +1,6 @@
 package models;
 
+import misc.FileUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,15 +20,11 @@ public class OpenFileFilter extends FileFilter {
     private final String description;
     private boolean mDirsAllowed = DEFAULT_ALLOW_DIRS;
 
-    public OpenFileFilter(@NotNull String extension, @Nullable String description) {
-        if (extension == null || extension.isEmpty()) {
+    public OpenFileFilter(String extension, @Nullable String description) {
+        if (extension == null)
             extension = "";     // allow all
-        } else if (extension.charAt(0) != '.') {
-            extension = '.' + extension;
-        }
 
-        this.extension = extension.toLowerCase();
-
+        this.extension = FileUtil.parseExtension(extension, true).toLowerCase();
         if ((description == null || description.isEmpty()) && !this.extension.isEmpty()) {
             description = "*" + this.extension;
         } else if (!this.extension.isEmpty()) {

@@ -14,20 +14,10 @@ import misc.ExternalJava;
 import misc.FileUtil;
 import misc.Format;
 import misc.Log;
-import models.DirStat;
 import models.OpenFileFilter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.Unmodifiable;
-import provider.FunctionMeta;
-import provider.FunctionProviderI;
-import provider.FunctionType;
-import provider.PathFunctionProvider;
 import util.*;
-import async.Async;
-import async.CancellationProvider;
-import async.Canceller;
-import async.Consumer;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -35,18 +25,13 @@ import javax.swing.plaf.FontUIResource;
 import javax.tools.JavaFileObject;
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.FileVisitResult;
-import java.nio.file.FileVisitor;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import java.util.*;
-import java.util.stream.Stream;
 
 public class R {
 
@@ -101,7 +86,7 @@ public class R {
 
     }
 
-    public static final String COMMENT_TOKEN = "#";
+    public static final String LINE_COMMENT_TOKEN = "#";
     
     public static final String DISPLAY_NAME_FUNCTION_NOOP = "--select--";
     public static final String DISPLAY_NAME_FUNCTION_UNKNOWN = "Unknown Function";
@@ -117,11 +102,15 @@ public class R {
     public static final String EXT_ROTOR_STATES_CSV_FILE_DESCRIPTION = "Rotor States";
     public static final FileFilter EXT_ROTOR_STATES_CSV_FILE_FILTER = new OpenFileFilter(EXT_ROTOR_STATES_CSV_FILE_EXTENSION, EXT_ROTOR_STATES_CSV_FILE_DESCRIPTION);
 
+    public static final String SVG_FILE_EXTENSION = ".svg";
+    public static final String SVG_FILE_DESCRIPTION = "Scalable Vector Graphics";
+    public static final FileFilter SVG_FILE_FILTER = new OpenFileFilter(SVG_FILE_EXTENSION, SVG_FILE_DESCRIPTION);
+
     public static final String PATH_DATA_FILE_EXTENSION = ".pd";
     public static final String PATH_DATA_FILE_DESCRIPTION = "Path Data";
     public static final FileFilter PATH_DATA_FILE_FILTER = new OpenFileFilter(PATH_DATA_FILE_EXTENSION, PATH_DATA_FILE_DESCRIPTION);
 
-    public static final boolean DEFAULT_VALIDATE_EXTERNAL_FILES = true;
+//    public static final boolean DEFAULT_VALIDATE_EXTERNAL_FILES = true;
     public static final Charset ENCODING = StandardCharsets.UTF_8;
 
     /* Dir Structure */
@@ -424,28 +413,7 @@ public class R {
     }
 
 
-
-    /* Rotor States DUmp */
-
-    @Nullable
-    public static Path createRotorStatesDumpFile(@Nullable String funcName) {
-        if (!ensureFunctionStateSaveDir())
-            return null;
-
-        if (Format.isEmpty(funcName)) {
-            funcName = DISPLAY_NAME_FUNCTION_UNKNOWN;
-        }
-
-        return FileUtil.getNonExistingFile(DIR_FUNCTION_STATE_SAVES.resolve(funcName + FUNCTION_STATE_SAVE_FILE_EXTENSION));
-    }
-
-
     /* .............................. External Functions ..................................... */
-
-    /**
-     * Delimits multiple shapes path data in a single file
-     * */
-    public static final String PATH_DATA_SHAPES_DELIMITER = "[|]";
 
     public static final String DISPLAY_NAME_TOKEN_EXT_PATH = "ext_path";
     public static final String DISPLAY_NAME_TOKEN_EXT_PROGRAM = "ext_program";
@@ -454,8 +422,10 @@ public class R {
 
     @NotNull
     public static String displayNameWithToken(@NotNull String fullName, @NotNull String token) {
-        final String name = FileUtil.getName(fullName);
-        if (name.contains(token)) {
+        String name = FileUtil.getName(fullName);
+        if (name.isEmpty()) {
+            name = DISPLAY_NAME_FUNCTION_UNKNOWN;
+        } else if (name.contains(token)) {
             return name;
         }
 
@@ -489,75 +459,10 @@ public class R {
     }
 
 
-    public static boolean isValidPathData(@NotNull String pathData) {
-        return !pathData.isBlank();
-    }
+    //    public static boolean isValidRotorStatesFile(@NotNull Path path) {
+//        return path.toString().endsWith(FUNCTION_STATE_SAVE_FILE_EXTENSION);
+//    }
 
-    public static boolean isValidPathDataFile(@NotNull Path path) {
-        return path.toString().endsWith(PATH_DATA_FILE_EXTENSION);
-    }
-
-    public static boolean isValidRotorStatesFile(@NotNull Path path) {
-        return path.toString().endsWith(FUNCTION_STATE_SAVE_FILE_EXTENSION);
-    }
-
-    @Nullable
-    public static FunctionProviderI loadExternalPathFunction(@NotNull String functionName, @NotNull String pathData) {
-        if (Format.isEmpty(pathData))
-            return null;
-
-        pathData = Format.removeAllLinedComments(pathData, COMMENT_TOKEN, true);
-        if (Format.isEmpty(pathData))
-            return null;
-
-        final String[] paths = pathData.split(PATH_DATA_SHAPES_DELIMITER);     // splits shapes
-        final String[] parsed = Stream.of(paths).filter(R::isValidPathData).toArray(String[]::new);
-
-        if (parsed.length > 0) {
-            return new PathFunctionProvider(new FunctionMeta(FunctionType.EXTERNAL_PATH, functionName), parsed);
-        }
-
-        return null;
-    }
-
-    @Nullable
-    public static FunctionProviderI loadExternalPathFunction(@NotNull Path file, boolean validateFile) {
-        try {
-            if (validateFile && !isValidPathDataFile(file)) {
-                throw new IllegalArgumentException("Invalid file type");
-            }
-
-            final String pathData = Files.readString(file, StandardCharsets.UTF_8);
-            return loadExternalPathFunction(createExternalPathFunctionDisplayName(file.getFileName().toString()), pathData);
-        } catch (Throwable t) {
-            Log.e(TAG, "Exception while loading external function from file <" + file + ">", t);
-        }
-
-        return null;
-    }
-
-
-    @Nullable
-    public static FunctionProviderI[] loadExternalPathFunctions(Path[] files, boolean validateFiles, @Nullable CancellationProvider c) {
-        if (files == null || files.length == 0)
-            return null;
-
-        final FunctionProviderI[] providers = new FunctionProviderI[files.length];
-        for (int i=0; i < files.length; i++) {
-            if (c != null && c.isCancelled())
-                break;
-            providers[i] = loadExternalPathFunction(files[0], validateFiles);
-        }
-
-        return providers;
-    }
-
-    @NotNull
-    public static Canceller loadExternalPathFunctionsAsync(Path[] files, boolean validateFiles, @NotNull Consumer<FunctionProviderI[]> callback) {
-        final Async.CExecutor exe = new Async.CExecutor();
-        exe.execute(c -> loadExternalPathFunctions(files, validateFiles, c), callback);
-        return exe;
-    }
 
     @NotNull
     public static ExternalProgramFunction compileAndLoadExternalProgramFunction(@NotNull ExternalJava.Location location) throws
@@ -576,84 +481,6 @@ public class R {
 
         final ComplexDomainFunctionI func = (ComplexDomainFunctionI) clazz.getDeclaredConstructor().newInstance();
         return new ExternalProgramFunction(func, location);
-    }
-
-
-    public static class LoadResult extends DirStat {
-
-        @NotNull
-        private final List<FunctionProviderI> providers = new ArrayList<>();
-
-        @NotNull
-        public List<FunctionProviderI> getFunctionProviders() {
-            return providers;
-        }
-
-        private void addFunctionProvider(@NotNull FunctionProviderI provider) {
-            providers.add(provider);
-        }
-    }
-
-    @Nullable
-    @Unmodifiable
-    public static LoadResult loadExternalPathFunctions(@NotNull Path dir, boolean validateFiles, @Nullable CancellationProvider c) {
-        if (!Files.isDirectory(dir))
-            return null;
-
-        final LoadResult result = new LoadResult();
-        final FileVisitor<Path> visitor = new FileVisitor<>() {
-
-            private FileVisitResult result() {
-                return (c != null && c.isCancelled())? FileVisitResult.TERMINATE: FileVisitResult.CONTINUE;
-            }
-
-            @Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-                result.addDir();
-                return result();
-            }
-
-            @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                boolean success = false;
-                if (!validateFiles || isValidPathDataFile(file)) {
-                    final FunctionProviderI func = loadExternalPathFunction(file, false);
-                    if (func != null) {
-                        result.addFunctionProvider(func);
-                        success = true;
-                    }
-                }
-
-                result.addFile(success, attrs.size());
-                return result();
-            }
-
-            @Override
-            public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
-                return result();
-            }
-
-            @Override
-            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-                return result();
-            }
-        };
-
-        try {
-            Files.walkFileTree(dir, visitor);
-        } catch (Throwable t) {
-            Log.e(TAG, "Exception while loading external functions from dir <" + dir + ">", t);
-        }
-
-        return result;
-    }
-
-
-    @NotNull
-    public static Canceller loadExternalPathFunctionsAsync(@NotNull Path dir, boolean validateFiles, @NotNull Consumer<LoadResult> callback) {
-        final Async.CExecutor exe = new Async.CExecutor();
-        exe.execute((CancellationProvider c) -> loadExternalPathFunctions(dir, validateFiles, c), callback);
-        return exe;
     }
 
 

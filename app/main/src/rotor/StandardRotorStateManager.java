@@ -23,11 +23,19 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
 
     public static final String TAG = "StandardRotorStateManager";
 
+    private static int sIdGen = 10;
+
+    private static synchronized int nextId() {
+        return sIdGen++;
+    }
+
     public static final int DEFAULT_INITIAL_ROTOR_COUNT = 200;
 
     public static final int MAX_ROTORS_LOAD_PER_THREAD = 80;
     public static final boolean SYNCHRONISE_ROTORS_BATCH_LOAD = false;
 
+
+    private final int id;
     @NotNull
     private final FunctionMeta functionMeta;
     @NotNull
@@ -60,6 +68,7 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
 
     public StandardRotorStateManager(@NotNull ComplexDomainFunctionI f, @NotNull FunctionMeta functionMeta, int initialRotorCount) {
         super(f);
+        this.id = nextId();
         this.functionMeta = functionMeta;
 
         if (initialRotorCount < 0) {
@@ -94,6 +103,11 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
 
     public StandardRotorStateManager(@NotNull ComplexDomainFunctionI f, @NotNull FunctionMeta functionMeta) {
         this(f, functionMeta, -1);
+    }
+
+    @Override
+    public int getId() {
+        return id;
     }
 
     @Override
@@ -593,17 +607,27 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
     }
 
     @Override
+    public void onAppearancePreferencesChanged() {
+
+    }
+
+    @Override
     public void onFTIntegrationIntervalCountChanged(int fourierTransformSimpson13NDefault) {
         clearAndReloadAsync();
     }
 
     @Override
-    public void onLogPrefsChanged() {
+    public void onConfigPreferencesChanged() {
 
     }
 
     @Override
-    public void onSoundPrefChanged() {
+    public void onLogPreferencesChanged() {
+
+    }
+
+    @Override
+    public void onSoundPreferencesChanged() {
 
     }
 }

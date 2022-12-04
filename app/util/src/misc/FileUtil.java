@@ -43,7 +43,7 @@ public class FileUtil {
     }
 
 
-    public static @NotNull String getExtFromName(@NotNull String fullName, boolean includeDot) {
+    public static @NotNull String getExtensionFromName(@NotNull String fullName, boolean includeDot) {
         int index = fullName.lastIndexOf(".");
         return (index < 1) ? "": includeDot ? fullName.substring(index): fullName.substring(index + 1);
     }
@@ -56,16 +56,16 @@ public class FileUtil {
     /**
      * Splits Full name to Name and Extension
      *
-     * example  1. "log_file.txt" -> ( "log_file", ".txt" ) (if includeDot else "txt".
+     * example  1. "log_file.txt" -> ( "log_file", ".txt" ) (if includeDot else "txt"
      *          2. "log_dir" -> ( "log_dir", "" )
      * */
-    public static @NotNull Pair<String, String> splitNameExt(@NotNull String fullName, boolean includeDot) {
+    public static @NotNull Pair<String, String> splitNameExtension(@NotNull String fullName, boolean includeDot) {
         final int index = fullName.lastIndexOf(".");
         return (index < 1) ? new Pair<>(fullName, ""): new Pair<>(fullName.substring(0, index), includeDot? fullName.substring(index): fullName.substring(index + 1));
     }
 
-    public static @NotNull String getExtFromPath(@NotNull String path, boolean includeDot) {
-        return getExtFromName(getFullName(path), includeDot);
+    public static @NotNull String getExtensionFromPath(@NotNull String path, boolean includeDot) {
+        return getExtensionFromName(getFullName(path), includeDot);
     }
 
     /**
@@ -74,7 +74,7 @@ public class FileUtil {
      * example  1. "/storage/emulated/0/log_file.txt" -> ( "/storage/emulated/0/log_file", ".txt" ) (if includeDot else "txt".
      *          2. "/storage/emulated/0/log_dir" -> ( "/storage/emulated/0/log_dir", "" )
      * */
-    public static @NotNull Pair<String, String> splitExtFromPath(@NotNull String path, boolean includeDot) {
+    public static @NotNull Pair<String, String> splitExtensionFromPath(@NotNull String path, boolean includeDot) {
         final int index = path.lastIndexOf(File.separatorChar);
 
         final String parent, fullName;
@@ -89,7 +89,7 @@ public class FileUtil {
             fullName = path.substring(index + 1);
         }
 
-        final Pair<String, String> nameExt = splitNameExt(fullName, includeDot);
+        final Pair<String, String> nameExt = splitNameExtension(fullName, includeDot);
         return new Pair<>(parent + nameExt.first, nameExt.second);
     }
 
@@ -112,7 +112,7 @@ public class FileUtil {
         if (!Files.exists(path))
             return new Pair<>(0, path);
 
-        final Pair<String, String> pathExt = splitExtFromPath(path.toString(), true);
+        final Pair<String, String> pathExt = splitExtensionFromPath(path.toString(), true);
         Path temp;
         int num = 1, index, last;
 
@@ -160,23 +160,65 @@ public class FileUtil {
     }
 
     @NotNull
-    public static Path ensureExtension(@NotNull Path path, @NotNull String extWithDot) {
-        if (path.toString().endsWith(extWithDot)) {
-            return path;
+    public static String parseExtension(@NotNull String ext, boolean withDot) {
+        if (Format.notEmpty(ext)) {
+            if (withDot) {
+                if (!(ext.charAt(0) == '.')) {
+                    ext = '.' + ext;
+                }
+            } else {
+                if (ext.charAt(0) == '.') {
+                    ext = ext.substring(1);
+                }
+            }
         }
 
-        return Path.of(path + extWithDot);
+        return ext;
+    }
+
+    public static boolean hasExtension(@NotNull String path, @NotNull String extension) {
+        return path.endsWith(parseExtension(extension, true));
     }
 
     @NotNull
-    public static File ensureExtension(@NotNull File file, @NotNull String extWithDot) {
+    public static String ensureExtension(@NotNull String path, @NotNull String extension) {
+        if (hasExtension(path, extension)) {
+            return path;
+        }
+
+        return path + parseExtension(extension, true);
+    }
+
+    @NotNull
+    public static String changeExtension(@NotNull String path, @NotNull String extension) {
+        if (hasExtension(path, extension)) {
+            return path;
+        }
+
+        return splitExtensionFromPath(path, true).first + parseExtension(extension, true);
+    }
+
+
+    @NotNull
+    public static Path ensureExtension(@NotNull Path path, @NotNull String extension) {
+        if (hasExtension(path.toString(), extension)) {
+            return path;
+        }
+
+        return Path.of(path + parseExtension(extension, true));
+    }
+
+    @NotNull
+    public static File ensureExtension(@NotNull File file, @NotNull String extension) {
         final String path = file.getAbsolutePath();
-        if (path.endsWith(extWithDot)) {
+        if (hasExtension(path, extension)) {
             return file;
         }
 
-        return new File(path + extWithDot);
+        return new File(path + parseExtension(extension, true));
     }
+
+
 
     @NotNull
     public static List<Path> listDir(@NotNull Path dir, @Nullable Predicate<? super Path> filter) {

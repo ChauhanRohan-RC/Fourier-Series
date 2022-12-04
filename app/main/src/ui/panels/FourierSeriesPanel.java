@@ -49,7 +49,7 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
 
     public static final float ROTORS_ZOOM_SCALE = 0.48f;
     public static final float ROTORS_ZOOM_SCALE_CENTER = 0.75f;
-    public static final float ROTORS_ZOOM_SCALE_CENTER_AUTO_TRACK = 5.5f;
+    public static final float ROTORS_ZOOM_SCALE_CENTER_AUTO_TRACK = 10f;
 
     public static float getRotorZoomScale(boolean graphingInCenter, boolean autoTrack) {
         return graphingInCenter? autoTrack? ROTORS_ZOOM_SCALE_CENTER_AUTO_TRACK: ROTORS_ZOOM_SCALE_CENTER: ROTORS_ZOOM_SCALE;
@@ -83,18 +83,81 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
 
     /* .....................................  Stroke  ................................. */
 
-    public static final Stroke STROKE_WAVE = new BasicStroke(0.95f);
-    public static final Stroke STROKE_WAVE_CENTER = new BasicStroke(1f);
-    public static final Stroke STROKE_WAVE_CENTER_AUTO_TRACK = new BasicStroke(3.6f);
+//    public static final Stroke STROKE_WAVE = new BasicStroke(0.95f);
+//    public static final Stroke STROKE_WAVE_CENTER = new BasicStroke(1f);
+//    public static final Stroke STROKE_WAVE_CENTER_AUTO_TRACK = new BasicStroke(3.6f);
+//
+//    public static final Stroke STROKE_ROTOR_CIRCLE = new BasicStroke(0.58f);
+//    public static final Stroke STROKE_ROTOR_RADIUS = new BasicStroke(0.6f);
+//    public static final Stroke STROKE_ROTOR_TO_WAVE_JOINT = new BasicStroke(0.45f);
 
-    public static final Stroke STROKE_ROTOR_CIRCLE = new BasicStroke(0.58f);
-    public static final Stroke STROKE_ROTOR_RADIUS = new BasicStroke(0.6f);
-    public static final Stroke STROKE_ROTOR_TO_WAVE_JOINT = new BasicStroke(0.45f);
 
-    @NotNull
-    public static Stroke getWaveStroke(boolean graphingInCenter, boolean autoTrack) {
-        return graphingInCenter? autoTrack? STROKE_WAVE_CENTER_AUTO_TRACK: STROKE_WAVE_CENTER: STROKE_WAVE;
+    public static final Stroke STROKE_WAVE_IN_WAVE = new BasicStroke(0.75f);
+    public static final Stroke STROKE_WAVE_CENTER = new BasicStroke(0.75f);
+    public static final Stroke STROKE_WAVE_CENTER_AUTO_TRACK = new BasicStroke(1f);
+
+    public static final Stroke STROKE_ROTOR_CIRCLE_WAVE = new BasicStroke(0.58f);
+    public static final Stroke STROKE_ROTOR_CIRCLE_CENTER = new BasicStroke(0.37f);
+    public static final Stroke STROKE_ROTOR_CIRCLE_CENTER_AUTO_TRACK = new BasicStroke(0.3f);
+
+    public static final Stroke STROKE_ROTOR_RADIUS_WAVE = new BasicStroke(0.58f);
+    public static final Stroke STROKE_ROTOR_RADIUS_CENTER = new BasicStroke(0.4f);
+    public static final Stroke STROKE_ROTOR_RADIUS_CENTER_AUTO_TRACK = new BasicStroke(0.58f);
+
+    public static final Stroke STROKE_ROTOR_TO_WAVE_JOINT_WAVE = new BasicStroke(0.45f);
+    public static final Stroke STROKE_ROTOR_TO_WAVE_JOINT_CENTER = new BasicStroke(0.45f);
+    public static final Stroke STROKE_ROTOR_TO_WAVE_JOINT_CENTER_AUTO_TRACK = new BasicStroke(0.45f);
+
+    public record Strokes(@NotNull Stroke wave,
+                          @NotNull Stroke rotorCircle,
+                          @NotNull Stroke rotorRadius,
+                          @NotNull Stroke rotorToWaveJoint) {
+
+        @NotNull
+        public static Strokes get(boolean graphingInCenter, boolean autoTrack) {
+            if (graphingInCenter) {
+                if (autoTrack) {
+                    return new Strokes(STROKE_WAVE_CENTER_AUTO_TRACK,
+                            STROKE_ROTOR_CIRCLE_CENTER_AUTO_TRACK,
+                            STROKE_ROTOR_RADIUS_CENTER_AUTO_TRACK,
+                            STROKE_ROTOR_TO_WAVE_JOINT_CENTER_AUTO_TRACK);
+                }
+
+                return new Strokes(STROKE_WAVE_CENTER,
+                        STROKE_ROTOR_CIRCLE_CENTER,
+                        STROKE_ROTOR_RADIUS_CENTER,
+                        STROKE_ROTOR_TO_WAVE_JOINT_CENTER);
+            }
+
+            return new Strokes(STROKE_WAVE_IN_WAVE,
+                    STROKE_ROTOR_CIRCLE_WAVE,
+                    STROKE_ROTOR_RADIUS_WAVE,
+                    STROKE_ROTOR_TO_WAVE_JOINT_WAVE);
+        }
     }
+
+//    @NotNull
+//    public static Stroke getWaveStroke(boolean graphingInCenter, boolean autoTrack) {
+//        return graphingInCenter? autoTrack? STROKE_WAVE_CENTER_AUTO_TRACK: STROKE_WAVE_CENTER: STROKE_WAVE;
+//    }
+//
+//    @NotNull
+//    public static Stroke getRotorCircleStroke(boolean graphingInCenter, boolean autoTrack) {
+//        return graphingInCenter? autoTrack? STROKE_ROTOR_CIRCLE_CENTER_AUTO_TRACK: STROKE_ROTOR_CIRCLE_CENTER: STROKE_ROTOR_CIRCLE_WAVE;
+//    }
+//
+//    @NotNull
+//    public static Stroke getRotorRadiusStroke(boolean graphingInCenter, boolean autoTrack) {
+//        return graphingInCenter? autoTrack? STROKE_ROTOR_RADIUS_CENTER_AUTO_TRACK: STROKE_ROTOR_RADIUS_CENTER: STROKE_ROTOR_RADIUS_WAVE;
+//    }
+//
+//    @NotNull
+//    public static Stroke getRotorToWaveJointStroke(boolean graphingInCenter, boolean autoTrack) {
+//        return graphingInCenter? autoTrack? STROKE_ROTOR_TO_WAVE_JOINT_CENTER_AUTO_TRACK: STROKE_ROTOR_TO_WAVE_JOINT_CENTER: STROKE_ROTOR_TO_WAVE_JOINT_WAVE;
+//    }
+
+
+
 
 
     public interface PanelListener {
@@ -842,6 +905,7 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
         final double baseTipSize = getBaseRotorTipSize(graphingInCenter, baseRadius);
         final double waveOffsetX = getWaveOffsetX(width, rotorsFrameW);
 
+        final Strokes strokes = Strokes.get(graphingInCenter, autoTrack);
 
 
         /* ...........................  HUD .....................................*/
@@ -894,7 +958,7 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
                 final double centerY = transformY(prevY);
                 final double radius = state.getMagnitude(baseRadius);
 
-                g.setStroke(STROKE_ROTOR_CIRCLE);
+                g.setStroke(strokes.rotorCircle);
                 g.setColor(Colors.getCircleColor(graphingInCenter));
                 g.draw(new Ellipse2D.Double(centerX - radius, centerY - radius,radius * 2, radius * 2));
 
@@ -913,7 +977,7 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
                 g.setTransform(prev);       // restore
 
                 // Radius
-                g.setStroke(STROKE_ROTOR_RADIUS);
+                g.setStroke(strokes.rotorRadius);
                 g.setColor(Colors.getRadiusColor(graphingInCenter));
                 g.draw(new Line2D.Double(centerX, centerY, tipX, tipY));
 
@@ -934,19 +998,19 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
 
         // Final Tip - Wave Joint
         if (tipToWaveJoint != null) {
-            g.setStroke(STROKE_ROTOR_TO_WAVE_JOINT);
+            g.setStroke(strokes.rotorToWaveJoint);
             g.setColor(Colors.getTipToWaveJointColor(graphingInCenter));
             g.draw(tipToWaveJoint);
         }
 
         final boolean joinPoints = mPointsJoiningEnabled;
-        final Color waveColor = Colors.getWaveColor(graphingInCenter);
+        final Color waveColor = Colors.getDynamicWaveColor(mRotorStateManager.getId());
         final ListIterator<WavePoint> itr = wave.listIterator();
         int i; WavePoint wp;
 
         Point2D prevPoint = null;
 
-        g.setStroke(getWaveStroke(graphingInCenter, autoTrack));
+        g.setStroke(strokes.wave);
         while (itr.hasNext()) {
             i = itr.nextIndex();
             wp = itr.next();

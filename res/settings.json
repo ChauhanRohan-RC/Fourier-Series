@@ -1,6 +1,7 @@
 {
   "appearance": {
-    "theme": "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDarkerIJTheme"
+    "theme": "com.formdev.flatlaf.FlatDarculaLaf",
+    "dynamic_colors": true
   },
   "config": {
     "numerical_integration_interval_count": 100000

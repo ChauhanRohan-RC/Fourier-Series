@@ -628,7 +628,7 @@ public class FTWinderPanel extends JPanel implements Runnable, Flaggable {
             }
 
             // Draw wave
-            g.setColor(Colors.COLOR_WAVE);
+            g.setColor(Colors.getDynamicWaveColor(manager.getId()));
             g.setStroke(STROKE_WAVE);
 
             double baseScale = Math.abs(Math.min(width, height) / Math.max(maxReal - minReal, maxImg - minImg)) * 0.45;

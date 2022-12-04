@@ -90,6 +90,8 @@ public enum ActionInfo implements ActionInfoI {
 
     LOAD_EXTERNAL_PATH_FUNCTIONS("Load Files", "Load Path Functions", KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK), false),
     LOAD_EXTERNAL_PATH_FUNCTIONS_FROM_DIR("Scan Folder", "Scan Path Functions from Folder", KeyStroke.getKeyStroke(KeyEvent.VK_P, 0), false),
+    CONVERT_SVG_TO_PATH_DATA("Extract SVG vectors", "Load path vectors from a SVG file", null, false),
+
     CLEAR_EXTERNAL_PATH_FUNCTIONS("Clear External", "Remove all external path functions", null, false),
     CLEAR_INTERNAL_PATH_FUNCTIONS("Clear Internal", "Remove all internal path functions", null, false),
     RESET_PATH_FUNCTIONS("Reset", "Reset all path functions to initial state", null, false),

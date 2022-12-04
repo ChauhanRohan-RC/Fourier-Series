@@ -17,7 +17,6 @@ public class AudioClipPlayer extends AbstractLinePlayer {
 
     public static final String TAG = "AudioClipPlayer";
 
-
 //    /**
 //     * Creates Sound player for the given URL
 //     *
@@ -152,7 +151,7 @@ public class AudioClipPlayer extends AbstractLinePlayer {
     }
 
     @Override
-    public void setFramePosition(int frames) {
+    public synchronized void setFramePosition(int frames) {
         final Clip clip = mClip;
         if (clip != null && clip.isOpen()) {
             clip.setFramePosition(frames);
@@ -160,7 +159,7 @@ public class AudioClipPlayer extends AbstractLinePlayer {
     }
 
     @Override
-    public void setMicrosecondPosition(long microseconds) {
+    public synchronized void setMicrosecondPosition(long microseconds) {
         final Clip clip = mClip;
         if (clip != null && clip.isOpen()) {
             clip.setMicrosecondPosition(microseconds);

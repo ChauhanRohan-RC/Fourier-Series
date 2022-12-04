@@ -18,6 +18,7 @@ import ui.AuxSoundsPlayer;
 import ui.panels.FourierSeriesPanel;
 import ui.util.Ui;
 import async.Canceller;
+import util.PathFunctionManager;
 
 import javax.swing.*;
 import javax.swing.Timer;
@@ -248,6 +249,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
         menuFunctions.add(menuPathFunctions);
         menuPathFunctions.add(uia(ActionInfo.LOAD_EXTERNAL_PATH_FUNCTIONS));
         menuPathFunctions.add(uia(ActionInfo.LOAD_EXTERNAL_PATH_FUNCTIONS_FROM_DIR));
+        menuPathFunctions.add(uia(ActionInfo.CONVERT_SVG_TO_PATH_DATA));
         menuPathFunctions.addSeparator();
         menuPathFunctions.add(uia(ActionInfo.CLEAR_INTERNAL_PATH_FUNCTIONS));
         menuPathFunctions.add(uia(ActionInfo.CLEAR_EXTERNAL_PATH_FUNCTIONS));
@@ -1182,7 +1184,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
             return;
 
         // todo show message loading with cancel option
-        final Canceller c = R.loadExternalPathFunctionsAsync(R.DIR_EXTERNAL_PATH_FUNCTIONS, R.DEFAULT_VALIDATE_EXTERNAL_FILES, res -> {
+        final Canceller c = PathFunctionManager.loadExternalPathFunctionsAsync(R.DIR_EXTERNAL_PATH_FUNCTIONS, res -> {
             if (res != null) {
                 functionProviders.addAll(res.getFunctionProviders());
             }
@@ -1298,6 +1300,9 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
         Ui.askLoadExternalPathFunctionsFromDir(FourierUi.this, functionProviders::addAll);
     }
 
+    public void askExtractPathDataFromSVG() {
+        Ui.askExtractPathDataFromSVG(FourierUi.this, null);
+    }
 
     public final void resetPathFunctions() {
         functionProviders.removeIf(FunctionProviderI.forType(FunctionType.EXTERNAL_PATH));
@@ -1479,6 +1484,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
             case CLEAR_FUNCTIONS_WITHOUT_DEFINITION -> confirmRemoveFunctionProvidersWithoutDefinition();
             case LOAD_EXTERNAL_PATH_FUNCTIONS -> askLoadExternalPathFunctions();
             case LOAD_EXTERNAL_PATH_FUNCTIONS_FROM_DIR -> askLoadExternalPathFunctionsFromDir();
+            case CONVERT_SVG_TO_PATH_DATA -> askExtractPathDataFromSVG();
             case CLEAR_INTERNAL_PATH_FUNCTIONS -> confirmRemoveAllFunctionProviders(FunctionType.INTERNAL_PATH);
             case CLEAR_EXTERNAL_PATH_FUNCTIONS -> confirmRemoveAllFunctionProviders(FunctionType.EXTERNAL_PATH);
             case RESET_PATH_FUNCTIONS -> confirmResetPathFunctions();

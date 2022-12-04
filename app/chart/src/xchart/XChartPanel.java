@@ -260,7 +260,7 @@ public class XChartPanel<T extends Chart<?, ?>> extends JPanel {
      * */
     public void saveToFile(@NotNull File file) throws IOException {
         final String path = file.getCanonicalPath();
-        final String ext = FileUtil.getExtFromPath(path, false).toLowerCase();
+        final String ext = FileUtil.getExtensionFromPath(path, false).toLowerCase();
 
         switch (ext) {
             case "jpg" -> BitmapEncoder.saveJPGWithQuality(chart, path, 1.0f);

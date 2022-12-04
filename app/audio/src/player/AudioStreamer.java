@@ -243,7 +243,7 @@ public class AudioStreamer extends AbstractLinePlayer implements Runnable {
         return false;
     }
 
-    private boolean considerRun() {
+    private synchronized boolean considerRun() {
         if (run) {
             return true;
         }

@@ -2,7 +2,6 @@ package ui.util;
 
 import app.R;
 import app.Settings;
-import function.RotorStatesFunction;
 import function.definition.ComplexDomainFunctionI;
 import misc.*;
 import models.Wrapper;
@@ -13,7 +12,6 @@ import provider.FunctionProviderI;
 import provider.FunctionType;
 import provider.SimpleFunctionProvider;
 import rotor.FunctionState;
-import rotor.RotorState;
 import rotor.RotorStateManager;
 import rotor.frequency.RotorFrequencyProviderI;
 import ui.action.ActionInfo;
@@ -21,11 +19,9 @@ import ui.AuxSoundsPlayer;
 import ui.MusicPlayer;
 import ui.frames.FTUi;
 import ui.frames.FourierUi;
-import ui.panels.ExternalProgramPanel;
-import ui.panels.ExternalRotorStateFunctionLoadPanel;
-import ui.panels.ExternalRotorStatesLoadPanel;
-import ui.panels.FrequencyProviderSelectorPanel;
+import ui.panels.*;
 import async.*;
+import util.PathFunctionManager;
 import util.main.ComplexUtil;
 
 import javax.swing.*;
@@ -36,6 +32,7 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.List;
 
 public interface Ui {
 
@@ -254,24 +251,25 @@ public interface Ui {
     }
 
     @NotNull
-    static JMenu createSettingsAppearanceMenu() {
+    static JMenu createSettingsAppearanceMenu(@NotNull Settings settings) {
         final JMenu menu = new JMenu("Appearance");
 
         // 1. Theme
         menu.add(createThemeSelectorMenu());
 
+        // 2. Dynamic Colors
+        menu.add(new JCheckBoxMenuItem(settings.getToggleDynamicColorsAction()));
+
         // Last - Reset
         menu.addSeparator();
-        final JMenuItem resetAppearance = new JMenuItem("Reset Appearance");
-        resetAppearance.addActionListener(e -> Settings.getSingleton().resetAppearance());
-        menu.add(resetAppearance);
+        menu.add(settings.getResetAppearanceAction());
 
         return menu;
     }
 
 
     @NotNull
-    static JMenu createSettingsConfigurationMenu(@NotNull Ui ui) {
+    static JMenu createSettingsConfigurationMenu(@NotNull Ui ui, @NotNull Settings settings) {
         final JMenu menu = new JMenu(TITLE_CONFIGURATIONS);
 
         // 1. Numerical Integration
@@ -280,18 +278,15 @@ public interface Ui {
         menu.add(numericalIntegrationIntervals);
 
         // Last - Reset
-
         menu.addSeparator();
-        final JMenuItem resetConfig = new JMenuItem("Reset Config");
-        resetConfig.addActionListener(e -> Settings.getSingleton().resetConfig());
-        menu.add(resetConfig);
+        menu.add(settings.getResetConfigAction());
 
         return menu;
     }
 
 
     @NotNull
-    static JMenu createSettingsSoundsMenu() {
+    static JMenu createSettingsSoundsMenu(@NotNull Settings settings) {
         final JMenu menu = new JMenu("Sound");
 
         menu.add(new JCheckBoxMenuItem(AuxSoundsPlayer.getSingleton().getEnabledAction()));
@@ -299,34 +294,36 @@ public interface Ui {
 
         // Last - Reset
         menu.addSeparator();
-        final JMenuItem resetSound = new JMenuItem("Reset Sound Settings");
-        resetSound.setToolTipText("Reset sound and music preferences");
-        resetSound.addActionListener(e -> Settings.getSingleton().resetSound());
-        menu.add(resetSound);
+        menu.add(settings.getResetSoundAction());
         return menu;
     }
 
     @NotNull
-    static JMenu createSettingsMenu(@NotNull Ui ui) {
+    static JMenu createSettingsMenu(@NotNull Ui ui, @NotNull Settings settings) {
         final JMenu menu = new JMenu("Settings");
 
         // 1. Appearance
-        menu.add(createSettingsAppearanceMenu());
+        menu.add(createSettingsAppearanceMenu(settings));
 
         // 2. Config
-        menu.add(createSettingsConfigurationMenu(ui));
+        menu.add(createSettingsConfigurationMenu(ui, settings));
 
         // 3. Sound
-        menu.add(createSettingsSoundsMenu());
+        menu.add(createSettingsSoundsMenu(settings));
 
         // 4. Logs
         menu.add(Log.createLogSettingsMenu());
 
         // Last: Reset All
         menu.addSeparator();
-        menu.add(Settings.getResetAllAction());
+        menu.add(settings.getResetAllAction());
 
         return menu;
+    }
+
+    @NotNull
+    static JMenu createSettingsMenu(@NotNull Ui ui) {
+        return createSettingsMenu(ui, Settings.getSingleton());
     }
 
     @NotNull
@@ -384,7 +381,7 @@ public interface Ui {
     }
 
 
-    /* Loading ans Saving */
+    /* Loading and Saving */
 
     @Nullable
     static FTUi showFtUi(@NotNull Ui ui, @NotNull RotorStateManager manager) {
@@ -396,6 +393,11 @@ public interface Ui {
         return new FTUi(manager);
     }
 
+    static void askExtractPathDataFromSVG(@NotNull Ui ui, @Nullable Consumer<Path> successCallback) {
+        final SvgToPathDataConverterPanel panel = new SvgToPathDataConverterPanel(ui);
+        panel.showDialog(successCallback);
+    }
+
     static void askClearAndResetRotorStateManager(@NotNull Ui ui, @NotNull RotorStateManager manager, boolean reload) {
         if (manager.isNoOp() || manager.getAllLoadedRotorStatesCount() == 0) {
             return;
@@ -405,7 +407,7 @@ public interface Ui {
             reload = false;     // cannot reload
         }
 
-        final String title = reload? "Reload Rotor States": "Delete Rotor States";
+        final String title = reload ? "Reload Rotor States" : "Delete Rotor States";
         final String msg = "This will delete all loaded Rotor States. They have to be loaded again for future use. This is highly EXPENSIVE\n\nDo you wish to continue?";
 
         final int option = JOptionPane.showConfirmDialog(ui.getFrame(), msg, title, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
@@ -688,14 +690,14 @@ public interface Ui {
 //        });
     }
 
-    static void askLoadExternalPathFunctions(@NotNull Ui ui, @NotNull Consumer<java.util.List<FunctionProviderI>> successConsumer) {
+    static void askLoadExternalPathFunctions(@NotNull Ui ui, @NotNull Consumer<List<FunctionProviderI>> successConsumer) {
         final String dialogTitle = "Load Path Functions";
 
         final ChooserConfig config = ChooserConfig.openFile(true)
                 .setDialogTitle(dialogTitle)
                 .setStartDir(R.DIR_EXTERNAL_PATH_FUNCTIONS)
                 .setUseAcceptAllFIleFilter(false)
-                .setChoosableFileFilters(R.PATH_DATA_FILE_FILTER)
+                .setChoosableFileFilters(R.PATH_DATA_FILE_FILTER, R.SVG_FILE_FILTER)
                 .setFileHidingEnabled(false)
                 .setApproveButtonText("Load")
                 .setApproveButtonTooltipText(dialogTitle)
@@ -708,7 +710,7 @@ public interface Ui {
         final Path[] paths = Arrays.stream(files).map(File::toPath).toArray(Path[]::new);
 
         // todo show message loading
-        final Canceller canceller = R.loadExternalPathFunctionsAsync(paths, R.DEFAULT_VALIDATE_EXTERNAL_FILES, new Consumer<>() {
+        final Canceller canceller = PathFunctionManager.loadExternalPathFunctionsAsync(paths, new Consumer<>() {
             @Override
             public void consume(FunctionProviderI[] data) {
                 if (data == null || data.length == 0) {
@@ -763,9 +765,9 @@ public interface Ui {
 
         final File dir = files[0];
         // TODO: show snackbar
-        final Canceller canceller = R.loadExternalPathFunctionsAsync(dir.toPath(), R.DEFAULT_VALIDATE_EXTERNAL_FILES, new Consumer<>() {
+        final Canceller canceller = PathFunctionManager.loadExternalPathFunctionsAsync(dir.toPath(), new Consumer<>() {
             @Override
-            public void consume(R.LoadResult data) {
+            public void consume(PathFunctionManager.LoadResult data) {
                 String msg;
                 int msgType;
                 if (data == null) {
@@ -789,7 +791,7 @@ public interface Ui {
             }
 
             @Override
-            public void onCancelled(R.@Nullable LoadResult dataProcessedYet) {
+            public void onCancelled(PathFunctionManager.@Nullable LoadResult dataProcessedYet) {
                 Consumer.super.onCancelled(dataProcessedYet);
             }
         });
