@@ -34,6 +34,7 @@ public class ExternalRotorStateFunctionLoadPanel extends JPanel {
 
     private static final Dimension SIZE_FILE_ENTRY = new Dimension(300, 30);
     private static final Dimension SIZE_NUMBER_ENTRY = new Dimension(100, 30);
+    private static final int VERTICAL_SPACE = 10;
 
     private final Ui parent;
 
@@ -47,6 +48,9 @@ public class ExternalRotorStateFunctionLoadPanel extends JPanel {
 
     private final JTextField fileEntry;
     private final JButton browseButton;
+
+    private final JLabel computeModeLabel;
+    private final JComboBox<RotorStatesFunction.ComputeMode> computeModeComboBox;
 
     private final JCheckBox checkBox;
 
@@ -74,22 +78,28 @@ public class ExternalRotorStateFunctionLoadPanel extends JPanel {
         browseButton = new JButton("Browse");
         browseButton.addActionListener(a -> browse());
 
-        checkBox = new JCheckBox("Other frequencies supported (NOT RECOMMENDED)");
+        computeModeLabel = new JLabel("Function Create Mode");
+        computeModeLabel.setToolTipText("Configure how frequencies are used by Inverse Fourier Transform to create function");
+        computeModeComboBox = new JComboBox<>(RotorStatesFunction.ComputeMode.values());
+        computeModeComboBox.setSelectedItem(RotorStatesFunction.DEFAULT_COMPUTE_MODE);
+        computeModeComboBox.setToolTipText(computeModeLabel.getToolTipText());
+
+        checkBox = new JCheckBox("Other frequencies supported");
         checkBox.setToolTipText("defines whether frequencies other than those defined in the chosen file are supported");
         checkBox.setSelected(RotorStatesFunction.DEFAULT_OTHER_FREQUENCIES_SUPPOrTED);
         checkBox.setHorizontalAlignment(SwingConstants.LEFT);
 
-        setLayout(new GridLayout(0, 1, 6, 2));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         // Name Entry
         final JPanel namePanel = new JPanel(new BorderLayout(10, 0));
-        namePanel.setAlignmentX(LEFT_ALIGNMENT);
         namePanel.add(nameLabel, BorderLayout.WEST);
         namePanel.add(nameEntry, BorderLayout.CENTER);
         namePanel.setBorder(BorderFactory.createTitledBorder("Meta Information"));
-        add(namePanel);
+        addComp(namePanel);
 
-        // Domain
+        // Function Config
+        final JPanel configPanel = new JPanel(new GridLayout(2, 1, 5, 5));
         final JPanel domainEntryPanel = new JPanel(new GridLayout(1, 2));
         final JPanel domainStartPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 10, 5));
         final JPanel domainEndPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 10, 5));
@@ -100,8 +110,17 @@ public class ExternalRotorStateFunctionLoadPanel extends JPanel {
 
         domainEntryPanel.add(domainStartPanel);
         domainEntryPanel.add(domainEndPanel);
-        domainEntryPanel.setBorder(BorderFactory.createTitledBorder("Domain Range"));
-        add(domainEntryPanel);
+        configPanel.add(domainEntryPanel);
+
+        final JPanel computeModePanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 10, 5));
+        computeModePanel.setAlignmentX(LEFT_ALIGNMENT);
+        computeModePanel.add(computeModeLabel);
+        computeModePanel.add(computeModeComboBox);
+        configPanel.add(computeModePanel);
+
+        configPanel.setBorder(BorderFactory.createTitledBorder("Function Configuration"));
+        configPanel.setAlignmentX(LEFT_ALIGNMENT);
+        addComp(configPanel);
 
         // File Entry
         final JPanel fileEntryPanel = new JPanel(new BorderLayout(10, 10));
@@ -109,10 +128,28 @@ public class ExternalRotorStateFunctionLoadPanel extends JPanel {
         fileEntryPanel.add(fileEntry, BorderLayout.CENTER);
 
         fileEntryPanel.setBorder(BorderFactory.createTitledBorder("Select File to load Rotor States"));
-        add(fileEntryPanel);
+        fileEntryPanel.setAlignmentX(LEFT_ALIGNMENT);
+        addComp(fileEntryPanel);
 
-        add(checkBox);
+        addComp(checkBox, 4);
     }
+
+    private void addComp(@NotNull Component component) {
+        addComp(component, VERTICAL_SPACE);
+    }
+
+    private void addComp(@NotNull Component component, int vgap) {
+        if (component instanceof JComponent jc) {
+            jc.setAlignmentX(LEFT_ALIGNMENT);
+        }
+
+        if (getComponentCount() > 0 && vgap > 0) {
+            add(Box.createVerticalStrut(vgap));
+        }
+
+        add(component);
+    }
+
 
     private void browse() {
         final ChooserConfig config = ChooserConfig.openFileSingle()
@@ -197,6 +234,23 @@ public class ExternalRotorStateFunctionLoadPanel extends JPanel {
 
                 final RotorStatesFunction function = new RotorStatesFunction(domainStart, domainEnd, states);
                 function.setFrequenciesExceptExplicitSupported(checkBox.isSelected());
+
+                final Object cm = computeModeComboBox.getSelectedItem();
+                if (cm instanceof RotorStatesFunction.ComputeMode computeMode) {
+                    function.setComputeMode(computeMode);
+                    Log.d(TAG, "Compute mode: " + computeMode);
+                } else {
+                    final RotorStatesFunction.ComputeMode defCm = RotorStatesFunction.DEFAULT_COMPUTE_MODE;
+                    function.setComputeMode(defCm);
+                    final String w = "Unknown RotorStateFunction Compute Mode: " + cm + ", falling to default mode (" + defCm + ")";
+                    if (warnMsg == null) {
+                        warnMsg = w;
+                    } else {
+                        warnMsg += '\n' + w;
+                    }
+
+                    Log.w(TAG, w);
+                }
 
                 String name = nameEntry.getText();
                 if (Format.isEmpty(name)) {

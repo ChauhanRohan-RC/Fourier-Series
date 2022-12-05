@@ -8,6 +8,7 @@ import models.RealTransform;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import rotor.RotorState;
 import rotor.frequency.ExplicitFrequencyProvider;
 import rotor.frequency.RotorFrequencyProviderI;
 
@@ -34,6 +35,19 @@ public class ComplexDomainFunctionWrapper implements ComplexDomainFunctionI, Col
     public @NotNull Complex compute(double input) {
         return base.compute(input);
     }
+
+    /* Cache Rotor States */
+
+    @Override
+    public boolean containsCachedRotorState(double frequency) {
+        return base.containsCachedRotorState(frequency);
+    }
+
+    @Override
+    public @Nullable RotorState getCachedRotorState(double frequency) {
+        return base.getCachedRotorState(frequency);
+    }
+
 
     /* Frequency */
 

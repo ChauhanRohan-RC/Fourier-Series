@@ -1,11 +1,12 @@
 package function.internal.basic;
 
+import function.definition.AbstractSignal;
 import function.definition.ComplexDomainFunctionI;
 import function.definition.SignalFunctionI;
 import org.jetbrains.annotations.Nullable;
 import rotor.frequency.RotorFrequencyProviderI;
 
-public class StepFunction implements SignalFunctionI {
+public class StepFunction extends AbstractSignal {
 
     private final double duration;
     private final double resultAddant;

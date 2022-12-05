@@ -2,6 +2,7 @@ package rotor;
 
 import app.Settings;
 import function.ComplexDomainFunctionWrapper;
+import function.definition.CacheRotorStateProvider;
 import function.definition.ComplexDomainFunctionI;
 
 import misc.CollectionUtil;
@@ -19,7 +20,7 @@ import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 
-public class StandardRotorStateManager extends ComplexDomainFunctionWrapper implements RotorStateManager, Settings.Listener {
+public class StandardRotorStateManager extends ComplexDomainFunctionWrapper implements RotorStateManager, CacheRotorStateProvider, Settings.Listener {
 
     public static final String TAG = "StandardRotorStateManager";
 
@@ -32,10 +33,13 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
     public static final int DEFAULT_INITIAL_ROTOR_COUNT = 200;
 
     public static final int MAX_ROTORS_LOAD_PER_THREAD = 80;
-    public static final boolean SYNCHRONISE_ROTORS_BATCH_LOAD = false;
+    public static final boolean SYNCHRONISE_ROTORS_BATCH_LOAD = false;          // synchronised load takes a lot of time
 
 
     private final int id;
+    private final Object storeLock = new Object();
+    private final Object rotorCountLock = new Object();
+
     @NotNull
     private final FunctionMeta functionMeta;
     @NotNull
@@ -92,10 +96,7 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
         }
 
         // Preloaded States
-        final Collection<RotorState> preloadedStates = functionMeta.preloadedRotorStates();
-        if (CollectionUtil.notEmpty(preloadedStates)) {
-            preloadedStates.forEach(s -> mStore.put(s.getFrequency(), s));
-        }
+        addRotorStates(functionMeta.preloadedRotorStates());
 
 //        setRotorCountAsync(mInitialRotorCount);
         Settings.getSingleton().addListener(this);
@@ -198,20 +199,38 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
         onRotorFrequencyProviderChanged(old, rotorFrequencyProvider);
     }
 
-    @Nullable
-    protected final RotorState getStoredRotorState(double frequency) {
-        return mStore.get(frequency);
+
+
+    @Override
+    public final boolean containsCachedRotorState(double frequency) {
+        return mStore.containsKey(frequency) || getBaseFunction().containsCachedRotorState(frequency);
     }
 
-    protected final boolean containsRotorState(double frequency) {
-        return mStore.containsKey(frequency);
+    @Nullable
+    @Override
+    public final RotorState getCachedRotorState(double frequency) {
+        RotorState state = mStore.get(frequency);
+        if (state == null) {
+            synchronized (storeLock) {
+                state = mStore.get(frequency);
+                if (state == null) {
+                    state = getBaseFunction().getCachedRotorState(frequency);
+                    if (state != null) {
+                        mStore.put(frequency, state);
+                    }
+                }
+            }
+        }
+
+        return state;
     }
+
 
 
 //    @Override
 //    @NotNull
 //    public Map<Double, RotorState> copyRotorStates() {
-//        synchronized (mStore) {
+//        synchronized (storeLock) {
 //            return new HashMap<>(mStore);
 //        }
 //    }
@@ -219,21 +238,21 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
 
     @Override
     public void forEachRotorState(@NotNull Consumer<RotorState> consumer) {
-        synchronized (mStore) {
+        synchronized (storeLock) {
             mStore.forEach((k, v) -> consumer.consume(v));
         }
     }
 
     @Override
     public void copyAllRotorStates(@NotNull Collection<RotorState> dest) {
-        synchronized (mStore) {
+        synchronized (storeLock) {
             dest.addAll(mStore.values());
         }
     }
 
     @Override
     public void copyAllRotorStates(@NotNull Map<? super Double, ? super RotorState> dest) {
-        synchronized (mStore) {
+        synchronized (storeLock) {
             dest.putAll(mStore);
         }
     }
@@ -253,15 +272,12 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
     private RotorState getRotorState(int index, int count) {
         checkIndex(index, count);
         final double frequency = getRotorFrequency(index, count);
-        RotorState state = getStoredRotorState(frequency);
+        RotorState state = getCachedRotorState(frequency);
 
         if (state == null) {
-            synchronized (mStore) {
-                state = getStoredRotorState(frequency);
-                if (state == null) {
-                    state = createRotorState(frequency);            // heavy operation
-                    mStore.put(frequency, state);
-                }
+            synchronized (storeLock) {
+                state = createRotorState(frequency);            // heavy operation
+                mStore.put(frequency, state);
             }
         }
 
@@ -273,7 +289,6 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
     public RotorState getRotorState(int index) {
         return getRotorState(index, mRotorCount);
     }
-
 
     @Override
     public void addListener(@NotNull RotorStateManager.Listener l) {
@@ -343,12 +358,18 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
     }
 
     private void updateRotorsCount(int newCount, boolean notify) {
-        final int prev = mRotorCount;
+        int prev = mRotorCount;
         if (newCount == prev)
             return;
 
-        mRotorCount = newCount;
-        onRotorCountUpdated(prev, newCount, notify);
+        synchronized (rotorCountLock) {
+            prev = mRotorCount;
+            if (newCount == prev)
+                return;
+
+            mRotorCount = newCount;
+            onRotorCountUpdated(prev, newCount, notify);
+        }
     }
 
     protected void onLoaded(int startIndex, int totalLoadCount, boolean cancelled, boolean setAfterLoad, boolean notifyLoadEnded) {
@@ -373,23 +394,31 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
 
 
 
+
+    private void doLoadRotorStateInternal(double frequency) {
+        if (containsCachedRotorState(frequency))
+            return;
+
+        mStore.put(frequency, createRotorState(frequency));
+    }
+
+
+    private void doLoadRotorState(double frequency, boolean _synchronized) {
+        if (_synchronized) {
+            synchronized (storeLock) {
+                doLoadRotorStateInternal(frequency);
+            }
+        } else {
+            doLoadRotorStateInternal(frequency);
+        }
+    }
+
     private void doLoadRotorStates(int startIndex, int endIndex, int totalLoadCount, @Nullable CancellationProvider c) {
         double frequency;
         for (int i = startIndex; i < endIndex && (c == null || !c.isCancelled()); i++) {
             frequency = getRotorFrequency(i, totalLoadCount);
-            if (containsRotorState(frequency))
-                continue;
 
-            if (SYNCHRONISE_ROTORS_BATCH_LOAD) {
-                synchronized (mStore) {
-                    if (containsRotorState(frequency))
-                        return;
-
-                    mStore.put(frequency, createRotorState(frequency));
-                }
-            } else {
-                mStore.put(frequency, createRotorState(frequency));
-            }
+            doLoadRotorState(frequency, SYNCHRONISE_ROTORS_BATCH_LOAD);
         }
     }
 
@@ -585,8 +614,13 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
 
     @Override
     public void clearAndResetSync() {
-        setRotorCountSync(0, null, null);
-        mStore.clear();
+        cancelLoad(true);
+        mPendingRotorCount = -1;
+
+        updateRotorsCount(0, true);
+        synchronized (storeLock) {
+            mStore.clear();
+        }
     }
 
     @Override
@@ -594,7 +628,7 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
         if (CollectionUtil.isEmpty(states))
             return 0;
 
-        synchronized (mStore) {
+        synchronized (storeLock) {
             states.forEach(s -> mStore.put(s.getFrequency(), s));
             return states.size();
         }

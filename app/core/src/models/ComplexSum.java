@@ -50,6 +50,10 @@ public class ComplexSum {
         return this;
     }
 
+    public ComplexSum addComponent(@NotNull Complex c, boolean real) {
+        return real? addReal(c.getReal()): addImaginary(c.getImaginary());
+    }
+
     public ComplexSum mult(double a) {
         re *= a;
         im *= a;

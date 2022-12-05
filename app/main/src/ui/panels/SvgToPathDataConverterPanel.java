@@ -24,6 +24,8 @@ public class SvgToPathDataConverterPanel extends JPanel {
 
     private static final boolean DEFAULT_PRETTY_PRINT = true;
 
+    private static final int VERTICAL_SPACE = 10;
+
 
     private final Ui parent;
 
@@ -52,20 +54,36 @@ public class SvgToPathDataConverterPanel extends JPanel {
         prettyCheckbox = new JCheckBox("Format Nicely (RECOMMENDED)");
         prettyCheckbox.setSelected(DEFAULT_PRETTY_PRINT);
 
-        setLayout(new GridLayout(3, 1, 4, 4));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         final JPanel srcPanel = new JPanel(new BorderLayout(10, 10));
         srcPanel.setBorder(BorderFactory.createTitledBorder("Select Svg File"));
         srcPanel.add(srcBrowseButton, BorderLayout.EAST);
         srcPanel.add(srcEntry, BorderLayout.CENTER);
-        add(srcPanel);
+        addComp(srcPanel);
 
         final JPanel destPanel = new JPanel(new BorderLayout(10, 10));
         destPanel.setBorder(BorderFactory.createTitledBorder("Save As (Leave for default)"));
         destPanel.add(destBrowseButton, BorderLayout.EAST);
         destPanel.add(destEntry, BorderLayout.CENTER);
-        add(destPanel);
+        addComp(destPanel);
 
-        add(prettyCheckbox);
+        addComp(prettyCheckbox, 4);
+    }
+
+    private void addComp(@NotNull Component component) {
+        addComp(component, VERTICAL_SPACE);
+    }
+
+    private void addComp(@NotNull Component component, int vgap) {
+        if (component instanceof JComponent jc) {
+            jc.setAlignmentX(LEFT_ALIGNMENT);
+        }
+
+        if (getComponentCount() > 0 && vgap > 0) {
+            add(Box.createVerticalStrut(vgap));
+        }
+
+        add(component);
     }
 
 
@@ -132,7 +150,7 @@ public class SvgToPathDataConverterPanel extends JPanel {
     }
 
     public void showDialog(@Nullable Consumer<Path> successCallback) {
-        final String dialogTitle = "Extract SVG path data";
+        final String dialogTitle = "Extract SVG vectors";
         final int op = JOptionPane.showConfirmDialog(parent.getFrame(), this, dialogTitle, JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
         if (op != JOptionPane.OK_OPTION)
             return;

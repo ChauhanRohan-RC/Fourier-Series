@@ -13,12 +13,28 @@ import org.jetbrains.annotations.Nullable;
  * */
 public interface SignalFunctionI extends ComplexDomainFunctionI {
 
+    boolean DEFAULT_REAL = true;
+
+
+    /**
+     * @return whether this signal output is real or imaginary
+     * */
+    default boolean isReal() {
+        return DEFAULT_REAL;
+    }
+
     double getSignalIntensity(double input);
 
     @Override
     @NotNull
     default Complex compute(double input) {
-        return new Complex(getSignalIntensity(input), 0);
+        final double intensity = getSignalIntensity(input);
+
+        if (isReal()) {
+            return new Complex(intensity, 0);
+        }
+
+        return new Complex(0, intensity);
     }
 
 //    @Override

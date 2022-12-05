@@ -20,7 +20,13 @@ public interface DiscreteSignalI extends DiscreteFunctionI, SignalFunctionI {
 
     @Override
     default @NotNull Complex getSampleAt(int index) {
-        return new Complex(getSignalIntensitySampleAt(index), 0);
+        final double intensity = getSignalIntensitySampleAt(index);
+
+        if (isReal()) {
+            return new Complex(intensity, 0);
+        }
+
+        return new Complex(0, intensity);
     }
 
     @Override

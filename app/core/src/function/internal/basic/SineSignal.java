@@ -1,5 +1,6 @@
 package function.internal.basic;
 
+import function.definition.AbstractSignal;
 import function.definition.SignalFunctionI;
 import org.apache.commons.math3.util.FastMath;
 import org.jetbrains.annotations.Nullable;
@@ -7,7 +8,7 @@ import rotor.frequency.FixedStartFrequencyProvider;
 import rotor.frequency.RotorFrequencyProviderI;
 import util.main.ComplexUtil;
 
-public class SineSignal implements SignalFunctionI {
+public class SineSignal extends AbstractSignal {
 
     /**
      * Temporal Frequency of this Sine Signal

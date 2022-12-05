@@ -5,13 +5,14 @@ import models.FunctionGraphMode;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import rotor.RotorState;
 import rotor.frequency.CenteringFrequencyProvider;
 import rotor.frequency.ExplicitFrequencyProvider;
 import rotor.frequency.RotorFrequencyProviderI;
 import util.json.JsonParsable;
 import util.main.ComplexUtil;
 
-public interface ComplexDomainFunctionI extends ComplexFunctionI, DomainProviderI, FrequencySupportProviderI, JsonParsable {
+public interface ComplexDomainFunctionI extends ComplexFunctionI, DomainProviderI, FrequencySupportProviderI, CacheRotorStateProvider, JsonParsable {
 
     /* ............................. Sampling ....................... */
 
@@ -99,6 +100,18 @@ public interface ComplexDomainFunctionI extends ComplexFunctionI, DomainProvider
     }
 
 
+    /* .................... Cache Rotor States .................... */
+
+    @Override
+    default boolean containsCachedRotorState(double frequency) {
+        return false;
+    }
+
+    @Nullable
+    @Override
+    default RotorState getCachedRotorState(double frequency) {
+        return null;
+    }
 
 
     /* .......................... Frequency .................. */

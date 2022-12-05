@@ -366,7 +366,8 @@ public class FunctionState {
     @NotNull
     public static CSVFormat createCSVFormat(boolean reader, Object... headerComments) {
         return ROTOR_STATES_CSV_FORMAT.builder()
-                .setSkipHeaderRecord(reader)                 // write headers
+//                .setSkipHeaderRecord(reader)                 // write headers
+                .setSkipHeaderRecord(false)                 // write and read headers (will ignore error while reading)
                 .setHeaderComments(headerComments)          // header comments
                 .build();
     }

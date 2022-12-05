@@ -29,7 +29,6 @@ import java.util.List;
 public class ExternalRotorStatesLoadPanel extends JPanel {
 
     public static final String TAG = "ExternalRotorStatesLoadPanel";
-
     private static final Dimension ENTRY_DIMENSION = new Dimension(300, 30);
 
     private final Ui parent;
@@ -49,15 +48,31 @@ public class ExternalRotorStatesLoadPanel extends JPanel {
         checkBox = new JCheckBox("Remove existing Rotor States");
         checkBox.setHorizontalAlignment(SwingConstants.LEFT);
 
-        setLayout(new GridLayout(0, 1, 6, 6));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         final JPanel entryPanel = new JPanel(new BorderLayout(10, 10));
         entryPanel.add(browseButton, BorderLayout.EAST);
         entryPanel.add(fileEntry, BorderLayout.CENTER);
         entryPanel.setBorder(BorderFactory.createTitledBorder("Select File to load Rotor States"));
-        add(entryPanel);
+        addComp(entryPanel);
 
-        add(checkBox);
+        addComp(checkBox, 4);
+    }
+
+    private void addComp(@NotNull Component component) {
+        addComp(component, 5);
+    }
+
+    private void addComp(@NotNull Component component, int vgap) {
+        if (component instanceof JComponent jc) {
+            jc.setAlignmentX(LEFT_ALIGNMENT);
+        }
+
+        if (getComponentCount() > 0 && vgap > 0) {
+            add(Box.createVerticalStrut(vgap));
+        }
+
+        add(component);
     }
 
     private void browse() {

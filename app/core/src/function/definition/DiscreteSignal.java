@@ -36,6 +36,8 @@ public class DiscreteSignal implements DiscreteSignalI {
     private final double domainStep;
     private final double @NotNull[] samples;
 
+    private volatile boolean mReal = DEFAULT_REAL;
+
     @NotNull
     private StickMode stickMode = DEFAULT_STICK_MODE;
 
@@ -71,6 +73,16 @@ public class DiscreteSignal implements DiscreteSignalI {
     @Override
     public double getSignalIntensitySampleAt(int index) {
         return samples[index];
+    }
+
+    @Override
+    public boolean isReal() {
+        return mReal;
+    }
+
+    public DiscreteSignal setReal(boolean real) {
+        mReal = real;
+        return this;
     }
 
     @Override

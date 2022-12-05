@@ -296,9 +296,9 @@ public class ComplexUtil {
 
     @NotNull
     public static ComplexFunctionI fourierTransformIntegrand(@NotNull ComplexFunctionI f, double frequency, boolean clockwise) {
-        if (f instanceof FrequencySupportProviderI fsp && !fsp.isFrequencySupported(frequency)) {
-            return ComplexFunctionI.ZERO;
-        }
+//        if (f instanceof FrequencySupportProviderI fsp && !fsp.isFrequencySupported(frequency)) {
+//            return ComplexFunctionI.ZERO;
+//        }
 
         final double pre = getFourierExpTermPowerCoefficient(getDirection(clockwise), frequency);
         return t -> f.compute(t).multiply(new Complex(0,pre * t).exp());

@@ -1211,10 +1211,11 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
         if (noDefinition) {
             final boolean otherSupported = manager.getFunction().frequenciesExceptExplicitSupported();
             if (otherSupported) {
-                final int initialCount = manager.getFunctionMeta().initialRotorCount();
-                if (initialCount < loadCount) {
-                    return !confirmModifNoDefinitionFunctions();
-                }
+                return !confirmModifNoDefinitionFunctions();        // frequencies can still change on low load
+//                final int initialCount = manager.getFunctionMeta().initialRotorCount();
+//                if (initialCount < loadCount) {
+//                    return !confirmModifNoDefinitionFunctions();
+//                }
             }
         }
 

@@ -1,5 +1,6 @@
 package function;
 
+import async.BiConsumer;
 import function.definition.ComplexDomainFunctionI;
 import misc.CollectionUtil;
 import models.ComplexSum;
@@ -26,9 +27,51 @@ import java.util.Map;
  * */
 public class RotorStatesFunction implements ComplexDomainFunctionI {
 
+    public enum ComputeMode {
+        REAL_COS("Cos (Real)", (sum, c) -> sum.addReal(c.getReal())),
+        REAL_SINE("Sine (Real)", (sum, c) -> sum.addReal(c.getImaginary())),
+        IMG_COS("Cos (imaginary)", (sum, c) -> sum.addImaginary(c.getReal())),
+        IMG_SINE("Sine (imaginary)", (sum, c) -> sum.addImaginary(c.getImaginary())),
+        COMPLEX("Cos (Real) + Sine (Img)", (sum, c) -> sum.add(c));
+
+        @NotNull
+        public final String displayName;
+        @NotNull
+        public final BiConsumer<ComplexSum, Complex> adder;
+
+        ComputeMode(@NotNull String displayName, @NotNull BiConsumer<ComplexSum, Complex> adder) {
+            this.displayName = displayName;
+            this.adder = adder;
+        }
+
+        @Override
+        public String toString() {
+            return displayName;
+        }
+    }
+
+
+
     public static final boolean DEFAULT_OTHER_FREQUENCIES_SUPPOrTED = false;
     public static final double DEFAULT_DOMAIN_START = 0;
     public static final double DEFAULT_DOMAIN_END = ComplexUtil.TWo_PI;
+    @NotNull
+    public static final ComputeMode DEFAULT_COMPUTE_MODE = ComputeMode.COMPLEX;
+
+    @NotNull
+    @Unmodifiable
+    private static Map<Double, RotorState> toUnmodifiableMap(Collection<RotorState> states) {
+        if (CollectionUtil.isEmpty(states))
+            return Collections.emptyMap();
+
+        final Map<Double, RotorState> map = new HashMap<>();
+        states.forEach(rs -> map.put(rs.getFrequency(), rs));
+
+        return Collections.unmodifiableMap(map);
+    }
+
+
+
 
     @Nullable
     private final ComplexDomainFunctionI function;
@@ -45,6 +88,9 @@ public class RotorStatesFunction implements ComplexDomainFunctionI {
     private final long defaultDomainAnimMsMin;
     private final long defaultDomainAnimMsMax;
 
+    @NotNull
+    private volatile ComputeMode mComputeMode = DEFAULT_COMPUTE_MODE;
+
     /**
      * Determines whether frequencies other than stored are supported, in case of no {@link #function base function}
      * */
@@ -55,18 +101,6 @@ public class RotorStatesFunction implements ComplexDomainFunctionI {
 
     @Nullable
     private volatile ExplicitFrequencyProvider explicitFrequencyProvider;
-
-    @NotNull
-    @Unmodifiable
-    private static Map<Double, RotorState> toMap(Collection<RotorState> states) {
-        if (CollectionUtil.isEmpty(states))
-            return Collections.emptyMap();
-
-        final Map<Double, RotorState> map = new HashMap<>();
-        states.forEach(rs -> map.put(rs.getFrequency(), rs));
-
-        return Collections.unmodifiableMap(map);
-    }
 
     public RotorStatesFunction(@Nullable ComplexDomainFunctionI function,
                                @NotNull Collection<RotorState> states,
@@ -79,7 +113,7 @@ public class RotorStatesFunction implements ComplexDomainFunctionI {
                                @Nullable RotorFrequencyProviderI defaultFrequencyProvider) {
 
         this.function = function;
-        this.states = toMap(states);
+        this.states = toUnmodifiableMap(states);
         this.defaultDomainStart = defaultDomainStart;
         this.defaultDomainEnd = defaultDomainEnd;
         this.defaultNumericalIntegrationIntervalCount = defaultNumericalIntegrationIntervalCount;
@@ -112,8 +146,6 @@ public class RotorStatesFunction implements ComplexDomainFunctionI {
         return function != null;
     }
 
-
-
     @Override
     public double getDomainStart() {
         return function != null? function.getDomainStart(): defaultDomainStart;
@@ -135,22 +167,33 @@ public class RotorStatesFunction implements ComplexDomainFunctionI {
             return function.compute(input);
         }
 
+        final ComputeMode computeMode = mComputeMode;
         final ComplexSum r = new ComplexSum(0, 0);
 
-        for (RotorState s: states.values()) {
-            r.add(s.getTip(input));
-        }
+        states.values().forEach(s -> computeMode.adder.consume(r, s.getTip(input)));
 
         return r.toComplex();
     }
 
 
-    public boolean containsFrequency(double frequency) {
+    @NotNull
+    public ComputeMode getComputeMode() {
+        return mComputeMode;
+    }
+
+    public RotorStatesFunction setComputeMode(@NotNull ComputeMode computeMode) {
+        mComputeMode = computeMode;
+        return this;
+    }
+
+
+    @Override
+    public boolean containsCachedRotorState(double frequency) {
         return states.containsKey(frequency);
     }
 
-    @Nullable
-    public RotorState getRotorState(double frequency) {
+    @Override
+    public @Nullable RotorState getCachedRotorState(double frequency) {
         return states.get(frequency);
     }
 
@@ -160,7 +203,8 @@ public class RotorStatesFunction implements ComplexDomainFunctionI {
             return function.isFrequencySupported(frequency);
         }
 
-        return mFrequenciesExceptExplicitSupported || containsFrequency(frequency);
+        return mFrequenciesExceptExplicitSupported || containsCachedRotorState(frequency);
+//        return containsCachedRotorState(frequency);        // since no other frequency will ever make it to the end
     }
 
     @Override
@@ -175,7 +219,7 @@ public class RotorStatesFunction implements ComplexDomainFunctionI {
     /**
      * Determines whether frequencies other than stored are supported, in case of no {@link #function base definition}
      *
-     * @see #containsFrequency(double)
+     * @see #containsCachedRotorState(double)
      * @see #isFrequencySupported(double)
      * */
     public final RotorStatesFunction setFrequenciesExceptExplicitSupported(boolean otherFrequenciesSupported) {
@@ -195,6 +239,7 @@ public class RotorStatesFunction implements ComplexDomainFunctionI {
                 fp = explicitFrequencyProvider;
                 if (fp == null) {
                     fp = new ExplicitFrequencyProvider(true, states.keySet());
+                    explicitFrequencyProvider = fp;
                 }
             }
         }
