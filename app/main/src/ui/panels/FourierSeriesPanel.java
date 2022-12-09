@@ -7,7 +7,7 @@ import app.Colors;
 import app.R;
 import function.definition.DomainProviderI;
 import misc.Format;
-import models.ComplexSum;
+import models.ComplexBuilder;
 import models.Size;
 import models.Triangle;
 import org.apache.commons.math3.complex.Complex;
@@ -947,7 +947,7 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
         Shape tipToWaveJoint = null;
 
         if (shouldDrawRotors) {
-            final ComplexSum sum = new ComplexSum();
+            final ComplexBuilder sum = new ComplexBuilder();
             double prevX = 0, prevY = 0;
 
             for (int i=0; i < count; i++) {

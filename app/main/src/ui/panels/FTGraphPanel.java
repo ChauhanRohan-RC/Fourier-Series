@@ -136,7 +136,7 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
     }
 
     @NotNull
-    private static MapperInfo @NotNull[] getMappers(@NotNull FTGraphMode graphMode, boolean negate) {
+    private static MapperInfo @NotNull[] getMappers(@NotNull FTGraphMode graphMode, double domainRange, boolean negate) {
         final String series1Name;
         ToDoubleFunction<RotorState> series1Mapper;
 
@@ -146,28 +146,28 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
         switch (graphMode) {
             case REAL -> {
                 series1Name = "Real";
-                series1Mapper = rs -> rs.getCoefficient().getReal();
+                series1Mapper = rs -> rs.getFourierTransformOutput(domainRange).getReal();
             } case IMG -> {
                 series1Name = "Imaginary";
-                series1Mapper = rs -> rs.getCoefficient().getImaginary();
+                series1Mapper = rs -> rs.getFourierTransformOutput(domainRange).getImaginary();
             } case MAG -> {
                 series1Name = "Magnitude";
-                series1Mapper = RotorState::getMagnitudeScale;
+                series1Mapper = rs -> rs.getFourierTransformOutput(domainRange).abs();
             } case PHASE -> {
                 series1Name = "Phase";
-                series1Mapper = RotorState::getCoefficientArgument;
+                series1Mapper = rs -> rs.getFourierTransformOutput(domainRange).getArgument();
             } case REAL_AND_IMG -> {
                 series1Name = "Real";
-                series1Mapper = rs -> rs.getCoefficient().getReal();
+                series1Mapper = rs -> rs.getFourierTransformOutput(domainRange).getReal();
 
                 series2Name = "Imaginary";
-                series2Mapper = rs -> rs.getCoefficient().getImaginary();
+                series2Mapper = rs -> rs.getFourierTransformOutput(domainRange).getImaginary();
             } default -> {      // Mag and Phase
                 series1Name = "Magnitude";
-                series1Mapper = RotorState::getMagnitudeScale;
+                series1Mapper = rs -> rs.getFourierTransformOutput(domainRange).abs();
 
                 series2Name = "Phase";
-                series2Mapper = RotorState::getCoefficientArgument;
+                series2Mapper = rs -> rs.getFourierTransformOutput(domainRange).getArgument();
             }
         }
 
@@ -367,7 +367,9 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
             panel.ensureListener(panelListener);
         }
 
-        drawChart();
+        if (draw) {
+            drawChart();
+        }
     }
     
     
@@ -408,6 +410,12 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
         final FTWinderPanel p = mPanel;
         return p != null? p.getCurrentRotorIndex(): -1;
     }
+
+    public double getDomainRange() {
+        final RotorStateManager manager = getRotorStateManager();
+        return manager != null? manager.getFunction().getDomainRange(): 1;          // default
+    }
+
 
     @NotNull
     public FTGraphMode getGraphMode() {
@@ -526,7 +534,6 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
 
 
 
-
     public boolean isDrawingAsLive() {
         return mDrawASLive;
     }
@@ -561,7 +568,7 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
         final boolean invertX = mInvertX;
         final boolean invertY = mInvertY;
 
-        if (manager == null || manager.isNoOp() || rotorCount < 1 || (mappers = getMappers(graphMode, invertY)) == null || mappers.length == 0) {
+        if (manager == null || manager.isNoOp() || rotorCount < 1 || (mappers = getMappers(graphMode, getDomainRange(), invertY)) == null || mappers.length == 0) {
             return FTGraphData.empty(graphMode);
         }
         
@@ -656,7 +663,7 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
             }
 
             if (currentRotorChanged && currentRotorIndex != -1) {
-                final MapperInfo[] mappers = getMappers(data.graphMode(), invertY);
+                final MapperInfo[] mappers = getMappers(data.graphMode(), getDomainRange(), invertY);
                 if (mappers != null && mappers.length > 0) {
                     final RotorState state = manager.getRotorState(currentRotorIndex);
 

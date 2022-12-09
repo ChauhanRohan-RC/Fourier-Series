@@ -1,7 +1,7 @@
 package function.internal.basic;
 
 import function.definition.ComplexDomainFunctionI;
-import models.ComplexSum;
+import models.ComplexBuilder;
 import models.FunctionGraphMode;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
@@ -97,7 +97,7 @@ public class MergedFunction implements ComplexDomainFunctionI {
 
     @Override
     public @NotNull Complex compute(double input) {
-        final ComplexSum sum = new ComplexSum();
+        final ComplexBuilder sum = new ComplexBuilder();
 
         for (ComplexDomainFunctionI func: functions) {
             if (func.isWithinDomain(input)) {

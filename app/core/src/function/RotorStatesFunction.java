@@ -3,7 +3,7 @@ package function;
 import async.BiConsumer;
 import function.definition.ComplexDomainFunctionI;
 import misc.CollectionUtil;
-import models.ComplexSum;
+import models.ComplexBuilder;
 import models.FunctionGraphMode;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
@@ -37,9 +37,9 @@ public class RotorStatesFunction implements ComplexDomainFunctionI {
         @NotNull
         public final String displayName;
         @NotNull
-        public final BiConsumer<ComplexSum, Complex> adder;
+        public final BiConsumer<ComplexBuilder, Complex> adder;
 
-        ComputeMode(@NotNull String displayName, @NotNull BiConsumer<ComplexSum, Complex> adder) {
+        ComputeMode(@NotNull String displayName, @NotNull BiConsumer<ComplexBuilder, Complex> adder) {
             this.displayName = displayName;
             this.adder = adder;
         }
@@ -168,7 +168,7 @@ public class RotorStatesFunction implements ComplexDomainFunctionI {
         }
 
         final ComputeMode computeMode = mComputeMode;
-        final ComplexSum r = new ComplexSum(0, 0);
+        final ComplexBuilder r = new ComplexBuilder(0, 0);
 
         states.values().forEach(s -> computeMode.adder.consume(r, s.getTip(input)));
 

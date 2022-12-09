@@ -1,6 +1,3 @@
-// todo
-1. Add support for csv, or similar format for saving and loading rotor states (may be keep function meta and definition in json, just rotor states in csv)
-
-2. Add sounds and music
+1. add Fast Fourier Transform algorithm (optimisation based on n'th root of unity)
 
 3. Snackbar (messages and simple confirm)

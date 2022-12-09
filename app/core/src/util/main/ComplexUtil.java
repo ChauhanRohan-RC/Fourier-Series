@@ -4,8 +4,9 @@ import function.ComplexDomainFunctionWrapper;
 import function.definition.ComplexFunctionI;
 import function.definition.ComplexDomainFunctionI;
 import function.definition.FrequencySupportProviderI;
-import models.ComplexSum;
+import models.ComplexBuilder;
 import org.apache.commons.math3.complex.Complex;
+import org.apache.commons.math3.util.FastMath;
 import org.jetbrains.annotations.NotNull;
 
 public class ComplexUtil {
@@ -87,6 +88,53 @@ public class ComplexUtil {
 
     public static double map(double val, double s0, double e0, double s1, double e1) {
         return s1 + (((val - s0) / (e0 - s0)) * (e1  - s1));
+    }
+
+    public static boolean isPowOf2(int v) {
+        return v != 0 && (v & (v - 1)) == 0;
+    }
+
+    public static boolean isPowOf2(long v) {
+        return v != 0 && (v & (v - 1)) == 0;
+    }
+
+    /**
+     * @return a power of 2 <= given value
+     * */
+    public static int highestPowOf2(int v) {
+        return Integer.highestOneBit(v);
+    }
+
+    /**
+     * @return a power of 2 >= given value
+     * */
+    public static int lowestPowOf2(int v) {
+        if (isPowOf2(v))
+            return v;
+
+        return Integer.highestOneBit(v) << 1;
+    }
+
+    /**
+     * @return a power of 2 <= given value
+     * */
+    public static long highestPowOf2(long v) {
+        return Long.highestOneBit(v);
+    }
+
+    /**
+     * @return a power of 2 >= given value
+     * */
+    public static long lowestPowOf2(long v) {
+        if (isPowOf2(v))
+            return v;
+
+        return Long.highestOneBit(v) << 1;
+    }
+
+
+    public static int signum(final double a) {
+        return Double.compare(a, 0.0);
     }
 
     public static double norm(double start, double end, double value) {
@@ -183,6 +231,10 @@ public class ComplexUtil {
      * */
     @NotNull
     public static Complex simpson13(final @NotNull ComplexFunctionI f, final double a, final double b, int n) {
+        final double range = b - a;
+        if (range == 0)
+            return Complex.ZERO;        // todo
+
         // N
         if (n <= 0) {
             n = SIMPSON_13_N_DEFAULT;
@@ -195,8 +247,8 @@ public class ComplexUtil {
         }
 
         // main
-        final double h = (b - a) / n;
-        final ComplexSum s = new ComplexSum();
+        final double h = range / n;
+        final ComplexBuilder s = new ComplexBuilder();
 
         // 1. End Points
         s.add(f.compute(a));
@@ -250,7 +302,7 @@ public class ComplexUtil {
 
         // main.Main
         final double h = (b - a) / n;
-        final ComplexSum s = new ComplexSum();
+        final ComplexBuilder s = new ComplexBuilder();
 
         // 1. End Points
         s.add(f.compute(a));
@@ -274,6 +326,11 @@ public class ComplexUtil {
 
 
     /* ........................................ Fourier Transform ................................ */
+
+    @NotNull
+    public static Complex complexExp(double x) {
+        return new Complex(FastMath.cos(x), FastMath.sin(x));
+    }
 
     /**
      * gets constant part of power of Fourier Transform exponential term
@@ -301,7 +358,7 @@ public class ComplexUtil {
 //        }
 
         final double pre = getFourierExpTermPowerCoefficient(getDirection(clockwise), frequency);
-        return t -> f.compute(t).multiply(new Complex(0,pre * t).exp());
+        return t -> f.compute(t).multiply(complexExp(pre * t));
     }
 
     @NotNull
@@ -327,10 +384,14 @@ public class ComplexUtil {
     }
 
 
+
+
     /**
      * Core method where integration happens
      *
      * @return fourier transform value of a function for a certain "winding" frequency
+     *
+     * TODO: implement FASt FOURIER TRANSFORM
      * */
     @NotNull
     public static Complex fourierTransform(@NotNull ComplexFunctionI f, double frequency, double a, double b, int n) {
