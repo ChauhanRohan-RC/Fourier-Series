@@ -1,5 +1,7 @@
 package animation.interpolator;
 
+import misc.MathUtil;
+
 /**
  * Repeats the animation for a specified number of cycles. The
  * rate of change follows a sinusoidal pattern.
@@ -14,6 +16,6 @@ public class CycleInterpolator implements Interpolator {
     }
 
     public float getInterpolation(float input) {
-        return (float) (Math.sin(2 * mCycles * Math.PI * input));
+        return (MathUtil.sinfast(mCycles * MathUtil.TWO_PI * input));
     }
 }

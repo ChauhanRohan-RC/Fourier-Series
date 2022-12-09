@@ -7,6 +7,7 @@ import app.Colors;
 import app.R;
 import function.definition.DomainProviderI;
 import misc.Format;
+import misc.MathUtil;
 import models.ComplexBuilder;
 import models.Size;
 import models.Triangle;
@@ -18,7 +19,6 @@ import rotor.RotorStateManager;
 import rotor.frequency.RotorFrequencyProviderI;
 import live.Listeners;
 import async.Consumer;
-import util.main.ComplexUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -420,7 +420,7 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
     }
 
     public void setRotorCount(int rotorCount) {
-        mRotorStateManager.setRotorCountAsync(ComplexUtil.constraint(ROTOR_COUNT_MIN, ROTOR_COUNT_MAX, rotorCount));      // async
+        mRotorStateManager.setRotorCountAsync(MathUtil.constraint(ROTOR_COUNT_MIN, ROTOR_COUNT_MAX, rotorCount));      // async
     }
 
     public int getRotorCount() {
@@ -428,7 +428,7 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
     }
 
     public int getConstrainedRotorCount() {
-        return ComplexUtil.constraint(ROTOR_COUNT_MIN, ROTOR_COUNT_MAX, getRotorCount());
+        return MathUtil.constraint(ROTOR_COUNT_MIN, ROTOR_COUNT_MAX, getRotorCount());
     }
 
 
@@ -634,7 +634,7 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
     }
 
     private boolean setScale(double scale, boolean update) {
-        scale = ComplexUtil.constraint(getMinimumScale(), getMaximumScale(), scale);
+        scale = MathUtil.constraint(getMinimumScale(), getMaximumScale(), scale);
         if (mScale == scale)
             return false;
 

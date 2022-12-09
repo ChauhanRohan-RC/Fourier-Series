@@ -8,10 +8,10 @@ import function.internal.chars.CharC;
 import function.internal.chars.CharR;
 import misc.CollectionUtil;
 import misc.Log;
+import misc.MathUtil;
 import org.apache.batik.parser.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
-import util.main.ComplexUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -91,7 +91,7 @@ public class Providers {
         final int len = r.nextInt(1, 5);
         final ComplexDomainFunctionI[] functions = new ComplexDomainFunctionI[len];
         for (int i=0; i < len; i++) {
-            functions[i] = new SineSignal(r.nextFloat(1, 10), r.nextInt(4, 30), r.nextDouble(0, ComplexUtil.TWo_PI), r.nextFloat(0, 1), r.nextFloat(0.5f, 5f));
+            functions[i] = new SineSignal(r.nextFloat(1, 10), r.nextInt(4, 30), r.nextDouble(0, MathUtil.TWO_PI), r.nextFloat(0, 1), r.nextFloat(0.5f, 5f));
         }
 
         final ComplexDomainFunctionI result = new MergedFunction(MergedFunction.MergeMode.UNION, functions);

@@ -4,6 +4,7 @@ import app.R;
 import misc.ChooserConfig;
 import misc.Format;
 import misc.Log;
+import misc.MathUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import rotor.FunctionState;
@@ -12,7 +13,6 @@ import rotor.RotorStateManager;
 import ui.util.Ui;
 import async.Canceller;
 import async.TaskConsumer;
-import util.main.ComplexUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -145,7 +145,7 @@ public class ExternalRotorStatesLoadPanel extends JPanel {
 
                 final int modCount = manager.addRotorStates(data);
                 if (modCount > 0 && (clear || prevCount == 0)) {
-                    manager.setRotorCountAsync(ComplexUtil.constraint(FourierSeriesPanel.ROTOR_COUNT_MIN, FourierSeriesPanel.ROTOR_COUNT_MAX, modCount));
+                    manager.setRotorCountAsync(MathUtil.constraint(FourierSeriesPanel.ROTOR_COUNT_MIN, FourierSeriesPanel.ROTOR_COUNT_MAX, modCount));
                 }
 
                 final String msg = String.format("Rotor States loaded successfully\n\nFile: %s\nRotor States: %d\nPrevious States Deleted: %b", file, modCount, clear);

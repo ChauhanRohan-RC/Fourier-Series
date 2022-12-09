@@ -1,5 +1,6 @@
 package function.definition;
 
+import misc.MathUtil;
 import org.jetbrains.annotations.Nullable;
 
 import util.main.ComplexUtil;
@@ -96,7 +97,7 @@ public interface DomainProviderI extends ColorProviderI {
         if (durMin == durMax)
             return 1;
 
-        durationMs = ComplexUtil.constraint(durMin, durMax, Math.abs(durationMs));
+        durationMs = MathUtil.constraint(durMin, durMax, Math.abs(durationMs));
 
         final float frac =  ((float) (durationMs - durMin)) / (durMax - durMin);
         return durationToSpeedFraction(frac);
@@ -107,7 +108,7 @@ public interface DomainProviderI extends ColorProviderI {
         final long durMin = getDomainAnimationDurationMsMin();
         final long durMax = getDomainAnimationDurationMsMax();
 
-        return (long) ComplexUtil.lerp(durMin, durMax, ComplexUtil.constraint(0, 1, durationToSpeedFraction(fraction)));
+        return (long) MathUtil.lerp(durMin, durMax, MathUtil.constraint(0, 1, durationToSpeedFraction(fraction)));
     }
 
 

@@ -62,7 +62,7 @@ public class FunctionState {
 
         @NotNull
         public Complex toComplex() {
-            return ComplexUtil.polar(magnitude, phase);
+            return ComplexUtil.polarExact(magnitude, phase);
         }
     }
 
@@ -453,7 +453,7 @@ public class FunctionState {
 
                     states.add(new RotorState(
                             Double.parseDouble(record.get(ROTOR_STATE_CSV_HEADER_FREQUENCY)),
-                            ComplexUtil.polar(Double.parseDouble(record.get(ROTOR_STATE_CSV_HEADER_MAGNITUDE)), Double.parseDouble(record.get(ROTOR_STATE_CSV_HEADER_PHASE)))
+                            ComplexUtil.polarExact(Double.parseDouble(record.get(ROTOR_STATE_CSV_HEADER_MAGNITUDE)), Double.parseDouble(record.get(ROTOR_STATE_CSV_HEADER_PHASE)))
                     ));
                 } catch (NumberFormatException num) {
                     Log.w(TAG, String.format("Exception while loading Rotor State from CSV at line %d. ignoring anyway....", parser.getCurrentLineNumber()), num);

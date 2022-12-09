@@ -4,18 +4,16 @@ import function.ComplexDomainFunctionWrapper;
 import function.definition.ComplexFunctionI;
 import function.definition.ComplexDomainFunctionI;
 import function.definition.FrequencySupportProviderI;
+import misc.MathUtil;
 import models.ComplexBuilder;
 import org.apache.commons.math3.complex.Complex;
-import org.apache.commons.math3.util.FastMath;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.function.IntFunction;
 
 public class ComplexUtil {
 
     public static final String TAG = "ComplexUtil";
-
-    public static final double PI = Math.PI;
-    public static final double HALF_PI = PI / 2;
-    public static final double TWo_PI = PI * 2;
 
     public static final int SIMPSON_13_N_MIN = 2;       // Must be even
     public static final int SIMPSON_13_N_DEFAULT = 100;
@@ -33,7 +31,7 @@ public class ComplexUtil {
     public static final boolean FOURIER_TRANSFORM_CLOCKWISE = true;
 
     /**
-     * Defines whether {@link #TWo_PI} should be used in Fourier Transform integrand exp term<br>
+     * Defines whether {@link MathUtil#TWO_PI} should be used in Fourier Transform integrand exp term<br>
      * <br>
      * If it is used, then the frequencies decomposed by FT algorithm will be temporal<br>
      * otherwise, angular
@@ -62,140 +60,39 @@ public class ComplexUtil {
     }
 
     @NotNull
-    public static Complex polar(double r, double thetaRadians) {
-        if (Double.isNaN(r) || Double.isNaN(thetaRadians)) {
+    public static Complex polarExact(double r, double rad) {
+        if (Double.isNaN(r) || Double.isNaN(rad)) {
             return Complex.NaN;
         }
 
-        return new Complex(r * Math.cos(thetaRadians), r * Math.sin(thetaRadians));
+        return new Complex(r * MathUtil.cosexact(rad), r * MathUtil.sinexact(rad));
     }
 
-    public static double constraint(double min, double max, double value) {
-        return Math.max(min, Math.min(max, value));
+    @NotNull
+    public static Complex polarFast(double r, double rad) {
+        return new Complex(r * MathUtil.cosfast(rad), r * MathUtil.sinfast(rad));
     }
 
-    public static float constraint(float min, float max, float value) {
-        return Math.max(min, Math.min(max, value));
+    @NotNull
+    public static Complex polarUnitExact(double rad) {
+        if (Double.isNaN(rad)) {
+            return Complex.NaN;
+        }
+
+        return new Complex(MathUtil.cosexact(rad), MathUtil.sinexact(rad));
     }
 
-    public static long constraint(long min, long max, long value) {
-        return Math.max(min, Math.min(max, value));
+    @NotNull
+    public static Complex polarUnitFast(double rad) {
+        return new Complex(MathUtil.cosfast(rad), MathUtil.sinfast(rad));
     }
 
-    public static int constraint(int min, int max, int value) {
-        return Math.max(min, Math.min(max, value));
-    }
-
-    public static double map(double val, double s0, double e0, double s1, double e1) {
-        return s1 + (((val - s0) / (e0 - s0)) * (e1  - s1));
-    }
-
-    public static boolean isPowOf2(int v) {
-        return v != 0 && (v & (v - 1)) == 0;
-    }
-
-    public static boolean isPowOf2(long v) {
-        return v != 0 && (v & (v - 1)) == 0;
-    }
-
-    /**
-     * @return a power of 2 <= given value
-     * */
-    public static int highestPowOf2(int v) {
-        return Integer.highestOneBit(v);
-    }
-
-    /**
-     * @return a power of 2 >= given value
-     * */
-    public static int lowestPowOf2(int v) {
-        if (isPowOf2(v))
-            return v;
-
-        return Integer.highestOneBit(v) << 1;
-    }
-
-    /**
-     * @return a power of 2 <= given value
-     * */
-    public static long highestPowOf2(long v) {
-        return Long.highestOneBit(v);
-    }
-
-    /**
-     * @return a power of 2 >= given value
-     * */
-    public static long lowestPowOf2(long v) {
-        if (isPowOf2(v))
-            return v;
-
-        return Long.highestOneBit(v) << 1;
-    }
-
-
-    public static int signum(final double a) {
-        return Double.compare(a, 0.0);
-    }
-
-    public static double norm(double start, double end, double value) {
-        return ((value - start) / (end - start));
-    }
-
-    public static float normF(double start, double end, double value) {
-        return (float) norm(start, end, value);
-    }
-
-    public static double norm(float start, float end, double value) {
-        return (value - start) / (end - start);
-    }
-
-    public static float normF(float start, float end, double value) {
-        return (float) norm(start, end, value);
-    }
-
-    public static double lerp(double start, double end, float t) {
-        return start + ((end - start) * t);
-    }
-
-    public static float lerp(float start, float end, float t) {
-        return start + ((end - start) * t);
-    }
-
-    public static double lerp(long start, long end, float t) {
-        return (start + ((end - start) * t));
-    }
 
 
     @NotNull
     public static Complex lerp(@NotNull Complex p0, @NotNull Complex p1, float t) {
         final double _t = 1 - t;
         return new Complex((_t * p0.getReal()) + (t * p1.getReal()), (_t * p0.getImaginary()) + (t * p1.getImaginary()));
-    }
-
-    public static double @NotNull[] negate(double @NotNull[] data) {
-        for (int i=0; i < data.length; i++) {
-            data[i] = -data[i];
-        }
-
-        return data;
-    }
-
-    public static double @NotNull[] negateCopy(double @NotNull[] data) {
-        final double[] newData = new double[data.length];
-
-        for (int i=0; i < data.length; i++) {
-            newData[i] = -data[i];
-        }
-
-        return newData;
-    }
-
-    public static double @NotNull[] scale(double @NotNull[] data, double scale) {
-        for (int i=0; i < data.length; i++) {
-            data[i] = scale * data[i];
-        }
-
-        return data;
     }
 
 
@@ -328,8 +225,13 @@ public class ComplexUtil {
     /* ........................................ Fourier Transform ................................ */
 
     @NotNull
-    public static Complex complexExp(double x) {
-        return new Complex(FastMath.cos(x), FastMath.sin(x));
+    public static ComplexBuilder complexExpExact(double x) {
+        return new ComplexBuilder(MathUtil.cosexact(x), MathUtil.sinexact(x));
+    }
+
+    @NotNull
+    public static ComplexBuilder complexExpFast(double x) {
+        return new ComplexBuilder(MathUtil.cosfast(x), MathUtil.sinfast(x));
     }
 
     /**
@@ -345,7 +247,7 @@ public class ComplexUtil {
     public static double getFourierExpTermPowerCoefficient(int direction, double frequency) {
         double pre = direction * frequency;
         if (FOURIER_TRANSFORM_USE_TWO_PI) {
-            pre *= TWo_PI;
+            pre *= MathUtil.TWO_PI;
         }
 
         return pre;
@@ -358,7 +260,7 @@ public class ComplexUtil {
 //        }
 
         final double pre = getFourierExpTermPowerCoefficient(getDirection(clockwise), frequency);
-        return t -> f.compute(t).multiply(complexExp(pre * t));
+        return t -> complexExpFast(pre * t).mult(f.compute(t)).toComplex();
     }
 
     @NotNull
@@ -471,6 +373,112 @@ public class ComplexUtil {
     @NotNull
     public static Complex fourierSeriesCoefficient(@NotNull ComplexDomainFunctionI f, double frequency) {
         return fourierSeriesCoefficient(f, frequency, f.getNumericalIntegrationIntervalCount());
+    }
+    
+    
+    /* TODO: FFT Test (not that fast....yet) */
+
+    private static final int FFT_DEFAULT_NP_HINT = FOURIER_TRANSFORM_SIMPSON_13_N_DEFAULT;
+    private static final int FFT_N_MIN = 4;     // power of 2
+
+    @NotNull
+    public static Complex fft(@NotNull ComplexFunctionI func, double a, double b, double fq, int np_hint) {
+        if (func instanceof FrequencySupportProviderI fsp && !fsp.isFrequencySupported(fq)) {
+            return Complex.ZERO;
+        }
+
+        final double range = b - a;
+        if (range == 0)
+            return Complex.ZERO;
+
+        if (fq == 0)
+            return simpson13(func, a, b, np_hint);
+
+        if (np_hint <= 0) {
+            np_hint = FFT_DEFAULT_NP_HINT;
+        } else if (np_hint < FFT_N_MIN) {
+            np_hint = FFT_N_MIN;
+        }
+
+        final double c = fq * range;            // can be -ve
+        final double absC = Math.abs(c);
+        if (absC < 1 || absC > np_hint)
+            return simpson13(fourierTransformIntegrand(func, fq), a, b, np_hint);
+
+        final double n_hint_d = np_hint / absC;
+        int n_hint = MathUtil.highestPowOf2((int) n_hint_d);
+        if (n_hint < FFT_N_MIN) {
+            n_hint = FFT_N_MIN;              // N_MIN
+        }
+
+        final int n = n_hint;
+
+        final double np_d = absC * n;
+        final double h = range / np_d;
+
+        int np_int = (int) np_d;      // >= N_MIN
+        if (np_int % 2 != 0) {
+            np_int--;           // must be even
+        }
+
+        // building cache
+        final Complex[] cache = new Complex[n];
+        cache[0] = Complex.ONE;
+        cache[n / 4] = Complex.I;
+        cache[n / 2] = Complex.ONE.negate();
+
+        final double ftPre = getDirection(FOURIER_TRANSFORM_CLOCKWISE) * MathUtil.TWO_PI;
+        final double pre = ftPre * MathUtil.signum(c);
+
+        for (int i=1; i < n / 2; i++) {
+            Complex val = cache[i];
+            if (val == null) {
+                val = complexExpFast((pre * i) / n).toComplex();
+                cache[i] = val;
+            }
+
+            cache[i + (n / 2)] = val.negate();
+        }
+
+
+        final ComplexBuilder constant = complexExpFast(ftPre * fq * a);
+//        if (Complex.ZERO.equals(constant))
+//            return Complex.ZERO;
+
+        final IntFunction<ComplexBuilder> donor = i -> new ComplexBuilder(func.compute(a + (i * h))).mult(cache[i % n]);
+
+        // simpson 13 over [a, a + np_int * h]
+        final ComplexBuilder sum = new ComplexBuilder();
+
+        // end points
+        sum.add(donor.apply(0)).add(donor.apply(np_int));
+
+        // 2. Odd Points
+        for (int i=1; i < np_int; i+=2) {
+            sum.add(donor.apply(i), 4);
+        }
+
+        // 3. Even Points
+        for (int i=2; i < np_int; i+=2) {
+            sum.add(donor.apply(i), 2);
+        }
+
+        // core result
+        sum.mult(constant).mult(h / 3);
+
+        // Left part [a + np_int * h, b)
+        final double bp = a + (np_int * h);
+        if (bp < b) {
+            final Complex left_result = simpson13(fourierTransformIntegrand(func, fq), bp, b, SIMPSON_13_N_MIN);
+            sum.add(left_result);
+        }
+
+        return sum.toComplex();
+    }
+
+    @NotNull
+    public static Complex fft(@NotNull ComplexDomainFunctionI func, double fq) {
+        return fft(func, func.getDomainStart(), func.getDomainEnd(), fq, -1);
     }
 
 }

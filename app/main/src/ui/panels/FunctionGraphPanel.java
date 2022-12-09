@@ -4,6 +4,7 @@ import action.BaseAction;
 import app.R;
 import function.definition.ComplexDomainFunctionI;
 import misc.CollectionUtil;
+import misc.MathUtil;
 import models.RealTransform;
 import models.graph.FunctionGraphData;
 import models.FunctionGraphMode;
@@ -15,7 +16,6 @@ import ui.DarkChartTheme;
 import async.Async;
 import async.Canceller;
 import live.Listeners;
-import util.main.ComplexUtil;
 import xchart.*;
 import xchart.style.Styler;
 import xchart.style.XYStyler;
@@ -312,7 +312,7 @@ public class FunctionGraphPanel extends XChartPanel<XYChart> {
         final XYSeriesData[] series = switch (mode) {
             case INPUT_VS_OUT_REAL -> {
                 if (invertX) {
-                    domain = ComplexUtil.negateCopy(domain);
+                    domain = MathUtil.negateCopy(domain);
                 }
 
                 yield new XYSeriesData[] {
@@ -321,7 +321,7 @@ public class FunctionGraphPanel extends XChartPanel<XYChart> {
             }
             case INPUT_VS_OUT_IMAGINARY -> {
                 if (invertX) {
-                    domain = ComplexUtil.negateCopy(domain);
+                    domain = MathUtil.negateCopy(domain);
                 }
 
                 yield new XYSeriesData[] {
@@ -330,7 +330,7 @@ public class FunctionGraphPanel extends XChartPanel<XYChart> {
             }
             case INPUT_VS_OUT_REAL_AND_IMG -> {
                 if (invertX) {
-                    domain = ComplexUtil.negateCopy(domain);
+                    domain = MathUtil.negateCopy(domain);
                 }
 
                 yield new XYSeriesData[] {
@@ -340,7 +340,7 @@ public class FunctionGraphPanel extends XChartPanel<XYChart> {
             }
             case INPUT_VS_OUT_MAGNITUDE -> {
                 if (invertX) {
-                    domain = ComplexUtil.negateCopy(domain);
+                    domain = MathUtil.negateCopy(domain);
                 }
 
                 yield new XYSeriesData[] {
@@ -349,7 +349,7 @@ public class FunctionGraphPanel extends XChartPanel<XYChart> {
             }
             case INPUT_VS_OUT_ARGUMENT -> {
                 if (invertX) {
-                    domain = ComplexUtil.negateCopy(domain);
+                    domain = MathUtil.negateCopy(domain);
                 }
 
                 yield new XYSeriesData[] {
@@ -358,7 +358,7 @@ public class FunctionGraphPanel extends XChartPanel<XYChart> {
             }
             case INPUT_VS_OUT_MAG_AND_ARG -> {
                 if (invertX) {
-                    domain = ComplexUtil.negateCopy(domain);
+                    domain = MathUtil.negateCopy(domain);
                 }
 
                 yield new XYSeriesData[] {

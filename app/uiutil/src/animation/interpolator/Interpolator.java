@@ -1,5 +1,6 @@
 package animation.interpolator;
 
+import misc.MathUtil;
 import org.jetbrains.annotations.NotNull;
 
 public interface Interpolator {
@@ -39,7 +40,7 @@ public interface Interpolator {
      * accelerates through the middle.
      */
     static float accelerateDecelerate(float input) {
-        return (float)(Math.cos((input + 1) * Math.PI) / 2.0f) + 0.5f;
+        return (MathUtil.cosfast((input + 1) * MathUtil.PI) / 2.0f) + 0.5f;
     }
 
     @NotNull

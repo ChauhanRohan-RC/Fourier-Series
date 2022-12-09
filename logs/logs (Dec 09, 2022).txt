@@ -1,0 +1,694 @@
+
+## LOG START -> 2022-12-09 20:35:31:240756200 +05:30[Asia/Calcutta]
+2022-12-09 20:35:31:225129600 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 20:35:32:757981300 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 20:35:35:333724900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Sine Signal (Internal Program) 
+2022-12-09 20:35:35:903804100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-12-09 20:35:36:174813300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Sine Signal (Internal Program)] loaded in 825 ms 
+2022-12-09 20:35:36:274156900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : IDLE -> OPEN 
+2022-12-09 20:35:36:274156900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-12-09 20:35:36:274156900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : OPEN -> PLAYING 
+2022-12-09 20:35:36:274156900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-12-09 20:35:38:198351600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Sine Signal (Internal Program) 
+2022-12-09 20:35:39:100711900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Sine Signal (Internal Program)] loaded in 900 ms 
+2022-12-09 20:35:50:679631100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 20:35:51:816215400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 1135 ms 
+2022-12-09 20:35:54:13877600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 20:35:55:902893300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 1888 ms 
+2022-12-09 20:36:25:364219100 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Joseph Fourier) | WindowCount: 0 
+2022-12-09 20:36:25:365223300 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 20:36:25:497457200 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 20:36:25:498983600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> CLOSED 
+2022-12-09 20:36:25:499253500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : PLAYING -> CLOSING 
+2022-12-09 20:36:25:499602700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : CLOSING -> CLOSED 
+## LOG END -> 2022-12-09 20:36:25:499602700 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 20:37:00:457108100 +05:30[Asia/Calcutta]
+2022-12-09 20:37:00:457108100 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 20:37:01:771083600 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 20:37:04:740601400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 20:37:05:309710800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-12-09 20:37:05:759533900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Opus): IS_CURRENT: true : IDLE -> OPEN 
+2022-12-09 20:37:05:761045700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-12-09 20:37:05:761045700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Opus): IS_CURRENT: true : OPEN -> PLAYING 
+2022-12-09 20:37:05:761045700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-12-09 20:37:06:248645000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 1508 ms 
+2022-12-09 20:37:08:934348700 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Joseph Fourier) | WindowCount: 0 
+2022-12-09 20:37:08:934348700 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 20:37:08:981461500 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 20:37:08:981461500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> CLOSED 
+2022-12-09 20:37:08:981461500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Opus): IS_CURRENT: true : PLAYING -> CLOSING 
+2022-12-09 20:37:08:988009600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Opus): IS_CURRENT: true : CLOSING -> CLOSED 
+## LOG END -> 2022-12-09 20:37:09:11136800 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 20:39:37:539580300 +05:30[Asia/Calcutta]
+2022-12-09 20:39:37:539580300 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 20:39:38:777630600 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 20:39:42:578201700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 20:39:43:234257100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-12-09 20:39:43:576338200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : IDLE -> OPEN 
+2022-12-09 20:39:43:576338200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-12-09 20:39:43:581373800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : OPEN -> PLAYING 
+2022-12-09 20:39:43:581373800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-12-09 20:39:43:808695300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 1230 ms 
+2022-12-09 20:39:51:523127700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 20:39:54:201820900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 2677 ms 
+2022-12-09 20:39:56:383573200 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Joseph Fourier) | WindowCount: 0 
+2022-12-09 20:39:56:383573200 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 20:39:56:424917500 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 20:39:56:426789700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> CLOSED 
+2022-12-09 20:39:56:426789700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : PLAYING -> CLOSING 
+2022-12-09 20:39:56:426893000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : CLOSING -> CLOSED 
+## LOG END -> 2022-12-09 20:39:56:428630600 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 20:40:47:677078900 +05:30[Asia/Calcutta]
+2022-12-09 20:40:47:677078900 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 20:40:49:14366300 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 20:40:57:521173400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Sine Signal (Internal Program) 
+2022-12-09 20:40:58:83422700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-12-09 20:40:58:430535500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : IDLE -> OPEN 
+2022-12-09 20:40:58:430535500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-12-09 20:40:58:430535500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : OPEN -> PLAYING 
+2022-12-09 20:40:58:430535500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-12-09 20:40:58:795022700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Sine Signal (Internal Program)] loaded in 1273 ms 
+2022-12-09 20:41:02:685081800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 631 Rotor States for function Sine Signal (Internal Program) 
+2022-12-09 20:41:03:949781000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 631 Rotor States for function [Sine Signal (Internal Program)] loaded in 1263 ms 
+2022-12-09 20:41:05:509148600 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Transform (Sine Signal) | WindowCount: 2 
+2022-12-09 20:41:16:473306100 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Transform (Sine Signal) | WindowCount: 1 
+2022-12-09 20:41:16:968654300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : PLAYING -> PAUSED 
+2022-12-09 20:41:16:968654300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2022-12-09 20:41:18:929720300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : PAUSED -> PLAYING 
+2022-12-09 20:41:18:929854500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PAUSED -> PLAYING 
+2022-12-09 20:41:21:925951600 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Sine Signal) | WindowCount: 0 
+2022-12-09 20:41:21:926947900 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 20:41:21:987168600 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 20:41:21:988169600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> CLOSED 
+2022-12-09 20:41:21:996019900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : PLAYING -> CLOSING 
+2022-12-09 20:41:21:996402500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : CLOSING -> CLOSED 
+## LOG END -> 2022-12-09 20:41:21:998405200 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 20:41:29:323389300 +05:30[Asia/Calcutta]
+2022-12-09 20:41:29:307758800 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 20:41:30:494901400 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 20:41:33:801150800 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-12-09 20:41:33:801150800 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 20:41:33:853563300 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 20:41:33:853563300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> CLOSED 
+## LOG END -> 2022-12-09 20:41:33:863768700 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 20:42:09:310729200 +05:30[Asia/Calcutta]
+2022-12-09 20:42:09:310729200 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 20:42:11:148802200 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 20:42:40:493786700 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-12-09 20:42:40:493786700 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 20:42:40:539716700 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 20:42:40:555371500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> CLOSED 
+## LOG END -> 2022-12-09 20:42:40:562040000 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 20:42:48:530227800 +05:30[Asia/Calcutta]
+2022-12-09 20:42:48:514597900 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 20:42:49:798720500 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 20:43:10:813005600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Sine Signal (Internal Program) 
+2022-12-09 20:43:11:400592000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-12-09 20:43:11:761614700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Quaternions): IS_CURRENT: true : IDLE -> OPEN 
+2022-12-09 20:43:11:761614700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-12-09 20:43:11:765126900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Quaternions): IS_CURRENT: true : OPEN -> PLAYING 
+2022-12-09 20:43:11:765126900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-12-09 20:43:11:937535500 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Sine Signal (Internal Program)] loaded in 1124 ms 
+2022-12-09 20:43:16:335309300 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Transform (Sine Signal) | WindowCount: 2 
+2022-12-09 20:43:23:79851400 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Transform (Sine Signal) | WindowCount: 1 
+2022-12-09 20:43:23:573813100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Quaternions): IS_CURRENT: true : PLAYING -> PAUSED 
+2022-12-09 20:43:23:573813100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2022-12-09 20:43:33:471338700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Eighth Note (Internal Path) 
+2022-12-09 20:43:34:15236800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Quaternions): IS_CURRENT: true : PAUSED -> PLAYING 
+2022-12-09 20:43:34:15236800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PAUSED -> PLAYING 
+2022-12-09 20:43:34:552143000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Eighth Note (Internal Path)] loaded in 1081 ms 
+2022-12-09 20:43:39:891551900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 665 Rotor States for function Eighth Note (Internal Path) 
+2022-12-09 20:43:41:508661200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 665 Rotor States for function [Eighth Note (Internal Path)] loaded in 1617 ms 
+2022-12-09 20:43:43:401214400 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Eighth Note) | WindowCount: 0 
+2022-12-09 20:43:43:402220000 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 20:43:43:429065700 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 20:43:43:430748900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> CLOSED 
+2022-12-09 20:43:43:430748900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Quaternions): IS_CURRENT: true : PLAYING -> CLOSING 
+2022-12-09 20:43:43:431038200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Quaternions): IS_CURRENT: true : CLOSING -> CLOSED 
+## LOG END -> 2022-12-09 20:43:43:431038200 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 20:45:37:325904600 +05:30[Asia/Calcutta]
+2022-12-09 20:45:37:325904600 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 20:45:38:375110100 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 20:45:42:290460200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Eighth Note (Internal Path) 
+2022-12-09 20:45:42:857777400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-12-09 20:45:43:212259700 +05:30[Asia/Calcutta]:Err: AudioStreamer: I/O error in initialising Audio Stream
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Wading.m4a 
+java.io.IOException: Resetting to invalid mark
+	at java.base/java.io.BufferedInputStream.implReset(BufferedInputStream.java:545)
+	at java.base/java.io.BufferedInputStream.reset(BufferedInputStream.java:531)
+	at org.tritonus.share.sampled.file.TAudioFileReader.getAudioInputStream(TAudioFileReader.java:333)
+	at javazoom.spi.mpeg.sampled.file.MpegAudioFileReader.getAudioInputStream(MpegAudioFileReader.java:583)
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1008)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2022-12-09 20:45:43:212259700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Wading): IS_CURRENT: true : IDLE -> ERROR 
+2022-12-09 20:45:43:215879700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> ERROR 
+2022-12-09 20:45:43:282300400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Eighth Note (Internal Path)] loaded in 992 ms 
+2022-12-09 20:45:44:256150400 +05:30[Asia/Calcutta]:Err: AudioStreamer: I/O error in initialising Audio Stream
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Wading.m4a 
+java.io.IOException: Resetting to invalid mark
+	at java.base/java.io.BufferedInputStream.implReset(BufferedInputStream.java:545)
+	at java.base/java.io.BufferedInputStream.reset(BufferedInputStream.java:531)
+	at org.tritonus.share.sampled.file.TAudioFileReader.getAudioInputStream(TAudioFileReader.java:333)
+	at javazoom.spi.mpeg.sampled.file.MpegAudioFileReader.getAudioInputStream(MpegAudioFileReader.java:583)
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1008)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2022-12-09 20:45:44:256150400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Wading): IS_CURRENT: true : ERROR -> ERROR 
+2022-12-09 20:45:44:256150400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2022-12-09 20:45:45:424482900 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Transform (Eighth Note) | WindowCount: 2 
+2022-12-09 20:45:46:382255500 +05:30[Asia/Calcutta]:Err: AudioStreamer: I/O error in initialising Audio Stream
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Wading.m4a 
+java.io.IOException: Resetting to invalid mark
+	at java.base/java.io.BufferedInputStream.implReset(BufferedInputStream.java:545)
+	at java.base/java.io.BufferedInputStream.reset(BufferedInputStream.java:531)
+	at org.tritonus.share.sampled.file.TAudioFileReader.getAudioInputStream(TAudioFileReader.java:333)
+	at javazoom.spi.mpeg.sampled.file.MpegAudioFileReader.getAudioInputStream(MpegAudioFileReader.java:583)
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1008)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2022-12-09 20:45:46:382255500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Wading): IS_CURRENT: true : ERROR -> ERROR 
+2022-12-09 20:45:46:382255500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2022-12-09 20:45:52:160742300 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Transform (Eighth Note) | WindowCount: 1 
+2022-12-09 20:45:59:142517000 +05:30[Asia/Calcutta]:Verbose: Providers: Random Signal: MergedFUnction[ mergeMode=UNION
+	SineSignal(frequency=1.1089856624603271Hz, duration=13.0s, phase=1.8130320271341132rad, addant=0.07982414960861206, multiplier=2.246502161026001)
+	SineSignal(frequency=1.0135548114776611Hz, duration=25.0s, phase=6.03515907706688rad, addant=0.7061951756477356, multiplier=4.45908784866333)
+] 
+2022-12-09 20:45:59:172225800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Random Signal (Internal Program) 
+2022-12-09 20:46:00:7927900 +05:30[Asia/Calcutta]:Err: AudioStreamer: I/O error in initialising Audio Stream
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Wading.m4a 
+java.io.IOException: Resetting to invalid mark
+	at java.base/java.io.BufferedInputStream.implReset(BufferedInputStream.java:545)
+	at java.base/java.io.BufferedInputStream.reset(BufferedInputStream.java:531)
+	at org.tritonus.share.sampled.file.TAudioFileReader.getAudioInputStream(TAudioFileReader.java:333)
+	at javazoom.spi.mpeg.sampled.file.MpegAudioFileReader.getAudioInputStream(MpegAudioFileReader.java:583)
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1008)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2022-12-09 20:46:00:7927900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Wading): IS_CURRENT: true : ERROR -> ERROR 
+2022-12-09 20:46:00:7927900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2022-12-09 20:46:00:264447600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Random Signal (Internal Program)] loaded in 1092 ms 
+2022-12-09 20:46:01:303570600 +05:30[Asia/Calcutta]:Err: AudioStreamer: I/O error in initialising Audio Stream
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Wading.m4a 
+java.io.IOException: Resetting to invalid mark
+	at java.base/java.io.BufferedInputStream.implReset(BufferedInputStream.java:545)
+	at java.base/java.io.BufferedInputStream.reset(BufferedInputStream.java:531)
+	at org.tritonus.share.sampled.file.TAudioFileReader.getAudioInputStream(TAudioFileReader.java:333)
+	at javazoom.spi.mpeg.sampled.file.MpegAudioFileReader.getAudioInputStream(MpegAudioFileReader.java:583)
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1008)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2022-12-09 20:46:01:319200100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Wading): IS_CURRENT: true : ERROR -> ERROR 
+2022-12-09 20:46:01:319200100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2022-12-09 20:46:13:169682700 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Transform (Random Signal) | WindowCount: 2 
+2022-12-09 20:46:13:954990200 +05:30[Asia/Calcutta]:Err: AudioStreamer: I/O error in initialising Audio Stream
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Wading.m4a 
+java.io.IOException: Resetting to invalid mark
+	at java.base/java.io.BufferedInputStream.implReset(BufferedInputStream.java:545)
+	at java.base/java.io.BufferedInputStream.reset(BufferedInputStream.java:531)
+	at org.tritonus.share.sampled.file.TAudioFileReader.getAudioInputStream(TAudioFileReader.java:333)
+	at javazoom.spi.mpeg.sampled.file.MpegAudioFileReader.getAudioInputStream(MpegAudioFileReader.java:583)
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1008)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2022-12-09 20:46:13:956012000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Wading): IS_CURRENT: true : ERROR -> ERROR 
+2022-12-09 20:46:13:956012000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2022-12-09 20:46:17:724881400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Random Signal (Internal Program) 
+2022-12-09 20:46:19:304290300 +05:30[Asia/Calcutta]:Err: AudioStreamer: I/O error in initialising Audio Stream
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Wading.m4a 
+java.io.IOException: Resetting to invalid mark
+	at java.base/java.io.BufferedInputStream.implReset(BufferedInputStream.java:545)
+	at java.base/java.io.BufferedInputStream.reset(BufferedInputStream.java:531)
+	at org.tritonus.share.sampled.file.TAudioFileReader.getAudioInputStream(TAudioFileReader.java:333)
+	at javazoom.spi.mpeg.sampled.file.MpegAudioFileReader.getAudioInputStream(MpegAudioFileReader.java:583)
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1008)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2022-12-09 20:46:19:304290300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Wading): IS_CURRENT: true : ERROR -> ERROR 
+2022-12-09 20:46:19:304290300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2022-12-09 20:46:20:289456300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Random Signal (Internal Program)] loaded in 2565 ms 
+2022-12-09 20:46:21:290473300 +05:30[Asia/Calcutta]:Err: AudioStreamer: I/O error in initialising Audio Stream
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Wading.m4a 
+java.io.IOException: Resetting to invalid mark
+	at java.base/java.io.BufferedInputStream.implReset(BufferedInputStream.java:545)
+	at java.base/java.io.BufferedInputStream.reset(BufferedInputStream.java:531)
+	at org.tritonus.share.sampled.file.TAudioFileReader.getAudioInputStream(TAudioFileReader.java:333)
+	at javazoom.spi.mpeg.sampled.file.MpegAudioFileReader.getAudioInputStream(MpegAudioFileReader.java:583)
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1008)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2022-12-09 20:46:21:290473300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Wading): IS_CURRENT: true : ERROR -> ERROR 
+2022-12-09 20:46:21:290473300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2022-12-09 20:46:32:392056300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Rotor Frequency Provider changed. Function: Random Signal (Internal Program) | Old Frequency Provider: null | New Frequency Provider: BoundedFrequencyProvider{frequencyStart=0.0, frequencyEnd=1.2} 
+2022-12-09 20:46:32:392056300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Random Signal (Internal Program) 
+2022-12-09 20:46:35:46482200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Random Signal (Internal Program)] loaded in 2654 ms 
+2022-12-09 20:46:47:720128800 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Transform (Random Signal) | WindowCount: 1 
+2022-12-09 20:46:48:801541300 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Random Signal) | WindowCount: 0 
+2022-12-09 20:46:48:801541300 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 20:46:48:827918300 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 20:46:48:827918300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> CLOSED 
+## LOG END -> 2022-12-09 20:46:48:837942900 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 20:46:54:952611800 +05:30[Asia/Calcutta]
+2022-12-09 20:46:54:936958900 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 20:46:56:16664000 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 20:46:58:595858300 +05:30[Asia/Calcutta]:Verbose: Providers: Random Signal: MergedFUnction[ mergeMode=UNION
+	SineSignal(frequency=1.4517526626586914Hz, duration=14.0s, phase=5.17046182404151rad, addant=0.2879437208175659, multiplier=0.9004897475242615)
+	SineSignal(frequency=5.233251571655273Hz, duration=4.0s, phase=5.414248378544196rad, addant=0.5944639444351196, multiplier=4.003836631774902)
+	SineSignal(frequency=6.482902526855469Hz, duration=7.0s, phase=3.5179748516859615rad, addant=0.6070483326911926, multiplier=3.1526873111724854)
+] 
+2022-12-09 20:46:58:622313300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Random Signal (Internal Program) 
+2022-12-09 20:46:59:172644400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-12-09 20:46:59:490736000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : IDLE -> OPEN 
+2022-12-09 20:46:59:490736000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-12-09 20:46:59:493749300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : OPEN -> PLAYING 
+2022-12-09 20:46:59:493749300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-12-09 20:46:59:719333700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Random Signal (Internal Program)] loaded in 1097 ms 
+2022-12-09 20:47:06:532338000 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Transform (Random Signal) | WindowCount: 2 
+2022-12-09 20:47:15:810059100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Rotor Frequency Provider changed. Function: Random Signal (Internal Program) | Old Frequency Provider: null | New Frequency Provider: BoundedFrequencyProvider{frequencyStart=1.0, frequencyEnd=7.0} 
+2022-12-09 20:47:15:811060700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Random Signal (Internal Program) 
+2022-12-09 20:47:17:243902000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Random Signal (Internal Program)] loaded in 1432 ms 
+2022-12-09 20:47:18:403516200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Random Signal (Internal Program) 
+2022-12-09 20:47:20:851109400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Random Signal (Internal Program)] loaded in 2448 ms 
+2022-12-09 20:48:01:766318700 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Transform (Random Signal) | WindowCount: 1 
+2022-12-09 20:48:10:664959100 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Random Signal) | WindowCount: 0 
+2022-12-09 20:48:10:664959100 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 20:48:10:686640900 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 20:48:10:688869000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> CLOSED 
+2022-12-09 20:48:10:688869000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : PLAYING -> CLOSING 
+2022-12-09 20:48:10:688869000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : CLOSING -> CLOSED 
+## LOG END -> 2022-12-09 20:48:10:693246300 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 20:49:44:103178700 +05:30[Asia/Calcutta]
+2022-12-09 20:49:44:101247900 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 20:49:45:191077200 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 20:49:48:748648000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 20:49:49:316370200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-12-09 20:49:49:674836000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : IDLE -> OPEN 
+2022-12-09 20:49:49:674836000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-12-09 20:49:49:674836000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : OPEN -> PLAYING 
+2022-12-09 20:49:49:674836000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-12-09 20:49:50:348951200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 1600 ms 
+2022-12-09 20:49:53:424751500 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 20:49:56:781357100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 3356 ms 
+2022-12-09 20:50:06:37409000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Sine Signal (Internal Program) 
+2022-12-09 20:50:08:136778700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Sine Signal (Internal Program)] loaded in 2097 ms 
+2022-12-09 20:50:11:196530400 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Transform (Sine Signal) | WindowCount: 2 
+2022-12-09 20:50:14:388574500 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Transform (Sine Signal) | WindowCount: 1 
+2022-12-09 20:50:14:885457200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : PLAYING -> PAUSED 
+2022-12-09 20:50:14:885457200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2022-12-09 20:50:19:473137900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function RC (Aquire) (Internal Path) 
+2022-12-09 20:50:20:16001000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : PAUSED -> PLAYING 
+2022-12-09 20:50:20:16001000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PAUSED -> PLAYING 
+2022-12-09 20:50:20:788667000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [RC (Aquire) (Internal Path)] loaded in 1314 ms 
+2022-12-09 20:50:26:545124800 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (RC (Aquire)) | WindowCount: 0 
+2022-12-09 20:50:26:545124800 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 20:50:26:578562600 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 20:50:26:581799400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> CLOSED 
+2022-12-09 20:50:26:581799400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : PLAYING -> CLOSING 
+2022-12-09 20:50:26:583096600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : CLOSING -> CLOSED 
+## LOG END -> 2022-12-09 20:50:26:583854400 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 20:53:19:791339300 +05:30[Asia/Calcutta]
+2022-12-09 20:53:19:775712900 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 20:53:20:892228700 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 20:53:25:251109300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 20:53:25:803154200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-12-09 20:53:26:64906300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : IDLE -> OPEN 
+2022-12-09 20:53:26:64906300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-12-09 20:53:26:69914800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : OPEN -> PLAYING 
+2022-12-09 20:53:26:69914800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-12-09 20:53:26:355652800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 1103 ms 
+2022-12-09 20:53:29:384733600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 20:53:31:577129500 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 2192 ms 
+2022-12-09 20:53:34:106961700 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Joseph Fourier) | WindowCount: 0 
+2022-12-09 20:53:34:106961700 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 20:53:34:135852900 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 20:53:34:137964300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> CLOSED 
+2022-12-09 20:53:34:137964300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : PLAYING -> CLOSING 
+2022-12-09 20:53:34:138886700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : CLOSING -> CLOSED 
+## LOG END -> 2022-12-09 20:53:34:140205000 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 20:53:44:367085300 +05:30[Asia/Calcutta]
+2022-12-09 20:53:44:367085300 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 20:53:45:414938400 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 20:53:51:110975700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Eighth Note (Internal Path) 
+2022-12-09 20:53:51:667123100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-12-09 20:53:51:973316800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Wallis Ballade): IS_CURRENT: true : IDLE -> OPEN 
+2022-12-09 20:53:51:973316800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-12-09 20:53:52:263570600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Eighth Note (Internal Path)] loaded in 1153 ms 
+2022-12-09 20:53:53:926303300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Eighth Note (Internal Path) 
+2022-12-09 20:53:55:995667500 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Eighth Note (Internal Path)] loaded in 2069 ms 
+2022-12-09 20:54:05:602661500 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 20:54:06:483695200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 880 ms 
+2022-12-09 20:54:10:103693600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 20:54:12:203589800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 2100 ms 
+2022-12-09 20:54:14:432570100 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Joseph Fourier) | WindowCount: 0 
+2022-12-09 20:54:14:433582700 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 20:54:14:453680000 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 20:54:14:462778600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> CLOSED 
+2022-12-09 20:54:14:462778600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Wallis Ballade): IS_CURRENT: true : OPEN -> CLOSED 
+## LOG END -> 2022-12-09 20:54:14:473390200 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 20:55:10:7114900 +05:30[Asia/Calcutta]
+2022-12-09 20:55:09:991481300 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 20:55:11:79392100 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 20:55:13:714253500 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 20:55:14:263870900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-12-09 20:55:14:505490500 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 791 ms 
+2022-12-09 20:55:14:561346800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Quaternions): IS_CURRENT: true : IDLE -> OPEN 
+2022-12-09 20:55:14:561346800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-12-09 20:55:14:565388200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Quaternions): IS_CURRENT: true : OPEN -> PLAYING 
+2022-12-09 20:55:14:565388200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-12-09 20:55:17:449983800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 20:55:18:861705400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 1411 ms 
+2022-12-09 20:55:32:595427200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 20:55:34:210866800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 1615 ms 
+2022-12-09 20:56:04:679611100 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Joseph Fourier) | WindowCount: 0 
+2022-12-09 20:56:04:680616600 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 20:56:04:702154600 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 20:56:04:704695200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> CLOSED 
+2022-12-09 20:56:04:704695200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Quaternions): IS_CURRENT: true : PLAYING -> CLOSING 
+2022-12-09 20:56:04:705351500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Quaternions): IS_CURRENT: true : CLOSING -> CLOSED 
+## LOG END -> 2022-12-09 20:56:04:705887900 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 20:56:23:659800900 +05:30[Asia/Calcutta]
+2022-12-09 20:56:23:644174200 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 20:56:24:749697600 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 20:56:28:637208700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 20:56:29:206430800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-12-09 20:56:29:506621500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : IDLE -> OPEN 
+2022-12-09 20:56:29:507646500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-12-09 20:56:29:507646500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : OPEN -> PLAYING 
+2022-12-09 20:56:29:507646500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-12-09 20:56:29:751732300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 1114 ms 
+2022-12-09 20:56:31:635215400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 20:56:33:666551400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 2030 ms 
+2022-12-09 20:56:46:125214000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 20:56:48:453284900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 2327 ms 
+2022-12-09 20:57:05:534245500 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Joseph Fourier) | WindowCount: 0 
+2022-12-09 20:57:05:534245500 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 20:57:05:556461900 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 20:57:05:560398800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> CLOSED 
+2022-12-09 20:57:05:560892500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : PLAYING -> CLOSING 
+2022-12-09 20:57:05:561128400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : CLOSING -> CLOSED 
+## LOG END -> 2022-12-09 20:57:05:566664500 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 20:59:58:944369800 +05:30[Asia/Calcutta]
+2022-12-09 20:59:58:928741000 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 21:00:00:38725600 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 21:00:02:660488400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Sine Signal (Internal Program) 
+2022-12-09 21:00:03:151885500 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Sine Signal (Internal Program)] loaded in 491 ms 
+2022-12-09 21:00:03:687169000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-12-09 21:00:04:221751300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Opus): IS_CURRENT: true : IDLE -> OPEN 
+2022-12-09 21:00:04:223710500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-12-09 21:00:04:464536600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Opus): IS_CURRENT: true : OPEN -> PLAYING 
+2022-12-09 21:00:04:464536600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-12-09 21:00:15:907736900 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Transform (Sine Signal) | WindowCount: 2 
+2022-12-09 21:00:19:526704600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Sine Signal (Internal Program) 
+2022-12-09 21:00:20:328488400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Sine Signal (Internal Program)] loaded in 802 ms 
+2022-12-09 21:00:32:896735300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Rotor Frequency Provider changed. Function: Sine Signal (Internal Program) | Old Frequency Provider: null | New Frequency Provider: BoundedFrequencyProvider{frequencyStart=0.0, frequencyEnd=3.0} 
+2022-12-09 21:00:32:897733900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Sine Signal (Internal Program) 
+2022-12-09 21:00:33:699185000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Sine Signal (Internal Program)] loaded in 802 ms 
+2022-12-09 21:00:36:850238100 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Transform (Sine Signal) | WindowCount: 1 
+2022-12-09 21:01:05:284048600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Eighth Note (Internal Path) 
+2022-12-09 21:01:06:206669900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Eighth Note (Internal Path)] loaded in 922 ms 
+2022-12-09 21:01:13:792324200 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Transform (Eighth Note) | WindowCount: 2 
+2022-12-09 21:01:15:848894800 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Transform (Eighth Note) | WindowCount: 1 
+2022-12-09 21:01:16:345284500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Opus): IS_CURRENT: true : PLAYING -> PAUSED 
+2022-12-09 21:01:16:345284500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2022-12-09 21:01:19:147788700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 21:01:19:672696100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Opus): IS_CURRENT: true : PAUSED -> PLAYING 
+2022-12-09 21:01:19:673882700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PAUSED -> PLAYING 
+2022-12-09 21:01:19:834957600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 687 ms 
+2022-12-09 21:01:22:392096700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 21:01:24:269106600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 1876 ms 
+2022-12-09 21:01:30:103618900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 21:01:32:503314100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 2400 ms 
+2022-12-09 21:01:55:583739500 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Joseph Fourier) | WindowCount: 0 
+2022-12-09 21:01:55:584742800 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 21:01:55:611370000 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 21:01:55:613307600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> CLOSED 
+2022-12-09 21:01:55:613307600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Opus): IS_CURRENT: true : PLAYING -> CLOSING 
+2022-12-09 21:01:55:614362600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Opus): IS_CURRENT: true : CLOSING -> CLOSED 
+## LOG END -> 2022-12-09 21:01:55:614362600 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 21:03:44:861231100 +05:30[Asia/Calcutta]
+2022-12-09 21:03:44:845600300 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 21:03:45:690328700 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 21:03:48:776043000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 21:03:49:326161200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-12-09 21:03:49:342090700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 566 ms 
+2022-12-09 21:03:49:628850100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : IDLE -> OPEN 
+2022-12-09 21:03:49:628850100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-12-09 21:03:49:628850100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : OPEN -> PLAYING 
+2022-12-09 21:03:49:628850100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-12-09 21:04:06:849350500 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Joseph Fourier) | WindowCount: 0 
+2022-12-09 21:04:06:850352800 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 21:04:06:873985700 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 21:04:06:876589600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> CLOSED 
+2022-12-09 21:04:06:876589600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : PLAYING -> CLOSING 
+2022-12-09 21:04:06:878290200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : CLOSING -> CLOSED 
+## LOG END -> 2022-12-09 21:04:06:878803800 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 21:15:16:451963000 +05:30[Asia/Calcutta]
+2022-12-09 21:15:16:451963000 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 21:15:17:285749400 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 21:15:20:870927300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Treble Clef (Internal Path) 
+2022-12-09 21:15:21:375903500 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Treble Clef (Internal Path)] loaded in 505 ms 
+2022-12-09 21:15:21:894468700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-12-09 21:15:22:102144100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Wallis Ballade): IS_CURRENT: true : IDLE -> OPEN 
+2022-12-09 21:15:22:102144100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-12-09 21:15:26:814503100 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Treble Clef) | WindowCount: 0 
+2022-12-09 21:15:26:814503100 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 21:15:26:830985100 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 21:15:26:840594000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> CLOSED 
+2022-12-09 21:15:26:840594000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Wallis Ballade): IS_CURRENT: true : OPEN -> CLOSED 
+## LOG END -> 2022-12-09 21:15:26:840957900 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 21:16:01:432810700 +05:30[Asia/Calcutta]
+2022-12-09 21:16:01:432810700 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 21:16:02:261107900 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 21:16:05:429136500 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Treble Clef (Internal Path) 
+2022-12-09 21:16:05:981638000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-12-09 21:16:05:992709200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Treble Clef (Internal Path)] loaded in 563 ms 
+2022-12-09 21:16:06:197790100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Fractals): IS_CURRENT: true : IDLE -> OPEN 
+2022-12-09 21:16:06:197790100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-12-09 21:16:17:107776300 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Treble Clef) | WindowCount: 0 
+2022-12-09 21:16:17:107776300 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 21:16:17:127382100 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 21:16:17:132928200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Fractals): IS_CURRENT: true : OPEN -> CLOSED 
+2022-12-09 21:16:17:132928200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> CLOSED 
+## LOG END -> 2022-12-09 21:16:17:134517600 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 21:17:22:573087100 +05:30[Asia/Calcutta]
+2022-12-09 21:17:22:573087100 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 21:17:23:378260600 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 21:17:26:790625200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Eighth Note (Internal Path) 
+2022-12-09 21:17:27:331793800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-12-09 21:17:27:420045900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Eighth Note (Internal Path)] loaded in 630 ms 
+2022-12-09 21:17:27:628818700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: true : IDLE -> OPEN 
+2022-12-09 21:17:27:628818700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-12-09 21:17:27:628818700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: true : OPEN -> PLAYING 
+2022-12-09 21:17:27:628818700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-12-09 21:17:31:22461000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 392 Rotor States for function Eighth Note (Internal Path) 
+2022-12-09 21:17:31:606428800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 392 Rotor States for function [Eighth Note (Internal Path)] loaded in 584 ms 
+2022-12-09 21:17:37:700979300 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Eighth Note) | WindowCount: 0 
+2022-12-09 21:17:37:701977800 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 21:17:37:723371400 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 21:17:37:729223100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> CLOSED 
+2022-12-09 21:17:37:729223100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: true : PLAYING -> CLOSING 
+2022-12-09 21:17:37:729844700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: true : CLOSING -> CLOSED 
+## LOG END -> 2022-12-09 21:17:37:730293300 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 21:19:59:674197100 +05:30[Asia/Calcutta]
+2022-12-09 21:19:59:658567200 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 21:20:00:603739900 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 21:20:06:289217800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Eighth Note (Internal Path) 
+2022-12-09 21:20:06:776145300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Eighth Note (Internal Path)] loaded in 487 ms 
+2022-12-09 21:20:07:291452400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-12-09 21:20:07:669200000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : IDLE -> OPEN 
+2022-12-09 21:20:07:670306600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-12-09 21:20:07:808725300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : OPEN -> PLAYING 
+2022-12-09 21:20:07:808725300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-12-09 21:20:12:438310900 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Eighth Note) | WindowCount: 0 
+2022-12-09 21:20:12:438310900 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 21:20:12:463719400 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 21:20:12:465206800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> CLOSED 
+2022-12-09 21:20:12:465206800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : PLAYING -> CLOSING 
+2022-12-09 21:20:12:465504300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : CLOSING -> CLOSED 
+## LOG END -> 2022-12-09 21:20:12:466014300 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 21:26:09:463634800 +05:30[Asia/Calcutta]
+2022-12-09 21:26:09:448004400 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 21:26:10:359824600 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 21:26:14:263613600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Treble Clef (Internal Path) 
+2022-12-09 21:26:14:783472300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Treble Clef (Internal Path)] loaded in 520 ms 
+2022-12-09 21:26:15:298569800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-12-09 21:26:15:591316600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : IDLE -> OPEN 
+2022-12-09 21:26:15:591316600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-12-09 21:26:15:591316600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : OPEN -> PLAYING 
+2022-12-09 21:26:15:591316600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-12-09 21:26:23:596589300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Treble Clef (Internal Path) 
+2022-12-09 21:26:24:572111500 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Treble Clef (Internal Path)] loaded in 975 ms 
+2022-12-09 21:26:30:408844700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Sine Signal (Internal Program) 
+2022-12-09 21:26:30:950603600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Sine Signal (Internal Program)] loaded in 542 ms 
+2022-12-09 21:26:31:616377100 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Transform (Sine Signal) | WindowCount: 2 
+2022-12-09 21:26:36:4695700 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Transform (Sine Signal) | WindowCount: 1 
+2022-12-09 21:26:36:498651300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : PLAYING -> PAUSED 
+2022-12-09 21:26:36:498651300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2022-12-09 21:26:38:528523600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : PAUSED -> PLAYING 
+2022-12-09 21:26:38:529292400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PAUSED -> PLAYING 
+2022-12-09 21:26:55:170055500 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Sine Signal) | WindowCount: 0 
+2022-12-09 21:26:55:170055500 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 21:26:55:194610900 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 21:26:55:195819700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> CLOSED 
+2022-12-09 21:26:55:195819700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : PLAYING -> CLOSING 
+2022-12-09 21:26:55:196234900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : CLOSING -> CLOSED 
+## LOG END -> 2022-12-09 21:26:55:198318700 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 21:45:58:984600800 +05:30[Asia/Calcutta]
+2022-12-09 21:45:58:984600800 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 21:45:59:857433700 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 21:46:05:233339900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 21:46:05:753426900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 520 ms 
+2022-12-09 21:46:06:283647000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-12-09 21:46:06:483787900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: true : IDLE -> OPEN 
+2022-12-09 21:46:06:483787900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-12-09 21:46:06:483787900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: true : OPEN -> PLAYING 
+2022-12-09 21:46:06:483787900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-12-09 21:46:20:637823000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Eighth Note (Internal Path) 
+2022-12-09 21:46:21:23532100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Eighth Note (Internal Path)] loaded in 385 ms 
+2022-12-09 21:46:22:873292800 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Eighth Note) | WindowCount: 0 
+2022-12-09 21:46:22:874593900 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 21:46:22:901010000 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 21:46:22:903370000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> CLOSED 
+2022-12-09 21:46:22:903370000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: true : PLAYING -> CLOSING 
+2022-12-09 21:46:22:903564800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: true : CLOSING -> CLOSED 
+## LOG END -> 2022-12-09 21:46:22:905037500 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 21:47:12:862368500 +05:30[Asia/Calcutta]
+2022-12-09 21:47:12:846735100 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 21:47:13:707572000 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 21:47:17:482449800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Treble Clef (Internal Path) 
+2022-12-09 21:47:17:993405600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Treble Clef (Internal Path)] loaded in 511 ms 
+2022-12-09 21:47:18:511325700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-12-09 21:47:18:883438600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Etude): IS_CURRENT: true : IDLE -> OPEN 
+2022-12-09 21:47:18:884520700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-12-09 21:47:19:20807400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Etude): IS_CURRENT: true : OPEN -> PLAYING 
+2022-12-09 21:47:19:20807400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-12-09 21:47:24:136162800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 21:47:24:551179700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 414 ms 
+2022-12-09 21:48:07:519173900 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Joseph Fourier) | WindowCount: 0 
+2022-12-09 21:48:07:519173900 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 21:48:07:540596000 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 21:48:07:543596200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> CLOSED 
+2022-12-09 21:48:07:543941500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Etude): IS_CURRENT: true : PLAYING -> CLOSING 
+2022-12-09 21:48:07:544532300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Etude): IS_CURRENT: true : CLOSING -> CLOSED 
+## LOG END -> 2022-12-09 21:48:07:544532300 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 22:03:17:299438700 +05:30[Asia/Calcutta]
+2022-12-09 22:03:17:299438700 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 22:03:18:179435800 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 22:03:38:398022800 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-12-09 22:03:38:398022800 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 22:03:38:428844700 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 22:03:38:428844700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> CLOSED 
+## LOG END -> 2022-12-09 22:03:38:428844700 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-09 22:06:48:307791200 +05:30[Asia/Calcutta]
+2022-12-09 22:06:48:307791200 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-09 22:06:49:224787900 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-09 22:07:06:531118200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 22:07:07:76859700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-12-09 22:07:07:145997800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 614 ms 
+2022-12-09 22:07:07:365753900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: true : IDLE -> OPEN 
+2022-12-09 22:07:07:365753900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-12-09 22:07:07:365753900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: true : OPEN -> PLAYING 
+2022-12-09 22:07:07:365753900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-12-09 22:07:12:224300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 22:07:12:719399300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 718 ms 
+2022-12-09 22:07:26:70455300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 22:07:27:658702400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 1587 ms 
+2022-12-09 22:07:40:545651800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-09 22:07:41:859167600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 1313 ms 
+2022-12-09 22:07:59:253114900 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Transform (Joseph Fourier) | WindowCount: 2 
+2022-12-09 22:08:00:895996300 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Transform (Joseph Fourier) | WindowCount: 1 
+2022-12-09 22:08:01:391685000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: true : PLAYING -> PAUSED 
+2022-12-09 22:08:01:391685000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2022-12-09 22:08:04:919929300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Sine Signal (Internal Program) 
+2022-12-09 22:08:05:255658100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Sine Signal (Internal Program)] loaded in 336 ms 
+2022-12-09 22:08:05:769096500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: true : PAUSED -> PLAYING 
+2022-12-09 22:08:05:769096500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PAUSED -> PLAYING 
+2022-12-09 22:08:09:194675700 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Transform (Sine Signal) | WindowCount: 2 
+2022-12-09 22:08:23:714839000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: true : PLAYING -> PAUSED 
+2022-12-09 22:08:23:714839000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2022-12-09 22:08:23:815767000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Sine Signal (Internal Program) 
+2022-12-09 22:08:24:478641200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: true : PAUSED -> PLAYING 
+2022-12-09 22:08:24:483252700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PAUSED -> PLAYING 
+2022-12-09 22:08:24:538414400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Sine Signal (Internal Program)] loaded in 723 ms 
+2022-12-09 22:08:32:943091100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Sine Signal (Internal Program) 
+2022-12-09 22:08:34:336547900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Sine Signal (Internal Program)] loaded in 1392 ms 
+2022-12-09 22:08:45:219959800 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Transform (Sine Signal) | WindowCount: 1 
+2022-12-09 22:08:46:60033900 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Sine Signal) | WindowCount: 0 
+2022-12-09 22:08:46:61034500 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-09 22:08:46:79688400 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-09 22:08:46:83029000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> CLOSED 
+2022-12-09 22:08:46:83029000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: true : PLAYING -> CLOSING 
+2022-12-09 22:08:46:83170800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Hypothesis): IS_CURRENT: true : CLOSING -> CLOSED 
+## LOG END -> 2022-12-09 22:08:46:85493900 +05:30[Asia/Calcutta]

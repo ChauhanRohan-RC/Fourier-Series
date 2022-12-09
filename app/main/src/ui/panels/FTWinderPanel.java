@@ -10,6 +10,7 @@ import app.R;
 import function.definition.ComplexDomainFunctionI;
 import misc.Flaggable;
 import misc.Format;
+import misc.MathUtil;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -75,15 +76,15 @@ public class FTWinderPanel extends JPanel implements Runnable, Flaggable {
         if (rotorCount < 1)
             return 0;
 
-        final double durationPerRotor = ComplexUtil.constraint(ROTORS_ANIMATION_DURATION_MS_EACH_ROTOR_MIN, ROTORS_ANIMATION_DURATION_MS_EACH_ROTOR_MAX, (double) Math.abs(durationMs) / rotorCount);
-        return (float) (1 - ComplexUtil.norm(ROTORS_ANIMATION_DURATION_MS_EACH_ROTOR_MIN, ROTORS_ANIMATION_DURATION_MS_EACH_ROTOR_MAX, durationPerRotor));
+        final double durationPerRotor = MathUtil.constraint(ROTORS_ANIMATION_DURATION_MS_EACH_ROTOR_MIN, ROTORS_ANIMATION_DURATION_MS_EACH_ROTOR_MAX, (double) Math.abs(durationMs) / rotorCount);
+        return (float) (1 - MathUtil.norm(ROTORS_ANIMATION_DURATION_MS_EACH_ROTOR_MIN, ROTORS_ANIMATION_DURATION_MS_EACH_ROTOR_MAX, durationPerRotor));
     }
 
     public static long speedFractionToDurationMs(float speedFraction, int rotorCount) {
         if (rotorCount < 1)
             return 0;
 
-        final double durPerRotor = ComplexUtil.lerp(ROTORS_ANIMATION_DURATION_MS_EACH_ROTOR_MIN, ROTORS_ANIMATION_DURATION_MS_EACH_ROTOR_MAX, ComplexUtil.constraint(0, 1, 1 - speedFraction));
+        final double durPerRotor = MathUtil.lerp(ROTORS_ANIMATION_DURATION_MS_EACH_ROTOR_MIN, ROTORS_ANIMATION_DURATION_MS_EACH_ROTOR_MAX, MathUtil.constraint(0, 1, 1 - speedFraction));
         return (long) (durPerRotor * rotorCount);
     }
 
@@ -483,7 +484,7 @@ public class FTWinderPanel extends JPanel implements Runnable, Flaggable {
     }
 
     public final void setRotorsAnimationSpeedFraction(float fraction) {
-        fraction = ComplexUtil.constraint(0, 1, fraction);
+        fraction = MathUtil.constraint(0, 1, fraction);
         if (speedFraction == fraction)
             return;
 
@@ -505,7 +506,7 @@ public class FTWinderPanel extends JPanel implements Runnable, Flaggable {
     }
 
     public void setRotorCount(int rotorCount) {
-        manager.setRotorCountAsync(ComplexUtil.constraint(ROTOR_COUNT_MIN, ROTOR_COUNT_MAX, rotorCount));      // async
+        manager.setRotorCountAsync(MathUtil.constraint(ROTOR_COUNT_MIN, ROTOR_COUNT_MAX, rotorCount));      // async
     }
 
     public int getRotorCount() {
@@ -513,7 +514,7 @@ public class FTWinderPanel extends JPanel implements Runnable, Flaggable {
     }
 
     public int getConstrainedRotorCount() {
-        return ComplexUtil.constraint(ROTOR_COUNT_MIN, ROTOR_COUNT_MAX, getRotorCount());
+        return MathUtil.constraint(ROTOR_COUNT_MIN, ROTOR_COUNT_MAX, getRotorCount());
     }
 
     protected void onRepeatModeChanged(@NotNull AbstractAnimator.RepeatMode repeatMode) {

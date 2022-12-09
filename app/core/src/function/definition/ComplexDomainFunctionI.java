@@ -1,5 +1,6 @@
 package function.definition;
 
+import misc.MathUtil;
 import models.RealTransform;
 import models.FunctionGraphMode;
 import org.apache.commons.math3.complex.Complex;
@@ -130,7 +131,7 @@ public interface ComplexDomainFunctionI extends ComplexFunctionI, DomainProvider
         double multiplier = divisor != 0? 1 / divisor: 1;
 
         if (!ComplexUtil.FOURIER_TRANSFORM_USE_TWO_PI) {
-            multiplier *= ComplexUtil.TWo_PI;
+            multiplier *= MathUtil.TWO_PI;
         }
 
         fp.setFrequencyMultiplier(multiplier);

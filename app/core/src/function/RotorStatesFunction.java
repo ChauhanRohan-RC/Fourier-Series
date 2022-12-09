@@ -3,6 +3,7 @@ package function;
 import async.BiConsumer;
 import function.definition.ComplexDomainFunctionI;
 import misc.CollectionUtil;
+import misc.MathUtil;
 import models.ComplexBuilder;
 import models.FunctionGraphMode;
 import org.jetbrains.annotations.Nullable;
@@ -12,7 +13,6 @@ import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import rotor.frequency.ExplicitFrequencyProvider;
 import rotor.frequency.RotorFrequencyProviderI;
-import util.main.ComplexUtil;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -54,7 +54,7 @@ public class RotorStatesFunction implements ComplexDomainFunctionI {
 
     public static final boolean DEFAULT_OTHER_FREQUENCIES_SUPPOrTED = false;
     public static final double DEFAULT_DOMAIN_START = 0;
-    public static final double DEFAULT_DOMAIN_END = ComplexUtil.TWo_PI;
+    public static final double DEFAULT_DOMAIN_END = MathUtil.TWO_PI;
     @NotNull
     public static final ComputeMode DEFAULT_COMPUTE_MODE = ComputeMode.COMPLEX;
 

@@ -9,6 +9,7 @@ import json.Json;
 import misc.FileUtil;
 import misc.Format;
 import misc.Log;
+import misc.MathUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ui.MusicPlayer;
@@ -58,6 +59,7 @@ public class Settings {
 
     // Config
     private static final String PREFS_CONFIG = "config";
+    private static final String KEY_FAST_MATH_ENABLED = "fast_math_enabled";
     private static final String KEY_FT_INTEGRATION_INTERVALS = "numerical_integration_interval_count";
 
     // Logs
@@ -77,6 +79,7 @@ public class Settings {
     public static final boolean DEFAULT_DYNAMIC_COLORS_ENABLED = true;
 
     // Default Config
+    public static final boolean DEFAULT_FAST_MATH_ENABLED = MathUtil.DEFAULT_FAST_ENABLED;
     public static final int DEFAULT_FT_INTEGRATION_INTERVAL_COUNT = ComplexUtil.FOURIER_TRANSFORM_SIMPSON_13_N_DEFAULT;
 
     // Default sound
@@ -91,6 +94,11 @@ public class Settings {
     public static int getCurrentFTIntegrationIntervalCount() {
         return ComplexUtil.getFourierTransformSimpson13NCurrentDefault();
     }
+
+    public static boolean isCurrentlyFastMathEnabled() {
+        return MathUtil.isFastEnabled();
+    }
+
 
     public static boolean isCurrentlyAuxSoundsEnabled() {
         return AuxSoundsPlayer.getSingleton().isEnabled();
@@ -226,6 +234,10 @@ public class Settings {
     private volatile Boolean mDynamicColorsEnabled;
 
     /* Configurations */
+    @SerializedName(KEY_FAST_MATH_ENABLED)
+    @Nullable
+    private volatile Boolean mFastMathEnabled;
+
     @SerializedName(KEY_FT_INTEGRATION_INTERVALS)
     private volatile int mFtIntegrationIntervalCount = -1;
 
@@ -255,6 +267,8 @@ public class Settings {
 
     @Nullable
     private volatile BaseAction mDynamicColorsAction;
+    @Nullable
+    private volatile BaseAction mFastMathAction;
 
     @Nullable
     private BaseAction mResetAppearanceAction;
@@ -306,6 +320,7 @@ public class Settings {
         setDynamicColorsEnabled(getDynamicColorsEnabledOrDefault());
 
         // Config
+        setFastMathEnabled(getFastMathEnabledOrDefault());
         setFTIntegrationIntervalCount(getFTIntegrationIntervalCountOrDefault());
 
         // sounds
@@ -324,6 +339,7 @@ public class Settings {
     }
 
     public void resetConfig() {
+        setFastMathEnabled(DEFAULT_FAST_MATH_ENABLED);
         setFTIntegrationIntervalCount(DEFAULT_FT_INTEGRATION_INTERVAL_COUNT);
     }
 
@@ -404,6 +420,19 @@ public class Settings {
 
 
 
+
+    protected void onAppearancePrefsChanged() {
+        mModCount++;
+        syncActions();
+
+        mListeners.dispatchOnMainThread(Listener::onAppearancePreferencesChanged);
+    }
+
+
+    protected void onDynamicColorsEnabledChanged(boolean dynamicColorsEnabled) {
+        onAppearancePrefsChanged();
+    }
+
     @Nullable
     public Boolean getDynamicColorsEnabled() {
         return mDynamicColorsEnabled;
@@ -418,13 +447,6 @@ public class Settings {
 
     public boolean getDynamicColorsEnabledOrDefault() {
         return getDynamicColorsEnabled(DEFAULT_DYNAMIC_COLORS_ENABLED);
-    }
-
-
-    protected void onDynamicColorsEnabledChanged(boolean dynamicColorsEnabled) {
-        syncActions();
-
-        mListeners.dispatchOnMainThread(Listener::onAppearancePreferencesChanged);
     }
 
     public void setDynamicColorsEnabled(final @Nullable Boolean dynamicColorsEnabled) {
@@ -443,6 +465,48 @@ public class Settings {
 
 
     /* ................................. Config .................................... */
+
+    protected void onConfigChanged() {
+        mModCount++;
+        syncActions();
+
+        mListeners.dispatchOnMainThread(Listener::onConfigPreferencesChanged);
+    }
+
+    protected void onFastMathEnabledChanged() {
+        onConfigChanged();
+    }
+
+    @Nullable
+    public Boolean getFastMathEnabled() {
+        return mFastMathEnabled;
+    }
+
+    public boolean getFastMathEnabled(boolean defaultValue) {
+        final Boolean val = mFastMathEnabled;
+        if (val != null)
+            return val;
+        return defaultValue;
+    }
+
+    public boolean getFastMathEnabledOrDefault() {
+        return getFastMathEnabled(DEFAULT_FAST_MATH_ENABLED);
+    }
+
+    public void setFastMathEnabled(boolean enabled) {
+        final boolean changed = MathUtil.setFastEnabled(enabled);
+        mFastMathEnabled = MathUtil.isFastEnabled();
+
+        if (changed) {
+            onFastMathEnabledChanged();
+        }
+    }
+
+    public void toggleFastMathEnabled() {
+        setFastMathEnabled(!getFastMathEnabledOrDefault());
+    }
+
+
 
     protected void onFTIntegrationIntervalCountChanged(int intervalCount) {
         mFtIntegrationIntervalCount = intervalCount;
@@ -491,6 +555,9 @@ public class Settings {
     /* ........................ LOGS ........................... */
 
     protected void onLogPrefsChanged() {
+        mModCount++;
+        syncActions();
+
         mListeners.dispatchOnMainThread(Listener::onLogPreferencesChanged);
     }
 
@@ -572,6 +639,9 @@ public class Settings {
     /* .................................. Sounds ...................................... */
 
     protected void onSoundPrefsChanged() {
+        mModCount++;
+        syncActions();
+
         mListeners.dispatchOnMainThread(Listener::onSoundPreferencesChanged);
     }
 
@@ -626,6 +696,22 @@ public class Settings {
 
 
     /* Actions */
+
+    @NotNull
+    public Action getToggleFastMathAction() {
+        BaseAction action = mFastMathAction;
+        if (action == null) {
+            synchronized (this) {
+                action = mFastMathAction;
+                if (action == null) {
+                    action = new FastMathToggleAction();
+                    mFastMathAction = action;
+                }
+            }
+        }
+
+        return action;
+    }
 
     @NotNull
     public Action getToggleDynamicColorsAction() {
@@ -713,6 +799,11 @@ public class Settings {
     }
 
     protected void syncActions() {
+        final BaseAction fma = mDynamicColorsAction;
+        if (fma != null) {
+            fma.setSelected(getFastMathEnabledOrDefault());
+        }
+
         final BaseAction dca = mDynamicColorsAction;
         if (dca != null) {
             dca.setSelected(getDynamicColorsEnabledOrDefault());
@@ -802,6 +893,7 @@ public class Settings {
 
             // Config
             final JsonObject config = new JsonObject();
+            config.addProperty(KEY_FAST_MATH_ENABLED, isCurrentlyFastMathEnabled());
             config.addProperty(KEY_FT_INTEGRATION_INTERVALS, getCurrentFTIntegrationIntervalCount());
 
             // Sound
@@ -847,6 +939,11 @@ public class Settings {
             // Config
             final JsonObject config = o.getAsJsonObject(PREFS_CONFIG);
             if (config != null) {
+                final JsonPrimitive fastMath = config.getAsJsonPrimitive(KEY_FAST_MATH_ENABLED);
+                if (fastMath != null) {
+                    settings.mFastMathEnabled = fastMath.getAsBoolean();
+                }
+
                 final JsonPrimitive ftIntegrationIntervals = config.getAsJsonPrimitive(KEY_FT_INTEGRATION_INTERVALS);
                 if (ftIntegrationIntervals != null) {
                     settings.mFtIntegrationIntervalCount = ftIntegrationIntervals.getAsInt();
@@ -905,6 +1002,21 @@ public class Settings {
         @Override
         public void actionPerformed(ActionEvent e) {
             toggleDynamicColorsEnabled();
+        }
+    }
+
+
+    private class FastMathToggleAction extends BaseAction {
+
+        private FastMathToggleAction() {
+            setName("Fast Math");
+            setShortDescription("Enables fast computations of e^x, sin, cos etc with expense of accuracy");
+            setSelected(getFastMathEnabledOrDefault());
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            toggleFastMathEnabled();
         }
     }
 

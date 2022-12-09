@@ -1,5 +1,6 @@
 package function.definition;
 
+import misc.MathUtil;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import util.main.ComplexUtil;
@@ -99,7 +100,7 @@ public interface DiscreteFunctionI extends ComplexDomainFunctionI {
             return getSampleAt(count - 1);      // last sample
         }
 
-        final float norm = ComplexUtil.normF(getDomainAt(i), getDomainAt(i + 1), input);
+        final float norm = MathUtil.normF(getDomainAt(i), getDomainAt(i + 1), input);
 
         switch (getStickMode()) {
             case INTERPOLATE: {

@@ -1,8 +1,8 @@
 package function.definition;
 
+import misc.MathUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import util.main.ComplexUtil;
 
 import java.awt.Color;
 
@@ -68,7 +68,7 @@ public interface ColorProviderI {
 
         @Override
         public @Nullable Color getColor(double input) {
-            return Color.getHSBColor((float) ComplexUtil.map(input, domainStart, domainEnd, hueStart, hueEnd), 1, 1);
+            return Color.getHSBColor((float) MathUtil.map(input, domainStart, domainEnd, hueStart, hueEnd), 1, 1);
         }
     }
 

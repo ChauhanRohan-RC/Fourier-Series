@@ -272,7 +272,10 @@ public interface Ui {
     static JMenu createSettingsConfigurationMenu(@NotNull Ui ui, @NotNull Settings settings) {
         final JMenu menu = new JMenu(TITLE_CONFIGURATIONS);
 
-        // 1. Numerical Integration
+        // 1. Fast Math
+        menu.add(new JCheckBoxMenuItem(settings.getToggleFastMathAction()));
+
+        // 2. Numerical Integration
         final JMenuItem numericalIntegrationIntervals = new JMenuItem("Integration intervals");
         numericalIntegrationIntervals.addActionListener(e -> askConfigureNumericalIntegrationIntervalCount(ui));
         menu.add(numericalIntegrationIntervals);

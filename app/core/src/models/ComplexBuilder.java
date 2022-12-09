@@ -34,11 +34,28 @@ public class ComplexBuilder {
         return this;
     }
 
+    public ComplexBuilder add(@NotNull ComplexBuilder c, double realMultiplier, double imaginaryMultiplier) {
+        real += (c.getReal() * realMultiplier);
+        img += (c.getImaginary() * imaginaryMultiplier);
+        return this;
+    }
+
     public ComplexBuilder add(@NotNull Complex c, double multiplier) {
         return add(c, multiplier, multiplier);
     }
 
+    public ComplexBuilder add(@NotNull ComplexBuilder c, double multiplier) {
+        return add(c, multiplier, multiplier);
+    }
+
+
     public ComplexBuilder add(@NotNull Complex c) {
+        real += c.getReal();
+        img += c.getImaginary();
+        return this;
+    }
+
+    public ComplexBuilder add(@NotNull ComplexBuilder c) {
         real += c.getReal();
         img += c.getImaginary();
         return this;
@@ -70,13 +87,21 @@ public class ComplexBuilder {
         return this;
     }
 
-    public ComplexBuilder mult(@NotNull Complex factor) {
-        final double fr = factor.getReal();
-        final double fi = factor.getImaginary();
+    public ComplexBuilder mult(double _real, double _img) {
+        final double newReal = (real * _real) - (img * _img);
+        final double newImg = (real * _img) + (img * _real);
 
-        real = (real * fr) - (img * fi);
-        img = (real * fi) + (img * fr);
+        this.real = newReal;
+        this.img = newImg;
         return this;
+    }
+
+    public ComplexBuilder mult(@NotNull Complex factor) {
+        return mult(factor.getReal(), factor.getImaginary());
+    }
+
+    public ComplexBuilder mult(@NotNull ComplexBuilder factor) {
+        return mult(factor.getReal(), factor.getImaginary());
     }
 
 

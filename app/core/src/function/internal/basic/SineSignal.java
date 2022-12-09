@@ -1,14 +1,14 @@
 package function.internal.basic;
 
 import function.definition.AbstractSignal;
-import function.definition.SignalFunctionI;
-import org.apache.commons.math3.util.FastMath;
+import misc.MathUtil;
 import org.jetbrains.annotations.Nullable;
 import rotor.frequency.FixedStartFrequencyProvider;
 import rotor.frequency.RotorFrequencyProviderI;
-import util.main.ComplexUtil;
 
 public class SineSignal extends AbstractSignal {
+
+    public static final boolean DEFAULT_EXACT = false;
 
     /**
      * Temporal Frequency of this Sine Signal
@@ -25,8 +25,8 @@ public class SineSignal extends AbstractSignal {
      * Phase of this sine wave<br>
      * This value is added to the input angle<br>
      * <pre>
-     *     {@link ComplexUtil#HALF_PI half pi} -> cos wave
-     *     {@link ComplexUtil#PI pi} -> inverted sin wave
+     *     {@link MathUtil#HALF_PI half pi} -> cos wave
+     *     {@link MathUtil#PI pi} -> inverted sin wave
      * </pre>
      * */
     private final double phaseRad;
@@ -34,6 +34,8 @@ public class SineSignal extends AbstractSignal {
     /* Transformations */
     private final double resultAddant;
     private final double resultMultiplier;
+
+    private volatile boolean exact = DEFAULT_EXACT;
 
     public SineSignal(double frequency,
                       double duration,
@@ -66,13 +68,23 @@ public class SineSignal extends AbstractSignal {
         return duration;
     }
 
+    public boolean isExact() {
+        return exact;
+    }
+
+    public SineSignal setExact(boolean exact) {
+        this.exact = exact;
+        return this;
+    }
+
     protected double transformOutput(double time, double output) {
         return (output + resultAddant) * resultMultiplier;
     }
 
     @Override
     public final double getSignalIntensity(double time) {
-        final double val = FastMath.sin((ComplexUtil.TWo_PI * frequency * time) + phaseRad);
+        final double rad = (MathUtil.TWO_PI * frequency * time) + phaseRad;
+        final double val = exact? MathUtil.sinexact(rad): MathUtil.sinfast(rad);
 
         return transformOutput(time, val);
     }

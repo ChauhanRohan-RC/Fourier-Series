@@ -89,7 +89,7 @@ public class RotorState implements Comparable<RotorState> {
         if (mCoefficientAbs == 0)
             return Complex.ZERO;
 
-        return ComplexUtil.complexExp(mTipCoefficient * input).multiply(mCoefficient);
+        return ComplexUtil.complexExpFast(mTipCoefficient * input).mult(mCoefficient).toComplex();
     }
 
     @NotNull
