@@ -2,14 +2,13 @@ package misc;
 
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
-
 public class MathUtil {
 
     public static final float PI = 3.141592653589793f;
     public static final float HALF_PI = PI / 2;
     public static final float THREE_HALF_PI = PI + HALF_PI;
     public static final float TWO_PI = PI * 2;
+    public static final float MINUS_TWO_PI = -TWO_PI;
 
 
     public static final boolean DEFAULT_FAST_ENABLED = true;

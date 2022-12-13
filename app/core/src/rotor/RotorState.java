@@ -48,7 +48,7 @@ public class RotorState implements Comparable<RotorState> {
     }
 
     public RotorState(double frequency, @NotNull Complex coefficient) {
-        this(frequency, coefficient, ComplexUtil.getFourierSeriesRotorTipDirection());
+        this(frequency, coefficient, ComplexUtil.DIRECTION_FOURIER_SERIES);
     }
 
     public RotorState(double frequency, @NotNull ComplexDomainFunctionI function) {

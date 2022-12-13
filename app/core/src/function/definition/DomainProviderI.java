@@ -13,6 +13,10 @@ public interface DomainProviderI extends ColorProviderI {
 
     double getDomainEnd();
 
+    default double getDomainRange() {
+        return getDomainEnd() - getDomainStart();
+    }
+
     default boolean isWithinDomain(double input) {
         final double start = getDomainStart();
         final double end = getDomainEnd();
@@ -22,6 +26,14 @@ public interface DomainProviderI extends ColorProviderI {
         }
 
         return input >= end && input <= start;
+    }
+
+    /**
+     * @return fundamental frequency as defined in the Discrete Fourier Transform
+     * */
+    default double getFundamentalFrequency() {
+        final double dr = getDomainRange();
+        return dr != 0? 1 / dr: 0;
     }
 
     default double getSampleDomainStep(int sampleCount) {
@@ -52,9 +64,6 @@ public interface DomainProviderI extends ColorProviderI {
     }
 
 
-    default double getDomainRange() {
-        return getDomainEnd() - getDomainStart();
-    }
 
     /**
      * Determines how fast the domain range should be transversed

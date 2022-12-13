@@ -20,6 +20,11 @@ public class ComplexBuilder {
     public ComplexBuilder() {
     }
 
+    @NotNull
+    public ComplexBuilder buildUpon() {
+        return new ComplexBuilder(real, img);
+    }
+
     public double getReal() {
         return real;
     }
@@ -74,6 +79,58 @@ public class ComplexBuilder {
     public ComplexBuilder addComponent(@NotNull Complex c, boolean real) {
         return real? addReal(c.getReal()): addImaginary(c.getImaginary());
     }
+
+
+
+
+    public ComplexBuilder subtract(@NotNull Complex c, double realMultiplier, double imaginaryMultiplier) {
+        real -= (c.getReal() * realMultiplier);
+        img -= (c.getImaginary() * imaginaryMultiplier);
+        return this;
+    }
+
+    public ComplexBuilder subtract(@NotNull ComplexBuilder c, double realMultiplier, double imaginaryMultiplier) {
+        real -= (c.getReal() * realMultiplier);
+        img -= (c.getImaginary() * imaginaryMultiplier);
+        return this;
+    }
+
+    public ComplexBuilder subtract(@NotNull Complex c, double multiplier) {
+        return subtract(c, multiplier, multiplier);
+    }
+
+    public ComplexBuilder subtract(@NotNull ComplexBuilder c, double multiplier) {
+        return subtract(c, multiplier, multiplier);
+    }
+
+
+    public ComplexBuilder subtract(@NotNull Complex c) {
+        real -= c.getReal();
+        img -= c.getImaginary();
+        return this;
+    }
+
+    public ComplexBuilder subtract(@NotNull ComplexBuilder c) {
+        real -= c.getReal();
+        img -= c.getImaginary();
+        return this;
+    }
+
+    public ComplexBuilder subtractReal(double real) {
+        this.real -= real;
+        return this;
+    }
+
+    public ComplexBuilder subtractImaginary(double imaginary) {
+        img -= imaginary;
+        return this;
+    }
+
+    public ComplexBuilder subtractComponent(@NotNull Complex c, boolean real) {
+        return real? subtractReal(c.getReal()): subtractImaginary(c.getImaginary());
+    }
+
+
 
     public ComplexBuilder mult(double a) {
         real *= a;

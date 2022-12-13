@@ -1,19 +1,10 @@
 package test;
 
 import app.R;
-import function.ComplexDomainFunctionWrapper;
 import function.definition.ComplexDomainFunctionI;
-import function.definition.ComplexFunctionI;
-import function.definition.FrequencySupportProviderI;
 import function.internal.basic.SineSignal;
 import misc.MathUtil;
-import models.ComplexBuilder;
-import org.apache.commons.math3.complex.Complex;
-import org.jetbrains.annotations.NotNull;
-import provider.Providers;
 import util.main.ComplexUtil;
-
-import java.util.function.IntFunction;
 
 
 public class Test {
@@ -44,44 +35,42 @@ public class Test {
     public static void endTimeF() {
         final long delta = endTime();
         if (delta != -1) {
-            System.out.printf("Time taken: %.2f (%d ns)%n", delta / 1E6, delta);
+            System.out.printf("Time taken: %.2f ms (%d ns)%n", delta / 1E6, delta);
         }
     }
 
 
-    private static void testFft() {
-        final ComplexDomainFunctionI func = new ComplexDomainFunctionWrapper(new SineSignal(2, 10)) {
-            @Override
-            public double getDomainStart() {
-                return super.getDomainStart() + 2;
-            }
-
-            @Override
-            public double getDomainEnd() {
-                return super.getDomainEnd() + 2;
-            }
-        };
-
-//        for (float i = -10; i <= 10; i+=0.5f) {
-//            System.out.printf("%f -> %.8f, %.8f%n", i, ComplexUtil.fourierTransform(func, i).abs(), fft(func, i).abs());
+//    private static void testFftOld() {
+//        final ComplexDomainFunctionI func = new SineSignal(2, 100);
+//
+////        for (float i = -10; i <= 10; i+=0.5f) {
+////            System.out.printf("%f -> %.8f, %.8f%n", i, ComplexUtil.fourierTransform(func, i).abs(), fft(func, i).abs());
+////        }
+//
+//        startTime();
+//        double error = 0;
+//
+//        for (float i = -100; i <= 100; i+=0.5f) {
+//            double ft = ComplexUtil.fourierTransform(func, i).abs();
+//            double fft = ComplexUtil.FftTest.fft(func, i).abs();
+//
+//            double err = Math.abs(fft - ft) * 100 / ft;
+//            System.out.println("Error: " + err);
+//
+//            error += err;
 //        }
-
-
-        startTime();
-        for (float i = -100; i <= 100; i+=0.5f) {
-            ComplexUtil.fourierTransform(func, i);
-        }
-
-        endTimeF();
-
-
-        startTime();
-        for (float i = -100; i <= 100; i+=0.5f) {
-            ComplexUtil.fft(func, i);
-        }
-
-        endTimeF();
-    }
+//
+//        endTimeF();
+//        System.out.println("Average error: " + (error / 400));
+//
+//
+////        startTime();
+////        for (float i = -100; i <= 100; i+=0.5f) {
+////            ComplexUtil.fft(func, i);
+////        }
+////
+////        endTimeF();
+//    }
 
 
     private static void testSin() {
@@ -106,11 +95,39 @@ public class Test {
         endTimeF();
     }
 
+
+    private static void testFft() {
+        final ComplexDomainFunctionI func = new SineSignal(2, 4);
+
+//        final Complex[] samples = func.createSamplesRange(MathUtil.lowestPowOf2(ComplexUtil.FOURIER_TRANSFORM_SIMPSON_13_N_MIN));
+//
+//        startTime();
+//        final Complex res = FftTest.fft(samples, 20);
+//        endTimeF();
+//
+//        System.out.println("Result: " + res.abs());
+//        System.out.println("Trivial result: " + ComplexUtil.fourierTransform(func, 2).abs());
+
+//        final Complex[] samples = func.createSamplesRange(MathUtil.highestPowOf2(50000));
+
+//        final Complex[] resultP = FFTPrinceton.fft(samples);
+//        final Complex[] result = FftTest.fft(samples);
+
+//        for (int k=0; k < result.length; k++) {
+//            System.out.printf("%.2f -> %.2f, %.2f%n", (k * func.getFundamentalFrequency()), result[k].abs(), resultP[k].abs());
+//        }
+
+
+        final int N = MathUtil.highestPowOf2(50000);
+
+        final double freq = 2;
+        System.out.printf("%n%n At Fq = %.2f -> %f, %f", freq, ComplexUtil.FftTest.fft(func, freq, N).abs(), ComplexUtil.fourierTransform(func, freq, N).abs());
+    }
+
     public static void main(String[] args) {
         MathUtil.initFast();
 
-        testSin();
-//        testFft();
+        testFft();
     }
 
 }

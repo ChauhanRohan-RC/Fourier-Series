@@ -3,6 +3,7 @@ package util.main;
 import function.ComplexDomainFunctionWrapper;
 import function.definition.ComplexFunctionI;
 import function.definition.ComplexDomainFunctionI;
+import function.definition.DiscreteFunction;
 import function.definition.FrequencySupportProviderI;
 import misc.MathUtil;
 import models.ComplexBuilder;
@@ -10,6 +11,7 @@ import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.IntFunction;
+import java.util.stream.Stream;
 
 public class ComplexUtil {
 
@@ -22,13 +24,6 @@ public class ComplexUtil {
     public static final int SIMPSON_38_N_DEFAULT = 51;
 
     /* Fourier Transform */
-    /**
-     * Defines Fourier Transform integrand exp term sign <br>
-     * <strong>
-     *     Must be Complimentary to Fourier Series rotor direction
-     * </strong>
-     * */
-    public static final boolean FOURIER_TRANSFORM_CLOCKWISE = true;
 
     /**
      * Defines whether {@link MathUtil#TWO_PI} should be used in Fourier Transform integrand exp term<br>
@@ -37,6 +32,22 @@ public class ComplexUtil {
      * otherwise, angular
      * */
     public static final boolean FOURIER_TRANSFORM_USE_TWO_PI = true;
+
+    /**
+     * Defines Fourier Transform integrand exp term sign <br>
+     * <strong>
+     *     Must be Complimentary to Fourier Series rotor direction
+     * </strong>
+     * */
+    public static final boolean FOURIER_TRANSFORM_CLOCKWISE = true;
+
+    public static int getDirection(boolean clockwise) {
+        return clockwise? 1: -1;
+    }
+
+    public static final int DIRECTION_FOURIER_TRANSFORM = getDirection(FOURIER_TRANSFORM_CLOCKWISE);
+    public static final int DIRECTION_FOURIER_SERIES = getDirection(!FOURIER_TRANSFORM_CLOCKWISE);      // must be opposite to each other
+
 
     public static final int FOURIER_TRANSFORM_SIMPSON_13_N_MIN = SIMPSON_13_N_MIN;
     public static final int FOURIER_TRANSFORM_SIMPSON_13_N_DEFAULT = 100000;
@@ -105,12 +116,6 @@ public class ComplexUtil {
         return function;
     }
 
-
-
-
-    public static int getDirection(boolean clockwise) {
-        return clockwise? 1: -1;
-    }
 
 
     /**
@@ -254,24 +259,24 @@ public class ComplexUtil {
     }
 
     @NotNull
-    public static ComplexFunctionI fourierTransformIntegrand(@NotNull ComplexFunctionI f, double frequency, boolean clockwise) {
+    public static ComplexFunctionI fourierTransformIntegrand(@NotNull ComplexFunctionI f, double frequency, int direction) {
 //        if (f instanceof FrequencySupportProviderI fsp && !fsp.isFrequencySupported(frequency)) {
 //            return ComplexFunctionI.ZERO;
 //        }
 
-        final double pre = getFourierExpTermPowerCoefficient(getDirection(clockwise), frequency);
+        final double pre = getFourierExpTermPowerCoefficient(direction, frequency);
         return t -> complexExpFast(pre * t).mult(f.compute(t)).toComplex();
     }
 
     @NotNull
     public static ComplexFunctionI fourierTransformIntegrand(@NotNull ComplexFunctionI f, double frequency) {
-        return fourierTransformIntegrand(f, frequency, FOURIER_TRANSFORM_CLOCKWISE);
+        return fourierTransformIntegrand(f, frequency, DIRECTION_FOURIER_TRANSFORM);
     }
 
 
     @NotNull
-    public static ComplexDomainFunctionI fourierTransformIntegrand(@NotNull ComplexDomainFunctionI f, double frequency, boolean clockwise) {
-        final ComplexFunctionI ft = fourierTransformIntegrand((ComplexFunctionI) f, frequency, clockwise);
+    public static ComplexDomainFunctionI fourierTransformIntegrand(@NotNull ComplexDomainFunctionI f, double frequency, int direction) {
+        final ComplexFunctionI ft = fourierTransformIntegrand((ComplexFunctionI) f, frequency, direction);
         return new ComplexDomainFunctionWrapper(f) {
             @Override
             public @NotNull Complex compute(double input) {
@@ -282,7 +287,7 @@ public class ComplexUtil {
 
     @NotNull
     public static ComplexDomainFunctionI fourierTransformIntegrand(@NotNull ComplexDomainFunctionI f, double frequency) {
-        return fourierTransformIntegrand(f, frequency, FOURIER_TRANSFORM_CLOCKWISE);
+        return fourierTransformIntegrand(f, frequency, DIRECTION_FOURIER_TRANSFORM);
     }
 
 
@@ -303,6 +308,28 @@ public class ComplexUtil {
         }
 
         return simpson13(fourierTransformIntegrand(f, frequency), a, b, n > 0? n: getFourierTransformSimpson13NCurrentDefault());
+
+
+        // todo test
+//        final ComplexDomainFunctionI func = new ComplexDomainFunctionI() {
+//            @Override
+//            public @NotNull Complex compute(double input) {
+//                return f.compute(input);
+//            }
+//
+//            @Override
+//            public double getDomainStart() {
+//                return a;
+//            }
+//
+//            @Override
+//            public double getDomainEnd() {
+//                return b;
+//            }
+//        };
+//
+//        final int N = MathUtil.highestPowOf2(50_000);
+//        return FftTest.fft(func, frequency, N).multiply((b - a) / N);
     }
 
     @NotNull
@@ -327,12 +354,6 @@ public class ComplexUtil {
 
 
     /* ................................. Fourier Series ................................... */
-
-    // Must be complimentary of coefficient direction
-    public static int getFourierSeriesRotorTipDirection() {
-        return getDirection(!FOURIER_TRANSFORM_CLOCKWISE);
-    }
-
 
     /**
      * Fourier Transform output -> Fourier Series coefficient
@@ -376,109 +397,243 @@ public class ComplexUtil {
     }
     
     
-    /* TODO: FFT Test (not that fast....yet) */
 
-    private static final int FFT_DEFAULT_NP_HINT = FOURIER_TRANSFORM_SIMPSON_13_N_DEFAULT;
-    private static final int FFT_N_MIN = 4;     // power of 2
 
-    @NotNull
-    public static Complex fft(@NotNull ComplexFunctionI func, double a, double b, double fq, int np_hint) {
-        if (func instanceof FrequencySupportProviderI fsp && !fsp.isFrequencySupported(fq)) {
-            return Complex.ZERO;
+
+
+
+    public static class FftTest {
+
+        private static boolean isInt(double v) {
+            return v == Math.floor(v);
+
+    //        return !(Double.isNaN(v) || Double.isInfinite(v)) && v == Math.floor(v);
         }
 
-        final double range = b - a;
-        if (range == 0)
-            return Complex.ZERO;
+        /* Single Point FFT */
 
-        if (fq == 0)
-            return simpson13(func, a, b, np_hint);
-
-        if (np_hint <= 0) {
-            np_hint = FFT_DEFAULT_NP_HINT;
-        } else if (np_hint < FFT_N_MIN) {
-            np_hint = FFT_N_MIN;
+        @NotNull
+        public static Complex fft(@NotNull ComplexDomainFunctionI function, double frequency, int n) {
+            return fft(function.createSamplesRange(n), function.getDomainRange(), frequency);
         }
 
-        final double c = fq * range;            // can be -ve
-        final double absC = Math.abs(c);
-        if (absC < 1 || absC > np_hint)
-            return simpson13(fourierTransformIntegrand(func, fq), a, b, np_hint);
-
-        final double n_hint_d = np_hint / absC;
-        int n_hint = MathUtil.highestPowOf2((int) n_hint_d);
-        if (n_hint < FFT_N_MIN) {
-            n_hint = FFT_N_MIN;              // N_MIN
+        @NotNull
+        public static Complex fft(@NotNull Complex [] x, double domainRange, double frequency) {
+            return fft(x, frequency * domainRange);
         }
 
-        final int n = n_hint;
 
-        final double np_d = absC * n;
-        final double h = range / np_d;
+        /**
+         * @param x equally spaced samples
+         * @param k fundamental frequency multiplier
+         * */
+        @NotNull
+        public static Complex fft(@NotNull Complex [] x, double k) {
+            if (x == null || x.length == 0)
+                return Complex.ZERO;
 
-        int np_int = (int) np_d;      // >= N_MIN
-        if (np_int % 2 != 0) {
-            np_int--;           // must be even
-        }
-
-        // building cache
-        final Complex[] cache = new Complex[n];
-        cache[0] = Complex.ONE;
-        cache[n / 4] = Complex.I;
-        cache[n / 2] = Complex.ONE.negate();
-
-        final double ftPre = getDirection(FOURIER_TRANSFORM_CLOCKWISE) * MathUtil.TWO_PI;
-        final double pre = ftPre * MathUtil.signum(c);
-
-        for (int i=1; i < n / 2; i++) {
-            Complex val = cache[i];
-            if (val == null) {
-                val = complexExpFast((pre * i) / n).toComplex();
-                cache[i] = val;
+            // sum all samples
+            if (k == 0) {
+                return Stream.of(x).reduce(Complex::add).get();
             }
 
-            cache[i + (n / 2)] = val.negate();
+            // todo auto pad array with zeroes
+            assert MathUtil.isPowOf2(x.length): "Samples count must be a pow of 2 for a radix-2 Cooley-Tukey FFT";
+            return fftInternal(x, k);
         }
 
 
-        final ComplexBuilder constant = complexExpFast(ftPre * fq * a);
-//        if (Complex.ZERO.equals(constant))
-//            return Complex.ZERO;
+        @NotNull
+        private static Complex fftInternal(@NotNull Complex @NotNull[] x, double k) {
+            final int N = x.length;
 
-        final IntFunction<ComplexBuilder> donor = i -> new ComplexBuilder(func.compute(a + (i * h))).mult(cache[i % n]);
+            // base case
+            if (N == 1)
+                return isInt(k)? x[0]: complexExpFast(DIRECTION_FOURIER_TRANSFORM * MathUtil.TWO_PI * k).mult(x[0]).toComplex();
 
-        // simpson 13 over [a, a + np_int * h]
-        final ComplexBuilder sum = new ComplexBuilder();
+            final Complex[] half = new Complex[N / 2];
 
-        // end points
-        sum.add(donor.apply(0)).add(donor.apply(np_int));
+            // even
+            int j=0;
+            for (int i=0; i < N; i+=2) {
+                half[j++] = x[i];
+            }
 
-        // 2. Odd Points
-        for (int i=1; i < np_int; i+=2) {
-            sum.add(donor.apply(i), 4);
+            final Complex evenFft = fftInternal(half, k);
+
+            // odd
+            j=0;
+            for (int i=1; i < N; i+=2) {
+                half[j++] = x[i];
+            }
+
+            final Complex oddFft = fftInternal(half, k);
+
+            // merge   result = even + (wk * odd)
+            return complexExpFast(DIRECTION_FOURIER_TRANSFORM * MathUtil.TWO_PI * k / N).mult(oddFft).add(evenFft).toComplex();
         }
 
-        // 3. Even Points
-        for (int i=2; i < np_int; i+=2) {
-            sum.add(donor.apply(i), 2);
+
+
+        /* Legacy FFT */
+
+        public static Complex @NotNull[] fft(@NotNull Complex [] x) {
+            if (x == null || x.length == 0)
+                return new Complex[0];
+
+            // todo auto pad array with zeroes
+            assert MathUtil.isPowOf2(x.length): "Samples count must be a pow of 2 for a radix-2 Cooley-Tukey FFT";
+            return fftInternal(x);
         }
 
-        // core result
-        sum.mult(constant).mult(h / 3);
+        private static Complex @NotNull[] fftInternal(@NotNull Complex [] x) {
+            final int N = x.length;
 
-        // Left part [a + np_int * h, b)
-        final double bp = a + (np_int * h);
-        if (bp < b) {
-            final Complex left_result = simpson13(fourierTransformIntegrand(func, fq), bp, b, SIMPSON_13_N_MIN);
-            sum.add(left_result);
+            // base case
+            if (N == 1)
+                return new Complex[] { x[0] };
+
+            final int halfN = N / 2;
+
+            final Complex[] half = new Complex[halfN];
+
+            // even
+            int j=0;
+            for (int i=0; i < N; i+=2) {
+                half[j++] = x[i];
+            }
+
+            final Complex[] evenFft = fftInternal(half);
+
+            // odd
+            j=0;
+            for (int i=1; i < N; i+=2) {
+                half[j++] = x[i];
+            }
+
+            final Complex[] oddFft = fftInternal(half);
+
+            final Complex[] result = new Complex[N];
+
+            for (int k=0; k < halfN; k++) {
+                final Complex left = evenFft[k];
+                final Complex right = complexExpFast(DIRECTION_FOURIER_TRANSFORM * MathUtil.TWO_PI * k / N).mult(oddFft[k]).toComplex();
+
+                result[k] = left.add(right);
+                result[k + halfN] = left.subtract(right);
+            }
+
+            return result;
         }
 
-        return sum.toComplex();
+
+
+
+//        /* TODO: FFT Test (not that fast....yet) */
+//
+//        private static final int FFT_DEFAULT_NP_HINT = FOURIER_TRANSFORM_SIMPSON_13_N_DEFAULT;
+//        private static final int FFT_N_MIN = 4;     // power of 2
+//
+//        @NotNull
+//        public static Complex fft(@NotNull ComplexFunctionI func, double a, double b, double fq, int np_hint) {
+//            if (func instanceof FrequencySupportProviderI fsp && !fsp.isFrequencySupported(fq)) {
+//                return Complex.ZERO;
+//            }
+//
+//            final double range = b - a;
+//            if (range == 0)
+//                return Complex.ZERO;
+//
+//            if (fq == 0)
+//                return simpson13(func, a, b, np_hint);
+//
+//            if (np_hint <= 0) {
+//                np_hint = FFT_DEFAULT_NP_HINT;
+//            } else if (np_hint < FFT_N_MIN) {
+//                np_hint = FFT_N_MIN;
+//            }
+//
+//            final double c = fq * range;            // can be -ve
+//            final double absC = Math.abs(c);
+//            if (absC < 1 || absC > np_hint)
+//                return simpson13(fourierTransformIntegrand(func, fq), a, b, np_hint);
+//
+//            final double n_hint_d = np_hint / absC;
+//            int n_hint = MathUtil.highestPowOf2((int) n_hint_d);
+//            if (n_hint < FFT_N_MIN) {
+//                n_hint = FFT_N_MIN;              // N_MIN
+//            }
+//
+//            final int n = n_hint;
+//
+//            final double np_d = absC * n;
+//            final double h = range / np_d;
+//
+//            int np_int = (int) np_d;      // >= N_MIN
+//            if (np_int % 2 != 0) {
+//                np_int--;           // must be even
+//            }
+//
+//            // building cache
+//            final Complex[] cache = new Complex[n];
+//            cache[0] = Complex.ONE;
+//            cache[n / 4] = Complex.I;
+//            cache[n / 2] = Complex.ONE.negate();
+//
+//            final double ftPre = DIRECTION_FOURIER_TRANSFORM * MathUtil.TWO_PI;
+//            final double pre = ftPre * MathUtil.signum(c);
+//
+//            for (int i=1; i < n / 2; i++) {
+//                Complex val = cache[i];
+//                if (val == null) {
+//                    val = complexExpFast((pre * i) / n).toComplex();
+//                    cache[i] = val;
+//                }
+//
+//                cache[i + (n / 2)] = val.negate();
+//            }
+//
+//
+//            final ComplexBuilder constant = complexExpFast(ftPre * fq * a);
+////        if (Complex.ZERO.equals(constant))
+////            return Complex.ZERO;
+//
+//            final IntFunction<ComplexBuilder> donor = i -> new ComplexBuilder(func.compute(a + (i * h))).mult(cache[i % n]);
+//
+//            // simpson 13 over [a, a + np_int * h]
+//            final ComplexBuilder sum = new ComplexBuilder();
+//
+//            // end points
+//            sum.add(donor.apply(0)).add(donor.apply(np_int));
+//
+//            // 2. Odd Points
+//            for (int i=1; i < np_int; i+=2) {
+//                sum.add(donor.apply(i), 4);
+//            }
+//
+//            // 3. Even Points
+//            for (int i=2; i < np_int; i+=2) {
+//                sum.add(donor.apply(i), 2);
+//            }
+//
+//            // core result
+//            sum.mult(constant).mult(h / 3);
+//
+//            // Left part [a + np_int * h, b)
+//            final double bp = a + (np_int * h);
+//            if (bp < b) {
+//                final Complex left_result = simpson13(fourierTransformIntegrand(func, fq), bp, b, SIMPSON_13_N_MIN);
+//                sum.add(left_result);
+//            }
+//
+//            return sum.toComplex();
+//        }
+//
+//        @NotNull
+//        public static Complex fft(@NotNull ComplexDomainFunctionI func, double fq) {
+//            return fft(func, func.getDomainStart(), func.getDomainEnd(), fq, -1);
+//        }
+
+
     }
-
-    @NotNull
-    public static Complex fft(@NotNull ComplexDomainFunctionI func, double fq) {
-        return fft(func, func.getDomainStart(), func.getDomainEnd(), fq, -1);
-    }
-
 }
