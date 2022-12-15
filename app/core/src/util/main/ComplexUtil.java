@@ -3,13 +3,14 @@ package util.main;
 import function.ComplexDomainFunctionWrapper;
 import function.definition.ComplexFunctionI;
 import function.definition.ComplexDomainFunctionI;
-import function.definition.DiscreteFunction;
+import function.definition.DiscreteFunctionI;
 import function.definition.FrequencySupportProviderI;
 import misc.MathUtil;
 import models.ComplexBuilder;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.function.BinaryOperator;
 import java.util.function.IntFunction;
 import java.util.stream.Stream;
 
@@ -329,7 +330,7 @@ public class ComplexUtil {
 //        };
 //
 //        final int N = MathUtil.highestPowOf2(50_000);
-//        return FftTest.fft(func, frequency, N).multiply((b - a) / N);
+//        return FftTest.fft(func, frequency, N);
     }
 
     @NotNull
@@ -402,6 +403,7 @@ public class ComplexUtil {
 
 
 
+    // TODO: decrease array overhead
     public static class FftTest {
 
         private static boolean isInt(double v) {
@@ -412,15 +414,195 @@ public class ComplexUtil {
 
         /* Single Point FFT */
 
+        public interface SampleProvider {
+
+            SampleProvider EMPTY = new SampleProvider() {
+                @Override
+                public int sampleCount() {
+                    return 0;
+                }
+
+                @Override
+                @NotNull
+                public Complex sampleAt(int index) {
+                    throw new IndexOutOfBoundsException(String.format("Index %d out of bounds. Size: 0", index));
+                }
+            };
+
+            @NotNull
+            static SampleProvider create(int sampleCount, @NotNull IntFunction<Complex> sampleProvider) {
+                return new SampleProvider() {
+                    @Override
+                    public int sampleCount() {
+                        return sampleCount;
+                    }
+
+                    @Override
+                    public @NotNull Complex sampleAt(int index) throws IndexOutOfBoundsException {
+                        return sampleProvider.apply(index);
+                    }
+                };
+            }
+
+
+            static SampleProvider single(@NotNull Complex value) {
+                return new SampleProvider() {
+                    @Override
+                    public int sampleCount() {
+                        return 1;
+                    }
+
+                    @Override
+                    public @NotNull Complex sampleAt(int index) throws IndexOutOfBoundsException {
+                        if (index != 0)
+                            throw new IndexOutOfBoundsException(String.format("Index: %d, Size: %d", index, 1));
+                        return value;
+                    }
+                };
+            }
+
+            @NotNull
+            static SampleProvider of(@NotNull DiscreteFunctionI discreteFunction) {
+                return create(discreteFunction.getSampleCount(), discreteFunction::getSampleAt);
+            }
+
+            @NotNull
+            static SampleProvider of(@NotNull ComplexDomainFunctionI function, int sampleCount, boolean checkDiscrete) {
+                if (checkDiscrete && function instanceof DiscreteFunctionI df) {
+                    return of(df);
+                }
+
+                if (sampleCount == 0)
+                    return EMPTY;
+
+                final double dStart = function.getDomainStart();
+                if (sampleCount == 1)
+                    return single(function.compute(dStart));
+
+                final double dStep = function.getSampleDomainStep(sampleCount);
+                return create(sampleCount, i -> function.compute(dStart + (i * dStep)));
+            }
+
+
+
+            int sampleCount();
+
+            @NotNull
+            Complex sampleAt(int index) throws IndexOutOfBoundsException;
+
+            default boolean isEmpty() {
+                return sampleCount() == 0;
+            }
+
+            @NotNull
+            default Complex reduce(@NotNull BinaryOperator<Complex> reducer) {
+                final int n = sampleCount();
+                if (n == 0)
+                    return Complex.ZERO;
+
+                Complex res = sampleAt(0);
+                if (n == 1)
+                    return res;
+
+                for (int i=1; i < n; i++) {
+                    res = reducer.apply(res, sampleAt(i));
+                }
+
+                return res;
+            }
+
+            @NotNull
+            default SampleProvider withCount(int count) {
+                if (count < 0)
+                    throw new IllegalArgumentException("Sample count must be >= 0");
+
+                final int myCount = sampleCount();
+                final SampleProvider me = this;
+                if (myCount == count)
+                    return me;
+
+                if (count == 0)
+                    return EMPTY;
+
+                return create(count, myCount > count? me::sampleAt: index -> index < myCount? me.sampleAt(index): Complex.ZERO);
+            }
+
+            @NotNull
+            default SampleProvider halfSamples(boolean even) {
+                final int o_count = sampleCount();
+                if (o_count < 2)
+                    return EMPTY;
+
+                final SampleProvider me = this;
+                final int count = o_count % 2 != 0? o_count + 1: o_count;       // multiple of 2
+
+                final IntFunction<Complex> provider;
+                if (even) {
+                    provider = index -> {
+                        final int n = index * 2;
+                        return n < o_count? me.sampleAt(n): Complex.ZERO;
+                    };
+                } else {
+                    provider = index -> {
+                        final int n = (index * 2) + 1;
+                        return n < o_count? me.sampleAt(n): Complex.ZERO;
+                    };
+                }
+
+                return create(count / 2, provider);
+            }
+        }
+
+
         @NotNull
-        public static Complex fft(@NotNull ComplexDomainFunctionI function, double frequency, int n) {
-            return fft(function.createSamplesRange(n), function.getDomainRange(), frequency);
+        public static Complex fftSingleFq(@NotNull SampleProvider sampleProvider, double k) {
+            final int N = sampleProvider.sampleCount();
+            if (N == 0)
+                return Complex.ZERO;
+
+            if (k == 0) {
+                return sampleProvider.reduce(Complex::add);     // sum all samples
+            }
+
+            sampleProvider = sampleProvider.withCount(MathUtil.lowestPowOf2(N));        // pad with zeroes
+            return fftSingleFqInternal(sampleProvider, k);
         }
 
         @NotNull
-        public static Complex fft(@NotNull Complex [] x, double domainRange, double frequency) {
-            return fft(x, frequency * domainRange);
+        public static Complex fftSingleFqInternal(@NotNull SampleProvider provider, double k) {
+            final int N = provider.sampleCount();
+
+            // base case
+            if (N == 1) {
+                final Complex v = provider.sampleAt(0);
+                return isInt(k)? v: complexExpFast(DIRECTION_FOURIER_TRANSFORM * MathUtil.TWO_PI * k).mult(v).toComplex();
+            }
+
+            final SampleProvider evenP = provider.halfSamples(true);
+            final Complex evenFft = fftSingleFqInternal(evenP, k);
+
+            final SampleProvider oddP = provider.halfSamples(false);
+            final Complex oddFft = fftSingleFqInternal(oddP, k);
+
+            // merge   result = even + (wk * odd)
+            return complexExpFast(DIRECTION_FOURIER_TRANSFORM * MathUtil.TWO_PI * k / N).mult(oddFft).add(evenFft).toComplex();
         }
+
+
+
+
+        @NotNull
+        public static Complex fftSingleFq(@NotNull ComplexDomainFunctionI function, double frequency, int n) {
+            return fftSingleFq(SampleProvider.of(function, n, true), frequency * function.getDomainRange()).multiply(function.getDomainRange() / (n > 0? n: 1));
+
+//            return fftSingleFq(function.createSamplesRange(n), function.getDomainRange(), frequency);
+        }
+
+        @NotNull
+        public static Complex fftSingleFq(@NotNull Complex [] x, double domainRange, double frequency) {
+            return fftSingleFq(x, frequency * domainRange).multiply(domainRange / (x.length > 0? x.length: 1));
+        }
+
 
 
         /**
@@ -428,7 +610,7 @@ public class ComplexUtil {
          * @param k fundamental frequency multiplier
          * */
         @NotNull
-        public static Complex fft(@NotNull Complex [] x, double k) {
+        public static Complex fftSingleFq(@NotNull Complex [] x, double k) {
             if (x == null || x.length == 0)
                 return Complex.ZERO;
 
@@ -438,13 +620,16 @@ public class ComplexUtil {
             }
 
             // todo auto pad array with zeroes
-            assert MathUtil.isPowOf2(x.length): "Samples count must be a pow of 2 for a radix-2 Cooley-Tukey FFT";
-            return fftInternal(x, k);
+            if (!MathUtil.isPowOf2(x.length)) {
+                throw new IllegalArgumentException("Samples count must be a pow of 2 for a radix-2 Cooley-Tukey FFT");
+            }
+
+            return fftSingleFqInternal(x, k);
         }
 
 
         @NotNull
-        private static Complex fftInternal(@NotNull Complex @NotNull[] x, double k) {
+        private static Complex fftSingleFqInternal(@NotNull Complex @NotNull[] x, double k) {
             final int N = x.length;
 
             // base case
@@ -459,7 +644,7 @@ public class ComplexUtil {
                 half[j++] = x[i];
             }
 
-            final Complex evenFft = fftInternal(half, k);
+            final Complex evenFft = fftSingleFqInternal(half, k);
 
             // odd
             j=0;
@@ -467,7 +652,7 @@ public class ComplexUtil {
                 half[j++] = x[i];
             }
 
-            final Complex oddFft = fftInternal(half, k);
+            final Complex oddFft = fftSingleFqInternal(half, k);
 
             // merge   result = even + (wk * odd)
             return complexExpFast(DIRECTION_FOURIER_TRANSFORM * MathUtil.TWO_PI * k / N).mult(oddFft).add(evenFft).toComplex();
@@ -475,18 +660,21 @@ public class ComplexUtil {
 
 
 
-        /* Legacy FFT */
+        /* Legacy FFT spectrum */
 
-        public static Complex @NotNull[] fft(@NotNull Complex [] x) {
+        public static Complex @NotNull[] fftSpectrum(@NotNull Complex [] x) {
             if (x == null || x.length == 0)
                 return new Complex[0];
 
             // todo auto pad array with zeroes
-            assert MathUtil.isPowOf2(x.length): "Samples count must be a pow of 2 for a radix-2 Cooley-Tukey FFT";
-            return fftInternal(x);
+            if (!MathUtil.isPowOf2(x.length)) {
+                throw new IllegalArgumentException("Samples count must be a pow of 2 for a radix-2 Cooley-Tukey FFT");
+            }
+
+            return fftSpectrumInternal(x);
         }
 
-        private static Complex @NotNull[] fftInternal(@NotNull Complex [] x) {
+        private static Complex @NotNull[] fftSpectrumInternal(@NotNull Complex [] x) {
             final int N = x.length;
 
             // base case
@@ -503,7 +691,7 @@ public class ComplexUtil {
                 half[j++] = x[i];
             }
 
-            final Complex[] evenFft = fftInternal(half);
+            final Complex[] evenFft = fftSpectrumInternal(half);
 
             // odd
             j=0;
@@ -511,7 +699,7 @@ public class ComplexUtil {
                 half[j++] = x[i];
             }
 
-            final Complex[] oddFft = fftInternal(half);
+            final Complex[] oddFft = fftSpectrumInternal(half);
 
             final Complex[] result = new Complex[N];
 
@@ -525,7 +713,6 @@ public class ComplexUtil {
 
             return result;
         }
-
 
 
 

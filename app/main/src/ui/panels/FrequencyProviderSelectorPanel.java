@@ -1,5 +1,6 @@
 package ui.panels;
 
+import app.Colors;
 import misc.Format;
 import misc.Log;
 import org.jetbrains.annotations.NotNull;
@@ -10,6 +11,9 @@ import ui.util.Ui;
 import async.Function;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,11 +21,11 @@ import java.util.Map;
 public class FrequencyProviderSelectorPanel extends JPanel {
 
     public static final String TAG = "FrequencyProviderSelectorPanel";
-    private static final Dimension MIN_SIZE = new Dimension(350, 200);
+    private static final Dimension MIN_SIZE = new Dimension(400, 260);
 
     private static class Entry extends JPanel {
 
-        private static final Dimension ENTRY_DIMENSION = new Dimension(60, 25);
+        private static final Dimension ENTRY_DIMENSION = new Dimension(90, 25);
 
         final JLabel label;
         final JTextField entry;
@@ -77,21 +81,57 @@ public class FrequencyProviderSelectorPanel extends JPanel {
         public ItemPanel(String title) {
             radioButton = new JRadioButton(title);
             radioButton.setHorizontalAlignment(SwingConstants.LEADING);
-            radioButton.setAlignmentX(LEFT_ALIGNMENT);
             radioButton.setFont(radioButton.getFont().deriveFont(12.0f));
 
             opsPanel = new JPanel();
-            opsPanel.setLayout(new FlowLayout(FlowLayout.LEADING, 5, 4));
+            opsPanel.setLayout(new FlowLayout(FlowLayout.LEADING, 5, 1));
 
-            setLayout(new BorderLayout(5, 4));
-            add(radioButton, BorderLayout.NORTH);
-            add(opsPanel, BorderLayout.SOUTH);
+            setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+            addC(radioButton);
+            addC(opsPanel);
 
             radioButton.getModel().addItemListener(e -> sync());
         }
 
+        private void addC(@NotNull Component component, int hgap, int vgap) {
+            if (vgap > 0) {
+                add(Box.createVerticalStrut(vgap));
+            }
+
+            if (hgap > 0) {
+                final JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEADING));
+                panel.setAlignmentX(LEFT_ALIGNMENT);
+                panel.add(Box.createHorizontalStrut(hgap));
+                panel.add(component);
+                add(panel);
+            } else {
+                if (component instanceof JComponent jc) {
+                    jc.setAlignmentX(LEFT_ALIGNMENT);
+                }
+
+                add(component);
+            }
+        }
+
+        private void addC(@NotNull Component component) {
+            addC(component, 3, 1);
+        }
+
+        private void setSelected(boolean selected) {
+            setOpsEnabled(selected);
+
+            if (selected) {
+                setBorder(BorderFactory.createLineBorder(Colors.ACCENT_FG_LIGHT, 1, true));
+            } else {
+                setBorder(null);
+            }
+
+            invalidate();
+            repaint();
+        }
+
         public void sync() {
-            setOpsEnabled(radioButton.isSelected());
+            setSelected(radioButton.isSelected());
         }
 
         public void setTitle(String title) {
@@ -199,12 +239,30 @@ public class FrequencyProviderSelectorPanel extends JPanel {
         }
     }
 
+    private static class FundamentalFpPanel extends ItemPanel {
+
+        final JCheckBox centeringCheck;
+
+        public FundamentalFpPanel() {
+            super("Fundamental");
+            centeringCheck = new JCheckBox("Centering");
+            centeringCheck.setSelected(FundamentalFrequencyProvider.DEFAULT_CENTERING);
+            centeringCheck.setToolTipText("center around Fundamental Frequency by including negative frequencies");
+
+            radioButton.setActionCommand(FP_FUNDAMENTAL);
+            radioButton.setToolTipText("Rotor Frequencies are multiples of Fundamental Frequency = 1 / Domain Range");
+
+            opsPanel.add(centeringCheck);
+        }
+    }
+
 
     private static final String FP_INDEX = "index";
     private static final String FP_CENTERING = "centering";
     private static final String FP_FIXED_START = "fixed_start";
     private static final String FP_BOUNDED = "bounded";
     private static final String FP_EXPLICIT = "explicit";
+    private static final String FP_FUNDAMENTAL = "fundamental";
 
     private static final Map<Class<? extends RotorFrequencyProviderI>, String> CLASS_TO_TYPE;
 
@@ -215,6 +273,7 @@ public class FrequencyProviderSelectorPanel extends JPanel {
         CLASS_TO_TYPE.put(FixedStartFrequencyProvider.class, FP_FIXED_START);
         CLASS_TO_TYPE.put(BoundedFrequencyProvider.class, FP_BOUNDED);
         CLASS_TO_TYPE.put(ExplicitFrequencyProvider.class, FP_EXPLICIT);
+        CLASS_TO_TYPE.put(FundamentalFrequencyProvider.class, FP_FUNDAMENTAL);
     }
 
     @NotNull
@@ -231,6 +290,7 @@ public class FrequencyProviderSelectorPanel extends JPanel {
     private final JPanel root;
     private final ButtonGroup radioGroup;
 
+    private final FundamentalFpPanel fundamentalFpPanel;
     private final IndexFpPanel indexFpPanel;
     private final CenteringFpPanel centeringFpPanel;
     private final FixedStartFpPanel fixedStartFpPanel;
@@ -261,6 +321,7 @@ public class FrequencyProviderSelectorPanel extends JPanel {
             }
         }
 
+        fundamentalFpPanel = new FundamentalFpPanel();
         indexFpPanel = new IndexFpPanel();
         centeringFpPanel = new CenteringFpPanel();
         fixedStartFpPanel = new FixedStartFpPanel();
@@ -272,6 +333,7 @@ public class FrequencyProviderSelectorPanel extends JPanel {
         }
 
         radioGroup = new ButtonGroup();
+        radioGroup.add(fundamentalFpPanel.radioButton);
         radioGroup.add(indexFpPanel.radioButton);
         radioGroup.add(centeringFpPanel.radioButton);
         radioGroup.add(fixedStartFpPanel.radioButton);
@@ -282,18 +344,29 @@ public class FrequencyProviderSelectorPanel extends JPanel {
 
         root = new JPanel();
         root.setLayout(new BoxLayout(root, BoxLayout.Y_AXIS));
-        root.add(indexFpPanel);
-        root.add(centeringFpPanel);
-        root.add(fixedStartFpPanel);
-        root.add(boundFpPanel);
+        root.setBorder(null);
+        addToRoot(fundamentalFpPanel);
+        addToRoot(indexFpPanel);
+        addToRoot(centeringFpPanel);
+        addToRoot(fixedStartFpPanel);
+        addToRoot(boundFpPanel);
         if (explicitFpPanel != null) {
-            root.add(explicitFpPanel);
+            addToRoot(explicitFpPanel);
         }
 
         scrollPane = new JScrollPane(root, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setPreferredSize(MIN_SIZE.getSize());
-        setLayout(new BorderLayout());
-        add(scrollPane, BorderLayout.CENTER);
+        scrollPane.setBorder(null);
+        scrollPane.setViewportBorder(null);
+        setLayout(new GridBagLayout());
+
+        final GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = gbc.gridy = 0;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.PAGE_START;
+        add(scrollPane, gbc);
 
         final String defaultType = getType(defaultProvider);
         final String curType;
@@ -313,6 +386,7 @@ public class FrequencyProviderSelectorPanel extends JPanel {
             sync(defaultProvider, defaultType);
         }
 
+        fundamentalFpPanel.sync();
         indexFpPanel.sync();
         centeringFpPanel.sync();
         fixedStartFpPanel.sync();
@@ -326,6 +400,23 @@ public class FrequencyProviderSelectorPanel extends JPanel {
             d.setMinimumSize(MIN_SIZE.getSize());
         }, false);
     }
+
+    private void addToRoot(@NotNull Component component, int vgap) {
+        if (vgap > 0 && root.getComponentCount() > 0) {
+            root.add(Box.createVerticalStrut(vgap));
+        }
+
+        if (component instanceof JComponent jc) {
+            jc.setAlignmentX(LEFT_ALIGNMENT);
+        }
+
+        root.add(component);
+    }
+
+    private void addToRoot(@NotNull Component component) {
+        addToRoot(component, 4);
+    }
+
 
     private void sync(@NotNull RotorFrequencyProviderI fp) {
         sync(fp, getType(fp));
@@ -345,13 +436,15 @@ public class FrequencyProviderSelectorPanel extends JPanel {
 
                 final Double end = freq.getFrequencyEnd();
                 boundFpPanel.end.setValue(end != null? String.valueOf(end): null);
-            }
+            } case FP_EXPLICIT -> {
+            } case FP_FUNDAMENTAL -> fundamentalFpPanel.centeringCheck.setSelected(((FundamentalFrequencyProvider) fp).isCentering());
         }
     }
 
     @NotNull
     private ItemPanel getItemPanel(@NotNull String type) {
         return switch (type) {
+            case FP_FUNDAMENTAL -> fundamentalFpPanel;
             case FP_INDEX -> indexFpPanel;
             case FP_CENTERING -> centeringFpPanel;
             case FP_FIXED_START -> fixedStartFpPanel;
@@ -369,8 +462,14 @@ public class FrequencyProviderSelectorPanel extends JPanel {
     }
 
     @Nullable
-    public RotorFrequencyProviderI showDialog(@Nullable Component parent) {
+    public RotorFrequencyProviderI showDialog(@Nullable Component parent, @NotNull RotorStateManager manager, boolean setProvider) {
         final String title = "Configure Frequency Provider";
+
+        if (manager.isNoOp()) {
+            Ui.showErrorMessageDialog(parent,"No function selected yet\nSelect a function to configure frequency provider", title);
+            return null;
+        }
+
         final int option = JOptionPane.showConfirmDialog(parent, this, title, JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
         if (option != JOptionPane.OK_OPTION) {
             return null;
@@ -476,6 +575,11 @@ public class FrequencyProviderSelectorPanel extends JPanel {
                     }
 
                     frequencyProvider = explicitFpPanel.fp;
+                } case FP_FUNDAMENTAL -> {
+                    final boolean centering = fundamentalFpPanel.centeringCheck.isSelected();
+                    final FundamentalFrequencyProvider fp = new FundamentalFrequencyProvider(manager.getFunction().getDomainRange());
+                    fp.setCentering(centering);
+                    frequencyProvider = fp;
                 }
 
                 default -> throw new AssertionError("Invalid Frequency Provider Type: " + type);
@@ -495,6 +599,10 @@ public class FrequencyProviderSelectorPanel extends JPanel {
 
             Ui.showErrorMessageDialog(parent, err, title);
             return null;
+        }
+
+        if (setProvider) {
+            manager.setRotorFrequencyProvider(frequencyProvider);
         }
 
         if (Format.notEmpty(warn)) {

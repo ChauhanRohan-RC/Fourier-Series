@@ -1,6 +1,6 @@
 package rotor.frequency;
 
-public class IndexFrequencyProvider implements RotorFrequencyProviderI {
+public final class IndexFrequencyProvider implements RotorFrequencyProviderI {
 
     public static final double DEFAULT_INDEX_MULTIPLIER = 1;
 

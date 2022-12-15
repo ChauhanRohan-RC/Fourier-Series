@@ -1,17 +1,15 @@
 package function.definition;
 
-import misc.MathUtil;
-import models.RealTransform;
 import models.FunctionGraphMode;
+import models.RealTransform;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import rotor.RotorState;
-import rotor.frequency.CenteringFrequencyProvider;
 import rotor.frequency.ExplicitFrequencyProvider;
+import rotor.frequency.FundamentalFrequencyProvider;
 import rotor.frequency.RotorFrequencyProviderI;
 import util.json.JsonParsable;
-import util.main.ComplexUtil;
 
 public interface ComplexDomainFunctionI extends ComplexFunctionI, DomainProviderI, FrequencySupportProviderI, CacheRotorStateProvider, JsonParsable {
 
@@ -126,16 +124,18 @@ public interface ComplexDomainFunctionI extends ComplexFunctionI, DomainProvider
 
 
     @NotNull
-    static RotorFrequencyProviderI getDefaultFrequencyProvider(double divisor) {
-        final CenteringFrequencyProvider fp = new CenteringFrequencyProvider();
-        double multiplier = divisor != 0? 1 / divisor: 1;
+    static RotorFrequencyProviderI getDefaultFrequencyProvider(double domainRange) {
+//        final CenteringFrequencyProvider fp = new CenteringFrequencyProvider();
+//        double multiplier = domainRange != 0? 1 / domainRange: 1;
+//
+//        if (!ComplexUtil.FOURIER_TRANSFORM_USE_TWO_PI) {
+//            multiplier *= MathUtil.TWO_PI;
+//        }
+//
+//        fp.setFrequencyMultiplier(multiplier);
+//        return fp;
 
-        if (!ComplexUtil.FOURIER_TRANSFORM_USE_TWO_PI) {
-            multiplier *= MathUtil.TWO_PI;
-        }
-
-        fp.setFrequencyMultiplier(multiplier);
-        return fp;
+        return new FundamentalFrequencyProvider(domainRange);
     }
 
     @Nullable

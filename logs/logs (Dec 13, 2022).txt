@@ -114,3 +114,32 @@
 2022-12-13 18:33:06:237643700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : PLAYING -> CLOSING 
 2022-12-13 18:33:06:237963600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : CLOSING -> CLOSED 
 ## LOG END -> 2022-12-13 18:33:06:238872900 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-13 19:41:27:876846000 +05:30[Asia/Calcutta]
+2022-12-13 19:41:27:876846000 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-13 19:41:28:798550600 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-13 19:41:33:619022200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-13 19:41:34:173290400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2022-12-13 19:41:34:364804400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : IDLE -> OPEN 
+2022-12-13 19:41:34:364804400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2022-12-13 19:41:34:364804400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : OPEN -> PLAYING 
+2022-12-13 19:41:34:364804400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2022-12-13 19:41:34:413523300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 794 ms 
+2022-12-13 19:41:36:262994200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Joseph Fourier (Internal Path) 
+2022-12-13 19:41:37:477127000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 1214 ms 
+2022-12-13 19:41:58:152495200 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series (Joseph Fourier) | WindowCount: 0 
+2022-12-13 19:41:58:152495200 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-13 19:41:58:175831700 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-13 19:41:58:177351400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> CLOSED 
+2022-12-13 19:41:58:177351400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : PLAYING -> CLOSING 
+2022-12-13 19:41:58:180426100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : CLOSING -> CLOSED 
+## LOG END -> 2022-12-13 19:41:58:181535600 +05:30[Asia/Calcutta]
+
+## LOG START -> 2022-12-13 19:43:53:516559900 +05:30[Asia/Calcutta]
+2022-12-13 19:43:53:500930000 +05:30[Asia/Calcutta]:Verbose: App: Initialising... 
+2022-12-13 19:43:54:375191300 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: Fourier Series | WindowCount: 1 
+2022-12-13 19:43:56:201478900 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: Fourier Series | WindowCount: 0 
+2022-12-13 19:43:56:201478900 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2022-12-13 19:43:56:232735800 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2022-12-13 19:43:56:232735800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> CLOSED 
+## LOG END -> 2022-12-13 19:43:56:232735800 +05:30[Asia/Calcutta]

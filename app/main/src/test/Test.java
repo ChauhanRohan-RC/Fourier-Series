@@ -3,7 +3,10 @@ package test;
 import app.R;
 import function.definition.ComplexDomainFunctionI;
 import function.internal.basic.SineSignal;
+import misc.Format;
 import misc.MathUtil;
+import org.apache.commons.math3.complex.Complex;
+import org.jetbrains.annotations.Nullable;
 import util.main.ComplexUtil;
 
 
@@ -22,6 +25,15 @@ public class Test {
         sStartTime = System.nanoTime();
     }
 
+    public static void startTimeF(@Nullable String title) {
+        System.out.println("\nTiming Task: " + (Format.notEmpty(title)? title: "Unknown"));
+        startTime();
+    }
+
+    public static void startTimeF() {
+        startTimeF(null);
+    }
+
     public static long endTime() {
         final long start = sStartTime;
         sStartTime = -1;
@@ -32,11 +44,15 @@ public class Test {
         return System.nanoTime() - start;
     }
 
-    public static void endTimeF() {
+    public static void endTimeF(@Nullable String title) {
         final long delta = endTime();
         if (delta != -1) {
-            System.out.printf("Time taken: %.2f ms (%d ns)%n", delta / 1E6, delta);
+            System.out.printf("%s: %.2f ms (%d ns)%n", Format.notEmpty(title)? title: "Time Taken", delta / 1E6, delta);
         }
+    }
+
+    public static void endTimeF() {
+        endTimeF(null);
     }
 
 
@@ -118,11 +134,26 @@ public class Test {
 //        }
 
 
-        final int N = MathUtil.highestPowOf2(50000);
+        final int N = MathUtil.highestPowOf2(100000);
+        final Complex[] samples = func.createSamplesRange(N);
 
-        final double freq = 2;
-        System.out.printf("%n%n At Fq = %.2f -> %f, %f", freq, ComplexUtil.FftTest.fft(func, freq, N).abs(), ComplexUtil.fourierTransform(func, freq, N).abs());
+        startTimeF("Continuous FT");
+        for (int i=0; i < 100; i++) {
+            ComplexUtil.fourierTransform(func, i, N);
+        }
+        endTimeF("Continuous FT");
+
+        startTimeF("FFT");
+        for (int i=0; i < 100; i++) {
+            ComplexUtil.FftTest.fftSingleFq(func, i, N);
+        }
+
+        endTimeF("FFT");
+
     }
+
+
+
 
     public static void main(String[] args) {
         MathUtil.initFast();

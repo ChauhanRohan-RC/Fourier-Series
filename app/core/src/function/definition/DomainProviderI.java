@@ -31,9 +31,12 @@ public interface DomainProviderI extends ColorProviderI {
     /**
      * @return fundamental frequency as defined in the Discrete Fourier Transform
      * */
+    static double getFundamentalFrequency(double domainRange) {
+        return domainRange != 0? 1 / domainRange: 0;
+    }
+
     default double getFundamentalFrequency() {
-        final double dr = getDomainRange();
-        return dr != 0? 1 / dr: 0;
+        return getFundamentalFrequency(getDomainRange());
     }
 
     default double getSampleDomainStep(int sampleCount) {

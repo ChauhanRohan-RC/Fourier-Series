@@ -4,7 +4,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public class BoundedFrequencyProvider implements RotorFrequencyProviderI {
+public final class BoundedFrequencyProvider implements RotorFrequencyProviderI {
 
     public static final double DEFAULT_START = 0;
     @Nullable

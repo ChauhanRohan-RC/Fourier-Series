@@ -1,6 +1,6 @@
 package rotor.frequency;
 
-public class CenteringFrequencyProvider implements RotorFrequencyProviderI {
+public final class CenteringFrequencyProvider implements RotorFrequencyProviderI {
 
     public static final double DEFAULT_FREQUENCY_MULTIPLIER = 1;
 

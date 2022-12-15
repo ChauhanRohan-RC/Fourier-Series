@@ -495,16 +495,8 @@ public interface Ui {
     }
 
     static void askConfigureFrequencyProvider(@NotNull Ui ui, @NotNull RotorStateManager manager) {
-        if (manager.isNoOp()) {
-            ui.showErrorMessageDialog("No function selected yet\nSelect a function to configure frequency provider", null);
-            return;
-        }
-
         final FrequencyProviderSelectorPanel panel = new FrequencyProviderSelectorPanel(manager);
-        final RotorFrequencyProviderI freqProvider = panel.showDialog(ui.getFrame());
-        if (freqProvider != null) {
-            manager.setRotorFrequencyProvider(freqProvider);
-        }
+        panel.showDialog(ui.getFrame(), manager, true);
     }
 
 

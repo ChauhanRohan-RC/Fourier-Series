@@ -1,6 +1,6 @@
 package rotor.frequency;
 
-public class FixedStartFrequencyProvider implements RotorFrequencyProviderI {
+public final class FixedStartFrequencyProvider implements RotorFrequencyProviderI {
 
     public static final double DEFAULT_FREQUENCY_START = 0;
     public static final double DEFAULT_FREQUENCY_STEP = 1;
