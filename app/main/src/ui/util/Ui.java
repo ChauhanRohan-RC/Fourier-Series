@@ -37,9 +37,11 @@ import java.util.List;
 public interface Ui {
 
     Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+    boolean FORCE_ANTIALIASING = true;
 
     String TITLE_MAIN = "Fourier Series";
     String TITLE_FT = "Fourier Transform";
+    String TITLE_MOUSE_PATH_UI = "Draw Path Function";
 
     String TITLE_CONFIGURATIONS = "Configuration";
 

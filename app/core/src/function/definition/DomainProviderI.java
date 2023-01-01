@@ -85,7 +85,7 @@ public interface DomainProviderI extends ColorProviderI {
      * @return minimum domain range travel duration (milliseconds)
      * */
     default long getDomainAnimationDurationMsMin() {             // Fastest speed
-        return 500;
+        return 100;
     }
 
     /**

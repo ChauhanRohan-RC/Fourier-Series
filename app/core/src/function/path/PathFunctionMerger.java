@@ -3,6 +3,7 @@ package function.path;
 import function.definition.ColorHandler;
 import function.definition.ColorProviderI;
 import function.graphic.GraphicFunction;
+import misc.MathUtil;
 import org.apache.batik.parser.ParseException;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
@@ -26,8 +27,9 @@ public class PathFunctionMerger extends GraphicFunction implements ColorHandler 
     private final Rectangle2D bounds;
     @NotNull
     private final PathFunction[] segments;
-    private final long animDurationDefault, animDurationMin, animDurationMax;
 
+    private final long animDurationDefault, animDurationMin, animDurationMax;
+    private float animDurationScale = 1;
 
     public PathFunctionMerger(@NotNull PathFunction[] segments, @NotNull Rectangle2D bounds, float zoom, boolean center) throws IllegalArgumentException {
         super(zoom, center);
@@ -147,19 +149,31 @@ public class PathFunctionMerger extends GraphicFunction implements ColorHandler 
         return segments.length;
     }
 
+    public final float getDomainAnimationDurationScale() {
+        return animDurationScale;
+    }
+
+    public final PathFunctionMerger setDomainAnimDurationScale(float animDurationScale) {
+        if (animDurationScale > 0) {
+            this.animDurationScale = animDurationScale;
+        }
+
+        return this;
+    }
+
     @Override
     public final long getDomainAnimationDurationMsDefault() {
-        return animDurationDefault;
+        return (long) (animDurationDefault * animDurationScale);
     }
 
     @Override
     public final long getDomainAnimationDurationMsMin() {
-        return animDurationMin;
+        return (long) (animDurationMin * animDurationScale);
     }
 
     @Override
     public final long getDomainAnimationDurationMsMax() {
-        return animDurationMax;
+        return (long) (animDurationMax * animDurationScale);
     }
 
 //    @Override
@@ -196,6 +210,8 @@ public class PathFunctionMerger extends GraphicFunction implements ColorHandler 
 
         return segments[i].getColor(d - i);
     }
+
+
 
 
     @NotNull

@@ -19,6 +19,7 @@ import rotor.RotorStateManager;
 import rotor.frequency.RotorFrequencyProviderI;
 import ui.action.ActionInfo;
 import live.Listeners;
+import ui.util.Ui;
 import util.main.ComplexUtil;
 import xchart.XChartPanel;
 
@@ -547,7 +548,7 @@ public class FTWinderPanel extends JPanel implements Runnable, Flaggable {
         super.paintComponent(_g);
         Graphics2D g = (Graphics2D) _g;
 
-        if (FourierSeriesPanel.FORCE_ANTIALIASING) {
+        if (Ui.FORCE_ANTIALIASING) {
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         }
 

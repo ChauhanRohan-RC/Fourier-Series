@@ -3,7 +3,9 @@ package ui.frames;
 import app.App;
 import app.R;
 import app.Settings;
+import misc.CollectionUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ui.action.ActionInfo;
 import ui.action.UiAction;
 import ui.util.Ui;
@@ -11,10 +13,7 @@ import ui.util.Ui;
 import javax.swing.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
-import java.util.Collection;
-import java.util.EnumMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class BaseFrame extends JFrame implements Ui,
         UiAction.Listener,
@@ -91,8 +90,12 @@ public class BaseFrame extends JFrame implements Ui,
 
     /* Actions */
 
-    protected final void setupActionKeyBindings(@NotNull Collection<InputMap> inputMaps, @NotNull ActionMap actionMap) {
-        ActionInfo.sharedValues().forEach(info -> {
+    protected final void setupActionKeyBindings(@NotNull Collection<InputMap> inputMaps, @NotNull ActionMap actionMap, @Nullable Collection<ActionInfo> actions) {
+        if (CollectionUtil.isEmpty(actions)) {
+            actions =  ActionInfo.sharedValues();  // all
+        }
+
+        actions.forEach(info -> {
             if (info.keyStroke != null) {
                 inputMaps.forEach(im -> im.put(info.keyStroke, info));
             }
@@ -101,13 +104,13 @@ public class BaseFrame extends JFrame implements Ui,
         });
     }
 
-    protected final void setupActionKeyBindings(@NotNull JComponent component, int @NotNull ... inputMapConditions) {
+    protected final void setupActionKeyBindings(@NotNull JComponent component, @Nullable Collection<ActionInfo> actions, int @NotNull ... inputMapConditions) {
         final List<InputMap> maps = new LinkedList<>();
         for (int i: inputMapConditions) {
             maps.add(component.getInputMap(i));
         }
 
-        setupActionKeyBindings(maps, component.getActionMap());
+        setupActionKeyBindings(maps, component.getActionMap(), actions);
     }
 
 

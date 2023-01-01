@@ -492,7 +492,7 @@ public class FTUi extends BaseFrame {
         });
 
         // Run
-        setupActionKeyBindings(getRootPane(), JComponent.WHEN_IN_FOCUSED_WINDOW, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        setupActionKeyBindings(getRootPane(), null, JComponent.WHEN_IN_FOCUSED_WINDOW, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         ftWinderPanel.addMouseListener(this);
 
 //        functionGraphPanel.addMouseListener(this);

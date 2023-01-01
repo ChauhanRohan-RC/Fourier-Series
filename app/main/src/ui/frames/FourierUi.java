@@ -3,6 +3,9 @@ package ui.frames;
 import animation.animator.AbstractAnimator;
 import app.R;
 import function.definition.ComplexDomainFunctionI;
+import function.path.PathFunction;
+import function.path.PathFunctionMerger;
+import misc.Format;
 import misc.Log;
 import models.Size;
 import org.jetbrains.annotations.NotNull;
@@ -11,6 +14,7 @@ import provider.*;
 import rotor.RotorStateManager;
 import rotor.StandardRotorStateManager;
 import rotor.frequency.RotorFrequencyProviderI;
+import test.MousePathUi;
 import ui.action.ActionInfo;
 import ui.action.UiAction;
 import ui.MusicPlayer;
@@ -19,6 +23,7 @@ import ui.panels.FourierSeriesPanel;
 import ui.util.Ui;
 import async.Canceller;
 import util.PathFunctionManager;
+import util.main.PathUtil;
 
 import javax.swing.*;
 import javax.swing.Timer;
@@ -26,11 +31,13 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.util.*;
+import java.util.List;
 
-public class FourierUi extends BaseFrame implements RotorStateManager.Listener, FourierSeriesPanel.PanelListener {
+public class FourierUi extends BaseFrame implements RotorStateManager.Listener, FourierSeriesPanel.PanelListener, MousePathUi.Callback {
 
     public static final String TAG = "FourierUi";
 
@@ -62,7 +69,6 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
             syncFunctionProviders();
         }
     };
-
 
 
     @NotNull
@@ -247,6 +253,8 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
         // Path Functions Menu
         menuPathFunctions = new JMenu("Path");
         menuFunctions.add(menuPathFunctions);
+        menuPathFunctions.add(uia(ActionInfo.LAUNCH_PATH_DRAWING_UI));
+        menuPathFunctions.addSeparator();
         menuPathFunctions.add(uia(ActionInfo.LOAD_EXTERNAL_PATH_FUNCTIONS));
         menuPathFunctions.add(uia(ActionInfo.LOAD_EXTERNAL_PATH_FUNCTIONS_FROM_DIR));
         menuPathFunctions.add(uia(ActionInfo.CONVERT_SVG_TO_PATH_DATA));
@@ -481,7 +489,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
         // Run
         functionProviders.addListDataListener(mFunctionProvideListener);
         setFunctionProvider(initialProviderIndex);     // First function provider
-        setupActionKeyBindings(getRootPane(), JComponent.WHEN_IN_FOCUSED_WINDOW, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        setupActionKeyBindings(getRootPane(), null, JComponent.WHEN_IN_FOCUSED_WINDOW, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         fsPanel.addMouseListener(this);
 
@@ -1437,6 +1445,50 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
 
 
 
+    /* Mouse Path Ui */
+
+    private static int sCustomDrawingCounter;
+
+    public static int nextCustomDrawingNumber() {
+        return ++sCustomDrawingCounter;
+    }
+
+    public boolean addPathFunction(@NotNull List<Path2D> paths) {
+        if (paths.isEmpty())
+            return false;
+
+        final Path2D path = PathUtil.mergePaths(paths, false);
+        if (path == null)
+            return false;
+
+        try {
+            final PathFunctionMerger merger = PathFunctionMerger.create(path, 1, true);
+            merger.setDomainAnimDurationScale(0.4f); // todo
+
+            final String name = JOptionPane.showInputDialog(this, "Enter a name for the Drawing");
+
+            final FunctionMeta meta = new FunctionMeta(FunctionType.EXTERNAL_PATH, Format.isEmpty(name)? String.format("Drawing %d", nextCustomDrawingNumber()): name);
+            final FunctionProviderI fp = new SimpleFunctionProvider(meta, merger);
+            functionProviders.ensureAddSelect(fp);
+            return true;
+        } catch (Throwable t) {
+            Log.e(TAG, "failed dto create Path Function from paths " + paths, t);
+        }
+
+        return false;
+    }
+
+    @Override
+    public void onMousePathUiFinished(@NotNull List<Path2D> paths) {
+        addPathFunction(paths);
+    }
+
+    private void launchMousePathUi() {
+        final MousePathUi ui = new MousePathUi();
+        ui.addCallback(FourierUi.this);
+    }
+
+
     /* Mouse Listener */
 
     @Override
@@ -1483,6 +1535,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
             case SAVE_FUNCTION_STATE_TO_FILE -> askSaveFunctionStateToFIle();
             case LOAD_FUNCTION_STATE_FROM_FILE -> askLoadFunctionStateFromFile();
             case CLEAR_FUNCTIONS_WITHOUT_DEFINITION -> confirmRemoveFunctionProvidersWithoutDefinition();
+            case LAUNCH_PATH_DRAWING_UI -> launchMousePathUi();
             case LOAD_EXTERNAL_PATH_FUNCTIONS -> askLoadExternalPathFunctions();
             case LOAD_EXTERNAL_PATH_FUNCTIONS_FROM_DIR -> askLoadExternalPathFunctionsFromDir();
             case CONVERT_SVG_TO_PATH_DATA -> askExtractPathDataFromSVG();

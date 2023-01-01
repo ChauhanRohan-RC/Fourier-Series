@@ -92,6 +92,7 @@ public enum ActionInfo implements ActionInfoI {
     LOAD_EXTERNAL_PATH_FUNCTIONS_FROM_DIR("Scan Folder", "Scan Path Functions from Folder", KeyStroke.getKeyStroke(KeyEvent.VK_P, 0), false),
     CONVERT_SVG_TO_PATH_DATA("Extract SVG vectors", "Load path vectors from a SVG file", null, false),
 
+    LAUNCH_PATH_DRAWING_UI("Draw Custom", "Draw custom path functions", KeyStroke.getKeyStroke(KeyEvent.VK_D, 0), false),
     CLEAR_EXTERNAL_PATH_FUNCTIONS("Clear External", "Remove all external path functions", null, false),
     CLEAR_INTERNAL_PATH_FUNCTIONS("Clear Internal", "Remove all internal path functions", null, false),
     RESET_PATH_FUNCTIONS("Reset", "Reset all path functions to initial state", null, false),
@@ -101,6 +102,18 @@ public enum ActionInfo implements ActionInfoI {
     CLEAR_INTERNAL_PROGRAMMATIC_FUNCTIONS("Clear Internal", "Remove all internal programmatic functions",  null, false),
     RESET_PROGRAMMATIC_FUNCTIONS("Reset", "Reset all programmatic functions to initial state",  null, false),
 
+
+    /* Context Specific */
+
+    CLEAR_CANVAS("Clear",
+            "Clear Canvas",
+            KeyStroke.getKeyStroke(KeyEvent.VK_C,  InputEvent.CTRL_DOWN_MASK),
+            false),
+
+    ENTER("Done",
+            null,
+            KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,  0),
+            false),
     ;
 
     @NotNull

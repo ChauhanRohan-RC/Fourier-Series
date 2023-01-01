@@ -19,6 +19,7 @@ import rotor.RotorStateManager;
 import rotor.frequency.RotorFrequencyProviderI;
 import live.Listeners;
 import async.Consumer;
+import ui.util.Ui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,8 +38,6 @@ import java.util.Objects;
 public class FourierSeriesPanel extends JPanel implements Runnable {
 
     public static final String TAG = "FourierPanel";
-
-    public static final boolean FORCE_ANTIALIASING = true;
 
     public static final float ROTORS_FRAME_WIDTH_RATIO_WAVE = 0.38f;        // as a ratio of width
     public static final float ROTORS_FRAME_WIDTH_RATIO_GRAPH = 0.35f;       // as a ratio of width (on;y when not graphing in center)
@@ -888,7 +887,7 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
         super.paintComponent(_g);
         Graphics2D g = (Graphics2D) _g;
 
-        if (FORCE_ANTIALIASING) {
+        if (Ui.FORCE_ANTIALIASING) {
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         }
 

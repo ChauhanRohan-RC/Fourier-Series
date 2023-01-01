@@ -1,18 +1,22 @@
 package util.main;
 
+import misc.CollectionUtil;
 import org.apache.batik.parser.AWTPathProducer;
 import org.apache.batik.parser.ParseException;
 import org.apache.batik.parser.PathParser;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.awt.geom.Area;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.Collection;
 
 
 public class PathUtil {
@@ -190,5 +194,19 @@ public class PathUtil {
         }
 
         return shape;
+    }
+
+
+    @Nullable
+    public static Path2D mergePaths(Collection<Path2D> paths, boolean connect) {
+        if (CollectionUtil.isEmpty(paths))
+            return null;
+
+        final GeneralPath result = new GeneralPath();
+        for (Path2D path: paths) {
+            result.append(path, connect);
+        }
+
+        return result;
     }
 }
