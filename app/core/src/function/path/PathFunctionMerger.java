@@ -2,6 +2,7 @@ package function.path;
 
 import function.definition.ColorHandler;
 import function.definition.ColorProviderI;
+import function.definition.DomainAnimationDurationScalerI;
 import function.graphic.GraphicFunction;
 import misc.MathUtil;
 import org.apache.batik.parser.ParseException;
@@ -16,7 +17,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PathFunctionMerger extends GraphicFunction implements ColorHandler {
+public class PathFunctionMerger extends GraphicFunction implements ColorHandler, DomainAnimationDurationScalerI {
 
     public static final String TAG = "PathFunctionMerger";
 
@@ -149,17 +150,20 @@ public class PathFunctionMerger extends GraphicFunction implements ColorHandler 
         return segments.length;
     }
 
+    @Override
     public final float getDomainAnimationDurationScale() {
         return animDurationScale;
     }
 
-    public final PathFunctionMerger setDomainAnimDurationScale(float animDurationScale) {
-        if (animDurationScale > 0) {
-            this.animDurationScale = animDurationScale;
+    @Override
+    public final PathFunctionMerger setDomainAnimationDurationScale(float animationDurationScale) {
+        if (animationDurationScale > 0) {
+            this.animDurationScale = animationDurationScale;
         }
 
         return this;
     }
+
 
     @Override
     public final long getDomainAnimationDurationMsDefault() {
@@ -293,6 +297,11 @@ public class PathFunctionMerger extends GraphicFunction implements ColorHandler 
     @NotNull
     public static PathFunctionMerger create(@NotNull Shape shape, float zoom, boolean center) throws ParseException {
         return create(shape.getPathIterator(null), shape.getBounds(), zoom, center);
+    }
+
+    @NotNull
+    public static PathFunctionMerger create(@NotNull Shape shape) throws ParseException {
+        return create(shape, 1, true);
     }
 
 }

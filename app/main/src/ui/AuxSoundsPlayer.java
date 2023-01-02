@@ -124,7 +124,8 @@ public class AuxSoundsPlayer extends AudioController {
             sync();
         }
 
-        private void sync() {
+        public void sync() {
+            super.sync();
             setSelected(AuxSoundsPlayer.this.isEnabled());
         }
 

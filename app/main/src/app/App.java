@@ -2,27 +2,32 @@ package app;
 
 import misc.Log;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
-import provider.Providers;
-import ui.AuxSoundsPlayer;
+import provider.FunctionProviderI;
 import ui.MusicPlayer;
 import ui.frames.FourierUi;
 import async.Async;
 import async.TaskCompletionListener;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class App {
 
     public static final String TAG = "App";
 
-    private static int sWindowCount;
     @NotNull
-    private static final List<JFrame> sFrames = new LinkedList<>();
-
+    private static final AtomicInteger sWindowCount = new AtomicInteger();
+    @NotNull
+    private static final List<JFrame> sFrames = Collections.synchronizedList(new LinkedList<>());
 
     private static final Settings.Listener sSettingListener = new Settings.Listener() {
         @Override
@@ -82,18 +87,46 @@ public class App {
 
     public static void onWindowOpen(@NotNull JFrame frame) {
         sFrames.add(frame);
-        sWindowCount++;
+        sWindowCount.incrementAndGet();
         Log.v(TAG, "Window Open: Title: " + frame.getTitle() + " | WindowCount: " + sWindowCount);
     }
 
     public static void onWindowClose(@NotNull JFrame frame) {
         sFrames.remove(frame);
-        sWindowCount--;
-        Log.v(TAG, "Window Close: Title: " + frame.getTitle() + " | WindowCount: " + sWindowCount);
-        if (sWindowCount <= 0) {
-            finish();
+        final int count = sWindowCount.decrementAndGet();
+        Log.v(TAG, "Window Close: Title: " + frame.getTitle() + " | WindowCount: " + count);
+
+        if (count <= 0) {
+            Async.uiPost(() -> {
+                final int nowCount = sWindowCount.decrementAndGet();
+                if (nowCount <= 0) {
+                    finish();
+                }
+            }, 50);
         }
     }
+
+    @Nullable
+    public static FourierUi findFourierUi() {
+        for (JFrame frame: sFrames) {
+            if (frame instanceof FourierUi fu)
+                return fu;
+        }
+
+        return null;
+    }
+
+    @NotNull
+    public static FourierUi findOrLaunchFourierUi() {
+        FourierUi fu = findFourierUi();
+        if (fu == null) {
+            fu = launchFourierUi(null);
+        }
+
+        return fu;
+    }
+
+
 
     @NotNull
     @Unmodifiable
@@ -105,6 +138,12 @@ public class App {
         sFrames.forEach(SwingUtilities::updateComponentTreeUI);
     }
 
+    @NotNull
+    private static FourierUi launchFourierUi(@Nullable FunctionProviderI startProvider) {
+        final FourierUi ui = new FourierUi(null, -1);
+        ui.setFunctionProvider(startProvider);
+        return ui;
+    }
 
 
     // TODO: Test launcher
@@ -114,10 +153,7 @@ public class App {
 
     // TODO: Main production launcher
     private static void launchMain(String[] args) {
-        Async.postIfNotOnMainThread(() -> {
-            final FourierUi ui = new FourierUi(null, -1);
-            ui.setFunctionProvider(Providers.NoopProvider.getSingleton());          // start with None
-        });
+        Async.postIfNotOnMainThread(() -> launchFourierUi(null));
     }
 
 

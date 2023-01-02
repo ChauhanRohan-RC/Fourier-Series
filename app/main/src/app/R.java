@@ -127,10 +127,60 @@ public class R {
     public static final Path DIR_RES = DIR_MAIN.resolve("res");
     public static final Path SETTINGS_FILE = DIR_RES.resolve("settings.json");
 
-
     // Images
     public static final Path DIR_IMAGE = DIR_RES.resolve("image");
-    public static final Path APP_ICON = DIR_IMAGE.resolve("icon.png");
+    public static final Path DIR_IMAGE_APP_ICON = DIR_IMAGE.resolve("app_icon");
+
+    public static final Path IMG_APP_ICON = DIR_IMAGE_APP_ICON.resolve("app_icon.png");
+    public static final Path IMG_APP_ICON_COLORFUL = DIR_IMAGE_APP_ICON.resolve("app_icon_colorful.png");
+    public static final Path IMG_SIN_WAVE = DIR_IMAGE_APP_ICON.resolve("sin_wave.png");
+    public static final Path IMG_CIRCLE_WAVE = DIR_IMAGE_APP_ICON.resolve("circle_wave.png");
+    public static final Path IMG_REC = DIR_IMAGE_APP_ICON.resolve("rec.png");
+
+    public static final Path IMG_CHECK_LIGHT_64 = DIR_IMAGE.resolve("check_light_64.png");
+    public static final Path IMG_CHECK_DARK_64 = DIR_IMAGE.resolve("check_dark_64.png");
+    public static final Path IMG_CHECK_ACCENT_64 = DIR_IMAGE.resolve("check_accent_64.png");
+
+    public static final Path IMG_CHECK_CIRCLE_LIGHT_64 = DIR_IMAGE.resolve("check_circle_light_64.png");
+    public static final Path IMG_CHECK_CIRCLE_DARK_64 = DIR_IMAGE.resolve("check_circle_dark_64.png");
+    public static final Path IMG_CHECK_CIRCLE_ACCENT_64 = DIR_IMAGE.resolve("check_circle_accent_64.png");
+
+    public static final Path IMG_ERASE_LIGHT_64 = DIR_IMAGE.resolve("erase_light_64.png");
+    public static final Path IMG_ERASE_DARK_64 = DIR_IMAGE.resolve("erase_dark_64.png");
+    public static final Path IMG_ERASE_ACCENT_64 = DIR_IMAGE.resolve("erase_accent_64.png");
+
+    public static final Path IMG_DELETE_LIGHT_64 = DIR_IMAGE.resolve("delete_light_64.png");
+    public static final Path IMG_DELETE_DARK_64 = DIR_IMAGE.resolve("delete_dark_64.png");
+    public static final Path IMG_DELETE_ACCENT_64 = DIR_IMAGE.resolve("delete_accent_64.png");
+
+    public static final Path IMG_POINTS_LIGHT_64 = DIR_IMAGE.resolve("points_light_64.png");
+    public static final Path IMG_POINTS_DARK_64 = DIR_IMAGE.resolve("points_dark_64.png");
+    public static final Path IMG_POINTS_ACCENT_64 = DIR_IMAGE.resolve("points_accent_64.png");
+
+    public static final Path IMG_EXPAND_LIGHT_64 = DIR_IMAGE.resolve("expand_light_64.png");
+    public static final Path IMG_EXPAND_DARK_64 = DIR_IMAGE.resolve("expand_dark_64.png");
+    public static final Path IMG_EXPAND_ACCENT_64 = DIR_IMAGE.resolve("expand_accent_64.png");
+
+    public static final Path IMG_COLLAPSE_LIGHT_64 = DIR_IMAGE.resolve("collapse_light_64.png");
+    public static final Path IMG_COLLAPSE_DARK_64 = DIR_IMAGE.resolve("collapse_dark_64.png");
+    public static final Path IMG_COLLAPSE_ACCENT_64 = DIR_IMAGE.resolve("collapse_accent_64.png");
+
+    public static final Path IMG_MAXIMISE_LIGHT_64 = DIR_IMAGE.resolve("maximise_light_64.png");
+    public static final Path IMG_MAXIMISE_DARK_64 = DIR_IMAGE.resolve("maximise_dark_64.png");
+    public static final Path IMG_MAXIMISE_ACCENT_64 = DIR_IMAGE.resolve("maximise_accent_64.png");
+
+    public static final Path IMG_MINIMISE_LIGHT_64 = DIR_IMAGE.resolve("minimise_light_64.png");
+    public static final Path IMG_MINIMISE_DARK_64 = DIR_IMAGE.resolve("minimise_dark_64.png");
+    public static final Path IMG_MINIMISE_ACCENT_64 = DIR_IMAGE.resolve("minimise_accent_64.png");
+
+    public static final Path IMG_CENTER_FOCUS_LIGHT_64 = DIR_IMAGE.resolve("center_focus_light_64.png");
+    public static final Path IMG_CENTER_FOCUS_DARK_64 = DIR_IMAGE.resolve("center_focus_dark_64.png");
+    public static final Path IMG_CENTER_FOCUS_ACCENT_64 = DIR_IMAGE.resolve("center_focus_accent_64.png");
+
+    public static final Path IMG_UNDO_LIGHT_64 = DIR_IMAGE.resolve("undo_light_64.png");
+    public static final Path IMG_UNDO_DARK_64 = DIR_IMAGE.resolve("undo_dark_64.png");
+    public static final Path IMG_UNDO_ACCENT_64 = DIR_IMAGE.resolve("undo_accent_64.png");
+
 
     // Fonts
     public static final Path DIR_FONT = DIR_RES.resolve("font");
@@ -394,8 +444,11 @@ public class R {
 
     /* App Resources */
 
+    public static final int SIZE_ICON_SMALL = 15;
+    public static final int SIZE_ICON_LARGE = 24;
+
     @Nullable
-    public static Image createIcon(@NotNull Path path) {
+    public static Image createImage(@NotNull Path path) {
         if (Files.exists(path)) {
             try {
                 return Toolkit.getDefaultToolkit().createImage(path.toString());
@@ -408,10 +461,63 @@ public class R {
     }
 
     @Nullable
-    public static Image createAppIcon() {
-        return createIcon(APP_ICON);
+    public static ImageIcon createIcon(@NotNull Path path) {
+        if (Files.exists(path)) {
+            try {
+                return new ImageIcon(path.toString());
+            } catch (Throwable t) {
+                Log.e(TAG, "failed to create imageIcon from file <" + path + ">", t);
+            }
+        }
+
+        return null;
     }
 
+    @Nullable
+    public static ImageIcon createIcon(@NotNull Path path, int width, int height) {
+        Image image = createImage(path);
+        if (image != null) {
+            return new ImageIcon(resizeImage(image, width, height));
+        }
+
+        return null;
+    }
+
+    @Nullable
+    public static ImageIcon createIcon(@NotNull Path path, int size) {
+        return createIcon(path, size, size);
+    }
+
+    @Nullable
+    public static ImageIcon createSmallIcon(@NotNull Path path) {
+        return createIcon(path, SIZE_ICON_SMALL);
+    }
+
+    @Nullable
+    public static ImageIcon createLargeIcon(@NotNull Path path) {
+        return createIcon(path, SIZE_ICON_LARGE);
+    }
+
+
+    @Nullable
+    public static Image createAppIcon() {
+        return createImage(IMG_APP_ICON);
+    }
+
+    @Nullable
+    public static Image createAppIconColorful() {
+        return createImage(IMG_APP_ICON_COLORFUL);
+    }
+
+    @NotNull
+    public static Image resizeImage(@NotNull Image image, int width, int height) {
+        return image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+    }
+
+    @NotNull
+    public static ImageIcon resizeIcon(@NotNull ImageIcon icon, int width, int height) {
+        return new ImageIcon(resizeImage(icon.getImage(), width, height));
+    }
 
     /* .............................. External Functions ..................................... */
 
@@ -713,8 +819,19 @@ public class R {
 
     @NotNull
     public static String getResetScaleShortDescription() {
-        return "Reset Rotors Zoom Scale";
+        return "Reset Zoom Scale";
     }
+
+    @NotNull
+    public static String getResetDragText() {
+        return "Recenter";
+    }
+
+    @NotNull
+    public static String getResetDragShortDescription() {
+        return "Recenter Origin";
+    }
+
 
     @NotNull
     public static String getResetScaleAndDragText() {

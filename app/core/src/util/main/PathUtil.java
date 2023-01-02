@@ -17,6 +17,8 @@ import java.io.FileReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.Collection;
+import java.util.List;
+import java.util.ListIterator;
 
 
 public class PathUtil {
@@ -197,14 +199,38 @@ public class PathUtil {
     }
 
 
+
     @Nullable
-    public static Path2D mergePaths(Collection<Path2D> paths, boolean connect) {
-        if (CollectionUtil.isEmpty(paths))
+    public static GeneralPath createPath(List<Point2D> points, boolean close) {
+        if (CollectionUtil.isEmpty(points))
             return null;
 
+        final ListIterator<Point2D> itr = points.listIterator();
+        final GeneralPath path = new GeneralPath();
+        if (itr.hasNext()) {
+            final Point2D start = itr.next();
+            path.moveTo(start.getX(), start.getY());
+
+            while (itr.hasNext()) {
+                final Point2D p = itr.next();
+                path.lineTo(p.getX(), p.getY());
+            }
+
+            if (close) {
+                path.closePath();
+            }
+        }
+
+        return path;
+    }
+
+    @NotNull
+    public static GeneralPath mergePaths(Collection<Path2D> paths, boolean connect) {
         final GeneralPath result = new GeneralPath();
-        for (Path2D path: paths) {
-            result.append(path, connect);
+        if (CollectionUtil.notEmpty(paths)) {
+            for (Path2D path: paths) {
+                result.append(path, connect);
+            }
         }
 
         return result;

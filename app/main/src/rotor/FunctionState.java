@@ -88,6 +88,21 @@ public class FunctionState {
         );
     }
 
+    @NotNull
+    public static FunctionState from(@NotNull FunctionMeta meta, @NotNull ComplexDomainFunctionI function) {
+        return new FunctionState(
+                System.currentTimeMillis(),
+                meta.displayName(),
+                meta.functionType(),
+                function,
+                function,
+                function.getFunctionDefaultFrequencyProvider(),          // should use function default
+                null,
+                0,
+                null
+        );
+    }
+
 
     private static final Type TYPE_ROTOR_STATES_MAP = new TypeToken<Map<Double, RotorCoefficient>>(){ }.getType();
 

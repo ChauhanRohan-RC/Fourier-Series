@@ -266,8 +266,9 @@ public class MusicPlayer extends AudioListPlayer {
             sync();
         }
 
-        private void sync() {
-            setEnabled(MusicPlayer.this.isEnabled() && hasSources());
+        public void sync() {
+            super.sync();
+            this.setEnabled(MusicPlayer.this.isEnabled() && hasSources());
         }
 
         @Override
@@ -284,9 +285,10 @@ public class MusicPlayer extends AudioListPlayer {
             sync();
         }
 
-        private void sync() {
-            setSelected(MusicPlayer.this.isEnabled());
-            setEnabled(hasSources());
+        public void sync() {
+            super.sync();
+            this.setSelected(MusicPlayer.this.isEnabled());
+            this.setEnabled(hasSources());
         }
 
         @Override
@@ -302,7 +304,8 @@ public class MusicPlayer extends AudioListPlayer {
             sync();
         }
 
-        private void sync() {
+        public void sync() {
+            super.sync();
             String name = isPlaying() ? "Pause" : "Play";
             String des = name + " background music";
 
@@ -313,9 +316,9 @@ public class MusicPlayer extends AudioListPlayer {
                 des += post;
             }
 
-            setName(name);
-            setShortDescription(des);
-            setEnabled(MusicPlayer.this.isEnabled() && hasSources());
+            this.setName(name);
+            this.setShortDescription(des);
+            this.setEnabled(MusicPlayer.this.isEnabled() && hasSources());
         }
 
 
@@ -335,7 +338,9 @@ public class MusicPlayer extends AudioListPlayer {
             sync();
         }
 
-        private void sync() {
+        public void sync() {
+            super.sync();
+
             final Indices ind = next ? getNextPlayerIndex() : getPreviousPlayerIndex();
             final AudioSource src = ind != null ? getSourceAt(ind.playerIndex()) : null;
 
@@ -348,9 +353,9 @@ public class MusicPlayer extends AudioListPlayer {
                 des += post;
             }
 
-            setName(name);
-            setShortDescription(des);
-            setEnabled(MusicPlayer.this.isEnabled() && src != null);
+            this.setName(name);
+            this.setShortDescription(des);
+            this.setEnabled(MusicPlayer.this.isEnabled() && src != null);
         }
 
         @Override
@@ -372,8 +377,9 @@ public class MusicPlayer extends AudioListPlayer {
             sync();
         }
 
-        private void sync() {
-            setEnabled(MusicPlayer.this.isEnabled() && hasSources() && getState() != AudioPlayer.State.IDLE);
+        public void sync() {
+            super.sync();
+            this.setEnabled(MusicPlayer.this.isEnabled() && hasSources() && getState() != AudioPlayer.State.IDLE);
         }
 
         @Override

@@ -520,10 +520,13 @@ public interface Ui {
             return;
         }
 
-        final FunctionState functionState = manager.createFunctionState();
+        askSaveFunctionStateToFIle(ui, manager.createFunctionState());
+    }
+
+    static void askSaveFunctionStateToFIle(@NotNull Ui ui, @NotNull FunctionState functionState) {
         functionState.setSerializeFunction(true);       // 1st with serialization
 
-        final String functionTitle = manager.getFunctionMeta().getTypedFunctionDisplayName();
+        final String functionTitle = functionState.getTypedFunctionDisplayName();
         final String dialogTitle = "Save Function State";
 
         final ChooserConfig config = ChooserConfig.saveFileSingle()

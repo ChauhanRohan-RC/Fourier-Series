@@ -24,8 +24,6 @@ public class UiAction extends BaseAction {
     public UiAction(@NotNull ActionInfo info) {
         this.info = info;
         useInfo(info);
-
-        addPropertyChangeListener(e -> listeners.forEachListener(l -> l.onActionPropertyChange(UiAction.this, e)));
     }
 
     public boolean addListener(@NotNull Listener listener) {
@@ -43,5 +41,12 @@ public class UiAction extends BaseAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         listeners.forEachListener(l -> l.onAction(UiAction.this, e));
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        super.propertyChange(evt);
+
+        listeners.forEachListener(l -> l.onActionPropertyChange(UiAction.this, evt));
     }
 }

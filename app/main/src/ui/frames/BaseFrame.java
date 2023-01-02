@@ -4,6 +4,7 @@ import app.App;
 import app.R;
 import app.Settings;
 import misc.CollectionUtil;
+import misc.Keyboard;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ui.action.ActionInfo;
@@ -28,6 +29,9 @@ public class BaseFrame extends JFrame implements Ui,
     @NotNull
     private final EnumMap<ActionInfo, UiAction> mActionMap = new EnumMap<>(ActionInfo.class);
 
+//    @Nullable
+//    private volatile Keyboard mKeyboard;
+
     private boolean mFullscreen;
 
     public BaseFrame() {
@@ -48,6 +52,22 @@ public class BaseFrame extends JFrame implements Ui,
     public JFrame getFrame() {
         return this;
     }
+
+//    @NotNull
+//    public Keyboard getKeyboard() {
+//        Keyboard kb = mKeyboard;
+//        if (kb == null) {
+//            synchronized (this) {
+//                kb = mKeyboard;
+//                if (kb == null) {
+//                    kb = new Keyboard(this);
+//                    mKeyboard = kb;
+//                }
+//            }
+//        }
+//
+//        return kb;
+//    }
 
     public void update() {
         revalidate();

@@ -18,6 +18,7 @@ import util.main.ComplexUtil;
 
 import java.util.*;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 
 public class StandardRotorStateManager extends ComplexDomainFunctionWrapper implements RotorStateManager, CacheRotorStateProvider, Settings.Listener {
@@ -80,7 +81,7 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
         }
 
         mInitialRotorCount = initialRotorCount < 0? DEFAULT_INITIAL_ROTOR_COUNT: initialRotorCount;
-        mStore = new HashMap<>(Math.max((int) (mInitialRotorCount * 1.4), 20));
+        mStore = new ConcurrentHashMap<>(Math.max((int) (mInitialRotorCount * 1.4), 20));       // concurrency
 
         // Meta
         RotorFrequencyProviderI defaultFreqProvider = getFunctionDefaultFrequencyProvider();

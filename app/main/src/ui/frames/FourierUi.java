@@ -3,9 +3,6 @@ package ui.frames;
 import animation.animator.AbstractAnimator;
 import app.R;
 import function.definition.ComplexDomainFunctionI;
-import function.path.PathFunction;
-import function.path.PathFunctionMerger;
-import misc.Format;
 import misc.Log;
 import models.Size;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +11,6 @@ import provider.*;
 import rotor.RotorStateManager;
 import rotor.StandardRotorStateManager;
 import rotor.frequency.RotorFrequencyProviderI;
-import test.MousePathUi;
 import ui.action.ActionInfo;
 import ui.action.UiAction;
 import ui.MusicPlayer;
@@ -23,7 +19,6 @@ import ui.panels.FourierSeriesPanel;
 import ui.util.Ui;
 import async.Canceller;
 import util.PathFunctionManager;
-import util.main.PathUtil;
 
 import javax.swing.*;
 import javax.swing.Timer;
@@ -31,13 +26,11 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.util.*;
-import java.util.List;
 
-public class FourierUi extends BaseFrame implements RotorStateManager.Listener, FourierSeriesPanel.PanelListener, MousePathUi.Callback {
+public class FourierUi extends BaseFrame implements RotorStateManager.Listener, FourierSeriesPanel.PanelListener {
 
     public static final String TAG = "FourierUi";
 
@@ -1041,9 +1034,12 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
         uia(ActionInfo.SCALE_UP).setEnabled(scale < fsPanel.getMaximumScale());
         uia(ActionInfo.SCALE_DOWN).setEnabled(scale > fsPanel.getMinimumScale());
 
-        final boolean hasScaleOrDrag = !fsPanel.getRotorStateManager().isNoOp() && fsPanel.hasScaleOrDrag();
+        final boolean pre = !fsPanel.getRotorStateManager().isNoOp();
+        final boolean hasScale = fsPanel.hasScale(), hasDrag = fsPanel.hasDrag();
 
-        uia(ActionInfo.RESET_SCALE_DRAG).setEnabled(hasScaleOrDrag);
+        uia(ActionInfo.RESET_SCALE).setEnabled(pre && hasScale);
+        uia(ActionInfo.RESET_DRAG).setEnabled(pre && hasDrag);
+        uia(ActionInfo.RESET_SCALE_DRAG).setEnabled(pre && (hasScale || hasDrag));
 
 //        resetScaleAndDragButton.setEnabled(hasScaleOrDrag);
 //        resetScaleAndDragButton.setVisible(hasScaleOrDrag);
@@ -1453,39 +1449,39 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
         return ++sCustomDrawingCounter;
     }
 
-    public boolean addPathFunction(@NotNull List<Path2D> paths) {
-        if (paths.isEmpty())
-            return false;
-
-        final Path2D path = PathUtil.mergePaths(paths, false);
-        if (path == null)
-            return false;
-
-        try {
-            final PathFunctionMerger merger = PathFunctionMerger.create(path, 1, true);
-            merger.setDomainAnimDurationScale(0.4f); // todo
-
-            final String name = JOptionPane.showInputDialog(this, "Enter a name for the Drawing");
-
-            final FunctionMeta meta = new FunctionMeta(FunctionType.EXTERNAL_PATH, Format.isEmpty(name)? String.format("Drawing %d", nextCustomDrawingNumber()): name);
-            final FunctionProviderI fp = new SimpleFunctionProvider(meta, merger);
-            functionProviders.ensureAddSelect(fp);
-            return true;
-        } catch (Throwable t) {
-            Log.e(TAG, "failed dto create Path Function from paths " + paths, t);
-        }
-
-        return false;
-    }
-
-    @Override
-    public void onMousePathUiFinished(@NotNull List<Path2D> paths) {
-        addPathFunction(paths);
-    }
-
+//    public boolean addPathFunction(@NotNull List<Path2D> paths) {
+//        if (paths.isEmpty())
+//            return false;
+//
+//        final Path2D path = PathUtil.mergePaths(paths, false);
+//        if (path == null)
+//            return false;
+//
+//        try {
+//            final PathFunctionMerger merger = PathFunctionMerger.create(path);
+//            merger.setDomainAnimDurationScale(0.4f); // todo
+//
+//            final String name = JOptionPane.showInputDialog(this, "Enter a name for the Drawing");
+//
+//            final FunctionMeta meta = new FunctionMeta(FunctionType.EXTERNAL_PATH, Format.isEmpty(name)? String.format("Drawing %d", nextCustomDrawingNumber()): name);
+//            final FunctionProviderI fp = new SimpleFunctionProvider(meta, merger);
+//            functionProviders.ensureAddSelect(fp);
+//            return true;
+//        } catch (Throwable t) {
+//            Log.e(TAG, "failed dto create Path Function from paths " + paths, t);
+//        }
+//
+//        return false;
+//    }
+//
+//    @Override
+//    public void onMousePathUiFinished(@NotNull List<Path2D> paths) {
+//        addPathFunction(paths);
+//    }
+//
     private void launchMousePathUi() {
         final MousePathUi ui = new MousePathUi();
-        ui.addCallback(FourierUi.this);
+//        ui.addCallback(FourierUi.this);
     }
 
 
@@ -1526,6 +1522,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
             case TOGGLE_AUTO_TRACK -> fsPanel.toggleAutoTrackInCenter();
             case RESET_MAIN -> fsPanel.reset(false);
             case RESET_SCALE -> fsPanel.resetScale(true);
+            case RESET_DRAG-> fsPanel.resetDrag(true);
             case RESET_SCALE_DRAG -> resetScaleAndDrag();
             case RESET_FULL -> fsPanel.reset(true);
             case TOGGLE_FULLSCREEN -> toggleFullscreen();

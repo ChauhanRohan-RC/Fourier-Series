@@ -4,11 +4,20 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-public abstract class BaseAction extends AbstractAction {
+public abstract class BaseAction extends AbstractAction implements PropertyChangeListener {
+
+    private static final String KEY_LARGE_ICON_UNSELECTED = "field_large_icon_unselected";
+    private static final String KEY_LARGE_ICON_SELECTED = "field_large_icon_selected";
+
+    private static final String KEY_SMALL_ICON_UNSELECTED = "field_small_icon_unselected";
+    private static final String KEY_SMALL_ICON_SELECTED = "field_small_icon_selected";
 
     public BaseAction() {
         super();
+        addPropertyChangeListener(this);
     }
 
     public BaseAction(String name) {
@@ -22,9 +31,17 @@ public abstract class BaseAction extends AbstractAction {
     public BaseAction useInfo(@NotNull ActionInfoI info) {
         setName(info.displayName())
                 .setShortDescription(info.shortDescription())
-                .setAccelerator(info.keyStroke());
+                .setAccelerator(info.keyStroke())
+                .setSmallIconOnSelect(false, info.getSmallIconOnSelect(false))
+                .setSmallIconOnSelect(true, info.getSmallIconOnSelect(true))
+                .setLargeIconOnSelect(false, info.getLargeIconOnSelect(false))
+                .setLargeIconOnSelect(true, info.getLargeIconOnSelect(true));
 
         return this;
+    }
+
+
+    public void sync() {
     }
 
     public BaseAction setName(@Nullable String name) {
@@ -56,6 +73,37 @@ public abstract class BaseAction extends AbstractAction {
     public Icon getLargeIcon() {
         return (Icon) getValue(LARGE_ICON_KEY);
     }
+
+
+    public BaseAction setSmallAndLargeLargeIcon(@Nullable Icon icon) {
+        setSmallIcon(icon);
+        setLargeIcon(icon);
+        return this;
+    }
+
+
+    public BaseAction setLargeIconOnSelect(boolean selected, @Nullable Icon largeIcon) {
+        putValue(selected? KEY_LARGE_ICON_SELECTED: KEY_LARGE_ICON_UNSELECTED, largeIcon);
+        return this;
+    }
+
+    @Nullable
+    public Icon getLargeIconOnSelect(boolean selected) {
+        return (Icon) getValue(selected? KEY_LARGE_ICON_SELECTED: KEY_LARGE_ICON_UNSELECTED);
+    }
+
+
+    public BaseAction setSmallIconOnSelect(boolean selected, @Nullable Icon smallIcon) {
+        putValue(selected? KEY_SMALL_ICON_SELECTED: KEY_SMALL_ICON_UNSELECTED, smallIcon);
+        return this;
+    }
+
+    @Nullable
+    public Icon getSmallIconOnSelect(boolean selected) {
+        return (Icon) getValue(selected? KEY_SMALL_ICON_SELECTED: KEY_SMALL_ICON_UNSELECTED);
+    }
+
+
 
     public BaseAction setActionCommand(@Nullable String actionCommand) {
         putValue(ACTION_COMMAND_KEY, actionCommand);
@@ -105,5 +153,36 @@ public abstract class BaseAction extends AbstractAction {
     @Nullable
     public KeyStroke getAccelerator() {
         return (KeyStroke) getValue(ACCELERATOR_KEY);
+    }
+
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        final String pn = evt.getPropertyName();
+
+        if (SELECTED_KEY.equals(pn)) {
+            final boolean selected = isSelected();
+            Icon large = getLargeIconOnSelect(selected);
+            if (large != null) {
+                setLargeIcon(large);
+            }
+
+            Icon small = getSmallIconOnSelect(selected);
+            if (small != null) {
+                setSmallIcon(small);
+            }
+        } else if (KEY_LARGE_ICON_SELECTED.equals(pn) || KEY_LARGE_ICON_UNSELECTED.equals(pn)) {
+            final boolean selected = isSelected();
+            Icon large = getLargeIconOnSelect(selected);
+            if (large != null) {
+                setLargeIcon(large);
+            }
+        } else if (KEY_SMALL_ICON_SELECTED.equals(pn) || KEY_SMALL_ICON_UNSELECTED.equals(pn)) {
+            final boolean selected = isSelected();
+            Icon small = getSmallIconOnSelect(selected);
+            if (small != null) {
+                setSmallIcon(small);
+            }
+        }
     }
 }

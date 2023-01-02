@@ -1,6 +1,7 @@
 package ui.action;
 
 import action.ActionInfoI;
+import action.BaseAction;
 import app.R;
 import misc.Format;
 import org.jetbrains.annotations.NotNull;
@@ -59,8 +60,10 @@ public enum ActionInfo implements ActionInfoI {
     TOGGLE_AUTO_TRACK(R.getAutoTrackInCenterText(), R.getAutoTrackInCenterShortDescription(), KeyStroke.getKeyStroke(KeyEvent.VK_A, 0), false),
     RESET_MAIN(R.getResetMainText(), R.getResetMainShortDescription(), KeyStroke.getKeyStroke(KeyEvent.VK_R, 0), true),
     RESET_SCALE(R.getResetScaleText(), R.getResetScaleShortDescription(), null, true),
+    RESET_DRAG(R.getResetDragText(), R.getResetDragShortDescription(),  null, true),
     RESET_SCALE_DRAG(R.getResetScaleAndDragText(), R.getResetScaleAndDragShortDescription(),  KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.SHIFT_DOWN_MASK), true),
     RESET_FULL(R.getResetFullText(), R.getResetFullShortDescription(), KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK), true),
+
 
     TOGGLE_FULLSCREEN(R.getFullscreenText(), R.getFullscreenShortDescription(false), KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.SHIFT_DOWN_MASK), false),
     TOGGLE_CONTROLS(R.getToggleControlsText(true), R.getToggleControlsShortDescription(true), KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.SHIFT_DOWN_MASK), false),
@@ -101,19 +104,6 @@ public enum ActionInfo implements ActionInfoI {
     CLEAR_EXTERNAL_PROGRAMMATIC_FUNCTIONS("Clear External", "Remove all external programmatic functions",  null, false),
     CLEAR_INTERNAL_PROGRAMMATIC_FUNCTIONS("Clear Internal", "Remove all internal programmatic functions",  null, false),
     RESET_PROGRAMMATIC_FUNCTIONS("Reset", "Reset all programmatic functions to initial state",  null, false),
-
-
-    /* Context Specific */
-
-    CLEAR_CANVAS("Clear",
-            "Clear Canvas",
-            KeyStroke.getKeyStroke(KeyEvent.VK_C,  InputEvent.CTRL_DOWN_MASK),
-            false),
-
-    ENTER("Done",
-            null,
-            KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,  0),
-            false),
     ;
 
     @NotNull
@@ -124,6 +114,16 @@ public enum ActionInfo implements ActionInfoI {
     public final KeyStroke keyStroke;
     public final boolean functionDependent;
     public final boolean rotorsDependent;
+
+    @Nullable
+    private Icon largeIconSelected;
+    @Nullable
+    private Icon largeIconUnselected;
+
+    @Nullable
+    private Icon smallIconSelected;
+    @Nullable
+    private Icon smallIconUnselected;
 
     ActionInfo(@NotNull String displayName,
                @Nullable String shortDescription,
@@ -160,6 +160,47 @@ public enum ActionInfo implements ActionInfoI {
     }
 
 
+    public ActionInfo setLargeIconOnSelect(boolean selected, @Nullable Icon largeIcon) {
+        if (selected) {
+            largeIconSelected = largeIcon;
+        } else {
+            largeIconUnselected = largeIcon;
+        }
+
+        return this;
+    }
+
+    @Nullable
+    @Override
+    public Icon getLargeIconOnSelect(boolean selected) {
+        return selected? largeIconSelected: largeIconUnselected;
+    }
+
+
+    public ActionInfo setSmallIconOnSelect(boolean selected, @Nullable Icon smallIcon) {
+        if (selected) {
+            smallIconSelected = smallIcon;
+        } else {
+            smallIconUnselected = smallIcon;
+        }
+
+        return this;
+    }
+
+    @Nullable
+    @Override
+    public Icon getSmallIconOnSelect(boolean selected) {
+        return selected? smallIconSelected: smallIconUnselected;
+    }
+
+
+    static {
+//        TOGGLE_FULLSCREEN.setLargeIconOnSelect(false, R.createLargeIcon(R.IMG_MAXIMISE_ACCENT_64));
+//        TOGGLE_FULLSCREEN.setLargeIconOnSelect(true, R.createLargeIcon(R.IMG_MINIMISE_ACCENT_64));
+
+        TOGGLE_FULLSCREEN.setSmallIconOnSelect(false, R.createSmallIcon(R.IMG_MAXIMISE_ACCENT_64));
+        TOGGLE_FULLSCREEN.setSmallIconOnSelect(true, R.createSmallIcon(R.IMG_MINIMISE_ACCENT_64));
+    }
 
     @Nullable
     @Unmodifiable

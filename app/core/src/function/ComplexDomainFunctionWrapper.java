@@ -3,6 +3,7 @@ package function;
 import function.definition.ColorHandler;
 import function.definition.ColorProviderI;
 import function.definition.ComplexDomainFunctionI;
+import function.definition.DomainAnimationDurationScalerI;
 import models.FunctionGraphMode;
 import models.RealTransform;
 import org.apache.commons.math3.complex.Complex;
@@ -14,13 +15,15 @@ import rotor.frequency.RotorFrequencyProviderI;
 
 import java.awt.*;
 
-public class ComplexDomainFunctionWrapper implements ComplexDomainFunctionI, ColorHandler {
+public class ComplexDomainFunctionWrapper implements ComplexDomainFunctionI, ColorHandler, DomainAnimationDurationScalerI {
 
     @NotNull
     protected final ComplexDomainFunctionI base;
 
     @Nullable
     protected ColorProviderI colorProviderOverride;
+
+    protected float domainAnimationDurationScale = 1;
 
     public ComplexDomainFunctionWrapper(@NotNull ComplexDomainFunctionI base) {
         this.base = base;
@@ -110,28 +113,42 @@ public class ComplexDomainFunctionWrapper implements ComplexDomainFunctionI, Col
 
     @Override
     public long getDomainAnimationDurationMsDefault() {
-        return base.getDomainAnimationDurationMsDefault();
+        return (long) (base.getDomainAnimationDurationMsDefault() * domainAnimationDurationScale);
     }
 
     @Override
     public long getDomainAnimationDurationMsMin() {
-        return base.getDomainAnimationDurationMsMin();
+        return (long) (base.getDomainAnimationDurationMsMin() * domainAnimationDurationScale);
     }
 
     @Override
     public long getDomainAnimationDurationMsMax() {
-        return base.getDomainAnimationDurationMsMax();
+        return (long) (base.getDomainAnimationDurationMsMax() * domainAnimationDurationScale);
     }
 
     @Override
-    public float durationMsToDomainAnimationSpeedFraction(long durationMs) {
-        return base.durationMsToDomainAnimationSpeedFraction(durationMs);
+    public float getDomainAnimationDurationScale() {
+        return domainAnimationDurationScale;
     }
 
     @Override
-    public long domainAnimationSpeedFractionToDurationMs(float fraction) {
-        return base.domainAnimationSpeedFractionToDurationMs(fraction);
+    public ComplexDomainFunctionWrapper setDomainAnimationDurationScale(float domainAnimationDurationScale) {
+        if (domainAnimationDurationScale > 0) {
+            this.domainAnimationDurationScale = domainAnimationDurationScale;
+        }
+
+        return this;
     }
+
+    //    @Override
+//    public float durationMsToDomainAnimationSpeedFraction(long durationMs) {
+//        return base.durationMsToDomainAnimationSpeedFraction(durationMs);
+//    }
+//
+//    @Override
+//    public long domainAnimationSpeedFractionToDurationMs(float fraction) {
+//        return base.domainAnimationSpeedFractionToDurationMs(fraction);
+//    }
     
     /* Sampling */
 

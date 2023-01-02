@@ -15,4 +15,11 @@ public interface ActionInfoI {
 
     @Nullable
     KeyStroke keyStroke();
+
+    @Nullable
+    Icon getLargeIconOnSelect(boolean selected);
+
+    @Nullable
+    Icon getSmallIconOnSelect(boolean selected);
+
 }

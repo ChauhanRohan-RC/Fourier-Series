@@ -93,6 +93,12 @@ public interface Flaggable {
         return main &~flags;
     }
 
+    /**
+     * @return true only if flags contains onFlags and do not contain offFlags
+     * */
+    static boolean checkOnOff(int flags, int onFlags, int offFlags) {
+        return (flags & (onFlags | offFlags)) == onFlags;
+    }
 
 
 

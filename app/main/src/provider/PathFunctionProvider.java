@@ -22,6 +22,6 @@ public class PathFunctionProvider extends AbstractFunctionProvider {
     @NotNull
     protected ComplexDomainFunctionI loadFunction() throws ParseException {
         final Shape shape = PathUtil.parsePathDataStrings(mPaths);
-        return PathFunctionMerger.create(shape, 1, true);
+        return PathFunctionMerger.create(shape);
     }
 }
