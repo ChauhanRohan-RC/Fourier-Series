@@ -15,6 +15,7 @@ import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.*;
 
@@ -35,6 +36,10 @@ public class MousePathPanel extends JPanel {
 
     private static final boolean DEFAULT_JOIN_POINTS = true;
 
+    private static final boolean UNDO_ENABLED = true;
+    private static final int MAX_UNDO_COUNT = 20;
+    private static final int MAX_REDO_COUNT = 20;
+
     private static final Stroke STROKE_PATH = new BasicStroke(1f);
     private static final Stroke STROKE_PATH_OPEN = new BasicStroke(1.25f);
 
@@ -42,6 +47,29 @@ public class MousePathPanel extends JPanel {
     private static final Color COLOR_PATH_OPEN = Colors.ACCENT_FG_DARK;
 
 
+    @NotNull
+    private static LinkedList<Point2D> copyPath(Collection<Point2D> src, boolean deep) {
+        final LinkedList<Point2D> dest = new LinkedList<>();
+        if (CollectionUtil.notEmpty(src)) {
+            if (deep) {
+                src.forEach(p -> dest.add(new Point2D.Double(p.getX(), p.getY())));
+            } else {
+                CollectionUtil.addAll(src, dest);
+            }
+        }
+
+        return dest;
+    }
+
+    @NotNull
+    private static LinkedList<LinkedList<Point2D>> copyPaths(Collection<? extends Collection<Point2D>> src, boolean deep) {
+        final LinkedList<LinkedList<Point2D>> dest = new LinkedList<>();
+        if (CollectionUtil.notEmpty(src)) {
+            src.forEach(path -> dest.add(copyPath(path, deep)));
+        }
+
+        return dest;
+    }
 
     /* Stick Mode */
 
@@ -90,6 +118,10 @@ public class MousePathPanel extends JPanel {
         void onEraseModeEnabledChanged(@NotNull MousePathPanel panel, boolean enabled);
 
         void onPathCountChanged(@NotNull MousePathPanel panel, int count);
+
+        void onUndoStackChanged(@NotNull MousePathPanel panel);
+
+        void onRedoStackChanged(@NotNull MousePathPanel panel);
     }
 
 //    @Nullable
@@ -98,8 +130,18 @@ public class MousePathPanel extends JPanel {
 //    @NotNull
 //    private final List<Path2D> mPaths = new LinkedList<>();
 
+
+    private record UndoRecord(@NotNull Runnable undo, @Nullable Runnable redo) {
+    }
+
+
     @NotNull
     private final LinkedList<LinkedList<Point2D>> paths = new LinkedList<>();
+    @NotNull
+    private final LinkedList<UndoRecord> mUndoStack = new LinkedList<>();
+    @NotNull
+    private final LinkedList<Runnable> mRedoStack = new LinkedList<>();
+
     private boolean mPathOpen;
     private boolean mEraseMode;
     private volatile boolean mJoinPoints = DEFAULT_JOIN_POINTS;
@@ -111,13 +153,15 @@ public class MousePathPanel extends JPanel {
     @NotNull
     private final MouseHandler mMouseHandler = new MouseHandler();
     @Nullable
-    private BaseAction mClearAction;
+    private volatile BaseAction mClearAction;
     @Nullable
-    private BaseAction mEraseAction;
+    private volatile BaseAction mEraseAction;
     @Nullable
-    private BaseAction mRemoveLastAction;
+    private volatile BaseAction mUndoAction;
     @Nullable
-    private BaseAction mJoinPointsAction;
+    private volatile BaseAction mRedoAction;
+    @Nullable
+    private volatile BaseAction mJoinPointsAction;
 
     @NotNull
     private final Listeners<Listener> mListeners = new Listeners<>();
@@ -264,11 +308,11 @@ public class MousePathPanel extends JPanel {
     }
 
 
-    protected void onPathStart(@NotNull Point2D anchor) {
+    protected void onPathStart(@NotNull LinkedList<Point2D> path) {
 
     }
 
-    protected void onPathEnd() {
+    protected void onPathEnd(@Nullable LinkedList<Point2D> path) {
         syncPathActions();
     }
 
@@ -286,10 +330,9 @@ public class MousePathPanel extends JPanel {
         final LinkedList<Point2D> path = new LinkedList<>();
         path.addLast(anchor);
 
-        paths.addLast(path);
+        addPaths(Collections.singleton(path), true);
         mPathOpen = true;
-        onPathCountChanged();
-        onPathStart(anchor);
+        onPathStart(path);
 
 //        path.moveTo(anchor.getX(), anchor.getY());
         update();
@@ -330,7 +373,7 @@ public class MousePathPanel extends JPanel {
         }
 
         mPathOpen = false;
-        onPathEnd();
+        onPathEnd(paths.peekLast());
 
         update();
     }
@@ -356,15 +399,58 @@ public class MousePathPanel extends JPanel {
         onPathCountChanged(paths.size());
     }
 
-    public void clear() {
+    // todo 1
+    private void addPaths(Collection<LinkedList<Point2D>> pathsToAdd, boolean undo) {
+        if (CollectionUtil.isEmpty(pathsToAdd))
+            return;
+
+        endPath();      // end current path
+        if (paths.addAll(pathsToAdd)) {
+            onPathCountChanged();
+            update();
+
+            if (undo && UNDO_ENABLED) {
+                enqueueUndoAction(new UndoRecord(() -> removePaths(pathsToAdd, false), () -> addPaths(pathsToAdd, true)));
+            }
+        }
+    }
+
+    // todo 2
+    private void removePaths(Collection<LinkedList<Point2D>> pathsToRemove, boolean undo) {
+        if (CollectionUtil.isEmpty(pathsToRemove))
+            return;
+
+        endPath();      // end current path
+        if (paths.removeAll(pathsToRemove)) {
+            onPathCountChanged();
+            update();
+
+            if (undo && UNDO_ENABLED) {
+                enqueueUndoAction(new UndoRecord(() -> addPaths(pathsToRemove, false), () -> removePaths(pathsToRemove, true)));
+            }
+        }
+    }
+
+
+
+
+    // todo 3
+    public void clear(boolean undo) {
 //        mCurPath = null;
 //        mPaths.clear();
 
+        if (paths.isEmpty())
+            return;
+
+        final LinkedList<LinkedList<Point2D>> copy = undo && UNDO_ENABLED? CollectionUtil.linkedListCopy(paths): null;
         paths.clear();
         mPathOpen = false;
         onPathCountChanged(0);
-
         update();
+
+        if (undo && CollectionUtil.notEmpty(copy)) {
+            enqueueUndoAction(new UndoRecord(() -> addPaths(copy, false), () -> removePaths(copy, true)));
+        }
     }
 
 
@@ -507,7 +593,7 @@ public class MousePathPanel extends JPanel {
     /* Drag */
 
     protected boolean shouldDrag(@NotNull MouseEvent e) {
-        return e.getButton() == MouseEvent.BUTTON3;         // TODO
+        return e.getButton() == MouseEvent.BUTTON3;
     }
 
     public boolean isMaxDragDimensionDependent() {
@@ -656,8 +742,10 @@ public class MousePathPanel extends JPanel {
 
     }
 
-    protected void onEraseEnded(@Nullable Rectangle2D eraseRectangle) {
-
+    protected void onEraseEnded(@Nullable Rectangle2D eraseRectangle, boolean changed) {
+        if (!changed) {
+            update();
+        }
     }
 
 
@@ -728,9 +816,35 @@ public class MousePathPanel extends JPanel {
         update();
     }
 
-    private boolean eraseInternal(@NotNull Rectangle2D rect) {
-        paths.forEach(pts -> pts.removeIf(rect::contains));
-        return paths.removeIf(Collection::isEmpty);        // prune
+
+    private boolean erase(@NotNull Rectangle2D rect, boolean undo) {
+        if (CollectionUtil.isEmpty(paths))
+            return false;
+
+        final LinkedList<LinkedList<Point2D>> copy = undo && UNDO_ENABLED? copyPaths(paths, false): null;
+        final AtomicBoolean changed = new AtomicBoolean(false);
+
+        paths.forEach(path -> {
+            if (path.removeIf(rect::contains)) {
+                changed.set(true);
+            }
+        });
+
+        if (!changed.get())
+            return false;
+
+        paths.removeIf(Collection::isEmpty);        // prune
+        onPathCountChanged();
+        update();
+
+        if (undo && CollectionUtil.notEmpty(copy)) {
+            enqueueUndoAction(new UndoRecord(() -> {
+                paths.clear();
+                addPaths(copy, false);
+            }, () -> erase(rect, true)));
+        }
+
+        return true;
     }
 
     private void endErase() {
@@ -738,33 +852,116 @@ public class MousePathPanel extends JPanel {
             return;
 
         final Rectangle2D rect = eraseRect;
-        boolean pathsRemoved = false;
-        if (rect != null) {
-            pathsRemoved = eraseInternal(rect);
-        }
-
         eraseStart = null;
         eraseRect = null;
-        if (pathsRemoved) {
-            onPathCountChanged();
+
+        boolean changed = false;
+        if (rect != null) {
+            changed = erase(rect, true);
         }
 
-        onEraseEnded(rect);
-        update();
+        onEraseEnded(rect, changed);
     }
 
 
-    @Nullable
-    public LinkedList<Point2D> removeLastPath() {
-        final LinkedList<Point2D> last = paths.pollLast();
 
-        if (last != null) {
-            onPathCountChanged();
-            update();
+
+//    @Nullable
+//    public LinkedList<Point2D> removeLastPath() {
+//        final LinkedList<Point2D> last = paths.pollLast();
+//        if (last == null)
+//            return null;
+//
+//        onPathCountChanged();
+//        update();
+//        return last;
+//    }
+
+    /* Undo-Redo */
+
+    public int getUndoStackCount() {
+        return mUndoStack.size();
+    }
+
+    private void enqueueUndoAction(@NotNull UndoRecord record) {
+        if (!UNDO_ENABLED)
+            return;
+
+        if (mUndoStack.size() >= MAX_UNDO_COUNT)
+            mUndoStack.removeFirst();
+
+        mUndoStack.addLast(record);
+        onUndoStackChanged();
+    }
+
+    public int getRedoStackCount() {
+        return mRedoStack.size();
+    }
+
+    private void enqueueRedoAction(@NotNull Runnable action) {
+        if (!UNDO_ENABLED)
+            return;
+
+        if (mRedoStack.size() >= MAX_REDO_COUNT)
+            mRedoStack.removeFirst();
+
+        mRedoStack.addLast(action);
+        onRedoStackChanged();
+    }
+
+    protected void onUndoStackChanged() {
+        final BaseAction ua = mUndoAction;
+        if (ua != null) {
+            ua.sync();
         }
 
-        return last;
+        mListeners.forEachListener(l -> l.onUndoStackChanged(this));
     }
+
+    protected void onRedoStackChanged() {
+        final BaseAction ra = mRedoAction;
+        if (ra != null) {
+            ra.sync();
+        }
+
+        mListeners.forEachListener(l -> l.onRedoStackChanged(this));
+    }
+
+
+    public boolean canUndo() {
+        return getUndoStackCount() > 0;
+    }
+
+    public boolean canRedo() {
+        return getRedoStackCount() > 0;
+    }
+
+    public boolean undo() {
+        final UndoRecord record = mUndoStack.pollLast();
+        if (record == null)
+            return false;
+
+        onUndoStackChanged();
+        record.undo.run();
+
+        if (record.redo != null) {
+            enqueueRedoAction(record.redo);
+        }
+
+        return true;
+    }
+
+    public boolean redo() {
+        final Runnable action = mRedoStack.pollLast();
+        if (action == null)
+            return false;
+
+        onRedoStackChanged();
+        action.run();
+        return true;
+    }
+
+
 
 
     private boolean shouldStartFromLastPathEnd(@NotNull MouseEvent e) {
@@ -921,14 +1118,30 @@ public class MousePathPanel extends JPanel {
     }
 
     @NotNull
-    public BaseAction getRemoveLastAction() {
-        BaseAction a = mRemoveLastAction;
+    public BaseAction getUndoAction() {
+        BaseAction a = mUndoAction;
         if (a == null) {
             synchronized (this) {
-                a = mRemoveLastAction;
+                a = mUndoAction;
                 if (a == null) {
-                    a = new RemoveLastAction();
-                    mRemoveLastAction = a;
+                    a = new UndoAction(true);
+                    mUndoAction = a;
+                }
+            }
+        }
+
+        return a;
+    }
+
+    @NotNull
+    public BaseAction getRedoAction() {
+        BaseAction a = mRedoAction;
+        if (a == null) {
+            synchronized (this) {
+                a = mRedoAction;
+                if (a == null) {
+                    a = new RedoAction();
+                    mRedoAction = a;
                 }
             }
         }
@@ -964,7 +1177,7 @@ public class MousePathPanel extends JPanel {
             ea.sync();
         }
 
-        final BaseAction rl = mRemoveLastAction;
+        final BaseAction rl = mUndoAction;
         if (rl != null) {
             rl.sync();
         }
@@ -990,7 +1203,7 @@ public class MousePathPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            clear();
+            clear(true);
         }
     }
 
@@ -1020,25 +1233,47 @@ public class MousePathPanel extends JPanel {
         }
     }
 
-    private class RemoveLastAction extends BaseAction {
+    private class UndoAction extends BaseAction {
 
-        private RemoveLastAction() {
+        private UndoAction(boolean saveInStack) {
             this.setName("Undo");
-            this.setShortDescription("Remove Last Path");
+            this.setShortDescription("Undo [ctrl-Z]");
             this.setLargeIcon(R.createLargeIcon(R.IMG_UNDO_LIGHT_64));
             sync();
         }
 
         public void sync() {
             super.sync();
-            this.setEnabled(paths.size() > 0);
+            this.setEnabled(canUndo());
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            removeLastPath();
+            undo();
         }
     }
+
+
+    private class RedoAction extends BaseAction {
+
+        private RedoAction() {
+            this.setName("Redo");
+            this.setShortDescription("Redo [ctrl-X]");
+            this.setLargeIcon(R.createLargeIcon(R.IMG_REDO_LIGHT_64));
+            sync();
+        }
+
+        public void sync() {
+            super.sync();
+            this.setEnabled(canRedo());
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            redo();
+        }
+    }
+
 
     private class JoinPointsAction extends BaseAction {
 

@@ -225,79 +225,6 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
 
         toggleControlsButton = new JButton(controlUia);
 
-        /* Menu */
-
-        menuBar = new JMenuBar();
-        setJMenuBar(menuBar);
-
-        // Functions Menu
-        menuFunctions = new JMenu("Functions");
-        menuBar.add(menuFunctions);
-
-        menuPrograms = new JMenu("Program");
-        menuFunctions.add(menuPrograms);
-        menuPrograms.add(uia(ActionInfo.LOAD_EXTERNAL_PROGRAMMATIC_FUNCTION));
-        menuPrograms.addSeparator();
-        menuPrograms.add(uia(ActionInfo.CLEAR_INTERNAL_PROGRAMMATIC_FUNCTIONS));
-        menuPrograms.add(uia(ActionInfo.CLEAR_EXTERNAL_PROGRAMMATIC_FUNCTIONS));
-        menuPrograms.addSeparator();
-        menuPrograms.add(uia(ActionInfo.RESET_PROGRAMMATIC_FUNCTIONS));
-
-        // Path Functions Menu
-        menuPathFunctions = new JMenu("Path");
-        menuFunctions.add(menuPathFunctions);
-        menuPathFunctions.add(uia(ActionInfo.LAUNCH_PATH_DRAWING_UI));
-        menuPathFunctions.addSeparator();
-        menuPathFunctions.add(uia(ActionInfo.LOAD_EXTERNAL_PATH_FUNCTIONS));
-        menuPathFunctions.add(uia(ActionInfo.LOAD_EXTERNAL_PATH_FUNCTIONS_FROM_DIR));
-        menuPathFunctions.add(uia(ActionInfo.CONVERT_SVG_TO_PATH_DATA));
-        menuPathFunctions.addSeparator();
-        menuPathFunctions.add(uia(ActionInfo.CLEAR_INTERNAL_PATH_FUNCTIONS));
-        menuPathFunctions.add(uia(ActionInfo.CLEAR_EXTERNAL_PATH_FUNCTIONS));
-        menuPathFunctions.addSeparator();
-        menuPathFunctions.add(uia(ActionInfo.RESET_PATH_FUNCTIONS));
-
-        // Rotor States Menu
-        menuRotorStates = Ui.createRotorStatesMenu(this::uia, true);
-        menuBar.add(menuRotorStates);
-
-        // Function State menu
-        menuFunctionState = new JMenu("Function State");
-        menuBar.add(menuFunctionState);
-        menuFunctionState.add(uia(ActionInfo.SAVE_FUNCTION_STATE_TO_FILE));
-        menuFunctionState.add(uia(ActionInfo.LOAD_FUNCTION_STATE_FROM_FILE));
-        menuFunctionState.addSeparator();
-        menuFunctionState.add(uia(ActionInfo.CLEAR_FUNCTIONS_WITHOUT_DEFINITION));
-
-        // Transform Menu
-        menuTransform = new JMenu("Transform");
-        menuBar.add(menuTransform);
-        menuTransform.add(uia(ActionInfo.CONFIGURE_ROTOR_FREQUENCY_PROVIDER));
-        menuTransform.add(uia(ActionInfo.SHOW_FT_UI));
-
-        // View menu
-//        menuView = new JMenu("View");
-//        menuBar.add(menuView);
-//        menuView.add(uia(ActionInfo.TOGGLE_MENUBAR));
-//        menuView.add(uia(ActionInfo.TOGGLE_CONTROLS));
-//        menuView.addSeparator();
-//        menuView.add(uia(ActionInfo.TOGGLE_FULLSCREEN));
-        menuBar.add(Ui.createViewMenu(this::uia));
-
-        // Music Menu
-        menuBar.add(MusicPlayer.getSingleton().createPlaybackMenu());
-
-        // Settings
-        menuBar.add(Ui.createSettingsMenu(this));
-
-        // Ui components that depend on function
-        funcDependentComps = new JComponent[] {
-                rotorCountSlider,
-                speedSlider,
-        };
-
-
-
 
         // Layout
 //        controlPanel = new JPanel();
@@ -479,6 +406,78 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
         functionComboBox.addActionListener(e -> setFunctionProvider(functionComboBox.getSelectedIndex()));
         repeatModeComboBox.addActionListener(e -> setRepeatMode((AbstractAnimator.RepeatMode) repeatModeComboBox.getSelectedItem()));
 
+
+        /* Menu */
+
+        menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+
+        // Functions Menu
+        menuFunctions = new JMenu("Functions");
+        menuBar.add(menuFunctions);
+
+        menuPrograms = new JMenu("Program");
+        menuFunctions.add(menuPrograms);
+        menuPrograms.add(uia(ActionInfo.LOAD_EXTERNAL_PROGRAMMATIC_FUNCTION));
+        menuPrograms.addSeparator();
+        menuPrograms.add(uia(ActionInfo.CLEAR_INTERNAL_PROGRAMMATIC_FUNCTIONS));
+        menuPrograms.add(uia(ActionInfo.CLEAR_EXTERNAL_PROGRAMMATIC_FUNCTIONS));
+        menuPrograms.addSeparator();
+        menuPrograms.add(uia(ActionInfo.RESET_PROGRAMMATIC_FUNCTIONS));
+
+        // Path Functions Menu
+        menuPathFunctions = new JMenu("Path");
+        menuFunctions.add(menuPathFunctions);
+        menuPathFunctions.add(uia(ActionInfo.LAUNCH_PATH_DRAWING_UI));
+        menuPathFunctions.addSeparator();
+        menuPathFunctions.add(uia(ActionInfo.LOAD_EXTERNAL_PATH_FUNCTIONS));
+        menuPathFunctions.add(uia(ActionInfo.LOAD_EXTERNAL_PATH_FUNCTIONS_FROM_DIR));
+        menuPathFunctions.add(uia(ActionInfo.CONVERT_SVG_TO_PATH_DATA));
+        menuPathFunctions.addSeparator();
+        menuPathFunctions.add(uia(ActionInfo.CLEAR_INTERNAL_PATH_FUNCTIONS));
+        menuPathFunctions.add(uia(ActionInfo.CLEAR_EXTERNAL_PATH_FUNCTIONS));
+        menuPathFunctions.addSeparator();
+        menuPathFunctions.add(uia(ActionInfo.RESET_PATH_FUNCTIONS));
+
+        // Rotor States Menu
+        menuRotorStates = Ui.createRotorStatesMenu(this::uia, true);
+        menuBar.add(menuRotorStates);
+
+        // Function State menu
+        menuFunctionState = new JMenu("Function State");
+        menuBar.add(menuFunctionState);
+        menuFunctionState.add(uia(ActionInfo.SAVE_FUNCTION_STATE_TO_FILE));
+        menuFunctionState.add(uia(ActionInfo.LOAD_FUNCTION_STATE_FROM_FILE));
+        menuFunctionState.addSeparator();
+        menuFunctionState.add(uia(ActionInfo.CLEAR_FUNCTIONS_WITHOUT_DEFINITION));
+
+        // Transform Menu
+        menuTransform = new JMenu("Transform");
+        menuBar.add(menuTransform);
+        menuTransform.add(uia(ActionInfo.CONFIGURE_ROTOR_FREQUENCY_PROVIDER));
+        menuTransform.add(uia(ActionInfo.SHOW_FT_UI));
+
+        // View menu
+//        menuView = new JMenu("View");
+//        menuBar.add(menuView);
+//        menuView.add(uia(ActionInfo.TOGGLE_MENUBAR));
+//        menuView.add(uia(ActionInfo.TOGGLE_CONTROLS));
+//        menuView.addSeparator();
+//        menuView.add(uia(ActionInfo.TOGGLE_FULLSCREEN));
+        menuBar.add(createViewMenu());
+
+        // Music Menu
+        menuBar.add(MusicPlayer.getSingleton().createPlaybackMenu());
+
+        // Settings
+        menuBar.add(Ui.createSettingsMenu(this));
+
+        // Ui components that depend on function
+        funcDependentComps = new JComponent[] {
+                rotorCountSlider,
+                speedSlider,
+        };
+
         // Run
         functionProviders.addListDataListener(mFunctionProvideListener);
         setFunctionProvider(initialProviderIndex);     // First function provider
@@ -535,115 +534,9 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
         return fsPanel;
     }
 
-
     @Override
-    protected void onFullscreenChanged(boolean fullscreen) {
-        syncPresentationMode();
-        super.onFullscreenChanged(fullscreen);
-    }
-
-    protected void onControlsVisibilityChanged(boolean controlsVisible) {
-        uia(ActionInfo.TOGGLE_CONTROLS)
-                .setName(R.getToggleControlsText(controlsVisible))
-                .setShortDescription(R.getToggleControlsShortDescription(controlsVisible))
-                .setSelected(controlsVisible);
-
-        syncPresentationMode();
-        update();
-    }
-
-    public final boolean areControlsVisible() {
-        return controlScrollPane.isVisible();
-    }
-
-    private void setControlsVisibleInternal(boolean visible) {
-        controlScrollPane.setVisible(visible);
-        onControlsVisibilityChanged(visible);
-    }
-
-    public final void setControlsVisible(boolean visible) {
-        if (visible == areControlsVisible())
-            return;
-
-        setControlsVisibleInternal(visible);
-    }
-
-    public final boolean toggleControlsVisibility() {
-        final boolean newState = !areControlsVisible();
-        setControlsVisibleInternal(newState);
-        return newState;
-    }
-
-
-    protected void onMenuBarVisibilityChanged(boolean visible) {
-        uia(ActionInfo.TOGGLE_MENUBAR)
-                .setName(R.getToggleMenuBarText(visible))
-                .setShortDescription(R.getToggleMenuBarShortDescription(visible))
-                .setSelected(visible);
-
-        syncPresentationMode();
-        update();
-    }
-
-    public final boolean isMenuBarVisible() {
-        return menuBar.isVisible();
-    }
-
-    private void setMenuBarVisibleInternal(boolean visible) {
-        menuBar.setVisible(visible);
-        onMenuBarVisibilityChanged(visible);
-    }
-
-    public final void setMenuBarVisible(boolean visible) {
-        if (visible == isMenuBarVisible())
-            return;
-
-        setMenuBarVisibleInternal(visible);
-    }
-
-    public final boolean toggleMenuBarVisible() {
-        final boolean newState = !isMenuBarVisible();
-        setMenuBarVisibleInternal(newState);
-        return newState;
-    }
-
-
-
-
-    protected void onPresentationModeEnabledChanged(boolean presenting) {
-        uia(ActionInfo.TOGGLE_PRESENTATION_MODE)
-                .setName(R.getTogglePresentationModeText(presenting))
-                .setShortDescription(R.getTogglePresentationModeShortDescription(presenting))
-                .setSelected(presenting);
-    }
-
-    private void syncPresentationMode() {
-        onPresentationModeEnabledChanged(isPresenting());
-    }
-
-    public final boolean isPresenting() {
-        return isFullscreen() && !areControlsVisible();
-    }
-
-    private void setPresentationModeEnabledInternal(boolean present) {
-        setMenuBarVisible(!present);
-        setControlsVisible(!present);
-        setFullscreen(present);
-
-        onPresentationModeEnabledChanged(present);
-    }
-
-    public final void setPresentationModeEnabled(boolean present) {
-        if (present == isPresenting())
-            return;
-
-        setPresentationModeEnabledInternal(present);
-    }
-
-    public final boolean togglePresentationMode() {
-        final boolean newState = !isPresenting();
-        setPresentationModeEnabledInternal(newState);
-        return newState;
+    public @Nullable Component getControlsComponent() {
+        return controlScrollPane;
     }
 
 
@@ -1500,7 +1393,10 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
     }
 
     @Override
-    public void onAction(@NotNull UiAction action, @NotNull ActionEvent e) {
+    public boolean onAction(@NotNull UiAction action, @NotNull ActionEvent e) {
+        if (super.onAction(action, e))
+            return true;
+
         switch (action.info) {
             case CANCEL_RUNNING_TASKS -> cancelRunningTasks();
             case DRAG_UP -> fsPanel.dragYByUnit(false);
@@ -1525,10 +1421,6 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
             case RESET_DRAG-> fsPanel.resetDrag(true);
             case RESET_SCALE_DRAG -> resetScaleAndDrag();
             case RESET_FULL -> fsPanel.reset(true);
-            case TOGGLE_FULLSCREEN -> toggleFullscreen();
-            case TOGGLE_CONTROLS -> toggleControlsVisibility();
-            case TOGGLE_MENUBAR -> toggleMenuBarVisible();
-            case TOGGLE_PRESENTATION_MODE -> togglePresentationMode();
             case SAVE_FUNCTION_STATE_TO_FILE -> askSaveFunctionStateToFIle();
             case LOAD_FUNCTION_STATE_FROM_FILE -> askLoadFunctionStateFromFile();
             case CLEAR_FUNCTIONS_WITHOUT_DEFINITION -> confirmRemoveFunctionProvidersWithoutDefinition();
@@ -1550,7 +1442,12 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
             case LOAD_EXTERNAL_ROTOR_STATE_FUNCTION_FROM_CSV -> askLoadExternalRotorStateFunctionFromCSV();
             case SAVE_ALL_ROTOR_STATES_TO_CSV -> askSaveRotorStatesToCSV();
             case SHOW_FT_UI -> showFtUi();
+            default -> {
+                return false;
+            }
         }
+
+        return true;
     }
 
 }

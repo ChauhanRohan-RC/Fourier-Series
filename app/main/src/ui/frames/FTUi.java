@@ -235,70 +235,6 @@ public class FTUi extends BaseFrame {
         repeatModeComboBox.setSelectedItem(ftWinderPanel.getRepeatMode());
         repeatModeComboBox.setToolTipText(R.getRepeatModeShortDescription());
 
-        /* Menu */
-        viewControllerWinder = new PanelViewController(this::winderPanelExpandState, this::setWInderPanelExpanded);
-        viewControllerFunctionGraph = new PanelViewController(this::functionGraphExpandState, this::setFunctionGraphExpanded);
-        viewControllerFtGraph = new PanelViewController(this::fTGraphExpandState, this::setFTGraphExpanded);
-
-        menuBar = new JMenuBar();
-        setJMenuBar(menuBar);
-
-        // Rotor States Menu
-        menuRotorStates = Ui.createRotorStatesMenu(this::uia, false);
-        menuBar.add(menuRotorStates);
-
-        // Function State menu
-        menuFunctionState = new JMenu("Function State");
-        menuBar.add(menuFunctionState);
-        menuFunctionState.add(uia(ActionInfo.SAVE_FUNCTION_STATE_TO_FILE));
-
-        // Transform Menu (Should not have view controllers)
-        menuTransform = new TransformMenu();
-        menuBar.add(menuTransform);
-
-        // View menu (With view controllers)
-        ftWinderPanel.addExtraMenuBinder(viewControllerWinder::addAsSeparateViewMenu);
-        functionGraphPanel.addExtraMenuBinder(viewControllerFunctionGraph::addAsSeparateViewMenu);
-        ftGraphPanel.addExtraMenuBinder(viewControllerFtGraph::addAsSeparateViewMenu);
-
-        final JMenu winderViewMenu = new JMenu(uia(ActionInfo.CONFIGURE_FT_WINDER_PANEL));
-        final JMenu funcViewMenu = new JMenu(uia(ActionInfo.CONFIGURE_FUNCTION_GRAPH));
-        final JMenu ftViewMenu = new JMenu(uia(ActionInfo.CONFIGURE_FT_GRAPH));
-        viewControllerWinder.addTo(winderViewMenu);
-        viewControllerFunctionGraph.addTo(funcViewMenu);
-        viewControllerFtGraph.addTo(ftViewMenu);
-
-        final JMenu viewMenu = new JMenu("View");
-        menuBar.add(viewMenu);
-
-        final JMenu graphViewMenu = new JMenu("Graphs");
-        graphViewMenu.add(funcViewMenu);
-        graphViewMenu.add(ftViewMenu);
-        graphViewMenu.add(winderViewMenu);
-        viewMenu.add(graphViewMenu);
-
-        viewMenu.addSeparator();
-        Ui.createViewMenu(this::uia, viewMenu);
-
-        final JMenuItem resetView = new JMenuItem("Reset View");
-        resetView.addActionListener(e -> resetView());
-        viewMenu.addSeparator();
-        viewMenu.add(resetView);
-
-
-        // Music Menu
-        menuBar.add(MusicPlayer.getSingleton().createPlaybackMenu());
-
-
-        // Settings
-        menuBar.add(Ui.createSettingsMenu(this));
-
-        // Ui components that depend on function
-        rotorDependentComps = new JComponent[] {
-                rotorCountSlider,
-                curRotorSlider,
-                speedSlider,
-        };
 
         // others
         final Action controlUia = uia(ActionInfo.TOGGLE_CONTROLS)
@@ -342,110 +278,6 @@ public class FTUi extends BaseFrame {
 
         toggleControlsButton.setVerticalAlignment(SwingConstants.CENTER);
         controlPanel.add(toggleControlsButton);
-
-        // finalizing layout
-//        final JPanel winderWrapper = new JPanel(new BorderLayout());
-//        winderWrapper.add(controlScrollPane, BorderLayout.SOUTH);
-//        winderWrapper.add(ftWinderPanel, BorderLayout.CENTER);
-//
-//        setBounds(Ui.windowBoundsCenterScreen(INITIAL_WIDTH, INITIAL_HEIGHT));
-//        setMinimumSize(MINIMUM_SIZE);
-//        setLayout(new GridBagLayout());
-//
-//        final GridBagConstraints winderGbc = new GridBagConstraints();
-//        winderGbc.gridx = 0;
-//        winderGbc.gridy = 0;
-//        winderGbc.gridwidth = 1;
-//        winderGbc.gridheight = 2;
-//        winderGbc.weightx = winderGbc.weighty = 1;
-//        winderGbc.fill = GridBagConstraints.BOTH;
-//        add(winderWrapper, winderGbc);
-//
-//        final GridBagConstraints functionGraphGbc = new GridBagConstraints();
-//        functionGraphGbc.gridx = 1;
-//        functionGraphGbc.gridy = 0;
-//        functionGraphGbc.gridwidth = 1;
-//        functionGraphGbc.gridheight = 1;
-//        functionGraphGbc.weightx = functionGraphGbc.weighty = 1.25;
-//        functionGraphGbc.fill = GridBagConstraints.BOTH;
-//        add(functionGraphPanel, functionGraphGbc);
-//
-//        final GridBagConstraints ftGraphGbc = new GridBagConstraints();
-//        ftGraphGbc.gridx = 1;
-//        ftGraphGbc.gridy = 1;
-//        ftGraphGbc.gridwidth = 1;
-//        ftGraphGbc.gridheight = 1;
-//        ftGraphGbc.weightx = ftGraphGbc.weighty = 1.25;
-//        ftGraphGbc.fill = GridBagConstraints.BOTH;
-//        add(ftGraphPanel, ftGraphGbc);
-
-
-//        final JPanel main = new JPanel(new GridBagLayout());
-//
-//        final GridBagConstraints winderGbc = new GridBagConstraints();
-//        winderGbc.gridx = 0;
-//        winderGbc.gridy = 0;
-//        winderGbc.gridwidth = 1;
-//        winderGbc.gridheight = 2;
-//        winderGbc.weightx = winderGbc.weighty = 1;
-//        winderGbc.fill = GridBagConstraints.BOTH;
-//        main.add(ftWinderPanel, winderGbc);
-//
-//        final GridBagConstraints functionGraphGbc = new GridBagConstraints();
-//        functionGraphGbc.gridx = 1;
-//        functionGraphGbc.gridy = 0;
-//        functionGraphGbc.gridwidth = 1;
-//        functionGraphGbc.gridheight = 1;
-//        functionGraphGbc.weightx = functionGraphGbc.weighty = 1.25;
-//        functionGraphGbc.fill = GridBagConstraints.BOTH;
-//        main.add(functionGraphPanel, functionGraphGbc);
-//
-//        final GridBagConstraints ftGraphGbc = new GridBagConstraints();
-//        ftGraphGbc.gridx = 1;
-//        ftGraphGbc.gridy = 1;
-//        ftGraphGbc.gridwidth = 1;
-//        ftGraphGbc.gridheight = 1;
-//        ftGraphGbc.weightx = ftGraphGbc.weighty = 1.25;
-//        ftGraphGbc.fill = GridBagConstraints.BOTH;
-//        main.add(ftGraphPanel, ftGraphGbc);
-//
-//        setBounds(Ui.windowBoundsCenterScreen(INITIAL_WIDTH, INITIAL_HEIGHT));
-//        setMinimumSize(MINIMUM_SIZE);
-//        setLayout(new BorderLayout());
-//        add(controlScrollPane, BorderLayout.SOUTH);
-//        add(main, BorderLayout.CENTER);
-
-//        splitPaneContentControlsVertical = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPaneWinderGraphsHorizontal, controlScrollPane);
-//        splitPaneContentControlsVertical.setContinuousLayout(true);
-//        splitPaneContentControlsVertical.setResizeWeight(1);
-//        splitPaneContentControlsVertical.setDividerSize(3);
-
-//        final GridBagConstraints winderGbc = new GridBagConstraints();
-//        winderGbc.gridx = 0;
-//        winderGbc.gridy = 0;
-//        winderGbc.gridwidth = 1;
-//        winderGbc.gridheight = 2;
-//        winderGbc.weightx = winderGbc.weighty = 1;
-//        winderGbc.fill = GridBagConstraints.BOTH;
-//        main.add(ftWinderPanel, winderGbc);
-//
-//        final GridBagConstraints functionGraphGbc = new GridBagConstraints();
-//        functionGraphGbc.gridx = 1;
-//        functionGraphGbc.gridy = 0;
-//        functionGraphGbc.gridwidth = 1;
-//        functionGraphGbc.gridheight = 1;
-//        functionGraphGbc.weightx = functionGraphGbc.weighty = 1.25;
-//        functionGraphGbc.fill = GridBagConstraints.BOTH;
-//        main.add(functionGraphPanel, functionGraphGbc);
-//
-//        final GridBagConstraints ftGraphGbc = new GridBagConstraints();
-//        ftGraphGbc.gridx = 1;
-//        ftGraphGbc.gridy = 1;
-//        ftGraphGbc.gridwidth = 1;
-//        ftGraphGbc.gridheight = 1;
-//        ftGraphGbc.weightx = ftGraphGbc.weighty = 1.25;
-//        ftGraphGbc.fill = GridBagConstraints.BOTH;
-//        main.add(ftGraphPanel, ftGraphGbc);
 
         setBounds(Ui.windowBoundsCenterScreen(INITIAL_WIDTH, INITIAL_HEIGHT));
         setMinimumSize(MINIMUM_SIZE);
@@ -491,6 +323,70 @@ public class FTUi extends BaseFrame {
             }
         });
 
+
+        /* Menu */
+        viewControllerWinder = new PanelViewController(this::winderPanelExpandState, this::setWInderPanelExpanded);
+        viewControllerFunctionGraph = new PanelViewController(this::functionGraphExpandState, this::setFunctionGraphExpanded);
+        viewControllerFtGraph = new PanelViewController(this::fTGraphExpandState, this::setFTGraphExpanded);
+
+        menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+
+        // Rotor States Menu
+        menuRotorStates = Ui.createRotorStatesMenu(this::uia, false);
+        menuBar.add(menuRotorStates);
+
+        // Function State menu
+        menuFunctionState = new JMenu("Function State");
+        menuBar.add(menuFunctionState);
+        menuFunctionState.add(uia(ActionInfo.SAVE_FUNCTION_STATE_TO_FILE));
+
+        // Transform Menu (Should not have view controllers)
+        menuTransform = new TransformMenu();
+        menuBar.add(menuTransform);
+
+        // View menu (With view controllers)
+        ftWinderPanel.addExtraMenuBinder(viewControllerWinder::addAsSeparateViewMenu);
+        functionGraphPanel.addExtraMenuBinder(viewControllerFunctionGraph::addAsSeparateViewMenu);
+        ftGraphPanel.addExtraMenuBinder(viewControllerFtGraph::addAsSeparateViewMenu);
+
+        final JMenu winderViewMenu = new JMenu(uia(ActionInfo.CONFIGURE_FT_WINDER_PANEL));
+        final JMenu funcViewMenu = new JMenu(uia(ActionInfo.CONFIGURE_FUNCTION_GRAPH));
+        final JMenu ftViewMenu = new JMenu(uia(ActionInfo.CONFIGURE_FT_GRAPH));
+        viewControllerWinder.addTo(winderViewMenu);
+        viewControllerFunctionGraph.addTo(funcViewMenu);
+        viewControllerFtGraph.addTo(ftViewMenu);
+
+        final JMenu viewMenu = new JMenu("View");
+        menuBar.add(viewMenu);
+
+        final JMenu graphViewMenu = new JMenu("Graphs");
+        graphViewMenu.add(funcViewMenu);
+        graphViewMenu.add(ftViewMenu);
+        graphViewMenu.add(winderViewMenu);
+        viewMenu.add(graphViewMenu);
+
+        viewMenu.addSeparator();
+        createViewMenu(viewMenu);
+
+        final JMenuItem resetView = new JMenuItem("Reset View");
+        resetView.addActionListener(e -> resetView());
+        viewMenu.addSeparator();
+        viewMenu.add(resetView);
+
+        // Music Menu
+        menuBar.add(MusicPlayer.getSingleton().createPlaybackMenu());
+
+        // Settings
+        menuBar.add(Ui.createSettingsMenu(this));
+
+        // Ui components that depend on function
+        rotorDependentComps = new JComponent[] {
+                rotorCountSlider,
+                curRotorSlider,
+                speedSlider,
+        };
+
         // Run
         setupActionKeyBindings(getRootPane(), null, JComponent.WHEN_IN_FOCUSED_WINDOW, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         ftWinderPanel.addMouseListener(this);
@@ -531,6 +427,11 @@ public class FTUi extends BaseFrame {
     }
 
 
+    @Override
+    public @Nullable Component getControlsComponent() {
+        return controlScrollPane;
+    }
+
     @NotNull
     public FTWinderPanel getFtWinderPanel() {
         return ftWinderPanel;
@@ -544,116 +445,6 @@ public class FTUi extends BaseFrame {
     @NotNull
     public FTGraphPanel getFtGraphPanel() {
         return ftGraphPanel;
-    }
-
-
-    @Override
-    protected void onFullscreenChanged(boolean fullscreen) {
-        syncPresentationMode();
-        super.onFullscreenChanged(fullscreen);
-    }
-
-    protected void onControlsVisibilityChanged(boolean controlsVisible) {
-        uia(ActionInfo.TOGGLE_CONTROLS)
-                .setName(R.getToggleControlsText(controlsVisible))
-                .setShortDescription(R.getToggleControlsShortDescription(controlsVisible))
-                .setSelected(controlsVisible);
-
-        syncPresentationMode();
-        update();
-//        splitPaneContentControlsVertical.resetToPreferredSizes();
-    }
-
-    public final boolean areControlsVisible() {
-        return controlScrollPane.isVisible();
-    }
-
-    private void setControlsVisibleInternal(boolean visible) {
-        controlScrollPane.setVisible(visible);
-        onControlsVisibilityChanged(visible);
-    }
-
-    public final void setControlsVisible(boolean visible) {
-        if (visible == areControlsVisible())
-            return;
-
-        setControlsVisibleInternal(visible);
-    }
-
-    public final boolean toggleControlsVisibility() {
-        final boolean newState = !areControlsVisible();
-        setControlsVisibleInternal(newState);
-        return newState;
-    }
-
-    protected void onMenuBarVisibilityChanged(boolean visible) {
-        uia(ActionInfo.TOGGLE_MENUBAR)
-                .setName(R.getToggleMenuBarText(visible))
-                .setShortDescription(R.getToggleMenuBarShortDescription(visible))
-                .setSelected(visible);
-
-        syncPresentationMode();
-        update();
-    }
-
-    public final boolean isMenuBarVisible() {
-        return menuBar.isVisible();
-    }
-
-    private void setMenuBarVisibleInternal(boolean visible) {
-        menuBar.setVisible(visible);
-        onMenuBarVisibilityChanged(visible);
-    }
-
-    public final void setMenuBarVisible(boolean visible) {
-        if (visible == isMenuBarVisible())
-            return;
-
-        setMenuBarVisibleInternal(visible);
-    }
-
-    public final boolean toggleMenuBarVisible() {
-        final boolean newState = !isMenuBarVisible();
-        setMenuBarVisibleInternal(newState);
-        return newState;
-    }
-
-    protected void onPresentationModeEnabledChanged(boolean presenting) {
-        uia(ActionInfo.TOGGLE_PRESENTATION_MODE)
-                .setName(R.getTogglePresentationModeText(presenting))
-                .setShortDescription(R.getTogglePresentationModeShortDescription(presenting))
-                .setSelected(presenting);
-
-        syncViewControllers();
-    }
-
-    private void syncPresentationMode() {
-        onPresentationModeEnabledChanged(isPresenting());
-    }
-
-    public final boolean isPresenting() {
-        return isFullscreen() && !areControlsVisible();
-    }
-
-    private void setPresentationModeEnabledInternal(boolean present) {
-        setMenuBarVisible(!present);
-        setControlsVisible(!present);
-        setFullscreen(present);
-
-        onPresentationModeEnabledChanged(present);
-    }
-
-    public final void setPresentationModeEnabled(boolean present) {
-        if (present == isPresenting())
-            return;
-
-        setPresentationModeEnabledInternal(present);
-    }
-
-    public final boolean togglePresentationMode() {
-        final boolean newState = !isPresenting();
-        setPresentationModeEnabledInternal(newState);
-        return newState;
     }
 
 
@@ -1129,7 +920,10 @@ public class FTUi extends BaseFrame {
     }
 
     @Override
-    public void onAction(@NotNull UiAction action, @NotNull ActionEvent e) {
+    public boolean onAction(@NotNull UiAction action, @NotNull ActionEvent e) {
+        if (super.onAction(action, e))
+            return true;
+
         switch (action.info) {
             case CANCEL_RUNNING_TASKS -> cancelRunningTasks();
             case PLAY -> setPlay(true);
@@ -1137,17 +931,18 @@ public class FTUi extends BaseFrame {
             case STOP -> ftWinderPanel.stop();
             case TOGGLE_PLAY_PAUSE -> togglePlay();
             case RESET_MAIN, RESET_FULL -> ftWinderPanel.reset();
-            case TOGGLE_FULLSCREEN -> toggleFullscreen();
-            case TOGGLE_CONTROLS -> toggleControlsVisibility();
-            case TOGGLE_MENUBAR -> toggleMenuBarVisible();
-            case TOGGLE_PRESENTATION_MODE -> togglePresentationMode();
             case SAVE_FUNCTION_STATE_TO_FILE ->  askSaveFunctionStateToFIle();
             case CONFIGURE_ROTOR_FREQUENCY_PROVIDER -> askConfigureFrequencyProvider();
             case CLEAR_AND_RESET_ROTOR_STATE_MANAGER -> askClearAndResetRotorStateManager(false);
             case CLEAR_AND_RELOAD_ROTOR_STATE_MANAGER -> askClearAndResetRotorStateManager(true);
             case LOAD_EXTERNAL_ROTOR_STATES_FROM_CSV -> askLoadExternalRotorStatesFromCSV();
             case SAVE_ALL_ROTOR_STATES_TO_CSV -> askSaveRotorStatesToCSV();
+            default -> {
+                return false;
+            }
         }
+
+        return true;
     }
 
 

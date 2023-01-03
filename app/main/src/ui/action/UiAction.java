@@ -10,7 +10,7 @@ import java.beans.PropertyChangeEvent;
 public class UiAction extends BaseAction {
 
     public interface Listener {
-        void onAction(@NotNull UiAction action, @NotNull ActionEvent e);
+        boolean onAction(@NotNull UiAction action, @NotNull ActionEvent e);
 
         void onActionPropertyChange(@NotNull UiAction action, @NotNull PropertyChangeEvent e);
     }

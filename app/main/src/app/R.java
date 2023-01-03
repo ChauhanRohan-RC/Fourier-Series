@@ -181,6 +181,9 @@ public class R {
     public static final Path IMG_UNDO_DARK_64 = DIR_IMAGE.resolve("undo_dark_64.png");
     public static final Path IMG_UNDO_ACCENT_64 = DIR_IMAGE.resolve("undo_accent_64.png");
 
+    public static final Path IMG_REDO_LIGHT_64 = DIR_IMAGE.resolve("redo_light_64.png");
+    public static final Path IMG_REDO_DARK_64 = DIR_IMAGE.resolve("redo_dark_64.png");
+    public static final Path IMG_REDO_ACCENT_64 = DIR_IMAGE.resolve("redo_accent_64.png");
 
     // Fonts
     public static final Path DIR_FONT = DIR_RES.resolve("font");
@@ -851,6 +854,27 @@ public class R {
     @NotNull
     public static String getResetFullShortDescription() {
         return "Reset View and Rotors [Ctrl-R]";
+    }
+
+
+    @NotNull
+    public static String getUndoText() {
+        return "Undo";
+    }
+
+    @NotNull
+    public static String getUndoShortDescription() {
+        return "Undo last action [ctrl-Z]";
+    }
+
+    @NotNull
+    public static String getRedoText() {
+        return "Redo";
+    }
+
+    @NotNull
+    public static String getRedoShortDescription() {
+        return "Redo last action [ctrl-X]";
     }
 
 

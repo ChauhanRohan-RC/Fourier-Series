@@ -63,7 +63,8 @@ public enum ActionInfo implements ActionInfoI {
     RESET_DRAG(R.getResetDragText(), R.getResetDragShortDescription(),  null, true),
     RESET_SCALE_DRAG(R.getResetScaleAndDragText(), R.getResetScaleAndDragShortDescription(),  KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.SHIFT_DOWN_MASK), true),
     RESET_FULL(R.getResetFullText(), R.getResetFullShortDescription(), KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK), true),
-
+    UNDO(R.getUndoText(), R.getUndoShortDescription(), KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_DOWN_MASK), false),
+    REDO(R.getRedoText(), R.getRedoShortDescription(), KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK), false),
 
     TOGGLE_FULLSCREEN(R.getFullscreenText(), R.getFullscreenShortDescription(false), KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.SHIFT_DOWN_MASK), false),
     TOGGLE_CONTROLS(R.getToggleControlsText(true), R.getToggleControlsShortDescription(true), KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.SHIFT_DOWN_MASK), false),

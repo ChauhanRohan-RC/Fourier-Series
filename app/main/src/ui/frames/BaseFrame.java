@@ -3,8 +3,8 @@ package ui.frames;
 import app.App;
 import app.R;
 import app.Settings;
+import async.Function;
 import misc.CollectionUtil;
-import misc.Keyboard;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ui.action.ActionInfo;
@@ -12,9 +12,11 @@ import ui.action.UiAction;
 import ui.util.Ui;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.util.*;
+import java.util.List;
 
 public class BaseFrame extends JFrame implements Ui,
         UiAction.Listener,
@@ -77,12 +79,12 @@ public class BaseFrame extends JFrame implements Ui,
 
 
     protected void onFullscreenChanged(boolean fullscreen) {
-//        update();
-
         uia(ActionInfo.TOGGLE_FULLSCREEN)
                 .setName(R.getFullscreenText(fullscreen))
                 .setShortDescription(R.getFullscreenShortDescription(fullscreen))
                 .setSelected(fullscreen);
+
+        syncPresentationMode();
     }
 
 
@@ -108,7 +110,149 @@ public class BaseFrame extends JFrame implements Ui,
     }
 
 
+
+    protected void onMenuBarVisibilityChanged(boolean visible) {
+        uia(ActionInfo.TOGGLE_MENUBAR)
+                .setName(R.getToggleMenuBarText(visible))
+                .setShortDescription(R.getToggleMenuBarShortDescription(visible))
+                .setSelected(visible);
+
+        syncPresentationMode();
+        update();
+    }
+
+    public final boolean isMenuBarVisible() {
+        final JMenuBar menuBar = getJMenuBar();
+        return menuBar != null && menuBar.isVisible();
+    }
+
+    protected final void setMenuBarVisibleInternal(boolean visible) {
+        final JMenuBar menuBar = getJMenuBar();
+        if (menuBar == null)
+            return;
+
+        menuBar.setVisible(visible);
+        onMenuBarVisibilityChanged(visible);
+    }
+
+    public final void setMenuBarVisible(boolean visible) {
+        if (visible == isMenuBarVisible())
+            return;
+
+        setMenuBarVisibleInternal(visible);
+    }
+
+    public final boolean toggleMenuBarVisible() {
+        final boolean newState = !isMenuBarVisible();
+        setMenuBarVisibleInternal(newState);
+        return newState;
+    }
+
+
+    @Nullable
+    public Component getControlsComponent() {
+        return null;
+    }
+
+    protected void onControlsVisibilityChanged(boolean controlsVisible) {
+        uia(ActionInfo.TOGGLE_CONTROLS)
+                .setName(R.getToggleControlsText(controlsVisible))
+                .setShortDescription(R.getToggleControlsShortDescription(controlsVisible))
+                .setSelected(controlsVisible);
+
+        syncPresentationMode();
+        update();
+    }
+
+    public final boolean areControlsVisible() {
+        final Component cc = getControlsComponent();
+        return cc != null && cc.isVisible();
+    }
+
+    protected final void setControlsVisibleInternal(boolean visible) {
+        final Component cc = getControlsComponent();
+        if (cc == null)
+            return;
+
+        cc.setVisible(visible);
+        onControlsVisibilityChanged(visible);
+    }
+
+    public final void setControlsVisible(boolean visible) {
+        if (visible == areControlsVisible())
+            return;
+
+        setControlsVisibleInternal(visible);
+    }
+
+    public final boolean toggleControlsVisibility() {
+        final boolean newState = !areControlsVisible();
+        setControlsVisibleInternal(newState);
+        return newState;
+    }
+
+
+    protected void onPresentationModeEnabledChanged(boolean presenting) {
+        uia(ActionInfo.TOGGLE_PRESENTATION_MODE)
+                .setName(R.getTogglePresentationModeText(presenting))
+                .setShortDescription(R.getTogglePresentationModeShortDescription(presenting))
+                .setSelected(presenting);
+    }
+
+    protected final void syncPresentationMode() {
+        onPresentationModeEnabledChanged(isPresenting());
+    }
+
+    public final boolean isPresenting() {
+        return isFullscreen() && !areControlsVisible();
+    }
+
+    protected final void setPresentationModeEnabledInternal(boolean present) {
+        setMenuBarVisible(!present);
+        setControlsVisible(!present);
+        setFullscreen(present);
+
+        onPresentationModeEnabledChanged(present);
+    }
+
+    public final void setPresentationModeEnabled(boolean present) {
+        if (present == isPresenting())
+            return;
+
+        setPresentationModeEnabledInternal(present);
+    }
+
+    public final boolean togglePresentationMode() {
+        final boolean newState = !isPresenting();
+        setPresentationModeEnabledInternal(newState);
+        return newState;
+    }
+
+
+
+
     /* Actions */
+
+    @NotNull
+    protected final JMenu createViewMenu(@Nullable JMenu dest) {
+        if (dest == null) {
+            dest = new JMenu("View");
+        }
+
+        dest.add(uia(ActionInfo.TOGGLE_MENUBAR));
+        dest.add(uia(ActionInfo.TOGGLE_CONTROLS));
+        dest.addSeparator();
+        dest.add(uia(ActionInfo.TOGGLE_FULLSCREEN));
+        dest.add(uia(ActionInfo.TOGGLE_PRESENTATION_MODE));
+        return dest;
+    }
+
+    @NotNull
+    protected final JMenu createViewMenu() {
+        return createViewMenu(null);
+    }
+
+
 
     protected final void setupActionKeyBindings(@NotNull Collection<InputMap> inputMaps, @NotNull ActionMap actionMap, @Nullable Collection<ActionInfo> actions) {
         if (CollectionUtil.isEmpty(actions)) {
@@ -154,8 +298,18 @@ public class BaseFrame extends JFrame implements Ui,
     }
 
     @Override
-    public void onAction(@NotNull UiAction action, @NotNull ActionEvent e) {
+    public boolean onAction(@NotNull UiAction action, @NotNull ActionEvent e) {
+        switch (action.info) {
+            case TOGGLE_FULLSCREEN -> toggleFullscreen();
+            case TOGGLE_CONTROLS -> toggleControlsVisibility();
+            case TOGGLE_MENUBAR -> toggleMenuBarVisible();
+            case TOGGLE_PRESENTATION_MODE -> togglePresentationMode();
+            default -> {
+                return false;
+            }
+        }
 
+        return true;
     }
 
     @Override

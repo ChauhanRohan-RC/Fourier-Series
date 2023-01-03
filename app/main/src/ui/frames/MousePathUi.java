@@ -39,9 +39,13 @@ public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
 
     private static final List<ActionInfo> ACTIONS = List.of(
             ActionInfo.TOGGLE_FULLSCREEN,
+            ActionInfo.TOGGLE_MENUBAR,
+            ActionInfo.TOGGLE_CONTROLS,
             ActionInfo.RESET_SCALE,
             ActionInfo.RESET_DRAG,
-            ActionInfo.RESET_SCALE_DRAG
+            ActionInfo.RESET_SCALE_DRAG,
+            ActionInfo.UNDO,
+            ActionInfo.REDO
     );
 
 
@@ -100,9 +104,13 @@ public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
     private final MousePathPanel panel;
     private final DoneAction doneAction;
 
-    private final JPanel controlPanel1;
-    private final JPanel controlPanel2;
+    /* Menu */
+    private final JMenuBar menuBar;
+
+    private final JPanel rootPanel;
+    private final JPanel overlayPanel;
     private final JPanel controlPanel;
+
 
     public MousePathUi() {
         super();
@@ -111,8 +119,8 @@ public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
         panel = new MousePathPanel();
 
         /* Buttons and Actions */
-        final JToggleButton pointsButton = new JToggleButton(panel.getJoinPointsAction());
-        configureImageButton(pointsButton);
+        final JToggleButton pointsJoinButton = new JToggleButton(panel.getJoinPointsAction());
+        configureImageButton(pointsJoinButton);
 
         final JButton clearButton = new JButton(panel.getClearAction());
         configureImageButton(clearButton);
@@ -120,8 +128,11 @@ public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
         final JToggleButton eraseButton = new JToggleButton(panel.getEraseAction());
         configureImageButton(eraseButton);
 
-        final JButton removeLastButton = new JButton(panel.getRemoveLastAction());
-        configureImageButton(removeLastButton);
+        final JButton undoButton = new JButton(panel.getUndoAction());
+        configureImageButton(undoButton);
+
+        final JButton redoButton = new JButton(panel.getRedoAction());
+        configureImageButton(redoButton);
 
         doneAction = new DoneAction();
         final JButton doneButton = new JButton(doneAction);
@@ -144,58 +155,64 @@ public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
         final JButton resetDragButton = new JButton(resetDragAction);
         configureImageButton(resetDragButton);
 
+
         /* Layout */
-        controlPanel1 = new JPanel();
-        controlPanel1.setOpaque(false);
-        controlPanel1.setLayout(new BoxLayout(controlPanel1, BoxLayout.X_AXIS));
-        controlPanel1.add(pointsButton);
-        controlPanel1.add(clearButton);
-        controlPanel1.add(eraseButton);
-        controlPanel1.add(removeLastButton);
-        controlPanel1.add(doneButton);
-
-        controlPanel2 = new JPanel();
-        controlPanel2.setOpaque(false);
-        controlPanel2.setLayout(new BoxLayout(controlPanel2, BoxLayout.X_AXIS));
-        controlPanel2.add(fullscreenButton);
-        controlPanel2.add(resetScaleButton);
-        controlPanel2.add(resetDragButton);
-
+        // 1. Controls
         controlPanel = new JPanel();
         controlPanel.setOpaque(false);
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.X_AXIS));
-        controlPanel.add(controlPanel2);
+        controlPanel.add(fullscreenButton);
+        controlPanel.add(resetScaleButton);
+        controlPanel.add(resetDragButton);
         controlPanel.add(Box.createHorizontalGlue());
-        controlPanel.add(controlPanel1);
+        controlPanel.add(undoButton);
+        controlPanel.add(clearButton);
+        controlPanel.add(eraseButton);
+        controlPanel.add(redoButton);
+        controlPanel.add(Box.createHorizontalGlue());
+        controlPanel.add(pointsJoinButton);
+        controlPanel.add(doneButton);
 
-//        overlayPanel.setLayout(new BoxLayout(overlayPanel, BoxLayout.Y_AXIS));
-//        overlayPanel.add(controlPanel1);
-//        overlayPanel.add(Box.createVerticalStrut(4));
-//        overlayPanel.add(controlPanel2);
+        // 2. Overlay
+        overlayPanel = new JPanel();
+        overlayPanel.setOpaque(false);
+        overlayPanel.setLayout(new BorderLayout());
+        overlayPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        overlayPanel.add(controlPanel, BorderLayout.SOUTH);
 
-        final JPanel root = new JPanel() {
+        // 3. Root (Overlay + Main)
+        rootPanel = new JPanel() {
             @Override
             public boolean isOptimizedDrawingEnabled() {
                 return false;
             }
         };
 
-        root.setLayout(new OverlayLayout(root));
-
-        final JPanel overlayWrapper = new JPanel();
-        overlayWrapper.setOpaque(false);
-        overlayWrapper.setLayout(new BorderLayout());
-        overlayWrapper.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        overlayWrapper.add(controlPanel, BorderLayout.SOUTH);
-        root.add(overlayWrapper);
-        root.add(panel);
+        rootPanel.setLayout(new OverlayLayout(rootPanel));
+        rootPanel.add(overlayPanel);
+        rootPanel.add(panel);
 
         // Layout
         setBounds(Ui.windowBoundsCenterScreen(INITIAL_WIDTH, INITIAL_HEIGHT));
         setMinimumSize(MINIMUM_SIZE.getSize());
-        add(root);
+        add(rootPanel);
 
-        // Launch
+
+        /* Menu */
+        menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+
+        // View menu
+        menuBar.add(createViewMenu());
+
+        // Music Menu
+        menuBar.add(MusicPlayer.getSingleton().createPlaybackMenu());
+
+        // Settings
+        menuBar.add(Ui.createSettingsMenu(this));
+
+
+        // Run
         setupActionKeyBindings(getRootPane(), ACTIONS, JComponent.WHEN_IN_FOCUSED_WINDOW, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         panel.addMouseListener(this);
         panel.addListener(this);
@@ -211,6 +228,12 @@ public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
         setFocusable(true);
         setVisible(true);
     }
+
+    @Override
+    public @Nullable Component getControlsComponent() {
+        return controlPanel;
+    }
+
 
     private void onDone() {
         if (panel.isClear()) {
@@ -233,7 +256,7 @@ public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
             }
         } catch (Throwable e) {
             Log.e(TAG, "Failed to parse PathFunction", e);
-            showErrorMessageDialog("Failed to create Path Function", "Parse failed");
+            showErrorMessageDialog(String.format("Failed to create Path Function\nError: %s -> %s", e.getClass().getSimpleName(), e.getMessage()), "Parse failed");
         }
     }
 
@@ -280,6 +303,17 @@ public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
     }
 
     @Override
+    public void onUndoStackChanged(@NotNull MousePathPanel panel) {
+
+    }
+
+    @Override
+    public void onRedoStackChanged(@NotNull MousePathPanel panel) {
+
+    }
+
+
+    @Override
     public void windowClosing(WindowEvent e) {
         super.windowClosing(e);
         MusicPlayer.getSingleton().requestPause(token);
@@ -291,13 +325,22 @@ public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
     }
 
     @Override
-    public void onAction(@NotNull UiAction action, @NotNull ActionEvent e) {
+    public boolean onAction(@NotNull UiAction action, @NotNull ActionEvent e) {
+        if (super.onAction(action, e))
+            return true;
+
         switch (action.info) {
-            case TOGGLE_FULLSCREEN -> toggleFullscreen();
             case RESET_SCALE -> panel.resetScale(true);
             case RESET_DRAG -> panel.resetDrag(true);
             case RESET_SCALE_DRAG -> panel.resetScaleAndDrag();
+            case UNDO -> panel.undo();
+            case REDO -> panel.redo();
+            default -> {
+                return false;
+            }
         }
+
+        return true;
     }
 
 
