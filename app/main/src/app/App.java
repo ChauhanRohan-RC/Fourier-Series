@@ -4,17 +4,18 @@ import misc.Log;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
+import provider.FunctionMeta;
 import provider.FunctionProviderI;
+import provider.FunctionType;
+import provider.SimpleFunctionProvider;
+import test.ParticleWave;
 import ui.MusicPlayer;
 import ui.frames.FourierUi;
 import async.Async;
 import async.TaskCompletionListener;
+import ui.util.Ui;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -62,10 +63,9 @@ public class App {
     };
 
     private static void init() {
+        Log.v(TAG, "Initialising...");
         R.init();
         Settings.getSingleton().ensureListener(sSettingListener);
-
-        Log.v(TAG, "Initialising...");
     }
 
     private static void finish() {
@@ -120,7 +120,7 @@ public class App {
     public static FourierUi findOrLaunchFourierUi() {
         FourierUi fu = findFourierUi();
         if (fu == null) {
-            fu = launchFourierUi(null);
+            fu = Ui.launchFourierUi(null);
         }
 
         return fu;
@@ -138,22 +138,17 @@ public class App {
         sFrames.forEach(SwingUtilities::updateComponentTreeUI);
     }
 
-    @NotNull
-    private static FourierUi launchFourierUi(@Nullable FunctionProviderI startProvider) {
-        final FourierUi ui = new FourierUi(null, -1);
-        ui.setFunctionProvider(startProvider);
-        return ui;
-    }
-
 
     // TODO: Test launcher
     private static void launchTest(String[] args) {
-
+        Async.postIfNotOnMainThread(() -> {
+            final FourierUi ui = Ui.launchFourierUi(null);
+        });
     }
 
     // TODO: Main production launcher
     private static void launchMain(String[] args) {
-        Async.postIfNotOnMainThread(() -> launchFourierUi(null));
+        Async.postIfNotOnMainThread(() -> Ui.launchFourierUi(null));
     }
 
 

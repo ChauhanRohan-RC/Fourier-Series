@@ -25,17 +25,18 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.geom.GeneralPath;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
 
     public static final String TAG = "MousePathUi";
 
-    public static final Dimension MINIMUM_SIZE = new Dimension(400, 400);
+    public static final Dimension MINIMUM_SIZE = new Dimension(600, 400);
 
     public static final int INITIAL_WIDTH = SCREEN_SIZE.width - 200;
     public static final int INITIAL_HEIGHT = SCREEN_SIZE.height - 200;
 
-    private static final float INITIAL_DOMAIN_ANIMATION_DURATION_SCALE = 0.25f;  // 4x faster
+    private static final float INITIAL_DOMAIN_ANIMATION_DURATION_SCALE = 0.1f;  // 10x faster
 
     private static final List<ActionInfo> ACTIONS = List.of(
             ActionInfo.TOGGLE_FULLSCREEN,
@@ -108,6 +109,8 @@ public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
     private final JMenuBar menuBar;
 
     private final JPanel rootPanel;
+
+    private final JLabel statusLabel;
     private final JPanel overlayPanel;
     private final JPanel controlPanel;
 
@@ -138,7 +141,6 @@ public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
         final JButton doneButton = new JButton(doneAction);
         configureImageButton(doneButton);
 
-
         final BaseAction fsAction = uia(ActionInfo.TOGGLE_FULLSCREEN)
                 .setLargeIconOnSelect(false, R.createIcon(R.IMG_MAXIMISE_LIGHT_64, 21))
                 .setLargeIconOnSelect(true, R.createIcon(R.IMG_MINIMISE_ACCENT_64, 21));
@@ -155,6 +157,10 @@ public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
         final JButton resetDragButton = new JButton(resetDragAction);
         configureImageButton(resetDragButton);
 
+        statusLabel = new JLabel();
+        statusLabel.setOpaque(false);
+        statusLabel.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
+        statusLabel.setForeground(Color.WHITE);
 
         /* Layout */
         // 1. Controls
@@ -164,6 +170,7 @@ public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
         controlPanel.add(fullscreenButton);
         controlPanel.add(resetScaleButton);
         controlPanel.add(resetDragButton);
+        controlPanel.add(statusLabel);
         controlPanel.add(Box.createHorizontalGlue());
         controlPanel.add(undoButton);
         controlPanel.add(clearButton);
@@ -203,7 +210,12 @@ public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
         setJMenuBar(menuBar);
 
         // View menu
-        menuBar.add(createViewMenu());
+        final JMenu viewMenu = new JMenu("View");
+        viewMenu.add(new JCheckBoxMenuItem(uia(ActionInfo.INVERT_X)));
+        viewMenu.add(new JCheckBoxMenuItem(uia(ActionInfo.INVERT_Y)));
+        viewMenu.addSeparator();
+        createViewMenu(viewMenu);
+        menuBar.add(viewMenu);
 
         // Music Menu
         menuBar.add(MusicPlayer.getSingleton().createPlaybackMenu());
@@ -216,7 +228,6 @@ public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
         setupActionKeyBindings(getRootPane(), ACTIONS, JComponent.WHEN_IN_FOCUSED_WINDOW, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         panel.addMouseListener(this);
         panel.addListener(this);
-
         syncScaleAndDrag();
 
         final Image appIcon = R.createAppIconColorful();
@@ -229,11 +240,16 @@ public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
         setVisible(true);
     }
 
+
     @Override
     public @Nullable Component getControlsComponent() {
         return controlPanel;
     }
 
+    @NotNull
+    public MousePathPanel getPathPanel() {
+        return panel;
+    }
 
     private void onDone() {
         if (panel.isClear()) {
@@ -261,8 +277,32 @@ public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
     }
 
 
+
+    @NotNull
+    private static String createScaleDragDisplayStatus(double scale, @Nullable Size drag) {
+        final StringJoiner sj = new StringJoiner("  |  ");
+
+        // Scale
+        sj.add(String.format("%.1fx", scale));
+
+        // Drag
+        if (drag != null) {
+            final int tx = (int) drag.width, ty = (int) drag.height;
+
+            if (tx != 0 || ty != 0) {
+                sj.add(String.format("Tx: %d", tx)).add(String.format("Ty: %d", ty));
+            }
+        }
+
+        return sj.toString();
+    }
+
+
     public void syncScaleAndDrag() {
         final double scale = panel.getScale();
+        final Size drag = panel.getDrag();
+        statusLabel.setText(createScaleDragDisplayStatus(scale, drag));
+
 //        scaleText.setText(R.getScaleText(scale));
         uia(ActionInfo.SCALE_UP).setEnabled(scale < panel.getMaximumScale());
         uia(ActionInfo.SCALE_DOWN).setEnabled(scale > panel.getMinimumScale());
@@ -279,6 +319,16 @@ public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
     @Override
     public void onPointsJoiningEnabledChanged(@NotNull MousePathPanel panel, boolean enabled) {
 
+    }
+
+    @Override
+    public void onInvertXChanged(@NotNull MousePathPanel panel, boolean invertX) {
+        uia(ActionInfo.INVERT_X).setSelected(invertX);
+    }
+
+    @Override
+    public void onInvertYChanged(@NotNull MousePathPanel panel, boolean invertY) {
+        uia(ActionInfo.INVERT_Y).setSelected(invertY);
     }
 
     @Override
@@ -335,6 +385,8 @@ public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
             case RESET_SCALE_DRAG -> panel.resetScaleAndDrag();
             case UNDO -> panel.undo();
             case REDO -> panel.redo();
+            case INVERT_X -> panel.toggleInvertX();
+            case INVERT_Y -> panel.toggleInvertY();
             default -> {
                 return false;
             }

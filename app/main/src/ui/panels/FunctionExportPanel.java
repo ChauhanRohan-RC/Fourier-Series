@@ -6,14 +6,12 @@ import function.definition.ComplexDomainFunctionI;
 import function.definition.DomainAnimationDurationScalerI;
 import misc.Format;
 import misc.Log;
-import org.apache.commons.math3.analysis.function.Exp;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import provider.FunctionMeta;
 import provider.FunctionType;
 import provider.SimpleFunctionProvider;
 import rotor.FunctionState;
-import ui.frames.FourierUi;
 import ui.util.Ui;
 
 import javax.swing.*;
@@ -201,7 +199,7 @@ public class FunctionExportPanel extends JPanel {
         }
 
         switch (expMode) {
-            case EXPORT_TO_FOURIER_UI -> App.findOrLaunchFourierUi().setFunctionProvider(new SimpleFunctionProvider(meta, function));
+            case EXPORT_TO_FOURIER_UI -> App.findOrLaunchFourierUi().addSelectFunctionProvider(new SimpleFunctionProvider(meta, function));
             case SAVE_FUNCTION_STATE -> Ui.askSaveFunctionStateToFIle(parent, FunctionState.from(meta, function));
             default -> throw new AssertionError("Unknown Export Mode: " + expMode);
         }

@@ -3,6 +3,8 @@ package misc;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.regex.Pattern;
 
 public class Format {
@@ -23,6 +25,14 @@ public class Format {
 
     public static boolean notEmpty(@Nullable CharSequence sequence) {
         return !isEmpty(sequence);
+    }
+
+    public static boolean isZero(@NotNull String s) {
+        try {
+            return Integer.parseInt(s) == 0;
+        } catch (Throwable ignored) {
+            return false;
+        }
     }
 
     @NotNull
@@ -77,4 +87,44 @@ public class Format {
 
         return sb.toString();
     }
+
+
+    @NotNull
+    public static String createScientificDecimalFormatString(int digitsBeforeDecimals, int digitAfterDecimals) {
+        return "0".repeat(digitsBeforeDecimals) +
+                "." +
+                "#".repeat(digitAfterDecimals) +
+                "E0";
+    }
+
+    @NotNull
+    public static DecimalFormat createScientificDecimalFormat(int maxIntegerDigits, int maxFractionDigits) {
+        final DecimalFormat df = new DecimalFormat(createScientificDecimalFormatString(maxFractionDigits, maxFractionDigits));
+        df.setMinimumIntegerDigits(0);
+        df.setMaximumIntegerDigits(maxIntegerDigits);
+        df.setMaximumFractionDigits(0);
+        df.setMaximumFractionDigits(maxFractionDigits);
+
+        return df;
+    }
+
+    @NotNull
+    public static String formatScientific(@NotNull NumberFormat format, double value) {
+        String result = format.format(value);
+        int i = result.lastIndexOf('E');
+        if (i == -1)
+            i = result.lastIndexOf('e');
+
+        if (i != -1 && isZero(result.substring(i + 1))) {
+            result = result.substring(0, i);
+        }
+
+        return result;
+    }
+
+//    public static String formatScientific(double value, int digitsBeforeDecimals, int digitAfterDecimals) {
+//        final String format = decimalFormat(digitsBeforeDecimals, digitAfterDecimals);
+//
+//
+//    }
 }

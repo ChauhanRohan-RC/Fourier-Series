@@ -35,10 +35,32 @@ public class MousePathPanel extends JPanel {
     private static final double DRAG_Y_UNITS = 50;
 
     private static final boolean DEFAULT_JOIN_POINTS = true;
+    public static final boolean DEFAULT_INVERT_X = false;
+    public static final boolean DEFAULT_INVERT_Y = false;
 
     private static final boolean UNDO_ENABLED = true;
     private static final int MAX_UNDO_COUNT = 20;
     private static final int MAX_REDO_COUNT = 20;
+
+    private static final boolean LINE_INTERPOLATION_ENABLED = false;            // approximation accuracy decreases with more points
+    private static final int LINE_INTERPOLATION_MAX_POINT_COUNT = 10000;
+
+    @NotNull
+    private static LinkedList<Point2D> interpolateLine(@NotNull Point2D p0, @NotNull Point2D p1, int count) {
+        final LinkedList<Point2D> r = new LinkedList<>();
+        r.add(p0);
+
+        if (count > 2) {
+            final float step = 1f / (count - 1);
+
+            for (int i=1; i < count - 1; i++) {
+                r.add(PathUtil.interpolateLinear(p0, p1, i * step));
+            }
+        }
+
+        r.add(p1);
+        return r;
+    }
 
     private static final Stroke STROKE_PATH = new BasicStroke(1f);
     private static final Stroke STROKE_PATH_OPEN = new BasicStroke(1.25f);
@@ -74,10 +96,10 @@ public class MousePathPanel extends JPanel {
     /* Stick Mode */
 
     private enum StickMode {
-        FREE(InputEvent.SHIFT_DOWN_MASK | InputEvent.BUTTON1_DOWN_MASK,
+        LINE(InputEvent.SHIFT_DOWN_MASK | InputEvent.BUTTON1_DOWN_MASK,
                 InputEvent.CTRL_DOWN_MASK),
 
-        AXIS(InputEvent.CTRL_DOWN_MASK | InputEvent.BUTTON1_DOWN_MASK,
+        AXIAL_LINE(InputEvent.CTRL_DOWN_MASK | InputEvent.BUTTON1_DOWN_MASK,
                 InputEvent.SHIFT_DOWN_MASK);
 
         public final int onMask;
@@ -96,11 +118,11 @@ public class MousePathPanel extends JPanel {
         public static StickMode fromMouseEvent(int modifiersEx) {
             // explicit checking, efficient than array loop since it is called many times
 
-            if (FREE.shouldStickOnMouseEvent(modifiersEx))
-                return FREE;
+            if (LINE.shouldStickOnMouseEvent(modifiersEx))
+                return LINE;
 
-            if (AXIS.shouldStickOnMouseEvent(modifiersEx))
-                return AXIS;
+            if (AXIAL_LINE.shouldStickOnMouseEvent(modifiersEx))
+                return AXIAL_LINE;
 
             return null;
         }
@@ -110,6 +132,10 @@ public class MousePathPanel extends JPanel {
     public interface Listener {
 
         void onPointsJoiningEnabledChanged(@NotNull MousePathPanel panel, boolean enabled);
+
+        void onInvertXChanged(@NotNull MousePathPanel panel, boolean invertX);
+
+        void onInvertYChanged(@NotNull MousePathPanel panel, boolean invertY);
 
         void onScaleChanged(@NotNull MousePathPanel panel, double scale);
 
@@ -145,6 +171,8 @@ public class MousePathPanel extends JPanel {
     private boolean mPathOpen;
     private boolean mEraseMode;
     private volatile boolean mJoinPoints = DEFAULT_JOIN_POINTS;
+    private boolean mInvertX = DEFAULT_INVERT_X;
+    private boolean mInvertY = DEFAULT_INVERT_Y;
 
     private double mScale = 1;
     @Nullable
@@ -199,7 +227,7 @@ public class MousePathPanel extends JPanel {
     private void drawPath(@NotNull Graphics2D g, @NotNull List<Point2D> points, boolean joinPoints) {
         Point2D prevPoint = null;
         for (Point2D point: points) {
-            g.draw(new Line2D.Double(joinPoints && prevPoint != null ? prevPoint : point, point));
+            g.draw(new Line2D.Double(joinPoints && prevPoint != null? prevPoint : point, point));
             prevPoint = point;
         }
     }
@@ -217,11 +245,20 @@ public class MousePathPanel extends JPanel {
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         }
 
+
+        final int width = getWidth();
+        final int height = getHeight();
+        final boolean joinPoints = mJoinPoints;
+        final boolean invertX = mInvertX;
+        final boolean invertY = mInvertY;
+        final boolean open = mPathOpen;
+
+
         /* ..........................  Pre-Transforms ...........................*/
         final AffineTransform t = g.getTransform();
 
         // 1. Translate
-        double tx = 0, ty = 0;      // initial
+        double tx = width / 2f, ty = height / 2f;      // initial
         final Size drag = getDrag();
         if (drag != null) {
             tx += drag.width; ty += drag.height;
@@ -231,7 +268,7 @@ public class MousePathPanel extends JPanel {
 
         // 2. Scale
         final double scale = mScale;
-        t.scale(scale, scale);
+        t.scale(scale * (invertX? -1: 1), scale * (invertY? -1: 1));
         g.setTransform(t);
 
         /* ............................... Drawing ........................ */
@@ -253,15 +290,13 @@ public class MousePathPanel extends JPanel {
 
 
 
-        final boolean joinPoints = mJoinPoints;
-        final boolean open = mPathOpen;
 
         // 1. Current path
         final List<Point2D> cur;
         if (open && CollectionUtil.notEmpty((cur = paths.peekLast()))) {
             g.setStroke(STROKE_PATH_OPEN);
             g.setColor(COLOR_PATH_OPEN);
-            drawPath(g, cur, joinPoints);
+            drawPath(g, cur, true);
         }
 
         // Others
@@ -294,8 +329,8 @@ public class MousePathPanel extends JPanel {
         final Size drag = mDrag;
         final double scale = mScale;
 
-        double x = point.getX();
-        double y = point.getY();
+        double x = point.getX() - (getWidth() / 2f);
+        double y = point.getY() - (getHeight() / 2f);
         if (drag != null) {
             x -= drag.width;
             y -= drag.height;
@@ -303,7 +338,6 @@ public class MousePathPanel extends JPanel {
 
         x /= scale;
         y /= scale;
-
         return new Point2D.Double(x, y);
     }
 
@@ -330,7 +364,7 @@ public class MousePathPanel extends JPanel {
         final LinkedList<Point2D> path = new LinkedList<>();
         path.addLast(anchor);
 
-        addPaths(Collections.singleton(path), true);
+        addPathList(Collections.singleton(path), true);
         mPathOpen = true;
         onPathStart(path);
 
@@ -346,7 +380,7 @@ public class MousePathPanel extends JPanel {
             if (stick != null && curPath.size() > 1) {
                 curPath.pollLast();
 
-                if (stick == StickMode.AXIS) {
+                if (stick == StickMode.AXIAL_LINE) {
                     // change point base on stick anchor
                     final Point2D a = curPath.peekLast();       // anchor
                     if (a != null) {
@@ -367,14 +401,26 @@ public class MousePathPanel extends JPanel {
         }
     }
 
+
+
+
     private void endPath() {
         if (!mPathOpen) {
             return;
         }
 
         mPathOpen = false;
-        onPathEnd(paths.peekLast());
+        LinkedList<Point2D> path = paths.peekLast();
+        if (path != null && path.size() == 2 && LINE_INTERPOLATION_ENABLED) {     // line
+            final Point2D p0 = path.getFirst();
+            final Point2D p1 = path.getLast();
 
+            path = interpolateLine(p0, p1, Math.min((int) (p0.distance(p1) / mScale), LINE_INTERPOLATION_MAX_POINT_COUNT));
+            paths.pollLast();
+            paths.addLast(path);
+        }
+
+        onPathEnd(path);
         update();
     }
 
@@ -399,8 +445,7 @@ public class MousePathPanel extends JPanel {
         onPathCountChanged(paths.size());
     }
 
-    // todo 1
-    private void addPaths(Collection<LinkedList<Point2D>> pathsToAdd, boolean undo) {
+    public void addPathList(Collection<LinkedList<Point2D>> pathsToAdd, boolean undo) {
         if (CollectionUtil.isEmpty(pathsToAdd))
             return;
 
@@ -410,13 +455,17 @@ public class MousePathPanel extends JPanel {
             update();
 
             if (undo && UNDO_ENABLED) {
-                enqueueUndoAction(new UndoRecord(() -> removePaths(pathsToAdd, false), () -> addPaths(pathsToAdd, true)));
+                enqueueUndoAction(new UndoRecord(() -> removePathList(pathsToAdd, false), () -> addPathList(pathsToAdd, true)));
             }
         }
     }
 
-    // todo 2
-    private void removePaths(Collection<LinkedList<Point2D>> pathsToRemove, boolean undo) {
+    public void addPaths(Collection<? extends Collection<Point2D>> pathsToAdd, boolean undo) {
+        addPathList(copyPaths(pathsToAdd, false), undo);
+    }
+
+
+    private void removePathList(Collection<LinkedList<Point2D>> pathsToRemove, boolean undo) {
         if (CollectionUtil.isEmpty(pathsToRemove))
             return;
 
@@ -426,19 +475,13 @@ public class MousePathPanel extends JPanel {
             update();
 
             if (undo && UNDO_ENABLED) {
-                enqueueUndoAction(new UndoRecord(() -> addPaths(pathsToRemove, false), () -> removePaths(pathsToRemove, true)));
+                enqueueUndoAction(new UndoRecord(() -> addPathList(pathsToRemove, false), () -> removePathList(pathsToRemove, true)));
             }
         }
     }
 
 
-
-
-    // todo 3
     public void clear(boolean undo) {
-//        mCurPath = null;
-//        mPaths.clear();
-
         if (paths.isEmpty())
             return;
 
@@ -449,7 +492,7 @@ public class MousePathPanel extends JPanel {
         update();
 
         if (undo && CollectionUtil.notEmpty(copy)) {
-            enqueueUndoAction(new UndoRecord(() -> addPaths(copy, false), () -> removePaths(copy, true)));
+            enqueueUndoAction(new UndoRecord(() -> addPathList(copy, false), () -> removePathList(copy, true)));
         }
     }
 
@@ -511,6 +554,51 @@ public class MousePathPanel extends JPanel {
         return newState;
     }
 
+
+    private void onInvertYChanged(boolean yInverted) {
+        update();
+        mListeners.forEachListener(l -> l.onInvertYChanged(this, yInverted));
+    }
+
+    public void setInvertY(boolean invertY) {
+        if (mInvertY != invertY) {
+            mInvertY = invertY;
+            onInvertYChanged(invertY);
+        }
+    }
+
+    public boolean isYInverted() {
+        return mInvertY;
+    }
+
+
+    private void onInvertXChanged(boolean xInverted) {
+        update();
+        mListeners.forEachListener(l -> l.onInvertXChanged(this, xInverted));
+    }
+
+    public void setInvertX(boolean invertX) {
+        if (mInvertX != invertX) {
+            mInvertX = invertX;
+            onInvertXChanged(invertX);
+        }
+    }
+
+    public boolean isXInverted() {
+        return mInvertX;
+    }
+
+    public boolean toggleInvertX() {
+        final boolean state = !isXInverted();
+        setInvertX(state);
+        return state;
+    }
+
+    public boolean toggleInvertY() {
+        final boolean state = !isYInverted();
+        setInvertY(state);
+        return state;
+    }
 
     /* Scale */
 
@@ -715,9 +803,6 @@ public class MousePathPanel extends JPanel {
     }
 
 
-
-
-
     /* Erase */
 
 
@@ -840,7 +925,7 @@ public class MousePathPanel extends JPanel {
         if (undo && CollectionUtil.notEmpty(copy)) {
             enqueueUndoAction(new UndoRecord(() -> {
                 paths.clear();
-                addPaths(copy, false);
+                addPathList(copy, false);
             }, () -> erase(rect, true)));
         }
 

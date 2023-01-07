@@ -30,6 +30,7 @@ import xchart.style.markers.None;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.List;
 import java.util.function.IntFunction;
@@ -39,14 +40,15 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
 
     public static final FTGraphMode DEFAULT_GRAPH_MODE = FTGraphMode.MAG;
 
-    private static final String FORMAT_X_AXIS = "%.1f";     // frequency
-    private static final String FORMAT_Y_AXIS = "%.2f";
+    private static final DecimalFormat FORMAT_X_AXIS = Format.createScientificDecimalFormat(2, 2);     // Frequency
+    private static final DecimalFormat FORMAT_Y_AXIS = Format.createScientificDecimalFormat(3, 2);
 
-    private static final String FORMAT_X_AXIS_CURSOR = "%.2f";     // frequency
-    private static final String FORMAT_Y_AXIS_CURSOR = "%.2f";
+    private static final DecimalFormat FORMAT_X_CURSOR = Format.createScientificDecimalFormat(4, 3);     // Frequency
+    private static final DecimalFormat FORMAT_Y_CURSOR = Format.createScientificDecimalFormat(4, 3);
+
 
     /* Live */
-    private static final boolean DEFAULT_SMOOTH = true;
+    private static final boolean DEFAULT_SMOOTH = false;
     private static final boolean DEFAULT_DRAW_AS_LIVE = true;
     private static final Color COLOR_LIVE_POST_CURRENT = new Color(100, 100, 100);
 
@@ -199,8 +201,9 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
         final XYStyler styler = chart.getStyler();
         final DarkChartTheme theme = new DarkChartTheme();
         theme.configureStyler(styler);
-        styler.setxAxisTickLabelsFormattingFunction(d -> String.format(FORMAT_X_AXIS, d));
-        styler.setyAxisTickLabelsFormattingFunction(d -> String.format(FORMAT_Y_AXIS, d));
+        styler.setxAxisTickLabelsFormattingFunction(x -> Format.formatScientific(FORMAT_X_AXIS, x));
+        styler.setyAxisTickLabelsFormattingFunction(y -> Format.formatScientific(FORMAT_Y_AXIS, y));
+        styler.setCustomCursorYDataFormattingFunction(y -> Format.formatScientific(FORMAT_Y_CURSOR, y));
         styler.setLegendLayout(Styler.LegendLayout.Vertical);
         styler.setLegendVisible(false);
         styler.setAxisTitlesVisible(true);
@@ -310,7 +313,7 @@ public class FTGraphPanel extends XChartPanel<XYChart> {
         
         // Styling
         chart.setTitle(getChartTitle(true));        // initially
-        chart.getStyler().setCustomCursorXDataFormattingFunction(val -> String.format("%s: " + FORMAT_X_AXIS_CURSOR, mGraphMode.xAxisTitle, val));
+        chart.getStyler().setCustomCursorXDataFormattingFunction(x -> mGraphMode.xAxisTitle + ": " + Format.formatScientific(FORMAT_X_CURSOR, x));      // depends upon graph mode
 
         // Actions
         invertXAction = new InvertXAction();

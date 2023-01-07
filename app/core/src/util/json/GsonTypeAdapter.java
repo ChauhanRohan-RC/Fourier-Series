@@ -52,7 +52,7 @@ public class GsonTypeAdapter<T> implements JsonSerializer<T>, JsonDeserializer<T
         try {
             return Class.forName(className);
         } catch (ClassNotFoundException e) {
-            throw new JsonParseException(e.getMessage());
+            throw new JsonParseException(e);
         }
     }
 }

@@ -3,8 +3,12 @@ package ui.util;
 import app.R;
 import app.Settings;
 import function.definition.ComplexDomainFunctionI;
+import function.path.PathFunctionI;
+import function.path.PathFunctionMerger;
 import misc.*;
+import models.Pair;
 import models.Wrapper;
+import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import provider.FunctionMeta;
@@ -13,12 +17,12 @@ import provider.FunctionType;
 import provider.SimpleFunctionProvider;
 import rotor.FunctionState;
 import rotor.RotorStateManager;
-import rotor.frequency.RotorFrequencyProviderI;
 import ui.action.ActionInfo;
 import ui.AuxSoundsPlayer;
 import ui.MusicPlayer;
 import ui.frames.FTUi;
 import ui.frames.FourierUi;
+import ui.frames.MousePathUi;
 import ui.panels.*;
 import async.*;
 import util.PathFunctionManager;
@@ -28,6 +32,7 @@ import javax.swing.*;
 import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Point2D;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
@@ -44,6 +49,8 @@ public interface Ui {
     String TITLE_MOUSE_PATH_UI = "Draw Path Function";
 
     String TITLE_CONFIGURATIONS = "Configuration";
+
+    int DRAWING_FUNCTION_SAMPLE_COUNT = 500;            // low for best accuracy
 
     static String getWindowTitle(@NotNull String mainTitle, @NotNull RotorStateManager sm) {
         String title = mainTitle;
@@ -150,8 +157,78 @@ public interface Ui {
     }
 
 
+
+    /* Launching-Closing Frames */
+
     static void close(@NotNull JFrame frame) {
         frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+    }
+
+    @NotNull
+    static FourierUi launchFourierUi(@Nullable FunctionProviderI startProvider) {
+        final FourierUi ui = new FourierUi(null, -1);
+        ui.addSelectFunctionProvider(startProvider);
+        return ui;
+    }
+
+    @Nullable
+    static FTUi launchFtUi(@NotNull Ui ui, @NotNull RotorStateManager manager) {
+        if (manager.isNoOp()) {
+            ui.showErrorMessageDialog("No function selected yet\nSelect a function to view Fourier Transform Ui", null);
+            return null;
+        }
+
+        return new FTUi(manager);
+    }
+
+
+    @NotNull
+    static MousePathUi launchMousePathUi(@Nullable Collection<? extends Collection<Point2D>> startPaths) {
+        final MousePathUi ui = new MousePathUi();
+        if (CollectionUtil.notEmpty(startPaths)) {
+            ui.getPathPanel().addPaths(startPaths, true);
+        }
+
+        return ui;
+    }
+
+    static void launchMousePathUiAndExport(@NotNull ComplexDomainFunctionI func, boolean showExportError, @Nullable Consumer<MousePathUi> callback) {
+        // TODO: show snackbar loading
+        final Canceller c = Async.execute(() -> {
+            Collection<? extends Collection<Point2D>> paths = null;
+            String failCause = null;
+
+            if (func.isNoop()) {
+                failCause = "Function is NOT operational (NO-OP)";
+            } else if (func instanceof PathFunctionI pf) {
+                paths = Collections.singleton(pf.interpolatePoints());
+            } else if (func instanceof PathFunctionMerger pm) {
+                paths = pm.interpolatePoints();
+            } else {
+                final Complex[] range = func.createSamplesRange(DRAWING_FUNCTION_SAMPLE_COUNT);
+                final LinkedList<Point2D> points = new LinkedList<>();
+                for (Complex cp: range) {
+                    points.add(new Point2D.Double(cp.getReal(), cp.getImaginary()));
+                }
+
+                paths = Collections.singleton(points);
+//                failCause = "Function is not a Path Function";        // todo try sample complex range
+            }
+
+            return new Pair<>(paths, failCause);
+        }, (Consumer<Pair<Collection<? extends Collection<Point2D>>, String>>) data -> {
+            final MousePathUi ui = Ui.launchMousePathUi(data.first);
+            if (Format.notEmpty(data.second)) {
+                Log.w(MousePathUi.TAG, "Cannot import function: " + data.second);
+                if (showExportError) {
+                    Async.uiPost(() -> ui.showErrorMessageDialog("Failed to import from function. You can still draw as usual...\n\nCause: " + data.second, "Import Error"));
+                }
+            }
+
+            if (callback != null) {
+                callback.consume(ui);
+            }
+        });
     }
 
 
@@ -368,16 +445,6 @@ public interface Ui {
 
 
     /* Loading and Saving */
-
-    @Nullable
-    static FTUi showFtUi(@NotNull Ui ui, @NotNull RotorStateManager manager) {
-        if (manager.isNoOp()) {
-            ui.showErrorMessageDialog("No function selected yet\nSelect a function to view Fourier Transform Ui", null);
-            return null;
-        }
-
-        return new FTUi(manager);
-    }
 
     static void askExtractPathDataFromSVG(@NotNull Ui ui, @Nullable Consumer<Path> successCallback) {
         final SvgToPathDataConverterPanel panel = new SvgToPathDataConverterPanel(ui);
@@ -631,7 +698,6 @@ public interface Ui {
                 if (state == null) {
                     onFailed(null);
                 } else {
-                    // todo: additional csv load
                     done(toProvider(state));
                 }
             }
@@ -641,7 +707,6 @@ public interface Ui {
                 if (state == null) {
                     ui.showInfoMessageDialog("Function State load Cancelled\n\nFile: " + file, dialogTitle);
                 } else {
-                    // todo remove
                     final FunctionProviderI provider = toProvider(state);
                     final String msg = String.format("Function State load CANCELLED, but it was already loaded\nDo you still want to add this function?\n\nFunction: %s\nFile: %s", provider.getFunctionMeta().getTypedFunctionDisplayName(), file);
 
@@ -832,5 +897,6 @@ public interface Ui {
             }
         });
     }
+
 
 }

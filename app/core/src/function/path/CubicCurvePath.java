@@ -1,9 +1,11 @@
 package function.path;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Unmodifiable;
 import util.main.PathUtil;
 
 import java.awt.geom.Point2D;
+import java.util.List;
 
 public class CubicCurvePath extends PathFunction {
 
@@ -23,6 +25,8 @@ public class CubicCurvePath extends PathFunction {
         this.p3 = p3;
     }
 
+
+
     @Override
     public @NotNull Point2D startPoint() {
         return p0;
@@ -33,9 +37,29 @@ public class CubicCurvePath extends PathFunction {
         return p3;
     }
 
+    @Override
+    public int getControlPointsCount() {
+        return 2;
+    }
 
     @Override
-    protected @NotNull Point2D interpolate(float i) {
+    public @NotNull Point2D getControlPointAt(int index) throws IndexOutOfBoundsException {
+        if (index == 0)
+            return p1;
+
+        if (index == 1)
+            return p2;
+
+        throw new IndexOutOfBoundsException("Index " + index + " is out of bounds for control point count 2 (Cubic Path)");
+    }
+
+    @Override
+    public @NotNull @Unmodifiable List<Point2D> getControlPointsImCopy(boolean withStartEnd) {
+        return withStartEnd? List.of(p0, p1, p2, p3): List.of(p1, p2);
+    }
+
+    @Override
+    public @NotNull Point2D interpolate(float i) {
         return PathUtil.interpolateCubic(p0, p1, p2, p3, i);
     }
 }

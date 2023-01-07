@@ -32,7 +32,7 @@ public class RotorStatesFunction implements ComplexDomainFunctionI {
         REAL_SINE("Sine (Real)", (sum, c) -> sum.addReal(c.getImaginary())),
         IMG_COS("Cos (imaginary)", (sum, c) -> sum.addImaginary(c.getReal())),
         IMG_SINE("Sine (imaginary)", (sum, c) -> sum.addImaginary(c.getImaginary())),
-        COMPLEX("Cos (Real) + Sine (Img)", (sum, c) -> sum.add(c));
+        COMPLEX("Cos (Real) + Sine (Img)", ComplexBuilder::add);
 
         @NotNull
         public final String displayName;
@@ -171,7 +171,6 @@ public class RotorStatesFunction implements ComplexDomainFunctionI {
         final ComplexBuilder r = new ComplexBuilder(0, 0);
 
         states.values().forEach(s -> computeMode.adder.consume(r, s.getTip(input)));
-
         return r.toComplex();
     }
 

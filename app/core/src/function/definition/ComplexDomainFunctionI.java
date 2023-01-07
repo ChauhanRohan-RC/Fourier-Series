@@ -13,6 +13,29 @@ import util.json.JsonParsable;
 
 public interface ComplexDomainFunctionI extends ComplexFunctionI, DomainProviderI, FrequencySupportProviderI, CacheRotorStateProvider, JsonParsable {
 
+    ComplexDomainFunctionI NOOP = new ComplexDomainFunctionI() {
+        @Override
+        public double getDomainStart() {
+            return 0;
+        }
+
+        @Override
+        public double getDomainEnd() {
+            return 0;
+        }
+
+        @Override
+        public @NotNull Complex compute(double input) {
+            return Complex.ZERO;
+        }
+    };
+
+
+    default boolean isNoop() {
+        return this == NOOP;
+    }
+
+
     /* ............................. Sampling ....................... */
 
     default double @NotNull[] createSamplesDomain(int sampleCount) {

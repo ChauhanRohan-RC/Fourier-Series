@@ -1,9 +1,12 @@
 package function.path;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Unmodifiable;
 import util.main.PathUtil;
 
 import java.awt.geom.Point2D;
+import java.util.Collections;
+import java.util.List;
 
 public class QuadCurvePath extends PathFunction {
 
@@ -32,7 +35,25 @@ public class QuadCurvePath extends PathFunction {
 
 
     @Override
-    protected @NotNull Point2D interpolate(float i) {
+    public int getControlPointsCount() {
+        return 1;
+    }
+
+    @Override
+    public @NotNull Point2D getControlPointAt(int index) throws IndexOutOfBoundsException {
+        if (index == 0)
+            return p1;
+        throw new IndexOutOfBoundsException("Index " + index + " is out of bounds for control point count 1 (Quad Path)");
+    }
+
+    @Override
+    public @NotNull @Unmodifiable List<Point2D> getControlPointsImCopy(boolean withStartEnd) {
+        return withStartEnd? List.of(p0, p1, p2): List.of(p1);
+    }
+
+
+    @Override
+    public @NotNull Point2D interpolate(float i) {
         return PathUtil.interpolateQuad(p0, p1, p2, i);
     }
 }

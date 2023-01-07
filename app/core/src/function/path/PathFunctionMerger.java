@@ -4,7 +4,6 @@ import function.definition.ColorHandler;
 import function.definition.ColorProviderI;
 import function.definition.DomainAnimationDurationScalerI;
 import function.graphic.GraphicFunction;
-import misc.MathUtil;
 import org.apache.batik.parser.ParseException;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
@@ -19,29 +18,28 @@ import java.util.List;
 
 public class PathFunctionMerger extends GraphicFunction implements ColorHandler, DomainAnimationDurationScalerI {
 
-    public static final String TAG = "PathFunctionMerger";
+    public static final String TAG = "PathFunctionIMerger";
 
     public static final ColorProviderI COLOR_PROVIDER_CONTINUITY_LINK = ColorProviderI.TRANSPARENT;
-
 
     @NotNull
     private final Rectangle2D bounds;
     @NotNull
-    private final PathFunction[] segments;
+    private final PathFunctionI[] segments;
 
     private final long animDurationDefault, animDurationMin, animDurationMax;
     private float animDurationScale = 1;
 
-    public PathFunctionMerger(@NotNull PathFunction[] segments, @NotNull Rectangle2D bounds, float zoom, boolean center) throws IllegalArgumentException {
+    public PathFunctionMerger(@NotNull PathFunctionI[] segments, @NotNull Rectangle2D bounds, float zoom, boolean center) throws IllegalArgumentException {
         super(zoom, center);
         if (segments == null || segments.length == 0)
-            throw new IllegalArgumentException("No PathFunctions provided to PathFunctionMerger!!");
+            throw new IllegalArgumentException("No PathFunctionIs provided to PathFunctionIMerger!!");
 
         this.bounds = bounds;
         this.segments = segments;
 
         long _msDef = 0, _msMin = 0, _msMax = 0;
-        for (PathFunction f: this.segments) {
+        for (PathFunctionI f: this.segments) {
             _msDef += f.getDomainAnimationDurationMsDefault();
             _msMin += f.getDomainAnimationDurationMsMin();
             _msMax += f.getDomainAnimationDurationMsMax();
@@ -56,14 +54,14 @@ public class PathFunctionMerger extends GraphicFunction implements ColorHandler,
     }
 
     @NotNull
-    public final PathFunction getSegment(int index) {
+    public final PathFunctionI getSegment(int index) {
         return segments[index];
     }
 
 
     public final int getContinuityLinksCount() {
         int count = 0;
-        for (PathFunction f: segments) {
+        for (PathFunctionI f: segments) {
             if (f.isContinuityLink())
                 count++;
         }
@@ -80,7 +78,7 @@ public class PathFunctionMerger extends GraphicFunction implements ColorHandler,
         final float huePart = hueRange / (excludeContinuityLinks? getCountExceptContinuityLinks(): getSegmentsCount());
 
         float hueStartPart = hueStart;
-        for (PathFunction f: segments) {
+        for (PathFunctionI f: segments) {
             if (excludeContinuityLinks && f.isContinuityLink())
                 continue;
 
@@ -102,7 +100,7 @@ public class PathFunctionMerger extends GraphicFunction implements ColorHandler,
 
     @NotNull
     public PathFunctionMerger setColorProvider(@Nullable ColorProviderI colorProvider, boolean excludeContinuityLinks) {
-        for (PathFunction f: segments) {
+        for (PathFunctionI f: segments) {
             if (excludeContinuityLinks && f.isContinuityLink())
                 continue;
 
@@ -120,7 +118,7 @@ public class PathFunctionMerger extends GraphicFunction implements ColorHandler,
     @Override
     public @Nullable ColorProviderI getColorProvider() {
         ColorProviderI colorProvider;
-        for (PathFunction segment: segments) {
+        for (PathFunctionI segment: segments) {
             if (segment.isContinuityLink())
                 continue;
 
@@ -216,19 +214,38 @@ public class PathFunctionMerger extends GraphicFunction implements ColorHandler,
     }
 
 
+    @NotNull
+    public List<? extends List<Point2D>> interpolatePoints(int segmentPointCount, boolean interpolateLines, boolean excludeContinuityLinks) {
+        final List<List<Point2D>> result = new ArrayList<>(segments.length + 2);
+
+        for (PathFunctionI path: segments) {
+            if (excludeContinuityLinks && path.isContinuityLink())
+                continue;
+
+            result.add(path.interpolatePoints(segmentPointCount, interpolateLines));
+        }
+
+        return result;
+    }
+
+    @NotNull
+    public List<? extends List<Point2D>> interpolatePoints() {
+        return interpolatePoints(PathFunctionI.DEFAULT_INTERPOLATE_POINT_COUNT, PathFunctionI.DEFAULT_INTERPOLATE_LINE, true);
+    }
+
 
 
     @NotNull
-    public static PathFunction createContinuityLink(@NotNull Point2D start, @NotNull Point2D end) {
+    public static PathFunctionI createContinuityLink(@NotNull Point2D start, @NotNull Point2D end) {
         return new LinePath(start, end)
                 .setIsContinuityLink(true)
                 .setColorProvider(COLOR_PROVIDER_CONTINUITY_LINK);
     }
 
     @NotNull
-    public static List<PathFunction> parse(@NotNull PathIterator itr) {
-        final List<PathFunction> segments = new ArrayList<>();
-        PathFunction last = null;
+    public static List<PathFunctionI> parse(@NotNull PathIterator itr) {
+        final List<PathFunctionI> segments = new ArrayList<>();
+        PathFunctionI last = null;
 
         boolean firstMoveTo = true;
         Point2D firstMovePoint = null;
@@ -287,11 +304,11 @@ public class PathFunctionMerger extends GraphicFunction implements ColorHandler,
 
     @NotNull
     public static PathFunctionMerger create(@NotNull PathIterator itr, @NotNull Rectangle2D bounds, float zoom, boolean center) throws ParseException {
-        List<PathFunction> segments = parse(itr);
+        List<PathFunctionI> segments = parse(itr);
         if (segments.isEmpty())
             throw new ParseException(new Exception("Path is empty!!"));
 
-        return new PathFunctionMerger(segments.toArray(new PathFunction[0]), bounds, zoom, center);
+        return new PathFunctionMerger(segments.toArray(new PathFunctionI[0]), bounds, zoom, center);
     }
 
     @NotNull

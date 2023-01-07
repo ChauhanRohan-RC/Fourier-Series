@@ -6,7 +6,7 @@ import function.definition.ColorProviderI;
 import function.definition.ComplexDomainFunctionI;
 import function.graphic.CharFunction;
 import function.graphic.GraphicFunction;
-import function.path.PathFunction;
+import function.path.PathFunctionI;
 import misc.ExternalJava;
 import org.jetbrains.annotations.NotNull;
 
@@ -46,7 +46,7 @@ public class Json implements JsonSerializationContext, JsonDeserializationContex
             ComplexDomainFunctionI.class,
             GraphicFunction.class,
             CharFunction.class,
-            PathFunction.class,
+            PathFunctionI.class,
             RotorFrequencyProviderI.class,
             ColorProviderI.class
     };

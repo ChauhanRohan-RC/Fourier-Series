@@ -9,14 +9,13 @@ import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.Nullable;
 import util.main.ComplexUtil;
 
+import java.text.DecimalFormat;
+
 
 public class Test {
 
 
     private static final String TAG = "Test";
-
-
-
 
 
     private static long sStartTime = -1;
@@ -149,16 +148,35 @@ public class Test {
         }
 
         endTimeF("FFT");
-
     }
 
 
+    private static void testNotation() {
+        final DecimalFormat df = Format.createScientificDecimalFormat(1, 2);
+//        System.out.println(df.format(1200));
+//        System.out.println(df.format(4027366862L));
+//        System.out.println(df.format(-4027366862d));
+//        System.out.println(df.format(-4027366862L));
+//        System.out.println(df.format(0.00000000000004027366862d));
+//        System.out.println(df.format(0.004027366862));
 
+        System.out.println(Format.formatScientific(df,0.06));
+//        System.out.println(Format.formatScientific(df,4027366862L));
+//        System.out.println(Format.formatScientific(df,-4027366862d));
+//        System.out.println(Format.formatScientific(df,-4027366862L));
+//        System.out.println(Format.formatScientific(df,0.00000000000004027366862d));
+//        System.out.println(Format.formatScientific(df,0.004027366862));
+
+//        System.out.printf("%.2f%n", 0.00000001034634734f);
+//        System.out.print(String.format("%100.2f%n", 1034634734f).length());
+    }
 
     public static void main(String[] args) {
-        MathUtil.initFast();
+//        MathUtil.initFast();
+//
+//        testFft();
 
-        testFft();
+        testNotation();
     }
 
 }

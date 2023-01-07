@@ -87,7 +87,7 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
     ComplexDomainFunctionI getFunction();
 
     default boolean isNoOp() {
-        return getFunctionMeta().functionType() == FunctionType.NO_OP;
+        return getFunctionMeta().functionType() == FunctionType.NO_OP || getFunction().isNoop();
     }
 
     int getDefaultInitialRotorCount();
@@ -487,23 +487,6 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
 
     class NoOp implements RotorStateManager {
 
-        private final ComplexDomainFunctionI function = new ComplexDomainFunctionI() {
-            @Override
-            public @NotNull Complex compute(double input) {
-                return Complex.ZERO;
-            }
-
-            @Override
-            public double getDomainStart() {
-                return 0;
-            }
-
-            @Override
-            public double getDomainEnd() {
-                return 0;
-            }
-        };
-
         @Override
         public int getId() {
             return 0;
@@ -517,7 +500,7 @@ public interface RotorStateManager extends RotorFrequencyProviderI, RotorStatePr
         @Override
         @NotNull
         public ComplexDomainFunctionI getFunction() {
-            return function;
+            return ComplexDomainFunctionI.NOOP;
         }
 
         @Override

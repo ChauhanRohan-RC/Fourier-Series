@@ -9,7 +9,7 @@
   },
   "sound": {
     "aux_sounds_enabled": true,
-    "music_enabled": true
+    "music_enabled": false
   },
   "logs": {
     "debug": true,

@@ -1,7 +1,6 @@
 package ui.action;
 
 import action.ActionInfoI;
-import action.BaseAction;
 import app.R;
 import misc.Format;
 import org.jetbrains.annotations.NotNull;
@@ -97,6 +96,7 @@ public enum ActionInfo implements ActionInfoI {
     CONVERT_SVG_TO_PATH_DATA("Extract SVG vectors", "Load path vectors from a SVG file", null, false),
 
     LAUNCH_PATH_DRAWING_UI("Draw Custom", "Draw custom path functions", KeyStroke.getKeyStroke(KeyEvent.VK_D, 0), false),
+    LAUNCH_PATH_DRAWING_UI_EXPORT_CURRENT_FUNCTION("Draw over current", "Draw custom path functions based on current function", KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK), true, false),
     CLEAR_EXTERNAL_PATH_FUNCTIONS("Clear External", "Remove all external path functions", null, false),
     CLEAR_INTERNAL_PATH_FUNCTIONS("Clear Internal", "Remove all internal path functions", null, false),
     RESET_PATH_FUNCTIONS("Reset", "Reset all path functions to initial state", null, false),

@@ -4,6 +4,7 @@ import animation.animator.AbstractAnimator;
 import app.R;
 import function.definition.ComplexDomainFunctionI;
 import misc.Log;
+import models.FunctionGraphMode;
 import models.Size;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -76,7 +77,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
     final JSlider speedSlider;
 
     @NotNull
-    final FunctionProviders functionProviders;
+    final FunctionProviderList functionProviders;
     final JLabel functionLabel;
     final JComboBox<FunctionProviderI> functionComboBox;
 
@@ -135,7 +136,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
         looper.addActionListener(Ui.actionListener(fsPanel));
 
         // Function
-        functionProviders = new FunctionProviders(Providers.ALL_INTERNAL_FUNCTIONS, -1);
+        functionProviders = new FunctionProviderList(Providers.ALL_INTERNAL_FUNCTIONS, -1);
 
         functionLabel = new JLabel(R.getFunctionProviderLabelText());
         functionLabel.setToolTipText(R.getFunctionProviderShortDescription());
@@ -224,76 +225,6 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
                 .setSelected(DEFAULT_CONTROLS_VISIBLE);
 
         toggleControlsButton = new JButton(controlUia);
-
-
-        // Layout
-//        controlPanel = new JPanel();
-//        controlPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-////        controlPanel.setLayout(new FlowLayout(FlowLayout.LEADING, 10, 5));
-////        controlPanel.setLayout(new GridLayout(6, 1, 4, 4));     // todo rows
-//
-//        final MigLayout mig = new MigLayout("gapy 5", "", "");
-//        controlPanel.setLayout(mig);
-//
-//        final JPanel actionsPanel = new JPanel(new GridLayout(2, 3, 4, 4));
-//
-//        actionsPanel.add(playToggle);
-//        actionsPanel.add(resetButton);
-//        actionsPanel.add(waveToggle);
-//        actionsPanel.add(invertXCheck);
-//        actionsPanel.add(invertYCheck);
-//        actionsPanel.add(graphInCenterCheck);
-//        controlPanel.add(actionsPanel, "spanx, center");
-//
-////        final JPanel slidersPanel = new JPanel(new GridLayout(2, 2, 5, 2));
-////        rotorCountText.setHorizontalAlignment(SwingConstants.CENTER);
-////        speedText.setHorizontalAlignment(SwingConstants.CENTER);
-////
-////        slidersPanel.add(rotorCountText);
-////        slidersPanel.add(speedText);
-////        slidersPanel.add(rotorCountSlider);
-////        slidersPanel.add(speedSlider);
-////        controlPanel.add(slidersPanel);
-//
-//        final JPanel rotorCountSliderPanel = new JPanel(new GridLayout(2, 1, 4, 1));
-//        rotorCountText.setHorizontalAlignment(SwingConstants.CENTER);
-//        rotorCountSliderPanel.add(rotorCountText);
-//        rotorCountSliderPanel.add(rotorCountSlider);
-//        controlPanel.add(rotorCountSliderPanel, "spanx, growx, wrap");
-//
-//        final JPanel speedSliderPanel = new JPanel(new GridLayout(2, 1, 4, 1));
-//        speedText.setHorizontalAlignment(SwingConstants.CENTER);
-//        speedSliderPanel.add(speedText);
-//        speedSliderPanel.add(speedSlider);
-//        controlPanel.add(speedSliderPanel, "spanx, growx, wrap");
-//
-//        final JPanel scalePanel = new JPanel(new GridLayout(1, 2, 4, 2));
-//        final JPanel scaleButtonsPanel = new JPanel(new GridLayout(1, 2, 3, 2));
-//        scaleButtonsPanel.add(scaleIncButton);
-//        scaleButtonsPanel.add(scaleDecButton);
-//
-//        scaleText.setHorizontalAlignment(SwingConstants.CENTER);
-//        scalePanel.add(scaleText);
-//        scalePanel.add(scaleButtonsPanel);
-//        controlPanel.add(scalePanel, "spanx, center, wrap");
-//
-//        final JPanel navigationPanel = new JPanel(new GridLayout(2, 1, 3, 2));
-//        final JPanel navigationPanelInternal = new JPanel(new GridLayout(1, 3, 3, 2));
-//        upButton.setHorizontalAlignment(SwingConstants.CENTER);
-//        navigationPanelInternal.add(leftButton);
-//        navigationPanelInternal.add(downButton);
-//        navigationPanelInternal.add(rightButton);
-//        navigationPanel.add(upButton);
-//        navigationPanel.add(navigationPanelInternal);
-//        controlPanel.add(navigationPanel, "spanx, center, wrap");
-//
-//        controlPanel.add(resetScaleAndDragButton, "spanx, growx, wrap");
-//
-//        setBounds(Ui.windowBoundsCenterScreen(INITIAL_WIDTH, INITIAL_HEIGHT));
-//        setMinimumSize(MINIMUM_SIZE);
-//        setLayout(new BorderLayout(0, 0));
-//        add(controlPanel, BorderLayout.EAST);
-//        add(panel, BorderLayout.CENTER);
 
         controlPanel = new JPanel();
         controlPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -403,7 +334,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
             }
         });
 
-        functionComboBox.addActionListener(e -> setFunctionProvider(functionComboBox.getSelectedIndex()));
+        functionComboBox.addActionListener(e -> selectFunctionProvider(functionComboBox.getSelectedIndex()));
         repeatModeComboBox.addActionListener(e -> setRepeatMode((AbstractAnimator.RepeatMode) repeatModeComboBox.getSelectedItem()));
 
 
@@ -429,6 +360,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
         menuPathFunctions = new JMenu("Path");
         menuFunctions.add(menuPathFunctions);
         menuPathFunctions.add(uia(ActionInfo.LAUNCH_PATH_DRAWING_UI));
+        menuPathFunctions.add(uia(ActionInfo.LAUNCH_PATH_DRAWING_UI_EXPORT_CURRENT_FUNCTION));
         menuPathFunctions.addSeparator();
         menuPathFunctions.add(uia(ActionInfo.LOAD_EXTERNAL_PATH_FUNCTIONS));
         menuPathFunctions.add(uia(ActionInfo.LOAD_EXTERNAL_PATH_FUNCTIONS_FROM_DIR));
@@ -480,7 +412,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
 
         // Run
         functionProviders.addListDataListener(mFunctionProvideListener);
-        setFunctionProvider(initialProviderIndex);     // First function provider
+        selectFunctionProvider(initialProviderIndex);     // First function provider
         setupActionKeyBindings(getRootPane(), null, JComponent.WHEN_IN_FOCUSED_WINDOW, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         fsPanel.addMouseListener(this);
@@ -686,7 +618,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
     /* ............................  Function Providers  .................................. */
 
     public void syncFunctionProviders() {
-        final FunctionProviders.Stats stats = functionProviders.getStats();
+        final FunctionProviderList.Stats stats = functionProviders.getStats();
         final Map<FunctionType, Integer> countMap = stats.countMap();
         final RotorStateManager manager = fsPanel.getRotorStateManager();
 
@@ -699,6 +631,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
         uia(ActionInfo.CLEAR_EXTERNAL_PROGRAMMATIC_FUNCTIONS).setEnabled(countMap.containsKey(FunctionType.EXTERNAL_PROGRAM));
         uia(ActionInfo.CLEAR_INTERNAL_PATH_FUNCTIONS).setEnabled(countMap.containsKey(FunctionType.INTERNAL_PATH));
         uia(ActionInfo.CLEAR_EXTERNAL_PATH_FUNCTIONS).setEnabled(countMap.containsKey(FunctionType.EXTERNAL_PATH));
+        uia(ActionInfo.LAUNCH_PATH_DRAWING_UI_EXPORT_CURRENT_FUNCTION).setEnabled(!curNoop);
 
         final boolean hasAnyRotorStates = !(allNoop || curNoop) && manager.getAllLoadedRotorStatesCount() > 0;
         final UiAction uiaSaveCsv = uia(ActionInfo.SAVE_ALL_ROTOR_STATES_TO_CSV);
@@ -841,54 +774,54 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
 //
 
 
+    public int getFunctionProviderCount() {
+        return functionProviders.getSize();
+    }
 
+    @NotNull
+    public FunctionProviderI getFunctionProviderAt(int index) throws IndexOutOfBoundsException {
+        return functionProviders.get(index);
+    }
+
+    @NotNull
+    public FunctionProviderList.Stats getFunctionProviderStats() {
+        return functionProviders.getStats();
+    }
 
     @Nullable
-    private FunctionProviderI mCurProvider;
+    private FunctionProviderI mCurrentFp;
 
-    public boolean setFunctionProvider(@Nullable FunctionProviderI provider) {
-        if (provider == null) {
-            provider = Providers.NoopProvider.getSingleton();
-        }
+    public boolean addSelectFunctionProvider(@Nullable FunctionProviderI fp) {
+        if (fp == null)
+            fp = Providers.NoopProvider.getSingleton();
 
-        if (mCurProvider == provider)
+        if (mCurrentFp == fp)
             return true;
 
         Runnable post = null;
         boolean done = false;
 
         try {
-            final ComplexDomainFunctionI func = provider.requireFunction();
-            setRotorStateManager(new StandardRotorStateManager(func, provider.getFunctionMeta()));
-            mCurProvider = provider;
-            done = true;
-//            setPlay(true);
-        } catch (Providers.NoOpProviderException ignored) {
-            setPlay(false);
-            setRotorStateManager(new RotorStateManager.NoOp());
-            mCurProvider = provider;
+            final ComplexDomainFunctionI func = fp.requireFunction();
+            setRotorStateManager(new StandardRotorStateManager(func, fp.getFunctionMeta()));
+            mCurrentFp = fp;
             done = true;
         } catch (Throwable t) {
-            final String msg = "Failed to create function <" + provider + ">";
-            Log.e(TAG, msg, t);
-            post = () -> showErrorMessageDialog(msg + "\nError Code: " + t.getMessage(), null);
-
-//            if (mCurProvider == null) {
-//                final ComplexDomainFunctionI fallbackFunc = Providers.FALLBACK_PROVIDER.getFunction();
-//                assert fallbackFunc != null: "Fallback provider is broken!!";
-//                setFunction(fallbackFunc);
-//                mCurProvider = Providers.FALLBACK_PROVIDER;
-//                setPlay(true);
-//            }
-
-            // Just stop when failed
-            setPlay(false);
+            setPlay(false);   // Just stop when failed
             setRotorStateManager(new RotorStateManager.NoOp());
-            mCurProvider = Providers.NoopProvider.getSingleton();
+            mCurrentFp = Providers.NoopProvider.getSingleton();
+
+            if (t instanceof Providers.NoOpProviderException) {
+                done = true;            // Noop provider
+            } else {
+                final String msg = "Failed to create function <" + fp + ">";
+                Log.e(TAG, msg, t);
+                post = () -> showErrorMessageDialog(String.format("%s\nError: %s -> %s", msg, t.getClass().getSimpleName(), t.getMessage()), "Function Provider");
+            }
         }
 
-        // ensure and select this provider
-        functionProviders.ensureAddSelect(mCurProvider);
+        // ensure and select this fp
+        functionProviders.ensureAddSelect(mCurrentFp);
 
         if (post != null) {
             EventQueue.invokeLater(post);
@@ -897,9 +830,29 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
         return done;
     }
 
-    public boolean setFunctionProvider(int index) {
-        return setFunctionProvider(functionProviders.getElementAt(index));
+    public boolean selectFunctionProvider(int index) {
+        return addSelectFunctionProvider(functionProviders.getElementAt(index));
     }
+
+    public void addFunctionProvider(int index, @NotNull FunctionProviderI fp) {
+        functionProviders.add(index, fp, true);
+    }
+
+    public void addFunctionProvider(@NotNull FunctionProviderI fp) {
+        functionProviders.add(fp, true);
+    }
+
+    @NotNull
+    public FunctionProviderI removeFunctionProvider(int index) {
+        return functionProviders.remove(index);
+    }
+
+    public boolean removeFunctionProvider(@NotNull Object fp) {
+        return functionProviders.remove(fp);
+    }
+
+
+
 
     public void setScale(double scale, boolean fromPanel) {
         if (!fromPanel) {
@@ -1022,6 +975,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
         syncTitle();
         setHueCycleEnabled(fsPanel.isHueCycleEnabled());
         syncFunctionProviders();
+        setDrawingAsWave(sm.getFunction().getDefaultGraphMode() != FunctionGraphMode.OUTPUT_SPACE);
         setPlay(AUTO_PLAY_ON_ROTOR_STATE_MANAGER_CHANGE);
 
         if (old != null && sm != old && !sm.isNoOp()) {
@@ -1060,7 +1014,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
 //    }
 
     public void setRotorStateManager(@NotNull RotorStateManager rotorStateManager) {
-        fsPanel.setRotorStateManager(rotorStateManager);      // TODO: load interceptor
+        fsPanel.setRotorStateManager(rotorStateManager);
     }
 
     //    public void setFunction(@NotNull ComplexDomainFunctionI f, int initialRotorCount) {
@@ -1312,7 +1266,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
             setFullscreen(false);
         }
 
-        final FTUi ui = Ui.showFtUi(FourierUi.this, fsPanel.getRotorStateManager());
+        final FTUi ui = Ui.launchFtUi(FourierUi.this, fsPanel.getRotorStateManager());
         prevFtUi = ui;
         if (ui != null) {
             setPlay(false);
@@ -1352,7 +1306,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
 //
 //        try {
 //            final PathFunctionMerger merger = PathFunctionMerger.create(path);
-//            merger.setDomainAnimDurationScale(0.4f); // todo
+//            merger.setDomainAnimDurationScale(0.4f);
 //
 //            final String name = JOptionPane.showInputDialog(this, "Enter a name for the Drawing");
 //
@@ -1371,12 +1325,15 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
 //    public void onMousePathUiFinished(@NotNull List<Path2D> paths) {
 //        addPathFunction(paths);
 //    }
-//
-    private void launchMousePathUi() {
-        final MousePathUi ui = new MousePathUi();
-//        ui.addCallback(FourierUi.this);
-    }
 
+
+    private void launchMousePathUi(boolean exportCurrentFunction) {
+        if (exportCurrentFunction) {
+            Ui.launchMousePathUiAndExport(fsPanel.getRotorStateManager().getFunction(), true, null);
+        } else {
+            Ui.launchMousePathUi(null);
+        }
+    }
 
     /* Mouse Listener */
 
@@ -1424,7 +1381,8 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
             case SAVE_FUNCTION_STATE_TO_FILE -> askSaveFunctionStateToFIle();
             case LOAD_FUNCTION_STATE_FROM_FILE -> askLoadFunctionStateFromFile();
             case CLEAR_FUNCTIONS_WITHOUT_DEFINITION -> confirmRemoveFunctionProvidersWithoutDefinition();
-            case LAUNCH_PATH_DRAWING_UI -> launchMousePathUi();
+            case LAUNCH_PATH_DRAWING_UI -> launchMousePathUi(false);
+            case LAUNCH_PATH_DRAWING_UI_EXPORT_CURRENT_FUNCTION -> launchMousePathUi(true);
             case LOAD_EXTERNAL_PATH_FUNCTIONS -> askLoadExternalPathFunctions();
             case LOAD_EXTERNAL_PATH_FUNCTIONS_FROM_DIR -> askLoadExternalPathFunctionsFromDir();
             case CONVERT_SVG_TO_PATH_DATA -> askExtractPathDataFromSVG();

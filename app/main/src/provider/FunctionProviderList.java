@@ -25,7 +25,6 @@
 package provider;
 
 import misc.CollectionUtil;
-import models.Wrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,7 +36,7 @@ import java.util.stream.Collectors;
 /**
  * A List of {@link FunctionProviderI function providers}
  */
-public class FunctionProviders extends AbstractListModel<FunctionProviderI> implements MutableComboBoxModel<FunctionProviderI> {
+public class FunctionProviderList extends AbstractListModel<FunctionProviderI> implements MutableComboBoxModel<FunctionProviderI> {
 
     private static final boolean DEFAULT_ENSURE = true;
 
@@ -45,11 +44,11 @@ public class FunctionProviders extends AbstractListModel<FunctionProviderI> impl
     private final List<FunctionProviderI> providers;
     private int mSelectedIndex = -1;
 
-    public FunctionProviders() {
+    public FunctionProviderList() {
         providers = Collections.synchronizedList(new ArrayList<>());
     }
 
-    public FunctionProviders(@NotNull Collection<FunctionProviderI> initialProviders, int selectedIndex) {
+    public FunctionProviderList(@NotNull Collection<FunctionProviderI> initialProviders, int selectedIndex) {
         providers = Collections.synchronizedList(new ArrayList<>(initialProviders.size() + 4));
         CollectionUtil.addAll(initialProviders, providers);
 
@@ -336,9 +335,9 @@ public class FunctionProviders extends AbstractListModel<FunctionProviderI> impl
     @NotNull
     public Stats getStats() {
         final EnumMap<FunctionType, Integer> countMap = new EnumMap<>(FunctionType.class);
-        final Wrapper.Int noDefCount = new Wrapper.Int(0);
+        int noDefCount = 0;
 
-        providers.forEach(fp -> {
+        for (FunctionProviderI fp: providers) {
             final FunctionMeta meta = fp.getFunctionMeta();
             final FunctionType ft = meta.functionType();
             Integer count = countMap.get(ft);
@@ -352,11 +351,11 @@ public class FunctionProviders extends AbstractListModel<FunctionProviderI> impl
             countMap.put(ft, newCount);
 
             if (!meta.hasBaseDefinition()) {
-                noDefCount.add(1);
+                noDefCount++;
             }
-        });
+        }
 
-        return new Stats(countMap, noDefCount.get());
+        return new Stats(countMap, noDefCount);
     }
 
 }

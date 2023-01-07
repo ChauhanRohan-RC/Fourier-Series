@@ -12,7 +12,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 
-public abstract class PathFunction implements ComplexDomainFunctionI, ColorHandler {
+public abstract class PathFunction implements PathFunctionI {
 
     private boolean isContinuityLink;
 
@@ -50,15 +50,6 @@ public abstract class PathFunction implements ComplexDomainFunctionI, ColorHandl
     }
 
     @NotNull
-    public abstract Point2D startPoint();
-
-    @NotNull
-    public abstract Point2D endPoint();
-
-    @NotNull
-    protected abstract Point2D interpolate(float i);
-
-    @NotNull
     protected Complex transform(@NotNull Point2D interpolatedValue) {
         return new Complex(interpolatedValue.getX(), interpolatedValue.getY());
     }
@@ -71,11 +62,6 @@ public abstract class PathFunction implements ComplexDomainFunctionI, ColorHandl
         }
 
         return transform(interpolate((float) input));
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "(start:" + startPoint() + ", end: " + endPoint() + ")";
     }
 
     @Nullable
@@ -106,8 +92,7 @@ public abstract class PathFunction implements ComplexDomainFunctionI, ColorHandl
     }
 
     @Override
-    @Nullable
-    public Color getColor(double input) {
-        return colorProvider != null? colorProvider.getColor(input): null;
+    public String toString() {
+        return getClass().getSimpleName() + "(start:" + startPoint() + ", end: " + endPoint() + ")";
     }
 }
