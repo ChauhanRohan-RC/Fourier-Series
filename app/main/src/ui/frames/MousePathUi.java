@@ -46,7 +46,10 @@ public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
             ActionInfo.RESET_DRAG,
             ActionInfo.RESET_SCALE_DRAG,
             ActionInfo.UNDO,
-            ActionInfo.REDO
+            ActionInfo.REDO,
+            ActionInfo.INVERT_X,
+            ActionInfo.INVERT_Y,
+            ActionInfo.TOGGLE_POINTS_JOIN
     );
 
 
@@ -157,6 +160,13 @@ public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
         final JButton resetDragButton = new JButton(resetDragAction);
         configureImageButton(resetDragButton);
 
+        // todo large icons
+        final BaseAction invertXAction = uia(ActionInfo.INVERT_X)
+                .setSelected(panel.isXInverted());
+
+        final BaseAction invertYAction = uia(ActionInfo.INVERT_Y)
+                .setSelected(panel.isYInverted());
+
         statusLabel = new JLabel();
         statusLabel.setOpaque(false);
         statusLabel.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
@@ -211,8 +221,8 @@ public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
 
         // View menu
         final JMenu viewMenu = new JMenu("View");
-        viewMenu.add(new JCheckBoxMenuItem(uia(ActionInfo.INVERT_X)));
-        viewMenu.add(new JCheckBoxMenuItem(uia(ActionInfo.INVERT_Y)));
+        viewMenu.add(new JCheckBoxMenuItem(invertXAction));
+        viewMenu.add(new JCheckBoxMenuItem(invertYAction));
         viewMenu.addSeparator();
         createViewMenu(viewMenu);
         menuBar.add(viewMenu);
@@ -387,6 +397,7 @@ public class MousePathUi extends BaseFrame implements MousePathPanel.Listener {
             case REDO -> panel.redo();
             case INVERT_X -> panel.toggleInvertX();
             case INVERT_Y -> panel.toggleInvertY();
+            case TOGGLE_POINTS_JOIN -> panel.toggleJoinPoints();
             default -> {
                 return false;
             }

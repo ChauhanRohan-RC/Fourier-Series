@@ -8,6 +8,7 @@ import misc.*;
 import models.Size;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ui.action.ActionInfo;
 import util.main.PathUtil;
 
 import java.awt.*;
@@ -1363,8 +1364,7 @@ public class MousePathPanel extends JPanel {
     private class JoinPointsAction extends BaseAction {
 
         private JoinPointsAction() {
-            this.setName("Join Points");
-            this.setShortDescription("Join points using lines");
+            this.useInfo(ActionInfo.TOGGLE_POINTS_JOIN);
             this.setLargeIconOnSelect(false, R.createLargeIcon(R.IMG_POINTS_LIGHT_64));
             this.setLargeIconOnSelect(true, R.createLargeIcon(R.IMG_POINTS_ACCENT_64));
             this.sync();
