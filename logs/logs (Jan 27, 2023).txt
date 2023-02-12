@@ -1,0 +1,24 @@
+
+## LOG START -> 2023-01-27 10:55:11:217526400 +05:30[Asia/Calcutta]
+2023-01-27 10:55:11:213576300 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS | WindowCount: 1 
+2023-01-27 10:57:17:854233100 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS | WindowCount: 0 
+2023-01-27 10:57:17:932390700 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2023-01-27 10:57:18:10542100 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2023-01-27 10:57:18:26174400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> CLOSED 
+## LOG END -> 2023-01-27 10:57:18:26174400 +05:30[Asia/Calcutta]
+
+## LOG START -> 2023-01-27 10:59:18:85201500 +05:30[Asia/Calcutta]
+2023-01-27 10:59:18:85201500 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS | WindowCount: 1 
+2023-01-27 11:00:16:533591300 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS | WindowCount: 0 
+2023-01-27 11:00:16:596118800 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2023-01-27 11:00:16:630095800 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2023-01-27 11:00:16:630095800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> CLOSED 
+## LOG END -> 2023-01-27 11:00:16:645731100 +05:30[Asia/Calcutta]
+
+## LOG START -> 2023-01-27 11:51:35:127335700 +05:30[Asia/Calcutta]
+2023-01-27 11:51:35:124527200 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS | WindowCount: 1 
+2023-01-27 11:52:04:81190400 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS | WindowCount: 0 
+2023-01-27 11:52:04:143704400 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2023-01-27 11:52:04:206224100 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2023-01-27 11:52:04:206224100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> CLOSED 
+## LOG END -> 2023-01-27 11:52:04:206224100 +05:30[Asia/Calcutta]

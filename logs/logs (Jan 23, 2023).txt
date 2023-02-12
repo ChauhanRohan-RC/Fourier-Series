@@ -1,0 +1,73 @@
+
+## LOG START -> 2023-01-23 15:29:04:26037400 +05:30[Asia/Calcutta]
+2023-01-23 15:29:04:20788100 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS | WindowCount: 1 
+2023-01-23 15:29:30:945946000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Joseph Fourier (Internal Path) 
+2023-01-23 15:29:31:501614100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2023-01-23 15:29:31:774801600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 829 ms 
+2023-01-23 15:29:31:873150600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Wallis Ballade): IS_CURRENT: true : IDLE -> OPEN 
+2023-01-23 15:29:31:874725200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2023-01-23 15:29:56:179708200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 574 Rotor States for function Joseph Fourier (Internal Path) 
+2023-01-23 15:29:57:95477200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 574 Rotor States for function [Joseph Fourier (Internal Path)] loaded in 916 ms 
+2023-01-23 15:31:11:88111100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Sine Signal (Internal Program) 
+2023-01-23 15:31:11:753045000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Sine Signal (Internal Program)] loaded in 665 ms 
+2023-01-23 15:31:12:708148800 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS Transform (Sine Signal) | WindowCount: 2 
+2023-01-23 15:31:35:54767500 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS Transform (Sine Signal) | WindowCount: 1 
+2023-01-23 15:31:38:687282800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Localised Particle (Internal Program) 
+2023-01-23 15:31:39:308394700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Localised Particle (Internal Program)] loaded in 621 ms 
+2023-01-23 15:31:40:217426300 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS Transform (Localised Particle) | WindowCount: 2 
+2023-01-23 15:32:01:861384200 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS Transform (Localised Particle) | WindowCount: 1 
+2023-01-23 15:32:06:466498600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Spread Particle (Internal Program) 
+2023-01-23 15:32:06:969028400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Spread Particle (Internal Program)] loaded in 503 ms 
+2023-01-23 15:32:08:358372100 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS Transform (Spread Particle) | WindowCount: 2 
+2023-01-23 15:32:31:232829600 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS Transform (Spread Particle) | WindowCount: 1 
+2023-01-23 15:32:38:951215900 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS (Spread Particle) | WindowCount: 0 
+2023-01-23 15:32:39:31050300 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2023-01-23 15:32:39:150796600 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2023-01-23 15:32:39:158046500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> CLOSED 
+2023-01-23 15:32:39:158046500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Wallis Ballade): IS_CURRENT: true : OPEN -> CLOSED 
+## LOG END -> 2023-01-23 15:32:39:160651800 +05:30[Asia/Calcutta]
+
+## LOG START -> 2023-01-23 15:33:07:193770300 +05:30[Asia/Calcutta]
+2023-01-23 15:33:07:186879400 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS | WindowCount: 1 
+2023-01-23 15:40:31:559794000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Hilbert Curve (Internal Path) 
+2023-01-23 15:40:32:114232800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2023-01-23 15:40:32:188638300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Hilbert Curve (Internal Path)] loaded in 629 ms 
+2023-01-23 15:40:32:393667300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Fractals): IS_CURRENT: true : IDLE -> OPEN 
+2023-01-23 15:40:32:393667300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2023-01-23 15:40:38:63813900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Hilbert Curve (Internal Path) 
+2023-01-23 15:40:39:174138000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Hilbert Curve (Internal Path)] loaded in 1111 ms 
+2023-01-23 15:41:03:349317600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function India (Internal Path) 
+2023-01-23 15:41:04:236474700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [India (Internal Path)] loaded in 887 ms 
+2023-01-23 15:41:06:946758900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 824 Rotor States for function India (Internal Path) 
+2023-01-23 15:41:08:161075400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 824 Rotor States for function [India (Internal Path)] loaded in 1215 ms 
+2023-01-23 15:41:33:662438100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function India (Internal Path) 
+2023-01-23 15:41:34:242525300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [India (Internal Path)] loaded in 580 ms 
+2023-01-23 15:42:12:233901600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Eighth Note (Internal Path) 
+2023-01-23 15:42:12:823412600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Eighth Note (Internal Path)] loaded in 590 ms 
+2023-01-23 15:42:55:167226000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Settings (Internal Path) 
+2023-01-23 15:42:55:614782500 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Settings (Internal Path)] loaded in 447 ms 
+2023-01-23 15:43:02:405127300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 415 Rotor States for function Settings (Internal Path) 
+2023-01-23 15:43:02:944983600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 415 Rotor States for function [Settings (Internal Path)] loaded in 539 ms 
+2023-01-23 15:44:01:913973500 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Emoji Stars (Internal Path) 
+2023-01-23 15:44:02:471352900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Emoji Stars (Internal Path)] loaded in 558 ms 
+2023-01-23 15:44:05:871593300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 830 Rotor States for function Emoji Stars (Internal Path) 
+2023-01-23 15:44:07:71973600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 830 Rotor States for function [Emoji Stars (Internal Path)] loaded in 1198 ms 
+2023-01-23 15:46:02:919766200 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS Transform (Emoji Stars) | WindowCount: 2 
+2023-01-23 15:46:05:993898700 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS Transform (Emoji Stars) | WindowCount: 1 
+2023-01-23 15:46:09:431118100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Sine Signal (Internal Program) 
+2023-01-23 15:46:10:49482300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Sine Signal (Internal Program)] loaded in 613 ms 
+2023-01-23 15:46:10:838444100 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS Transform (Sine Signal) | WindowCount: 2 
+2023-01-23 15:46:25:979915600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Rotor Frequency Provider changed. Function: Sine Signal (Internal Program) | Old Frequency Provider: null | New Frequency Provider: BoundedFrequencyProvider{frequencyStart=0.0, frequencyEnd=4.0} 
+2023-01-23 15:46:25:979915600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Sine Signal (Internal Program) 
+2023-01-23 15:46:26:314000200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Sine Signal (Internal Program)] loaded in 335 ms 
+2023-01-23 15:46:28:441551900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Sine Signal (Internal Program) 
+2023-01-23 15:46:29:219901000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Sine Signal (Internal Program)] loaded in 778 ms 
+2023-01-23 15:46:40:320968600 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS Transform (Sine Signal) | WindowCount: 1 
+2023-01-23 15:46:50:750752300 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS Transform (Sine Signal) | WindowCount: 2 
+2023-01-23 15:47:18:383765800 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS Transform (Sine Signal) | WindowCount: 1 
+2023-01-23 15:47:19:767928000 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS (Sine Signal) | WindowCount: 0 
+2023-01-23 15:47:19:847697000 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2023-01-23 15:47:19:851708200 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2023-01-23 15:47:19:857528600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> CLOSED 
+2023-01-23 15:47:19:857528600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Fractals): IS_CURRENT: true : OPEN -> CLOSED 
+## LOG END -> 2023-01-23 15:47:19:861912500 +05:30[Asia/Calcutta]
