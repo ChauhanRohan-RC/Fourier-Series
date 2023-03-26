@@ -110,6 +110,268 @@ This paper focuses on an intuitive understanding of time, frequency and how they
 
 % The Fourier Transform
 \section{The Fourier Transform}\label{sec:fourier_transform}
+\subsection{Core Intuition}\label{sec:fourier_transform_intuition}
+The classical aim of Fourier Transform is frequency decomposition i.e given a signal, we want to find out what pure frequencies it is made up of. Concretely, it asks the question "How well a particular frequency correlates with the signal?". 
+
+Given some thought, this problem turns out to be similar to that of circular winding a mechanical spring. The physical analogy given here strikes to one's imagination. Consider for simplicity, a 2D linear spring made of metallic wire, which really is a projection of an actual 3D linear spring on a plane parallel to its axis. It is characterized by the number of turns per unit length along its axis without any applied load i.e \textbf{Free Turn Frequency} $\boldsymbol{f_{t}}$, which in this case is 2 turns/cm (figure \ref{fig:2d_linear_spring_turn_fq_2}). For argument sake, pretend that we don't know the turn frequency and our aim now is to construct a general way to find it out.
+
+If we take this 2D linear spring and wrap it around a circle centered at origin, essentially turning its axis circular, we will end up with a wound up circular spring which is now characterized by the number of times the linear axis of spring is coiled in circles (number of circular wraps) per unit length of its axis i.e \textbf{Wrapping Frequency} $\boldsymbol{f_{w}}$ (figure \ref{fig:wound_up_spring_plots}). The key idea here is that, though we cannot control free turn frequency of the spring, we can choose to wrap it around a circle less or more tightly, however we want i.e we have full control over the wrapping frequency. If we start with some low initial wrapping frequency and increase it over time, the weight of wound up spring turns out to centered near origin most of the time (fig \ref{fig:wound_up_spring_wrap_freq_min}, \ref{fig:wound_up_spring_wrap_freq_eq_turn_freq_by_4} and \ref{fig:wound_up_spring_wrap_freq_eq_turn_freq_by_2}). However, something very strange happens when wrapping frequency matches free turn frequency of the spring (like in most resonance phenomenon). In this case, weight of the spring is heavily off-centered from the origin (figure \ref{fig:wound_up_spring_wrap_freq_eq_turn_freq}).
+
+This observation can be expressed in terms of center of mass of the wound up spring, which is a 2D point on the reference plane. It is close to the origin for most of wrapping frequencies except when wrapping frequency is the same as free turn frequency, where it is significantly far from the origin. Plots of the center of mass for various winding frequencies are shown in figure \ref{fig:wound_up_spring_com_plots}. The spike at $f_{w} = 2$ wraps/cm means that it is the dominant turn frequency of spring. Hence, \textit{center of mass of the wound up spring is a measure of how well a wrapping frequency correlates with the linear spring turn frequency}. This fact forms the basis for mathematical construct of frequency decomposition of signals in general.
+
+TODO: mathematical construct to find COM
+
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\begin{axis} [
+			axis lines=left, 
+			xmin=0, 
+			xmax=5, 
+			ymin=0,
+			ymax=2,
+			xlabel=length (cm), 
+			xtick distance=0.25,
+			xticklabels={,,,,,1,,,,2,,,,3,,,,4,,,,5},
+			ylabel=, 
+			ylabel style={rotate=0}, 
+			ytick=false,
+			yticklabels={,,},
+			width=\linewidth,
+			height=3cm
+			]
+			
+			\addplot[
+			dashed,
+			variable=\t,
+			domain=0:5,
+			color=gray, 
+			mark=false
+			] {
+				1
+			};
+			
+			\addplot[
+			smooth,
+			variable=\t,
+			domain=0:4,
+			color=cyan, 
+			samples=200,
+			mark=false
+			] {
+				cos((360 * 2 * t) + 180) + 1
+			};
+		
+		\end{axis}
+	\end{tikzpicture}
+
+	\caption{A 2D linear spring with free length $4$ cm and free turn frequency $f_{t} = 2$ turns/cm. Dashed line represents spring axis.}
+	\label{fig:2d_linear_spring_turn_fq_2}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\subfloat[$f_{w} = f_{t}/8 = 0.25$ circular wraps/cm (or single wrap per $4$ cm free linear length of spring)] {
+		\begin{tikzpicture}
+			\label{fig:wound_up_spring_wrap_freq_min}
+			\begin{axis} [
+				axis lines=middle, 
+				xmin=-2.5, 
+				xmax=2.5, 
+				ymin=-2.5,
+				ymax=2.5,
+				xlabel=, 
+				xticklabels={,,},
+				ylabel=, 
+				ylabel style={rotate=0}, 
+				yticklabels={,,},
+				width=0.47\linewidth
+				]
+				
+				\addplot[
+				smooth,
+				variable=\t,
+				domain=0:4,
+				color=cyan, 
+				samples=200,
+				mark=false
+				] (
+				{ (cos((360 * 2 * t) + 180) + 1) * cos(360 * 0.25 * t) },
+				{ (cos((360 * 2 * t) + 180) + 1) * sin(360 * 0.25 * t) }
+				);
+				
+				\draw[dotted, color=gray, fill=none] (0, 0) circle (1.0);
+				
+				\draw[color=red, fill=red] (0,0) circle (1.5pt) node[above] {};
+				
+			\end{axis}
+		\end{tikzpicture}
+	}\hfill
+	\subfloat[$f_{w} = f_{t}/4 = 0.5$ circular wraps/cm] {
+		\begin{tikzpicture}
+			\label{fig:wound_up_spring_wrap_freq_eq_turn_freq_by_4}
+			\begin{axis} [
+				axis lines=middle, 
+				xmin=-2.5, 
+				xmax=2.5, 
+				ymin=-2.5,
+				ymax=2.5,
+				xlabel=, 
+				xticklabels={,,},
+				ylabel=, 
+				ylabel style={rotate=0}, 
+				yticklabels={,,},
+				width=0.47\linewidth
+				]
+				
+				\addplot[
+				smooth,
+				variable=\t,
+				domain=0:4,
+				color=cyan, 
+				samples=200,
+				mark=false
+				] (
+				{ (cos((360 * 2 * t) + 180) + 1) * cos(360 * 0.5 * t) },
+				{ (cos((360 * 2 * t) + 180) + 1) * sin(360 * 0.5 * t) }
+				);
+				
+				\draw[dotted, color=gray, fill=none] (0, 0) circle (1.0);
+				
+				\draw[color=red, fill=red] (0,0) circle (1.5pt) node[above] {};
+				
+			\end{axis}
+		\end{tikzpicture}
+	}
+
+	\vspace{0.4cm}
+
+	\subfloat[$f_{w} = f_{t}/2 = 1$ circular wrap/cm] {
+		\begin{tikzpicture}
+			\label{fig:wound_up_spring_wrap_freq_eq_turn_freq_by_2}
+			\begin{axis} [
+				axis lines=middle, 
+				xmin=-2.5, 
+				xmax=2.5, 
+				ymin=-2.5,
+				ymax=2.5,
+				xlabel=, 
+				xticklabels={,,},
+				ylabel=, 
+				ylabel style={rotate=0}, 
+				yticklabels={,,},
+				width=0.47\linewidth
+				]
+				
+				\addplot[
+				smooth,
+				variable=\t,
+				domain=0:4,
+				color=cyan, 
+				samples=200,
+				mark=false
+				] (
+				{ (cos((360 * 2 * t) + 180) + 1) * cos(360 * 1 * t) },
+				{ (cos((360 * 2 * t) + 180) + 1) * sin(360 * 1 * t) }
+				);
+				
+				\draw[dotted, color=gray, fill=none] (0, 0) circle (1.0);
+				
+				\draw[color=red, fill=red] (0,0) circle (1.5pt) node[above] {};
+				
+			\end{axis}
+		\end{tikzpicture}
+	}\hfill
+	\subfloat[$f_{w} = f_{t} = 2$ circular wraps/cm] {
+		\begin{tikzpicture}
+			\label{fig:wound_up_spring_wrap_freq_eq_turn_freq}
+			\begin{axis} [
+				axis lines=middle, 
+				xmin=-2.5, 
+				xmax=2.5, 
+				ymin=-2.5,
+				ymax=2.5,
+				xlabel=, 
+				xticklabels={,,},
+				ylabel=, 
+				ylabel style={rotate=0}, 
+				yticklabels={,,},
+				width=0.47\linewidth
+				]
+				
+				\addplot[
+				smooth,
+				variable=\t,
+				domain=0:4,
+				color=cyan, 
+				samples=200,
+				mark=false
+				] (
+				{ (cos((360 * 2 * t) + 180) + 1) * cos(360 * 2 * t) },
+				{ (cos((360 * 2 * t) + 180) + 1) * sin(360 * 2 * t) }
+				);
+				
+				\draw[dotted, color=gray, fill=none] (0, 0) circle (1.0);
+				
+				\draw[color=red, fill=red] (-0.5,0) circle (1.5pt) node[above] {};
+				
+			\end{axis}
+		\end{tikzpicture}
+	}
+	
+	\caption{2D linear spring with free turn frequency $f_{t} = 2$ turns/cm wrapped around a circle centered at origin with various wrapping frequencies $f_{w}$. Red dot represents center of mass (COM) and the dotted circle represents axis of the wound up spring}
+	\label{fig:wound_up_spring_plots}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\subfloat[x-coordinate of center of mass vs $f_{w}$] {
+		\begin{tikzpicture}
+			\label{fig:wound_up_spring_com_xcoord_vs_wrap_freq}
+			\begin{axis} [
+				axis lines=middle, 
+				xmin=0, 
+				xmax=4, 
+				ymin=-0.5,
+				ymax=2.5,
+				xlabel=$f_{w}$, 
+				ylabel=x-coordinate of COM, 
+				ylabel style={rotate=0}, 
+				width=0.47\linewidth
+				]
+				
+				\addplot[thin, smooth, color=red] table [header=false, col sep=comma, x index=0, y index=1] {res/data/wound_up_spring_com_real.csv};
+				
+			\end{axis}
+		\end{tikzpicture}
+	}\hfill
+	\subfloat[Distance of center of mass from origin vs $f_{w}$] {
+		\begin{tikzpicture}
+			\label{fig:wound_up_spring_com_distance_vs_wrap_freq}
+			\begin{axis} [
+				axis lines=left, 
+				xmin=0, 
+				xmax=4, 
+				ymin=0,
+				ymax=2.5,
+				xlabel=$f_{w}$, 
+				ylabel=distance of COM, 
+				ylabel style={rotate=0}, 
+				width=0.47\linewidth
+				]
+				
+				\addplot[thin, smooth, color=red] table [header=false, col sep=comma, x index=0, y index=1] {res/data/wound_up_spring_com_magnitude.csv};
+				
+			\end{axis}
+		\end{tikzpicture}
+	}
+	
+	\caption{Center of mass (COM) of the wound up spring for various wrapping frequencies $f_{w}$}
+	\label{fig:wound_up_spring_com_plots}
+\end{figure}
+
+
+\subsection{Definition}\label{sec:fourier_transform_def}  % Formal Definition
 Fourier transform of a complex valued function in time $f(t)$ (a signal) is another complex valued function in frequency $\hat{F}(\omega)$ (i.e spectrum), whose output for a certain frequency encodes the strength ($=absolute(\hat{F}(\omega))$) and phase offset ($=argument(\hat{F}(\omega))$) of that frequency within the original signal \cite{herman2016fourieranalysis}
 \begin{equation}\label{eq:ft_def}
 	\boxed{
@@ -121,7 +383,9 @@ In general, if y is in reciprocal space of x, then
 	\hat{F}(y) = \intinfty f(x)e^{-ixy} \dx
 \end{equation*}
 So if x is time in seconds, then y represents temporal frequency in $s^{-1}$ (or $Hz$). Similarly if x is distance in meters, then y symbolizes spatial frequency in $m^{-1}$.
-%TODO: intuitive derivation using graphics
+
+\subsection{Rise of uncertainty}\label{sec:fourier_transform_intuitive_uncertainty}
+TODO: How uncertainty arises
 
 % Inverse Fourier Transform
 \section{Inverse Fourier Transform}\label{sec:inverse_fourier_transform}

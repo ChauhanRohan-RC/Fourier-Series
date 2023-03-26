@@ -2,6 +2,7 @@ package provider;
 
 import app.R;
 import function.definition.ComplexDomainFunctionI;
+import function.definition.SignalFunctionI;
 import function.graphic.CharMerger;
 import function.internal.basic.*;
 import function.internal.chars.CharC;
@@ -10,6 +11,7 @@ import misc.CollectionUtil;
 import misc.Log;
 import misc.MathUtil;
 import org.apache.batik.parser.ParseException;
+import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 import test.ParticleWave;

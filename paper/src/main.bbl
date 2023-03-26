@@ -1,0 +1,53 @@
+% \bib, bibdiv, biblist are defined by the amsrefs package.
+\begin{bibdiv}
+\begin{biblist}
+
+\bib{de_broglie_thesis}{book}{
+      author={de~Broglie, Louis},
+       title={On the theory of quanta},
+        date={1925},
+      volume={10},
+      number={3},
+}
+
+\bib{dirac1981qm}{book}{
+      author={Dirac, P.A.M.},
+       title={The principles of quantum mechanics},
+      series={Comparative Pathobiology - Studies in the Postmodern Theory of
+  Education},
+   publisher={Clarendon Press},
+        date={1981},
+        ISBN={9780198520115},
+         url={https://books.google.co.in/books?id=XehUpGiM6FIC},
+}
+
+\bib{dubey2021fourieruncertainity}{article}{
+      author={Dubey, Kabir},
+       title={The fourier uncertainity principles},
+        date={2021},
+         url={http://math.uchicago.edu/~may/REU2021/REUPapers/Dubey.pdf},
+}
+
+\bib{forshaw2014relativity}{book}{
+      author={Forshaw, J.},
+      author={Smith, G.},
+       title={Dynamics and relativity},
+      series={Manchester Physics Series},
+   publisher={Wiley},
+        date={2014},
+        ISBN={9781118933299},
+         url={https://books.google.co.in/books?id=5TaiAwAAQBAJ},
+}
+
+\bib{herman2016fourieranalysis}{book}{
+      author={Herman, R.L.},
+       title={An introduction to fourier analysis},
+      series={A Chapman \& Hall Book},
+   publisher={Taylor \& Francis},
+        date={2016},
+        ISBN={9781498773706},
+         url={https://books.google.co.in/books?id=d5LQjwEACAAJ},
+}
+
+\end{biblist}
+\end{bibdiv}

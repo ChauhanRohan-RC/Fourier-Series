@@ -7,10 +7,17 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="gson" level="project" />
+    <orderEntry type="library" name="PROGRAMS" level="project" />
+    <orderEntry type="library" name="core_src_zip" level="project" />
     <orderEntry type="library" name="org.jetbrains.annotations.19.0.0" level="project" />
-    <orderEntry type="library" name="gson-2.10" level="project" />
-    <orderEntry type="library" name="commons-math3-3.6.1" level="project" />
-    <orderEntry type="library" name="batik-all-1.14" level="project" />
+    <orderEntry type="library" name="main" level="project" />
+    <orderEntry type="library" name="math" level="project" />
+    <orderEntry type="library" name="PROGRAMS1" level="project" />
+    <orderEntry type="library" name="core" level="project" />
+    <orderEntry type="library" name="batik" level="project" />
+    <orderEntry type="module" module-name="audio" />
     <orderEntry type="module" module-name="util" />
+    <orderEntry type="module" module-name="uiutil" />
   </component>
 </module>

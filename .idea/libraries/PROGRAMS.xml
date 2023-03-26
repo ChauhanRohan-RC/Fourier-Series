@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="PROGRAMS">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/artifacts/main_jar/PROGRAMS/core.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/main_jar/PROGRAMS/core-src.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/app/audio/src" />
+      <root url="file://$PROJECT_DIR$/app/chart/src" />
+      <root url="file://$PROJECT_DIR$/app/core/src" />
+      <root url="file://$PROJECT_DIR$/app/main/src" />
+      <root url="file://$PROJECT_DIR$/app/uiutil/src" />
+      <root url="file://$PROJECT_DIR$/app/util/src" />
+    </SOURCES>
+  </library>
+</component>

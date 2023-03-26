@@ -62,84 +62,45 @@
 \begin{document}
 \maketitle
 
-\begin{figure}
-	\centering
-	\subfloat[$k = 10$] {
-		\begin{tikzpicture}
-			\begin{axis} [
-					axis lines=middle, 
-					xmin=-2, 
-					xmax=2, 
-					ymin=-1,
-					ymax=3.5,
-					xlabel=$t$, 
-					ylabel=$y$, 
-					ylabel style={rotate=0}, 
-					width=0.47\linewidth
-				]
-				
-				\addplot[
-				smooth,
-				color=red, 
-				samples=200,
-				mark=false
-				] {
-					sin(deg(10 * x)) / (pi * x)
-				};
-				
-			\end{axis}
-		\end{tikzpicture}
-	}\hfill
-	\subfloat[$k = 1000$] {
-		\begin{tikzpicture}
-%			\begin{axis} [     % k=50
-%				axis lines=middle, 
-%				xmin=-2, 
-%				xmax=2, 
-%				ymin=-3,
-%				ymax=16,
-%				xlabel=$t$, 
-%				ylabel=$y$, 
-%				ylabel style={rotate=0}, 
-%				width=0.45\linewidth
-%				]
-%				
-%				\addplot[
-%				smooth,
-%				color=blue, 
-%				samples=200,
-%				mark=false
-%				] {
-%					sin(deg(50 * x)) / (pi * x)
-%				};
-%				
-%			\end{axis}
-			\begin{axis} [
-				axis lines=middle, 
-				xmin=-2, 
-				xmax=2, 
-				ymin=-9,
-				ymax=32,
-				xlabel=$t$, 
-				ylabel=$y$, 
-				ylabel style={rotate=0}, 
-				width=0.48\linewidth
-				]
-				
-				\addplot[
-				smooth,
-				color=blue, 
-				samples=2000,
-				mark=false
-				] {
-					sin(deg(100 * x)) / (pi * x)
-				};
-				
-			\end{axis}
-		\end{tikzpicture}
-	}
 
-	\caption{Plot of $\sin(kt)/\pi t$ against $t$ for different $k > 0, k \in \mathbb{R}$. As $k$ increases, function approaches $k/\pi$ for $t = 0$ and tends to $0$ for $t \neq 0$}
+\begin{figure}
+	\begin{tikzpicture}
+		\begin{axis} [
+			axis lines=middle, 
+			xmin=0, 
+			xmax=4, 
+			ymin=-0.5,
+			ymax=2.5,
+			xlabel=$f_{w}$, 
+			ylabel=x coord of COM, 
+			ylabel style={rotate=0}, 
+			width=0.47\linewidth
+			]
+			
+			\addplot[thin, smooth, color=red] table [header=false, col sep=comma, x index=0, y index=1] {res/data/wound_up_spring_com_real.csv};
+			
+		\end{axis}
+	\end{tikzpicture}
+\end{figure}
+
+\begin{figure}
+	\begin{tikzpicture}
+		\begin{axis} [
+			axis lines=left, 
+			xmin=0, 
+			xmax=4, 
+			ymin=0,
+			ymax=2.5,
+			xlabel=$f_{w}$, 
+			ylabel=distance of COM, 
+			ylabel style={rotate=0}, 
+			width=0.47\linewidth
+			]
+			
+			\addplot[thin, smooth, color=red] table [header=false, col sep=comma, x index=0, y index=1] {res/data/wound_up_spring_com_magnitude.csv};
+			
+		\end{axis}
+	\end{tikzpicture}
 \end{figure}
 
 \end{document}

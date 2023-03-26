@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="test_samples">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/backup/test_samples/svgs.zip!/" />
+      <root url="jar://$PROJECT_DIR$/backup/test_samples/vecteezy_head-man-with-mustache-one-line-style-icon_2736328.zip!/" />
+      <root url="jar://$PROJECT_DIR$/backup/test_samples/vecteezy_athlete-runner-one-line-style-icon_2736326.zip!/" />
+      <root url="jar://$PROJECT_DIR$/backup/test_samples/vecteezy_paper-airplane-toy-one-line-style-icon_2736331.zip!/" />
+      <root url="jar://$PROJECT_DIR$/backup/test_samples/vecteezy_abstract-woman-line-art-vector-template_2038810.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

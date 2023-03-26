@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/artifacts/main_jar/PROGRAMS" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="PROGRAMS" level="project" />
+    <orderEntry type="library" name="core_src_zip" level="project" />
+    <orderEntry type="library" name="org.jetbrains.annotations.19.0.0" level="project" />
+    <orderEntry type="library" name="main" level="project" />
+    <orderEntry type="library" name="math" level="project" />
+    <orderEntry type="library" name="PROGRAMS1" level="project" />
+    <orderEntry type="library" name="core" level="project" />
+    <orderEntry type="module" module-name="core" />
+    <orderEntry type="module" module-name="main" />
+    <orderEntry type="module" module-name="audio" />
+    <orderEntry type="module" module-name="util" />
+    <orderEntry type="module" module-name="uiutil" />
+  </component>
+</module>
