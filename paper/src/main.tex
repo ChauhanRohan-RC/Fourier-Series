@@ -118,13 +118,7 @@
 	
 	Given some thought, this problem turns out to be similar to that of circular winding a mechanical spring. The physical analogy given here strikes to one's imagination. Consider for simplicity, a 2D linear spring made of metallic wire, which really is a projection of an actual 3D linear spring on a plane parallel to its axis. It is characterized by the number of turns per unit length along its axis without any applied load i.e \textbf{Free Turn Frequency} $\boldsymbol{f_{t}}$, which in this case is 2 turns/cm (figure \ref{fig:2d_linear_spring_turn_fq_2}). For argument sake, pretend that we don't know the turn frequency and our aim now is to construct a general way to find it out.
 	
-	If we take this 2D linear spring and wrap it around a circle centered at origin, essentially turning its axis circular, we will end up with a wound up circular spring which is now characterized by the number of times the linear axis of spring is coiled in circles (number of circular wraps) per unit length of its axis i.e \textbf{Wrapping Frequency} $\boldsymbol{f_{w}}$ (figure \ref{fig:wound_up_spring_plots}). The key idea here is that, though we cannot control free turn frequency of the spring, we can choose to wrap it around a circle less or more tightly, however we want i.e we have full control over the wrapping frequency. If we start with some low initial wrapping frequency and increase it over time, the weight of wound up spring turns out to centered near origin most of the time (fig \ref{fig:wound_up_spring_wrap_freq_min}, \ref{fig:wound_up_spring_wrap_freq_eq_turn_freq_by_4} and \ref{fig:wound_up_spring_wrap_freq_eq_turn_freq_by_2}). However, something very strange happens when wrapping frequency matches free turn frequency of the spring (like in most resonance phenomenon). In this case, weight of the spring is heavily off-centered from the origin (figure \ref{fig:wound_up_spring_wrap_freq_eq_turn_freq}).
-	
-	This observation can be expressed in terms of center of mass of the wound up spring, which is a 2D point on the reference plane. It is close to the origin for most of wrapping frequencies except when wrapping frequency is the same as free turn frequency, where it is significantly far from the origin. Plots of the center of mass for various winding frequencies are shown in figure \ref{fig:wound_up_spring_com_plots}. The spike at $f_{w} = 2$ wraps/cm means that it is the dominant turn frequency of spring. Hence, \textit{center of mass of the wound up spring is a measure of how well a wrapping frequency correlates with the linear spring turn frequency}. This idea forms the basis for general mathematical construct of frequency decomposition of signals.
-	
-	TODO: mathematical construct to find COM
-	
-	\begin{figure}
+	\begin{figure}[H]
 		\centering
 		\begin{tikzpicture}
 			\begin{axis} [
@@ -132,12 +126,13 @@
 				xmin=0, 
 				xmax=5, 
 				ymin=0,
-				ymax=2,
+				ymax=2.2,
 				xlabel=length (cm), 
-				xtick distance=0.25,
-				xticklabels={,,,,,1,,,,2,,,,3,,,,4,,,,5},
+				%xtick distance=0.25,
+				%xticklabels={,,,,,1,,,,2,,,,3,,,,4,,,,5},
 				ylabel=, 
 				ylabel style={rotate=0}, 
+				ytick distance=1,
 				ytick=false,
 				yticklabels={,,},
 				width=\linewidth,
@@ -172,7 +167,9 @@
 		\label{fig:2d_linear_spring_turn_fq_2}
 	\end{figure}
 	
-	\begin{figure}
+	If we take this 2D linear spring and wrap it around a circle centered at origin, essentially turning its axis circular, we will end up with a wound up circular spring which is now characterized by the number of times the linear axis of spring is coiled in circles (number of circular wraps) per unit length of its axis i.e \textbf{Wrapping Frequency} $\boldsymbol{f_{w}}$ (figure \ref{fig:wound_up_spring_plots}). The key idea here is that, though we cannot control free turn frequency of the spring, we can choose to wrap it around a circle less or more tightly, however we want i.e we have full control over the wrapping frequency. If we start with some low initial wrapping frequency and increase it over time, the weight of wound up spring turns out to centered near origin most of the time (fig \ref{fig:wound_up_spring_wrap_freq_min}, \ref{fig:wound_up_spring_wrap_freq_eq_turn_freq_by_4} and \ref{fig:wound_up_spring_wrap_freq_eq_turn_freq_by_2}). However, something very strange happens when wrapping frequency matches free turn frequency of the spring (like in most resonance phenomenon). In this case, weight of the spring is heavily off-centered from the origin (figure \ref{fig:wound_up_spring_wrap_freq_eq_turn_freq}).
+	
+	\begin{figure}[H]
 		\centering
 		\subfloat[$f_{w} = f_{t}/8 = 0.25$ circular wraps/cm (or single wrap per $4$ cm free linear length of spring)] {
 			\begin{tikzpicture}
@@ -199,8 +196,8 @@
 					samples=200,
 					mark=false
 					] (
-					{ (cos((360 * 2 * t) + 180) + 1) * cos(360 * 0.25 * t) },
-					{ (cos((360 * 2 * t) + 180) + 1) * sin(360 * 0.25 * t) }
+					{ (cos((360 * 2 * t) + 180) + 1) * cos(-360 * 0.25 * t) },
+					{ (cos((360 * 2 * t) + 180) + 1) * sin(-360 * 0.25 * t) }
 					);
 					
 					\draw[dotted, color=gray, fill=none] (0, 0) circle (1.0);
@@ -235,8 +232,8 @@
 					samples=200,
 					mark=false
 					] (
-					{ (cos((360 * 2 * t) + 180) + 1) * cos(360 * 0.5 * t) },
-					{ (cos((360 * 2 * t) + 180) + 1) * sin(360 * 0.5 * t) }
+					{ (cos((360 * 2 * t) + 180) + 1) * cos(-360 * 0.5 * t) },
+					{ (cos((360 * 2 * t) + 180) + 1) * sin(-360 * 0.5 * t) }
 					);
 					
 					\draw[dotted, color=gray, fill=none] (0, 0) circle (1.0);
@@ -274,8 +271,8 @@
 					samples=200,
 					mark=false
 					] (
-					{ (cos((360 * 2 * t) + 180) + 1) * cos(360 * 1 * t) },
-					{ (cos((360 * 2 * t) + 180) + 1) * sin(360 * 1 * t) }
+					{ (cos((360 * 2 * t) + 180) + 1) * cos(-360 * 1 * t) },
+					{ (cos((360 * 2 * t) + 180) + 1) * sin(-360 * 1 * t) }
 					);
 					
 					\draw[dotted, color=gray, fill=none] (0, 0) circle (1.0);
@@ -285,7 +282,7 @@
 				\end{axis}
 			\end{tikzpicture}
 		}\hfill
-		\subfloat[$f_{w} = f_{t} = 2$ circular wraps/cm] {
+		\subfloat[$f_{w} = f_{t} = 2$ circular wraps/cm. \centering COM is unusally far from origin] {
 			\begin{tikzpicture}
 				\label{fig:wound_up_spring_wrap_freq_eq_turn_freq}
 				\begin{axis} [
@@ -310,8 +307,8 @@
 					samples=200,
 					mark=false
 					] (
-					{ (cos((360 * 2 * t) + 180) + 1) * cos(360 * 2 * t) },
-					{ (cos((360 * 2 * t) + 180) + 1) * sin(360 * 2 * t) }
+					{ (cos((360 * 2 * t) + 180) + 1) * cos(-360 * 2 * t) },
+					{ (cos((360 * 2 * t) + 180) + 1) * sin(-360 * 2 * t) }
 					);
 					
 					\draw[dotted, color=gray, fill=none] (0, 0) circle (1.0);
@@ -325,25 +322,28 @@
 		\caption{2D linear spring with free turn frequency $f_{t} = 2$ turns/cm wrapped around a circle centered at origin with various wrapping frequencies $f_{w}$. Red dot represents center of mass (COM) and the dotted circle represents axis of the wound up spring}
 		\label{fig:wound_up_spring_plots}
 	\end{figure}
+
+	This observation can be expressed in terms of center of mass (COM) of the wound up spring, which is a 2D point on the reference plane. It is close to the origin for most of wrapping frequencies except when wrapping frequency is the same as free turn frequency, where it is significantly far from origin. Plot of the position of COM for various wrapping frequencies is shown in figure \ref{fig:wound_up_spring_com_plots}. The spike at $f_{w} = 2$ wraps/cm means that it is the dominant turn frequency of spring i.e it correlates pretty well with the spring. Hence, \textit{position of center of mass of the wound up spring is a measure of how well a wrapping frequency correlates with the linear spring turn frequency}. Distance of COM from origin gives the strength while the angle COM makes off the positive horizon gives the phase of the wrapping frequency within the spring.
 	
-	\begin{figure}
+	\begin{figure}[H]
 		\centering
 		\subfloat[x-coordinate of COM vs $f_{w}$] {
 			\begin{tikzpicture}
 				\label{fig:wound_up_spring_com_xcoord_vs_wrap_freq}
 				\begin{axis} [
-					axis lines=left, 
+					axis lines=middle, 
 					xmin=0, 
 					xmax=4, 
-					ymin=-0.5,
-					ymax=2.5,
+					ymin=-0.55,
+					ymax=0.4,
 					xlabel=$f_{w}$, 
 					ylabel=x-coordinate of COM, 
 					ylabel style={rotate=0}, 
+					ytick distance=0.25,
 					width=0.47\linewidth
 					]
 					
-					\addplot[thin, smooth, color=red] table [header=false, col sep=comma, x index=0, y index=1] {res/data/wound_up_spring_com_real.csv};
+					\addplot[thin, smooth, color=red] table [header=true, col sep=comma, x=frequency, y=real] {res/data/2d_spring_wound_up_com.csv};
 					
 				\end{axis}
 			\end{tikzpicture}
@@ -352,18 +352,19 @@
 			\begin{tikzpicture}
 				\label{fig:wound_up_spring_com_distance_vs_wrap_freq}
 				\begin{axis} [
-					axis lines=left, 
+					axis lines=middle, 
 					xmin=0, 
 					xmax=4, 
 					ymin=0,
-					ymax=2.5,
+					ymax=0.65,
 					xlabel=$f_{w}$, 
 					ylabel=distance of COM, 
 					ylabel style={rotate=0}, 
+					ytick distance=0.25,
 					width=0.47\linewidth
 					]
 					
-					\addplot[thin, smooth, color=red] table [header=false, col sep=comma, x index=0, y index=1] {res/data/wound_up_spring_com_magnitude.csv};
+					\addplot[thin, smooth, color=red] table [header=true, col sep=comma, x=frequency, y=mag] {res/data/2d_spring_wound_up_com.csv};
 					
 				\end{axis}
 			\end{tikzpicture}
@@ -372,7 +373,256 @@
 		\caption{Center of mass (COM) of the wound up spring for various wrapping frequencies $f_{w}$}
 		\label{fig:wound_up_spring_com_plots}
 	\end{figure}
+
+	In this example, $f_{w} = 2$ wraps/cm gives COM at point $(-0.5, 0)$ (fig \ref{fig:wound_up_spring_wrap_freq_eq_turn_freq}), which corresponds to a relative strength of $0.5$ and phase $180^{\circ}$. For $f_{w}$ other than $2$, COM is pretty close to $(0, 0)$ implying they do not correlate with the spring. With this information, one can say that the 2D linear spring shown in fig \ref{fig:2d_linear_spring_turn_fq_2} resembles a pure cosine wave with frequency $2$ Hz and phase offset of $\pi$ rad $\equiv \cos(2\pi ft + \theta)$ with $f = 2$ Hz and $\theta = \pi$ rad. The strength of $0.5$ means that pure cosine with frequency $-2$ Hz also correlates with the spring to the same degree. Negative frequency only implies wrapping in anticlockwise direction. Therefore, the spring is equivalent to a signal $\equiv 0.5\cos(4\pi t + \pi) + 0.5\cos(-4\pi t + \pi)$
+
+	This wrapping of a 2D spring around a circle for the extraction of frequency information also works for deformed springs. This is illustrated in figure \ref{fig:2d_deformed_spring_and_com_plot}. Consequently, a deformed 2D spring correlates with multiple frequencies (as in fig \ref{fig:wound_up_deformed_spring_com_distance_vs_wrap_freq}, $2$ and $3$ wraps/cm), and is analogous to a signal made up of combination of multiple pure frequencies.
 	
+	\begin{figure}[H]
+		\centering
+		\subfloat[A 2D linear deformed spring]{
+			\begin{tikzpicture}
+				\label{fig:2d_linear_deformed_spring_turn_fq_2_3}
+				\begin{axis} [
+					axis lines=left, 
+					xmin=0, 
+					xmax=5, 
+					ymin=0,
+					ymax=4.2,
+					xlabel=length (cm), 
+					xtick distance=0.25,
+					xticklabels={,,,,,1,,,,2,,,,3,,,,4,,,,5},
+					ylabel=, 
+					ylabel style={rotate=0}, 
+					ytick=false,
+					yticklabels={,,},
+					width=0.51\linewidth,
+					height=4cm
+					]
+					
+					\addplot[
+					dashed,
+					variable=\t,
+					domain=0:5,
+					color=gray, 
+					mark=false
+					] {
+						2
+					};
+					
+					\addplot[
+					smooth,
+					variable=\t,
+					domain=0:5,
+					color=cyan, 
+					samples=200,
+					mark=false
+					] {
+						cos((360 * 2 * t) + 0) + cos((360 * 3 * t) + 0) + 2
+					};
+					
+				\end{axis}
+			\end{tikzpicture}
+		}\hfill
+		\subfloat[Variation of distance of the COM from origin as wrapping frequency changes] {
+			\begin{tikzpicture}
+				\label{fig:wound_up_deformed_spring_com_distance_vs_wrap_freq}
+				\begin{axis} [
+					axis lines=middle, 
+					xmin=0, 
+					xmax=5, 
+					ymin=0,
+					ymax=0.65,
+					xlabel=$f_{w}$, 
+					xtick distance=1,
+					ylabel=distance of COM, 
+					ylabel style={rotate=0}, 
+					ytick distance=0.25,
+					width=0.44\linewidth
+					]
+					
+					\addplot[thin, smooth, color=red] table [header=true, col sep=comma, x=frequency, y=mag] {res/data/2d_deformed_spring_wound_up_com.csv};
+					
+				\end{axis}
+			\end{tikzpicture}
+		}
+		
+		\caption{Frequency analysis of a 2D linear deformed spring by wrapping it around a circle with frequency $f_{w}$ and tracking the resulting center of mass.}
+		\label{fig:2d_deformed_spring_and_com_plot}
+	\end{figure}
+	
+	\subsection{General Mathematical Construct}
+	Following our analogy of springs, a general algorithm of frequency decomposition of any signal (say $f(t)$) requires wrapping the given signal around a circle in some plane of our choice with some wrapping frequency $f_{w}$, and then tracking the  \quotedsingleit{imaginary} center of mass of resulting wrapped up signal as $f_{w}$ changes. To express this in the language of math is even more interesting.
+	
+	First problem is the choice of a wrapping plane. Among coordinate planes, most common is the Cartesian plane, which represents each point uniquely as (x, y). However, when it comes to rotation and wrapping, Complex plane is a far better choice. The reason is Euler's formula $e^{i\theta} = \cos\theta + i\sin\theta$, which says that any point on the complex plane (i.e complex number) can be expressed as rotations off the real axis, $z = x + iy = re^{i\theta}$ where $r$ is the distance from origin and $\theta$ is the angle it makes off the positive real axis. $r = \sqrt{x^2 + y^2}$, $\theta = \tan^{-1}y/x$. $e^{2\pi it}$ thus represents a point rotating in the complex plane around the circumference of a unit circle at the rate of 1 rotation/s.
+	
+	Next problem is to control the rate of rotation or wrapping. It can easily be done by multiplying wrapping frequency in the exponent. $e^{2\pi if_{w}t}$ now represents rotation around a unit circle with the rate of $f_{w}$ rotations/s. For ex if $f_{w} = 1/5$ cycles/s, then time has to increase all the way to 5s for the exponent to rise from $0$ to $2\pi$, resulting in 1 cycle every 5s.
+
+	If we now multiply this rotating point $e^{2\pi if_{w}t}$ with the signal $f(t)$, the rotating point at any instant in time will get scaled up or down by the intensity of the signal for that time. This is illustrated in figure \ref{fig:mathematical_construct_of_wrapping_pure_signal_in_complex_plane}. In effect, the point, rather that rotating at a fixed distance from the origin, will then shuffle near and far from the origin depending on how the signal intensity changes with time, The distance of the rotating point from origin at a particular time will then depend on the signal intensity at that time. $f(t)e^{2\pi if_{w}t}$ thus represents a point in the complex plane that traces the wrapped up signal with wrapping frequency $f_{w}$, as the time passes by!
+	
+	TODO: center of mass
+	
+	\begin{figure}[H]
+		\centering
+		\subfloat[Pure signal $f(t)$ with frequency $2$ Hz]{
+			\begin{tikzpicture}
+				\begin{axis} [
+					axis lines=left, 
+					xmin=0, 
+					xmax=4, 
+					ymin=-1,
+					ymax=1,
+					xlabel=$t$, 
+					xtick distance=1,
+					ylabel=Intensity, 
+					ylabel style={rotate=0}, 
+					ytick=false,
+					yticklabels={,,},
+					width=0.42\linewidth,
+					height=3cm
+					]
+				
+					\addplot[
+					smooth,
+					variable=\t,
+					color=cyan, 
+					samples=200,
+					mark=false
+					] {
+						cos((360 * 2 * t) + 0)
+					};
+					
+				\end{axis}
+			\end{tikzpicture}
+		}\hfill
+		\subfloat[Point rotating in complex plane expressed as $e^{2\pi if_{w}t}$ with rotational frequency $f_{w}$]{
+			\begin{tikzpicture}
+				\begin{axis} [
+					axis lines=middle, 
+					xmin=-2.2, 
+					xmax=2.2, 
+					ymin=-2.2,
+					ymax=2.2,
+					xlabel=$Real$, 
+					xtick distance=1,
+					ylabel=Img, 
+					ylabel style={rotate=0}, 
+					ytick distance=1,
+					width=0.54\linewidth
+					]
+					
+					\addplot[
+					smooth,
+					variable=\t,
+					domain=0:2,
+					color=red, 
+					samples=200,
+					mark=false
+					] (
+						{ cos((360 * t) + 0) },
+						{ sin((360 * t) + 0) }
+					);
+					
+				\end{axis}
+			\end{tikzpicture}
+		}
+	
+		\subfloat[Wrapped up signal as the product of $f(t)$ and $e^{2\pi if_{w}t}$. Here $f_{w}=0.25$ cycles/s]{
+			\begin{tikzpicture}
+				\begin{axis} [
+					axis lines=middle, 
+					xmin=-2.9, 
+					xmax=2.9, 
+					ymin=-2.9,
+					ymax=2.9,
+					xlabel=$Real$, 
+					xtick distance=1,
+					ylabel=Img, 
+					ylabel style={rotate=0}, 
+					ytick distance=1,
+					width=0.49\linewidth
+					]
+					
+					\addplot[
+					smooth,
+					variable=\t,
+					domain=0:4,
+					color=cyan, 
+					samples=200,
+					mark=false
+					] (
+					{ (cos((360 * 2 * t) + 0) + 1) * cos((360 * 0.25 * t) + 0) },
+					{ (cos((360 * 2 * t) + 0) + 1) * sin((360 * 0.25 * t) + 0) }
+					);
+					
+					\addplot[
+					only marks,
+					mark=*,
+					mark options={fill=green},
+					mark size=1.2pt,
+					domain=0.4:3.6,
+					variable=\t, 
+					samples=11
+					] (
+					{ (cos((360 * 2 * t) + 0) + 1) * cos((360 * 0.25 * t) + 0) },
+					{ (cos((360 * 2 * t) + 0) + 1) * sin((360 * 0.25 * t) + 0) }
+					);
+					
+					\draw[color=red, fill=red] (0,0) circle (1.7pt) node[above] {};
+					
+				\end{axis}
+			\end{tikzpicture}
+		}\hfill
+		\subfloat[Wrapped up signal with frequency $f_{w}=2$ rotations/s]{
+			\begin{tikzpicture}
+				\begin{axis} [
+					axis lines=middle, 
+					xmin=-2.9, 
+					xmax=2.9, 
+					ymin=-2.9,
+					ymax=2.9,
+					xlabel=$Real$, 
+					xtick distance=1,
+					ylabel=Img, 
+					ylabel style={rotate=0}, 
+					ytick distance=1,
+					width=0.49\linewidth
+					]
+					
+					\addplot[
+					smooth,
+					domain=0:4,
+					variable=\t,
+					color=cyan, 
+					samples=200,
+					mark=false
+					] (
+					{ (cos((360 * 2 * t) + 0) + 1) * cos((360 * 2 * t) + 0) },
+					{ (cos((360 * 2 * t) + 0) + 1) * sin((360 * 2 * t) + 0) }
+					);
+					
+					\addplot[
+					only marks,
+					mark=*,
+					mark options={fill=green},
+					mark size=1.2pt,
+					domain=0:4,
+					variable=\t, 
+					samples=10
+					] (
+					{ (cos((360 * 2 * t) + 0) + 1) * cos((360 * 2 * t) + 0) },
+					{ (cos((360 * 2 * t) + 0) + 1) * sin((360 * 2 * t) + 0) }
+					);
+					
+					\draw[color=red, fill=red] (0.5,0) circle (1.7pt) node[above] {};
+					
+				\end{axis}
+			\end{tikzpicture}
+		}
+	
+		\caption{Mathematical construct of wrapping a signal around a circle of unit radius in the complex plane with wrapping frequency $f_{w}$. The wrapped up signal can be traced by scaling a point rotating in complex plane (given by $e^{2\pi if_{w}t}$) by the signal $f(t)$ i.e $f(t)e^{2\pi if_{w}t}$ gives the wrapped signal. Center of mass of the wrapped up graph (shown as red dot) is given by the average of randomly sampled points along the curve (shown as green dots).}
+		\label{fig:mathematical_construct_of_wrapping_pure_signal_in_complex_plane}
+	\end{figure}
 	
 	\subsection{Definition}\label{sec:fourier_transform_def}  % Formal Definition
 	Fourier transform of a complex valued function in time $f(t)$ (a signal) is another complex valued function in frequency $\hat{F}(\omega)$ (i.e spectrum), whose output for a certain frequency encodes the strength ($=absolute(\hat{F}(\omega))$) and phase offset ($=argument(\hat{F}(\omega))$) of that frequency within the original signal \cite{herman2016fourieranalysis}
@@ -387,7 +637,7 @@
 	\end{equation*}
 	So if x is time in seconds, then y represents temporal frequency in $s^{-1}$ (or $Hz$). Similarly if x is distance in meters, then y symbolizes spatial frequency in $m^{-1}$.
 	
-	\subsection{Rise of uncertainty}\label{sec:fourier_transform_intuitive_uncertainty}
+	\subsection{Origin of uncertainty}\label{sec:fourier_transform_intuitive_uncertainty}
 	TODO: How uncertainty arises
 	
 	% Inverse Fourier Transform

@@ -104,6 +104,26 @@ public class Providers {
 
     /* Static */
 
+    public static final FunctionProviderI TEST_FUNCTION = new SimpleFunctionProvider(
+            new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Test Function"),
+            new SignalFunctionI() {
+                @Override
+                public double getSignalIntensity(double t) {
+                    return Math.cos((MathUtil.TWO_PI * 2 * t) + 0) + Math.cos((MathUtil.TWO_PI * 3.0 * t) + 0);
+                }
+
+                @Override
+                public double getDomainStart() {
+                    return 0;
+                }
+
+                @Override
+                public double getDomainEnd() {
+                    return 5;
+                }
+            }
+    );
+
     public static final FunctionProviderI STEP_FUNCTION = new SimpleFunctionProvider(
             new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Step Function"),
             new StepFunction(1)
@@ -356,6 +376,7 @@ public class Providers {
     @Unmodifiable
     public static final List<FunctionProviderI> INTERNAL_PROGRAMS = List.of(
             NoopProvider.getSingleton(),
+//            TEST_FUNCTION,
             STEP_FUNCTION,
             RECT_FUNCTION,
             CIRCLE_FUNCTION,
