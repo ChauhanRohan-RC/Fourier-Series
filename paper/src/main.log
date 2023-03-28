@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.4)  28 MAR 2023 01:05
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.4)  29 MAR 2023 04:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -904,73 +904,61 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
 {C:/Users/RC/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
-PGFPlots: reading {res/data/2d_spring_wound_up_com.csv}
+PGFPlots: reading {res/data/2d_spring_4cm_2Hz_phase_180_wound_up_com.csv}
 
 
-Package pgfplots Warning: Table 'res/data/2d_spring_wound_up_com.csv' has an em
-pty column name; replacing it by '5'' on input line 350.
-
- [warning /pgfplots/warning/empty column name]
-
-Package pgfplots Warning: Table 'res/data/2d_spring_wound_up_com.csv' has an em
-pty column name; replacing it by '6'' on input line 350.
+Package pgfplots Warning: Table 'res/data/2d_spring_4cm_2Hz_phase_180_wound_up_
+com.csv' has an empty column name; replacing it by '5'' on input line 350.
 
  [warning /pgfplots/warning/empty column name]
 
-Package pgfplots Warning: Table 'res/data/2d_spring_wound_up_com.csv' has an em
-pty column name; replacing it by '7'' on input line 350.
+Package pgfplots Warning: Table 'res/data/2d_spring_4cm_2Hz_phase_180_wound_up_
+com.csv' has an empty column name; replacing it by '6'' on input line 350.
+
+ [warning /pgfplots/warning/empty column name]
+PGFPlots: reading {res/data/2d_spring_4cm_2Hz_phase_180_wound_up_com.csv}
+
+Package pgfplots Warning: Table 'res/data/2d_spring_4cm_2Hz_phase_180_wound_up_
+com.csv' has an empty column name; replacing it by '5'' on input line 371.
 
  [warning /pgfplots/warning/empty column name]
 
-Package pgfplots Warning: Table 'res/data/2d_spring_wound_up_com.csv' has an em
-pty column name; replacing it by '8'' on input line 350.
-
- [warning /pgfplots/warning/empty column name]
-PGFPlots: reading {res/data/2d_spring_wound_up_com.csv}
-
-Package pgfplots Warning: Table 'res/data/2d_spring_wound_up_com.csv' has an em
-pty column name; replacing it by '5'' on input line 371.
-
- [warning /pgfplots/warning/empty column name]
-
-Package pgfplots Warning: Table 'res/data/2d_spring_wound_up_com.csv' has an em
-pty column name; replacing it by '6'' on input line 371.
-
- [warning /pgfplots/warning/empty column name]
-
-Package pgfplots Warning: Table 'res/data/2d_spring_wound_up_com.csv' has an em
-pty column name; replacing it by '7'' on input line 371.
-
- [warning /pgfplots/warning/empty column name]
-
-Package pgfplots Warning: Table 'res/data/2d_spring_wound_up_com.csv' has an em
-pty column name; replacing it by '8'' on input line 371.
+Package pgfplots Warning: Table 'res/data/2d_spring_4cm_2Hz_phase_180_wound_up_
+com.csv' has an empty column name; replacing it by '6'' on input line 371.
 
  [warning /pgfplots/warning/empty column name]
 [2]
-PGFPlots: reading {res/data/2d_deformed_spring_wound_up_com.csv}
+PGFPlots: reading {res/data/2d_deformed_spring_5cm_2_and_3Hz_phase_180_wound_up
+_com.csv}
 
 
-Package pgfplots Warning: Table 'res/data/2d_deformed_spring_wound_up_com.csv' 
-has an empty column name; replacing it by '5'' on input line 448.
-
- [warning /pgfplots/warning/empty column name]
-
-Package pgfplots Warning: Table 'res/data/2d_deformed_spring_wound_up_com.csv' 
-has an empty column name; replacing it by '6'' on input line 448.
+Package pgfplots Warning: Table 'res/data/2d_deformed_spring_5cm_2_and_3Hz_phas
+e_180_wound_up_com.csv' has an empty column name; replacing it by '5'' on input
+ line 448.
 
  [warning /pgfplots/warning/empty column name]
 
-Package pgfplots Warning: Table 'res/data/2d_deformed_spring_wound_up_com.csv' 
-has an empty column name; replacing it by '7'' on input line 448.
+Package pgfplots Warning: Table 'res/data/2d_deformed_spring_5cm_2_and_3Hz_phas
+e_180_wound_up_com.csv' has an empty column name; replacing it by '6'' on input
+ line 448.
 
  [warning /pgfplots/warning/empty column name]
 
-Package pgfplots Warning: Table 'res/data/2d_deformed_spring_wound_up_com.csv' 
-has an empty column name; replacing it by '8'' on input line 448.
+Package pgfplots Warning: Table 'res/data/2d_deformed_spring_5cm_2_and_3Hz_phas
+e_180_wound_up_com.csv' has an empty column name; replacing it by '7'' on input
+ line 448.
+
+ [warning /pgfplots/warning/empty column name]
+
+Package pgfplots Warning: Table 'res/data/2d_deformed_spring_5cm_2_and_3Hz_phas
+e_180_wound_up_com.csv' has an empty column name; replacing it by '8'' on input
+ line 448.
 
  [warning /pgfplots/warning/empty column name]
 [3] [4] [5]
+PGFPlots: reading {res/data/signal_4s_2Hz_FT_spectrum.csv}
+PGFPlots: reading {res/data/signal_20s_2Hz_FT_spectrum.csv}
+ [6] [7] [8]
 Missing character: There is no . in font nullfont!
 Missing character: There is no 0 in font nullfont!
 Missing character: There is no 1 in font nullfont!
@@ -996,33 +984,33 @@ Missing character: There is no 0 in font nullfont!
 Missing character: There is no 1 in font nullfont!
 Missing character: There is no p in font nullfont!
 Missing character: There is no t in font nullfont!
-[6] [7] [8] [9]
-<res/graphics/mechanical_analouge_of_wave_rest.pdf, id=327, 450.74127pt x 69.21
+[9] [10] [11]
+<res/graphics/mechanical_analouge_of_wave_rest.pdf, id=354, 450.74127pt x 69.21
 19pt>
 File: res/graphics/mechanical_analouge_of_wave_rest.pdf Graphic file (type pdf)
 
 <use res/graphics/mechanical_analouge_of_wave_rest.pdf>
 Package pdftex.def Info: res/graphics/mechanical_analouge_of_wave_rest.pdf  use
-d on input line 981.
+d on input line 1148.
 (pdftex.def)             Requested size: 434.85222pt x 66.77426pt.
-<res/graphics/mechanical_analouge_of_wave_low_speed.pdf, id=328, 452.11464pt x 
+<res/graphics/mechanical_analouge_of_wave_low_speed.pdf, id=355, 452.11464pt x 
 92.40576pt>
 File: res/graphics/mechanical_analouge_of_wave_low_speed.pdf Graphic file (type
  pdf)
 <use res/graphics/mechanical_analouge_of_wave_low_speed.pdf>
 Package pdftex.def Info: res/graphics/mechanical_analouge_of_wave_low_speed.pdf
-  used on input line 986.
+  used on input line 1153.
 (pdftex.def)             Requested size: 434.85222pt x 88.88052pt.
-<res/graphics/mechanical_analouge_of_wave_high_speed.pdf, id=329, 452.27411pt x
+<res/graphics/mechanical_analouge_of_wave_high_speed.pdf, id=356, 452.27411pt x
  91.9669pt>
 File: res/graphics/mechanical_analouge_of_wave_high_speed.pdf Graphic file (typ
 e pdf)
 <use res/graphics/mechanical_analouge_of_wave_high_speed.pdf>
 Package pdftex.def Info: res/graphics/mechanical_analouge_of_wave_high_speed.pd
-f  used on input line 991.
+f  used on input line 1158.
 (pdftex.def)             Requested size: 434.85222pt x 88.42755pt.
- [10 <./res/graphics/mechanical_analouge_of_wave_rest.pdf> <./res/graphics/mech
-anical_analouge_of_wave_low_speed.pdf
+ [12] [13 <./res/graphics/mechanical_analouge_of_wave_rest.pdf> <./res/graphics
+/mechanical_analouge_of_wave_low_speed.pdf
 
 pdfTeX warning: pdflatex.exe (file ./res/graphics/mechanical_analouge_of_wave_l
 ow_speed.pdf): PDF inclusion: multiple pdfs with page group included in a singl
@@ -1032,21 +1020,21 @@ e page
 pdfTeX warning: pdflatex.exe (file ./res/graphics/mechanical_analouge_of_wave_h
 igh_speed.pdf): PDF inclusion: multiple pdfs with page group included in a sing
 le page
->] [11] [12] [13] [14] [15]
+>] [14] [15] [16] [17]
 Missing character: There is no . in font nullfont!
 Missing character: There is no 0 in font nullfont!
 Missing character: There is no 1 in font nullfont!
 Missing character: There is no p in font nullfont!
 Missing character: There is no t in font nullfont!
-(main.bbl [16]) [17] (main.aux)
+[18] (main.bbl) [19] (main.aux)
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 94D35D5C8A144248AD15569ED0C03F81;4083.
  ) 
 Here is how much of TeX's memory you used:
- 33944 strings out of 476375
- 793276 string characters out of 5790392
- 2199502 words of memory out of 5000000
- 53661 multiletter control sequences out of 15000+600000
+ 34012 strings out of 476375
+ 795457 string characters out of 5790392
+ 2197422 words of memory out of 5000000
+ 53716 multiletter control sequences out of 15000+600000
  525509 words of font info for 81 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,14n,103p,1295b,2155s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1076,9 +1064,9 @@ onts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/RC/AppData/Local/Programs/MiK
 TeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/RC/AppData/Local/Progra
 ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmti9.pfb><C:/Users/RC/AppData/Local/P
 rograms/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (17 pages, 695810 bytes).
+Output written on main.pdf (19 pages, 768294 bytes).
 PDF statistics:
- 862 PDF objects out of 1000 (max. 8388607)
- 145 named destinations out of 1000 (max. 500000)
+ 892 PDF objects out of 1000 (max. 8388607)
+ 154 named destinations out of 1000 (max. 500000)
  212 words of extra memory for PDF output out of 10000 (max. 10000000)
 

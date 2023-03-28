@@ -1,0 +1,348 @@
+
+## LOG START -> 2023-03-29 01:11:50:498795300 +05:30[Asia/Calcutta]
+2023-03-29 01:11:50:498795300 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2023-03-29 01:11:51:351926800 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS | WindowCount: 1 
+2023-03-29 01:13:48:507878900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Test Function (Internal Program) 
+2023-03-29 01:13:48:796149200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Test Function (Internal Program)] loaded in 289 ms 
+2023-03-29 01:13:49:317475500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2023-03-29 01:13:49:587296800 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\New Etude.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 01:13:49:596537900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : IDLE -> ERROR 
+2023-03-29 01:13:49:596537900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> ERROR 
+2023-03-29 01:14:23:482256000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Rotor Frequency Provider changed. Function: Test Function (Internal Program) | Old Frequency Provider: null | New Frequency Provider: BoundedFrequencyProvider{frequencyStart=0.0, frequencyEnd=4.0} 
+2023-03-29 01:14:23:482256000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Test Function (Internal Program) 
+2023-03-29 01:14:23:749134800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Test Function (Internal Program)] loaded in 267 ms 
+2023-03-29 01:14:25:902931900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Test Function (Internal Program) 
+2023-03-29 01:14:26:387455200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Test Function (Internal Program)] loaded in 485 ms 
+2023-03-29 01:14:30:638727500 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS Transform (Test Function) | WindowCount: 2 
+2023-03-29 01:14:31:461912100 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\New Etude.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 01:14:31:461912100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : ERROR -> ERROR 
+2023-03-29 01:14:31:461912100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2023-03-29 01:14:39:198338000 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS Transform (Test Function) | WindowCount: 1 
+2023-03-29 01:15:37:43450800 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS Transform (Test Function) | WindowCount: 2 
+2023-03-29 01:15:37:670763700 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\New Etude.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 01:15:37:670763700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : ERROR -> ERROR 
+2023-03-29 01:15:37:670763700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2023-03-29 01:16:33:5521500 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS Transform (Test Function) | WindowCount: 1 
+2023-03-29 01:20:46:590680400 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS (Test Function) | WindowCount: 0 
+2023-03-29 01:20:46:653178500 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2023-03-29 01:20:46:653178500 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2023-03-29 01:20:46:653178500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> CLOSED 
+## LOG END -> 2023-03-29 01:20:46:653178500 +05:30[Asia/Calcutta]
+
+## LOG START -> 2023-03-29 01:34:31:436188800 +05:30[Asia/Calcutta]
+2023-03-29 01:34:31:420554000 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2023-03-29 01:34:32:251083800 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS | WindowCount: 1 
+2023-03-29 01:34:35:112806300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Test Function (Internal Program) 
+2023-03-29 01:34:35:456873900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Test Function (Internal Program)] loaded in 344 ms 
+2023-03-29 01:34:35:972079800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2023-03-29 01:34:36:71954600 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Clock.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 01:34:36:71954600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : IDLE -> ERROR 
+2023-03-29 01:34:36:79931700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> ERROR 
+2023-03-29 01:34:42:991409200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Rotor Frequency Provider changed. Function: Test Function (Internal Program) | Old Frequency Provider: null | New Frequency Provider: BoundedFrequencyProvider{frequencyStart=0.0, frequencyEnd=4.0} 
+2023-03-29 01:34:42:991409200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Test Function (Internal Program) 
+2023-03-29 01:34:43:238544900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Test Function (Internal Program)] loaded in 242 ms 
+2023-03-29 01:34:45:746119800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Test Function (Internal Program) 
+2023-03-29 01:34:46:262375300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Test Function (Internal Program)] loaded in 516 ms 
+2023-03-29 01:34:48:197870500 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS Transform (Test Function) | WindowCount: 2 
+2023-03-29 01:34:48:849530600 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Clock.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 01:34:48:849530600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : ERROR -> ERROR 
+2023-03-29 01:34:48:862187300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2023-03-29 01:35:10:339135600 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS Transform (Test Function) | WindowCount: 1 
+2023-03-29 01:35:11:122108500 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS (Test Function) | WindowCount: 0 
+2023-03-29 01:35:11:185781700 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2023-03-29 01:35:11:186294800 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2023-03-29 01:35:11:186294800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> CLOSED 
+## LOG END -> 2023-03-29 01:35:11:193980500 +05:30[Asia/Calcutta]
+
+## LOG START -> 2023-03-29 01:35:24:253905800 +05:30[Asia/Calcutta]
+2023-03-29 01:35:24:253905800 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2023-03-29 01:35:25:20888800 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS | WindowCount: 1 
+2023-03-29 01:35:27:610783900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Test Function (Internal Program) 
+2023-03-29 01:35:27:948268900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Test Function (Internal Program)] loaded in 338 ms 
+2023-03-29 01:35:28:463016100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2023-03-29 01:35:28:773290200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Fractals): IS_CURRENT: true : IDLE -> OPEN 
+2023-03-29 01:35:28:773290200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2023-03-29 01:35:35:683369600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Rotor Frequency Provider changed. Function: Test Function (Internal Program) | Old Frequency Provider: null | New Frequency Provider: BoundedFrequencyProvider{frequencyStart=0.0, frequencyEnd=4.0} 
+2023-03-29 01:35:35:683369600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Test Function (Internal Program) 
+2023-03-29 01:35:35:895743100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Test Function (Internal Program)] loaded in 212 ms 
+2023-03-29 01:35:38:172960200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Test Function (Internal Program) 
+2023-03-29 01:35:38:658280200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Test Function (Internal Program)] loaded in 486 ms 
+2023-03-29 01:35:39:904007200 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS Transform (Test Function) | WindowCount: 2 
+2023-03-29 01:35:42:768327600 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS Transform (Test Function) | WindowCount: 1 
+2023-03-29 01:35:46:643894300 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS (Test Function) | WindowCount: 0 
+2023-03-29 01:35:46:707359500 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2023-03-29 01:35:46:712869800 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2023-03-29 01:35:46:714965500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> CLOSED 
+2023-03-29 01:35:46:714965500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Fractals): IS_CURRENT: true : OPEN -> CLOSED 
+## LOG END -> 2023-03-29 01:35:46:716669100 +05:30[Asia/Calcutta]
+
+## LOG START -> 2023-03-29 01:35:53:850902800 +05:30[Asia/Calcutta]
+2023-03-29 01:35:53:848928400 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2023-03-29 01:35:54:586898000 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS | WindowCount: 1 
+2023-03-29 01:35:58:838684400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Step Function (Internal Program) 
+2023-03-29 01:35:59:33473000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Step Function (Internal Program)] loaded in 195 ms 
+2023-03-29 01:35:59:552461600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2023-03-29 01:35:59:682528900 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Etude.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 01:35:59:682528900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Etude): IS_CURRENT: true : IDLE -> ERROR 
+2023-03-29 01:35:59:682528900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> ERROR 
+2023-03-29 01:36:01:532361600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Test Function (Internal Program) 
+2023-03-29 01:36:01:940044500 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Test Function (Internal Program)] loaded in 408 ms 
+2023-03-29 01:36:10:96362000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Rotor Frequency Provider changed. Function: Test Function (Internal Program) | Old Frequency Provider: null | New Frequency Provider: BoundedFrequencyProvider{frequencyStart=0.0, frequencyEnd=4.0} 
+2023-03-29 01:36:10:96362000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Test Function (Internal Program) 
+2023-03-29 01:36:10:368019400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Test Function (Internal Program)] loaded in 272 ms 
+2023-03-29 01:36:11:901177800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Test Function (Internal Program) 
+2023-03-29 01:36:12:479965800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Test Function (Internal Program)] loaded in 578 ms 
+2023-03-29 01:36:13:595846200 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS Transform (Test Function) | WindowCount: 2 
+2023-03-29 01:36:14:355147500 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Etude.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 01:36:14:355147500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Etude): IS_CURRENT: true : ERROR -> ERROR 
+2023-03-29 01:36:14:355147500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2023-03-29 01:36:51:822031800 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS Transform (Test Function) | WindowCount: 1 
+2023-03-29 01:36:52:569334000 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS (Test Function) | WindowCount: 0 
+2023-03-29 01:36:52:649017600 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2023-03-29 01:36:52:658036700 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2023-03-29 01:36:52:658036700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> CLOSED 
+## LOG END -> 2023-03-29 01:36:52:658036700 +05:30[Asia/Calcutta]
+
+## LOG START -> 2023-03-29 04:09:21:955290200 +05:30[Asia/Calcutta]
+2023-03-29 04:09:21:955290200 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2023-03-29 04:09:22:779667500 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS | WindowCount: 1 
+2023-03-29 04:09:30:35630900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Test Function (Internal Program) 
+2023-03-29 04:09:30:331492100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Test Function (Internal Program)] loaded in 296 ms 
+2023-03-29 04:09:30:852575800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2023-03-29 04:09:30:951493800 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Clock.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 04:09:30:951493800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : IDLE -> ERROR 
+2023-03-29 04:09:30:958087200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> ERROR 
+2023-03-29 04:09:32:543718700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Test Function (Internal Program) 
+2023-03-29 04:09:33:3211600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Test Function (Internal Program)] loaded in 460 ms 
+2023-03-29 04:09:40:74537900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Rotor Frequency Provider changed. Function: Test Function (Internal Program) | Old Frequency Provider: null | New Frequency Provider: BoundedFrequencyProvider{frequencyStart=0.0, frequencyEnd=4.0} 
+2023-03-29 04:09:40:74537900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Test Function (Internal Program) 
+2023-03-29 04:09:40:580699200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Test Function (Internal Program)] loaded in 506 ms 
+2023-03-29 04:09:43:2731800 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS Transform (Test Function) | WindowCount: 2 
+2023-03-29 04:09:43:828545500 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Clock.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 04:09:43:828545500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : ERROR -> ERROR 
+2023-03-29 04:09:43:828545500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2023-03-29 04:10:44:681856100 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS Transform (Test Function) | WindowCount: 1 
+2023-03-29 04:10:48:206709200 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Clock.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 04:10:48:206709200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : ERROR -> ERROR 
+2023-03-29 04:10:48:206709200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2023-03-29 04:10:58:769460800 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS (Test Function) | WindowCount: 0 
+2023-03-29 04:10:58:831977200 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2023-03-29 04:10:58:831977200 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2023-03-29 04:10:58:831977200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> CLOSED 
+## LOG END -> 2023-03-29 04:10:58:831977200 +05:30[Asia/Calcutta]
+
+## LOG START -> 2023-03-29 04:11:22:201136100 +05:30[Asia/Calcutta]
+2023-03-29 04:11:22:201136100 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2023-03-29 04:11:22:989394600 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS | WindowCount: 1 
+2023-03-29 04:11:25:225024400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Test Function (Internal Program) 
+2023-03-29 04:11:25:554495300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Test Function (Internal Program)] loaded in 329 ms 
+2023-03-29 04:11:26:57990500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2023-03-29 04:11:26:264564800 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Sixes.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 04:11:26:264564800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : IDLE -> ERROR 
+2023-03-29 04:11:26:264564800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> ERROR 
+2023-03-29 04:11:28:432805100 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS Transform (Test Function) | WindowCount: 2 
+2023-03-29 04:11:29:160774800 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Sixes.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 04:11:29:160774800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : ERROR -> ERROR 
+2023-03-29 04:11:29:160774800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2023-03-29 04:11:37:403047000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Rotor Frequency Provider changed. Function: Test Function (Internal Program) | Old Frequency Provider: null | New Frequency Provider: BoundedFrequencyProvider{frequencyStart=0.0, frequencyEnd=4.0} 
+2023-03-29 04:11:37:403047000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Test Function (Internal Program) 
+2023-03-29 04:11:37:656738700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Test Function (Internal Program)] loaded in 253 ms 
+2023-03-29 04:11:38:331805700 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Sixes.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 04:11:38:336819300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : ERROR -> ERROR 
+2023-03-29 04:11:38:336819300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2023-03-29 04:12:07:912328800 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS Transform (Test Function) | WindowCount: 1 
+2023-03-29 04:12:08:732699600 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS (Test Function) | WindowCount: 0 
+2023-03-29 04:12:08:796154600 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2023-03-29 04:12:08:807221100 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2023-03-29 04:12:08:807221100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> CLOSED 
+## LOG END -> 2023-03-29 04:12:08:812193200 +05:30[Asia/Calcutta]
+
+## LOG START -> 2023-03-29 04:14:30:140085300 +05:30[Asia/Calcutta]
+2023-03-29 04:14:30:140085300 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2023-03-29 04:14:31:875579300 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS | WindowCount: 1 
+2023-03-29 04:14:36:220724100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Test Function (Internal Program) 
+2023-03-29 04:14:36:554207200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Test Function (Internal Program)] loaded in 334 ms 
+2023-03-29 04:14:37:84219200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2023-03-29 04:14:37:239439300 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Clock.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 04:14:37:244467700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : IDLE -> ERROR 
+2023-03-29 04:14:37:244467700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> ERROR 
+2023-03-29 04:14:44:651645100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Rotor Frequency Provider changed. Function: Test Function (Internal Program) | Old Frequency Provider: null | New Frequency Provider: BoundedFrequencyProvider{frequencyStart=0.0, frequencyEnd=4.0} 
+2023-03-29 04:14:44:651645100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Test Function (Internal Program) 
+2023-03-29 04:14:44:886673000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Test Function (Internal Program)] loaded in 235 ms 
+2023-03-29 04:14:46:468671300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Test Function (Internal Program) 
+2023-03-29 04:14:46:986695600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Test Function (Internal Program)] loaded in 502 ms 
+2023-03-29 04:14:49:673889200 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS Transform (Test Function) | WindowCount: 2 
+2023-03-29 04:14:50:463181300 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Clock.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 04:14:50:468196100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : ERROR -> ERROR 
+2023-03-29 04:14:50:468196100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2023-03-29 04:15:12:440220800 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS Transform (Test Function) | WindowCount: 1 
+2023-03-29 04:15:13:558490500 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS (Test Function) | WindowCount: 0 
+2023-03-29 04:15:13:622230600 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2023-03-29 04:15:13:622230600 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2023-03-29 04:15:13:622230600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> CLOSED 
+## LOG END -> 2023-03-29 04:15:13:632438900 +05:30[Asia/Calcutta]

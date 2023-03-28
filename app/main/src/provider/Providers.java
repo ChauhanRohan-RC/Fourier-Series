@@ -109,7 +109,7 @@ public class Providers {
             new SignalFunctionI() {
                 @Override
                 public double getSignalIntensity(double t) {
-                    return Math.cos((MathUtil.TWO_PI * 2 * t) + 0) + Math.cos((MathUtil.TWO_PI * 3.0 * t) + 0);
+                    return Math.cos((MathUtil.TWO_PI * 2 * t) + MathUtil.PI);
                 }
 
                 @Override
@@ -119,7 +119,7 @@ public class Providers {
 
                 @Override
                 public double getDomainEnd() {
-                    return 5;
+                    return 4;
                 }
             }
     );
@@ -376,7 +376,7 @@ public class Providers {
     @Unmodifiable
     public static final List<FunctionProviderI> INTERNAL_PROGRAMS = List.of(
             NoopProvider.getSingleton(),
-//            TEST_FUNCTION,
+            TEST_FUNCTION,
             STEP_FUNCTION,
             RECT_FUNCTION,
             CIRCLE_FUNCTION,
