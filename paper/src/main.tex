@@ -109,6 +109,7 @@
 	
 	% Introduction
 	\section{Introduction}\label{sec:intro}
+	%%%%%%%%%%%%%%%%%%%%%%%PLEASE FOCUS ON THE AIM OF THIS PAPER IN THE CONTEXT OF THE UNCERTAINTY PRINCIPLE!!!%%%%%%%%%%
 	This paper focuses on an intuitive understanding of time, frequency and how they are related using Fourier Transform. Math behind such relationship is explored, which gives amazing insights that extends the corners of relativistic dynamics and quantum world. How this relationship manifests to a fundamental trade off that exists in nature, and how it is beautifully encapsulated in the language of mathematics is described in the text. Using principles of relativity and quantum mechanics, this idea is extended to space and all particles, and is then used to prove Quantum Uncertainty Principle, which shows how far fetching Fourier Transform can be...
 	
 	% The Fourier Transform
@@ -744,6 +745,9 @@
 	This is like separation of gases using fractional distillation (a process based on differences in boiling points of constituents) after all of them have been mixed together. Such homogeneous mix of gases is analogous to a signal, while boiling point of individual gases are analogous to pure frequencies composing the signal. Amount of a certain gas in the mixture corresponds to the strength of a certain pure frequency within the signal. 
 	
 	\subsection{Definition}\label{sec:fourier_transform_def}  % Formal Definition
+	
+	%%%%%%%%%%%%%%% FUNCTION MAY NOT ALWAYS BE COMPLEX, EXPLAIN PHASE OFFSET!!!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
 	Fourier transform of a function in time $t$, say a signal $f(t)$ (which can either be real or complex valued) is a new complex valued function in frequency $\omega$, $\hat{F}(\omega)$ (i.e spectrum), whose output for a certain frequency is a complex number $\hat{F}(\omega)=re^{i\theta}$ that encodes the strength ($=r$) and phase ($=\theta$) of that frequency within the original signal. For a certain frequency $\omega$, strength means its amplitude and for how long it persists within the signal, while phase represents shift in its position within the signal \cite{herman2016fourieranalysis}.
 	\begin{equation}\label{eq:ft_def}
 		\boxed{
@@ -894,6 +898,7 @@
 	
 	% Inverse Fourier Transform
 	\section{Inverse Fourier Transform}\label{sec:inverse_fourier_transform}
+	%%%%%%%%%%%%%%%%%%%INVERSE FOURIER TRANSFORM??%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	Just like a signal can be decomposed into constituent frequencies using Fourier transform, the reverse process of constructing a signal from its frequency information is also possible. This can be done by first shifting and scaling every possible pure frequency signal by its phase and strength respectively (as given by frequency information), and then adding all of them together.
 	
 	More formally, given the Fourier transform $\hat{F}(\omega)$ of a function $f(t)$, which encapsulates information about the strength and phase of every pure frequency in $f(t)$, the original function can be synthesized using
@@ -941,15 +946,18 @@
 	\end{align*}
 	\noindent
 	\textbf{Special Case}: If $f(t)$ is a probability distribution, then $|f(t)|^{2}$ represents the probability of occurrence of t (like a wave function). In that case, $\hat{F}(\omega)$ will also be a probability distribution since $|\hat{F}(\omega)|^{2}$ represents strength of frequency $\omega$ within $f(t)$. If $f(t)$ is normalized, \eqref{eq:plancherel_theorem} gives
+	%%%%%%%%%%%%%%%%BOTH f(t) and spectrum are ARE PROBABILITY DISTRIBUTIONS???%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\begin{equation}\label{eq:plancherel_normal_func_and_spectrum}
 		\intinfty |f(t)|^{2} \dt = 1 \qquad \text{and} \qquad \intinfty |\hat{F}(\omega)|^{2} \domega = 2 \pi
 	\end{equation}
 	
 	% Fourier Uncertainty Principle
 	\section{Fourier Uncertainty Principle}\label{sec:fourier_uncertainity_principle}
+	%%%%%%%%%%%%%%%%%%ANY MEASURE OF THIS SPREAD???VARIANCE??%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	Following section \ref{sec:fourier_transform_intuitive_origin_of_uncertainty} that describes the origin of trade off between time and frequency, this section deals with mathematical aspect of this trade off. A signal $f(t)$ and its frequency representation $\hat{F}(\omega)$ are closely related. If a signal is localized (made out of observation over a short period of time), then its spectrum is spread out i.e it correlates well with wide range of frequencies. It gets really ambiguous as to what frequencies it is actually made up of. However, observation over long period of time corresponds to a spread out signal, which gives a concentrated frequency spectrum i.e it correlates only with narrow range of frequencies, which allows for easy detection of constituent frequencies. This gives rise to a \quotedsingleit{\textbf{natural trade off}} as to how concentrated a signal and its frequency representation can be. Qualitative analysis and quantitative description of this trade off is given in following subsections.
 	
 	\subsection{Qualitative: The Fourier Trade Off}\label{sec:fourier_uncertainity_principle_qualitative}
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%SIGNIFICANCE OF g(t)??%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	let $f(t)$ be a continuous and integrable function over $\mathbb{R}$. Since we do not have any control over the spread of $f(t)$, we define a new function $g(t) = \frac{1}{\sqrt{k}} f \left( \frac{t}{k} \right)$, which essentially is a wrapper over $f(t)$ with an additional parameter $k$. This parameter allows us to control the spread of $g(t)$. Hence $k$ can be called as \quotedsingleit{spread constant} (see figure \ref{fig:fourier_tradeoff_signal}) \cite{dubey2021fourieruncertainity}.
 	\begin{align*}
 		\hat{G}(\omega) = & \intinfty g(t) e^{-i \omega t} \dt
@@ -1092,6 +1100,7 @@
 	
 	\vspace{4pt}
 	Our goal is to find a lower bound to the total uncertainty (or spread) in $t$ (signal) and $\omega$ (spectrum), if that even exist. Mathematically, $\stdev{t}\, \stdev{\omega} \geq \, ?$. For simplicity, let $f(t)$ be a continuous, normalized probability distribution centered at $t=0$
+	%%%%%%%%%%%%%%%%%%%CAN IT BE CENTERED AT $t=t^\prime??$%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	%$\bar{t}=0$, $\intinfty |f(t)|^{2} \dt = 1$ and  $\intinfty |\hat{F}(\omega)|^{2} \domega = 2\pi$ (using \eqref{eq:plancherel_normal_spectrum}) 
 	% Assumptions
 	\begin{subequations}
@@ -1247,6 +1256,7 @@
 		\text{Proper frequency of oscillation of weights/thread:} \quad \nu_{0} = \frac{m_{0}c^{2}}{h}&&
 	\end{flalign}
 	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% WHAT IS $\beta$ ??%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	Up till now, the description is for an observer at rest relative to the system. However, if an observer is moving relative to this system with a uniform velocity $v = \beta c$, where $\beta$ is a dimensionless constant representing speed as fraction of speed of light $c$, then each weight to him would be like a clock, showing Einstein \textbf{\textit{time dilation}}. Also, distribution of weights along the length of wire would no longer be isotropic about the center due to \textbf{\textit{Lorentz or length contraction}}. As a consequence, weights will fall out of phase (Figure \ref{fig:mehanical_analouge_of_wave_low_speed}), and their oscillations appear to slow down by a factor of $\sqrt{1 - \beta^{2}}$ from their proper frequency. An observer in motion relative to the system will then measure the frequency of oscillations as
 	\begin{equation}\label{eq:relaativistic_oscillation_freq}
 		\nu_{1} = \nu_{0}\sqrt{1 - \beta^{2}} = \frac{m_{0}c^{2}}{h}\sqrt{1 - \beta^{2}}
@@ -1319,6 +1329,7 @@
 			m_{relativistic} = \frac{m_{0}}{\sqrt{1 - \frac{v^{2}}{c^{2}}}} = \frac{0}{0} \tag{using \eqrefnp{eq:relativistic_mass_and_energy}}
 		\end{equation*}
 		which is indeterminant and can still be non-zero. Using the general energy-momentum relation \eqref{eq:energy_momentum_relation} with $m_{0} = 0$
+		%%%%%%%%%%%%%%$\frac{0}{0} IS INDETERMINATE!!!CANNOT BE DEFINED!!!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		\begin{equation}\label{eq:E_equals_pc_massless}
 			\boxed{E_{relativistic} = pc} \qquad \text{(all Kinetic)}
 		\end{equation}
@@ -1391,6 +1402,7 @@
 	equation \eqref{eq:heisenberg_uncertainty_principle} is the infamous \textbf{Heisenberg's uncertainty principle}!. It's astonishing how a simple idea of frequency decomposition of a signal can manifest to such huge implications.
 	
 	\section{Conclusion}
+	%%%%%%%%%%%%%%%%%%%%%%%PLEASE SUMMARIZE! GIVE THE KEY POINTS!!!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	The lesson from this is that Heisenberg's uncertainty principle is not an artifact of randomness or imperfect measurements in the quantum realm. Rather, it's a fundamental trade-off between how concentrated a wave and its frequency representation can be, applied in the context of wave nature of the particle (i.e saying particle is a wave and spread out over space). Space and spatial frequency (which is the same as momentum $p=h\bar{\nu}$) share the same trade-off as time and temporal frequency. The trade-off in itself is however quite general and shows up in many real world non-quantum cases as well!
 	
 	%Origin of these two effects on time and space is due to a core fact from Special Relativity 'Events that appear to be simultaneous from one viewpoint, many not be simultaneous in another reference frame'.
