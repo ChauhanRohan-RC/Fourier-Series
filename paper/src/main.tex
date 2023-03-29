@@ -894,14 +894,16 @@
 	
 	% Inverse Fourier Transform
 	\section{Inverse Fourier Transform}\label{sec:inverse_fourier_transform}
-	Given the Fourier transform $\hat{F}(\omega)$ of a function $f(t)$, the original function can be synthesized using
+	Just like a signal can be decomposed into constituent frequencies using Fourier transform, the reverse process of constructing a signal from its frequency information is also possible. This can be done by first shifting and scaling every possible pure frequency signal by its phase and strength respectively (as given by frequency information), and then adding all of them together.
+	
+	More formally, given the Fourier transform $\hat{F}(\omega)$ of a function $f(t)$, which encapsulates information about the strength and phase of every pure frequency in $f(t)$, the original function can be synthesized using
 	
 	\begin{equation}\label{eq:inverse_ft_def}
 		\boxed{
 			f(t) = \frac{1}{2\pi} \intinfty \hat{F}(\omega)e^{i\omega t} \domega
 		} \qquad \text{if $\hat{F}(\omega)$ is integrable}
 	\end{equation}
-	This is known as \textbf{Fourier Inversion Theorem}, which allows a signal to be reconstructed from its frequency and phase information. \cite{herman2016fourieranalysis}
+	This is known as \textbf{Fourier Inversion Theorem}, which allows a signal to be reconstructed from its frequency information. \cite{herman2016fourieranalysis}
 	
 	\vspace{4pt}
 	\textbf{Proof}: \textit{(uses Appendix \ref{sec:fubini_theorem} and \ref{sec:delta_func})} Multiplying both sides of equation \eqref{eq:ft_def} with $e^{i\omega \tp}$ (note $\tp$ in place of $t$) and integrating with respect to $\omega$ gives
@@ -938,17 +940,17 @@
 		= \frac{1}{2 \pi} \intinfty |\hat{F}(\omega)|^{2} \domega  \tag{using \eqrefnp{eq:delta_func_integration_value}} \\
 	\end{align*}
 	\noindent
-	\textbf{Special Case}: If $f(t)$ is a probability distribution, then $|f(t)|^{2}$ represents the probability of occurrence of t (like a wave function). In that case, $\hat{F}(\omega)$ will also be a probability distribution. If $f(t)$ is normalized, \eqref{eq:plancherel_theorem} gives
+	\textbf{Special Case}: If $f(t)$ is a probability distribution, then $|f(t)|^{2}$ represents the probability of occurrence of t (like a wave function). In that case, $\hat{F}(\omega)$ will also be a probability distribution since $|\hat{F}(\omega)|^{2}$ represents strength of frequency $\omega$ within $f(t)$. If $f(t)$ is normalized, \eqref{eq:plancherel_theorem} gives
 	\begin{equation}\label{eq:plancherel_normal_func_and_spectrum}
 		\intinfty |f(t)|^{2} \dt = 1 \qquad \text{and} \qquad \intinfty |\hat{F}(\omega)|^{2} \domega = 2 \pi
 	\end{equation}
 	
 	% Fourier Uncertainty Principle
 	\section{Fourier Uncertainty Principle}\label{sec:fourier_uncertainity_principle}
-	Following section \ref{sec:fourier_transform_intuitive_origin_of_uncertainty} that describes the origin of trade off between time and frequency, this section deals with mathematical aspect of this trade off. A signal $f(t)$ and its frequency representation $\hat{F}(\omega)$ are closely related. If a signal is localized (made out of observation over a short period of time), then its spectrum is spread out i.e it correlates well with wide range of frequencies. It gets really ambiguous as to what frequencies it is actually made up of. However, observation over long period of time corresponds to a spread out signal, which gives a concentrated frequency spectrum i.e it correlates only with narrow range of frequencies, which allows for easy detection of constituent frequencies. This gives rise to a \quotedsingleit{\textbf{natural trade off}} as to how concentrated a signal and its frequency representation can be.
+	Following section \ref{sec:fourier_transform_intuitive_origin_of_uncertainty} that describes the origin of trade off between time and frequency, this section deals with mathematical aspect of this trade off. A signal $f(t)$ and its frequency representation $\hat{F}(\omega)$ are closely related. If a signal is localized (made out of observation over a short period of time), then its spectrum is spread out i.e it correlates well with wide range of frequencies. It gets really ambiguous as to what frequencies it is actually made up of. However, observation over long period of time corresponds to a spread out signal, which gives a concentrated frequency spectrum i.e it correlates only with narrow range of frequencies, which allows for easy detection of constituent frequencies. This gives rise to a \quotedsingleit{\textbf{natural trade off}} as to how concentrated a signal and its frequency representation can be. Qualitative analysis and quantitative description of this trade off is given in following subsections.
 	
 	\subsection{Qualitative: The Fourier Trade Off}\label{sec:fourier_uncertainity_principle_qualitative}
-	let $f(t)$ be a continuous and integrable function over $\mathbb{R}$. Since we do not have any control over the spread of $f(t)$, we define a new function $g(t) = \frac{1}{\sqrt{k}} f \left( \frac{t}{k} \right)$, which essentially is a wrapper over $f(t)$ with an additional parameter $k$. This parameter allows us to control the spread of $g(t)$. Hence $k$ can be called \quotedsingleit{spread constant} (see figure \ref{fig:fourier_tradeoff_signal}) \cite{dubey2021fourieruncertainity}.
+	let $f(t)$ be a continuous and integrable function over $\mathbb{R}$. Since we do not have any control over the spread of $f(t)$, we define a new function $g(t) = \frac{1}{\sqrt{k}} f \left( \frac{t}{k} \right)$, which essentially is a wrapper over $f(t)$ with an additional parameter $k$. This parameter allows us to control the spread of $g(t)$. Hence $k$ can be called as \quotedsingleit{spread constant} (see figure \ref{fig:fourier_tradeoff_signal}) \cite{dubey2021fourieruncertainity}.
 	\begin{align*}
 		\hat{G}(\omega) = & \intinfty g(t) e^{-i \omega t} \dt
 		= \intinfty \left[ \frac{1}{\sqrt{k}} f \left( \frac{t}{k} \right) \right] e^{-i \omega t} \dt  \tag{using \eqrefnp{eq:ft_def}} \\
@@ -1245,7 +1247,7 @@
 		\text{Proper frequency of oscillation of weights/thread:} \quad \nu_{0} = \frac{m_{0}c^{2}}{h}&&
 	\end{flalign}
 	
-	Up till now, the description is for an observer at rest relative to the system. However, if an observer is moving relative to this system with a uniform velocity $v = \beta c$, then each weight to him would be like a clock, showing Einstein \textbf{\textit{time dilation}}. Also, distribution of weights along the length of wire would no longer be isotropic about the center due to \textbf{\textit{Lorentz or length contraction}}. As a consequence, weights will fall out of phase (Figure \ref{fig:mehanical_analouge_of_wave_low_speed}), and their oscillations appear to slow down by a factor of $\sqrt{1 - \beta^{2}}$ from their proper frequency. An observer in motion relative to the system will then measure the frequency of oscillations as
+	Up till now, the description is for an observer at rest relative to the system. However, if an observer is moving relative to this system with a uniform velocity $v = \beta c$, where $\beta$ is a dimensionless constant representing speed as fraction of speed of light $c$, then each weight to him would be like a clock, showing Einstein \textbf{\textit{time dilation}}. Also, distribution of weights along the length of wire would no longer be isotropic about the center due to \textbf{\textit{Lorentz or length contraction}}. As a consequence, weights will fall out of phase (Figure \ref{fig:mehanical_analouge_of_wave_low_speed}), and their oscillations appear to slow down by a factor of $\sqrt{1 - \beta^{2}}$ from their proper frequency. An observer in motion relative to the system will then measure the frequency of oscillations as
 	\begin{equation}\label{eq:relaativistic_oscillation_freq}
 		\nu_{1} = \nu_{0}\sqrt{1 - \beta^{2}} = \frac{m_{0}c^{2}}{h}\sqrt{1 - \beta^{2}}
 	\end{equation}
