@@ -109,7 +109,7 @@ public class Providers {
             new SignalFunctionI() {
                 @Override
                 public double getSignalIntensity(double t) {
-                    return Math.cos((MathUtil.TWO_PI * 2 * t) + MathUtil.PI);
+                    return Math.cos((MathUtil.TWO_PI * 4 * t) + MathUtil.PI) + 1;
                 }
 
                 @Override
@@ -119,7 +119,7 @@ public class Providers {
 
                 @Override
                 public double getDomainEnd() {
-                    return 4;
+                    return 5;
                 }
             }
     );

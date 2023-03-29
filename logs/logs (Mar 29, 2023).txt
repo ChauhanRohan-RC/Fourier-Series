@@ -346,3 +346,182 @@ javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
 2023-03-29 04:15:13:622230600 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
 2023-03-29 04:15:13:622230600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> CLOSED 
 ## LOG END -> 2023-03-29 04:15:13:632438900 +05:30[Asia/Calcutta]
+
+## LOG START -> 2023-03-29 23:19:54:967425800 +05:30[Asia/Calcutta]
+2023-03-29 23:19:54:967425800 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2023-03-29 23:19:56:572507800 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS | WindowCount: 1 
+2023-03-29 23:20:18:216140300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Test Function (Internal Program) 
+2023-03-29 23:20:18:823630600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2023-03-29 23:20:19:127510800 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Trinkets.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 23:20:19:127510800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : IDLE -> ERROR 
+2023-03-29 23:20:19:127510800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> ERROR 
+2023-03-29 23:20:19:247689100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Test Function (Internal Program)] loaded in 1016 ms 
+2023-03-29 23:20:19:972524000 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Trinkets.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 23:20:19:972524000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : ERROR -> ERROR 
+2023-03-29 23:20:19:977540000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2023-03-29 23:21:02:798826200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Rotor Frequency Provider changed. Function: Test Function (Internal Program) | Old Frequency Provider: null | New Frequency Provider: BoundedFrequencyProvider{frequencyStart=0.2, frequencyEnd=8.0} 
+2023-03-29 23:21:02:798826200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Test Function (Internal Program) 
+2023-03-29 23:21:03:426907100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Test Function (Internal Program)] loaded in 628 ms 
+2023-03-29 23:21:04:978888700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Test Function (Internal Program) 
+2023-03-29 23:21:06:220515200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Test Function (Internal Program)] loaded in 1242 ms 
+2023-03-29 23:21:09:712659800 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS Transform (Test Function) | WindowCount: 2 
+2023-03-29 23:21:11:94668200 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Trinkets.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 23:21:11:99229100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : ERROR -> ERROR 
+2023-03-29 23:21:11:99229100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2023-03-29 23:22:10:77619600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Rotor Frequency Provider changed. Function: Test Function (Internal Program) | Old Frequency Provider: BoundedFrequencyProvider{frequencyStart=0.2, frequencyEnd=8.0} | New Frequency Provider: BoundedFrequencyProvider{frequencyStart=1.0, frequencyEnd=8.0} 
+2023-03-29 23:22:10:77619600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Test Function (Internal Program) 
+2023-03-29 23:22:11:509984700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Test Function (Internal Program)] loaded in 1432 ms 
+2023-03-29 23:22:12:276323000 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Trinkets.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 23:22:12:276323000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : ERROR -> ERROR 
+2023-03-29 23:22:12:276323000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2023-03-29 23:23:03:180223200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Rotor Frequency Provider changed. Function: Test Function (Internal Program) | Old Frequency Provider: BoundedFrequencyProvider{frequencyStart=1.0, frequencyEnd=8.0} | New Frequency Provider: BoundedFrequencyProvider{frequencyStart=0.0, frequencyEnd=8.0} 
+2023-03-29 23:23:03:180223200 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 1000 Rotor States for function Test Function (Internal Program) 
+2023-03-29 23:23:04:148148900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 1000 Rotor States for function [Test Function (Internal Program)] loaded in 968 ms 
+2023-03-29 23:23:05:5394900 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Trinkets.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 23:23:05:5394900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : ERROR -> ERROR 
+2023-03-29 23:23:05:10408900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2023-03-29 23:23:15:513665300 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Trinkets.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 23:23:15:513665300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : ERROR -> ERROR 
+2023-03-29 23:23:15:513665300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2023-03-29 23:23:18:746329500 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Trinkets.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 23:23:18:746329500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : ERROR -> ERROR 
+2023-03-29 23:23:18:746329500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2023-03-29 23:23:23:748666600 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Trinkets.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 23:23:23:764300600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : ERROR -> ERROR 
+2023-03-29 23:23:23:764300600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2023-03-29 23:23:24:304850300 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Trinkets.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 23:23:24:304850300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : ERROR -> ERROR 
+2023-03-29 23:23:24:304850300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2023-03-29 23:23:28:87038400 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Trinkets.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 23:23:28:87038400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : ERROR -> ERROR 
+2023-03-29 23:23:28:87038400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2023-03-29 23:23:33:744656300 +05:30[Asia/Calcutta]:Err: AudioStreamer: Unsupported Audio File format
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Trinkets.m4a 
+javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1012)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-03-29 23:23:33:760292000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Trinkets): IS_CURRENT: true : ERROR -> ERROR 
+2023-03-29 23:23:33:760292000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> ERROR 
+2023-03-29 23:24:04:289881800 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS Transform (Test Function) | WindowCount: 1 
+2023-03-29 23:24:06:152620700 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS (Test Function) | WindowCount: 0 
+2023-03-29 23:24:06:215138400 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2023-03-29 23:24:06:246396900 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2023-03-29 23:24:06:246396900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> CLOSED 
+## LOG END -> 2023-03-29 23:24:06:262025200 +05:30[Asia/Calcutta]
