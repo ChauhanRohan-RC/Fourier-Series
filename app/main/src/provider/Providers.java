@@ -156,12 +156,12 @@ public class Providers {
 
     public static final FunctionProviderI PARTICLE_SPREAD = new SimpleFunctionProvider(
             new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Spread Particle"),
-            new ParticleWave(20, 0.5, -0.05).setCentering(false)
+            new ParticleWave(30, 0.25, 0.15).setCentering(true)
     );
 
     public static final FunctionProviderI PARTICLE_LOCALISED = new SimpleFunctionProvider(
             new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Localised Particle"),
-            new ParticleWave(20, -2, 10).setCentering(true)
+            new ParticleWave(30, 1, 2).setCentering(true).setMultiplier(16)
     );
 
 

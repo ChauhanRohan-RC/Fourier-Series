@@ -374,8 +374,6 @@ public class XChartPanel<T extends Chart<?, ?>> extends JPanel {
             throw new IllegalStateException("Cannot export data of " + chart.getClass().getSimpleName() + ". Only works for " + XYChart.class.getSimpleName());
         CSVExporter.writeCSVColumns((XYChart) chart, dir.getCanonicalPath() + File.separatorChar);
     }
-
-
     public XChartPanel<T> setExportsDir(@Nullable Path exportsDir) {
         this.mExportsDir = exportsDir;
         return this;

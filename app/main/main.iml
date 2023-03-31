@@ -7,21 +7,19 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="audio" />
+    <orderEntry type="module" module-name="core" />
+    <orderEntry type="module" module-name="uiutil" />
+    <orderEntry type="module" module-name="util" />
+    <orderEntry type="module" module-name="chart" />
+    <orderEntry type="library" name="org.jetbrains.annotations.19.0.0" level="project" />
+    <orderEntry type="library" name="math" level="project" />
+    <orderEntry type="library" name="flatlaf-intellij-themes" level="project" />
     <orderEntry type="library" name="flatlaf" level="project" />
     <orderEntry type="library" name="gson" level="project" />
-    <orderEntry type="library" name="PROGRAMS" level="project" />
-    <orderEntry type="library" name="core_src_zip" level="project" />
-    <orderEntry type="library" name="flatlaf-intellij-themes" level="project" />
-    <orderEntry type="library" name="org.jetbrains.annotations.19.0.0" level="project" />
-    <orderEntry type="library" name="main" level="project" />
     <orderEntry type="library" name="csv" level="project" />
-    <orderEntry type="library" name="math" level="project" />
-    <orderEntry type="library" name="PROGRAMS1" level="project" />
-    <orderEntry type="library" name="core" level="project" />
+    <orderEntry type="library" name="xchart-3.8" level="project" />
+    <orderEntry type="library" name="soundlibs" level="project" />
     <orderEntry type="library" name="batik" level="project" />
-    <orderEntry type="module" module-name="core" />
-    <orderEntry type="module" module-name="audio" />
-    <orderEntry type="module" module-name="util" />
-    <orderEntry type="module" module-name="uiutil" />
   </component>
 </module>

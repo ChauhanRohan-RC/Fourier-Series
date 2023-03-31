@@ -12,6 +12,7 @@ public class ParticleWave extends AbstractSignal {
     private final double frequency;
     private double dampingFactor;
     private boolean centering = DEFAULT_CENTER;
+    private double multiplier = 1;
 
     public ParticleWave(double spaceRange, double frequency, double dampingFactor) {
         this.spaceRange = spaceRange;
@@ -45,7 +46,14 @@ public class ParticleWave extends AbstractSignal {
         return setDampingFactor(0);
     }
 
+    public ParticleWave setMultiplier(double multiplier) {
+        this.multiplier = multiplier;
+        return this;
+    }
 
+    public double getMultiplier() {
+        return multiplier;
+    }
 
     @Override
     public double getDomainStart() {
@@ -60,14 +68,13 @@ public class ParticleWave extends AbstractSignal {
 
     @Override
     public double getSignalIntensity(double input) {
-        if (input > spaceRange) {
+        if (Math.abs(input) > spaceRange) {
             input %= spaceRange;
         }
 
-        if (centering && input > spaceRange / 2) {
-            input = spaceRange - input;
-        }
+        final double dampFactor = Math.exp(-dampingFactor *  (centering? Math.abs((spaceRange / 2) - input): input));
+        return Math.sin(MathUtil.TWO_PI * frequency * input) * dampFactor * multiplier;
 
-        return Math.sin(MathUtil.TWO_PI * frequency * input) * Math.exp(input * dampingFactor);
+//        return Math.sin(MathUtil.TWO_PI * frequency * input) * Math.exp((centering && input > spaceRange / 2? spaceRange - input: input) * dampingFactor);
     }
 }
