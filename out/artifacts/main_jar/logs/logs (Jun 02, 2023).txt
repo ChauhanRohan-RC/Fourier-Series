@@ -263,3 +263,11 @@ javax.sound.sampled.UnsupportedAudioFileException: Stream of unsupported format
 2023-06-02 18:00:53:886091700 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
 2023-06-02 18:00:53:886091700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> CLOSED 
 ## LOG END -> 2023-06-02 18:00:53:893611700 +05:30[Asia/Calcutta]
+
+## LOG START -> 2023-06-02 18:35:36:98441200 +05:30[Asia/Calcutta]
+2023-06-02 18:35:36:97437700 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS | WindowCount: 1 
+2023-06-02 18:35:54:854229600 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS | WindowCount: 0 
+2023-06-02 18:35:54:916744600 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2023-06-02 18:35:54:963637800 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2023-06-02 18:35:54:963637800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> CLOSED 
+## LOG END -> 2023-06-02 18:35:54:963637800 +05:30[Asia/Calcutta]

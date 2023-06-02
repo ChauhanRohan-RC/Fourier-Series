@@ -3,21 +3,26 @@
 
 ## A mathematical machine based on Fourier Series and Transforms
 
+![RFS](graphics/pictures/rfs_intro.png)
+
 ### Overview
 
 1. Approximates any function (real, complex and even discontinuous) in terms of `sines` and `cosines` (rotating vectors)
-2. Fourier Transform Visualization with advance controls
-3. In-built JAVA compiler: supports external JAVA projects! No limits to the type, complexity and data of the functions
-4. Fully extensible: support for external functions, save/load states, modify function definitions etc 
-5. FastMath support, File and Console logging, Customizable integration algorithms 
-6. Customisations: Light/Dark themes, Audio and Music, Animation styles etc
+![RFS](graphics/pictures/emoji_stars_rotors.png)
 
-![alt text](https://github.com/[ChauhanRohan-RC]/[Fourier-Series]/blob/[main]/graphics/pictures/rfs_intro.png?raw=true)
+2. Fourier Transform Visualization with advance controls
+![RFS](graphics/pictures/fourier_transform_ui.png)
+
+3. In-built JAVA compiler: supports external JAVA projects! No limits to the type, complexity and data of the functions
+4. Fully extensible: support for external functions, save/load states, modify function definitions etc
+5. FastMath support, File and Console logging, Customizable integration algorithms
+6. Configure Frequency Provider: `Fundamental`, `Centering`, `Fixed Start`, `Bounded`, `Custom Defined`
+7. Customisations: Light/Dark themes, Audio and Music, Animation styles etc
 
 ### Usage
 
 1. Install Java and add it to the environment `PATH` variable
-2. Copy directory `out\artifacts\main_jar` to your computer 
+2. Copy directory `out\artifacts\main_jar` to your computer
 3. click `launch.bat`
 
 ### External Functions support
@@ -54,3 +59,5 @@
 
 1. https://www.youtube.com/watch?v=eFbR1_0GCGw
 2. https://www.youtube.com/watch?v=8WbKhzp2rGw
+
+![Have a good day!](graphics/thumbnail/thumbnail.png)
