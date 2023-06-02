@@ -3,15 +3,15 @@
 
 ## A mathematical machine based on Fourier Series and Transforms
 
-![RFS](graphics/pictures/rfs_intro.png)
+![RFS](graphics/pictures/rfs_intro.png?raw=true)
 
 ### Overview
 
 1. Approximates any function (real, complex and even discontinuous) in terms of `sines` and `cosines` (rotating vectors)
-![RFS](graphics/pictures/emoji_stars_rotors.png)
+![RFS](graphics/pictures/emoji_stars_rotors.png?raw=true)
 
 2. Fourier Transform Visualization with advance controls
-![RFS](graphics/pictures/fourier_transform_ui.png)
+![RFS](graphics/pictures/fourier_transform_ui.png?raw=true)
 
 3. In-built JAVA compiler: supports external JAVA projects! No limits to the type, complexity and data of the functions
 4. Fully extensible: support for external functions, save/load states, modify function definitions etc
@@ -60,4 +60,4 @@
 1. https://www.youtube.com/watch?v=eFbR1_0GCGw
 2. https://www.youtube.com/watch?v=8WbKhzp2rGw
 
-![Have a good day!](graphics/thumbnail/thumbnail.png)
+![Have a good day!](graphics/thumbnail/thumbnail.png?raw=true)
