@@ -1,17 +1,10 @@
-.............................................   FOURIER SERIES   (RC @May 17, 2022) .........................................
+.............................................   FOURIER SERIES  (RC @May 17, 2022) .........................................
 
-# A mathematical Fourier Series machine
+# A mathematical machine based on Fourier Series and Transforms
 
 1. Approximates any function (real, complex and even discontinous) in terms of Sines and Cosines
-2. External Functions supported (in form of SVG vector data)
-3. Save Rotor States to a file
-4. Load a Synthetic Function from saved Rotor States
+2. Fourier Transform Visualization with advance controls	
 3. Many options and customisations
-
-# Demo
-
-1. https://www.youtube.com/watch?v=eFbR1_0GCGw
-2. https://www.youtube.com/watch?v=8WbKhzp2rGw
 
 # Usage
 
@@ -19,13 +12,27 @@
 2. Copy folder "out\artifacts\complex_jar" to your computer
 2. click "launch.bat"
 
-#  Define external path functions
+# External Functions support
+1. External Functions are supported in forms of
+	a. SVG vectors
+	b. CSV data
+	c. JSON states
+	d. JAVA projects using core.jar provided in the framework
+2. Draw or modify existing custom functions on canvas
 
-1. create a file inside EXT_FUNCTIONS dir
-2. copy path data inside file
-3. use | (logical or) character as delimier to define multiple path data as single function
+# Save-Load Function States
 
-# Save-Load Rotors
+1. Save Rotor States to as CSV or JSON
+2. Load saved function states from CSV or JSON
+3. Edit saved function data to create and load new functions
+4. Save function plot graphics and data
+	a. real vs imagniary
+	b. real vs input
+	c. imaginary vs input
+	d. magnitude vs input
+	e. phase vs input
 
-1. CTRL-S: Save Rotor States to a file
-2. CTRL-L: Load a Synthetic Function from saved Rotor States
+# Demo
+
+1. https://www.youtube.com/watch?v=eFbR1_0GCGw
+2. https://www.youtube.com/watch?v=8WbKhzp2rGw
