@@ -1,0 +1,149 @@
+
+## LOG START -> 2023-08-08 21:37:02:763699700 +05:30[Asia/Calcutta]
+2023-08-08 21:37:02:763699700 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2023-08-08 21:37:03:990029100 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS | WindowCount: 1 
+2023-08-08 21:37:09:988136100 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS | WindowCount: 0 
+2023-08-08 21:37:10:50650500 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2023-08-08 21:37:10:66281100 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2023-08-08 21:37:10:66281100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> CLOSED 
+## LOG END -> 2023-08-08 21:37:10:66281100 +05:30[Asia/Calcutta]
+
+## LOG START -> 2023-08-08 21:50:59:484973100 +05:30[Asia/Calcutta]
+2023-08-08 21:50:59:484973100 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2023-08-08 21:51:00:423581600 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS | WindowCount: 1 
+2023-08-08 21:51:28:699325300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Spread Particle (Internal Program) 
+2023-08-08 21:51:29:240070700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Spread Particle (Internal Program)] loaded in 541 ms 
+2023-08-08 21:51:29:760417600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2023-08-08 21:51:30:137086200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Fractals): IS_CURRENT: true : IDLE -> OPEN 
+2023-08-08 21:51:30:137086200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2023-08-08 21:52:16:729769000 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS Transform (Spread Particle) | WindowCount: 2 
+2023-08-08 21:52:21:484931600 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS Transform (Spread Particle) | WindowCount: 1 
+2023-08-08 21:53:48:975088300 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS (Spread Particle) | WindowCount: 0 
+2023-08-08 21:53:49:38841200 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2023-08-08 21:53:49:42852100 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2023-08-08 21:53:49:48563600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> CLOSED 
+2023-08-08 21:53:49:48563600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Fractals): IS_CURRENT: true : OPEN -> CLOSED 
+## LOG END -> 2023-08-08 21:53:49:48853200 +05:30[Asia/Calcutta]
+
+## LOG START -> 2023-08-08 21:53:54:707843200 +05:30[Asia/Calcutta]
+2023-08-08 21:53:54:692212900 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2023-08-08 21:53:55:508234800 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS | WindowCount: 1 
+2023-08-08 21:55:43:218504200 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS | WindowCount: 0 
+2023-08-08 21:55:43:280997700 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2023-08-08 21:55:43:289996700 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2023-08-08 21:55:43:290996900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> CLOSED 
+## LOG END -> 2023-08-08 21:55:43:293253700 +05:30[Asia/Calcutta]
+
+## LOG START -> 2023-08-08 21:58:49:82281600 +05:30[Asia/Calcutta]
+2023-08-08 21:58:49:82281600 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2023-08-08 21:58:49:766795500 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS | WindowCount: 1 
+2023-08-08 22:00:13:539994800 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS | WindowCount: 0 
+2023-08-08 22:00:13:602513500 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2023-08-08 22:00:13:602513500 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2023-08-08 22:00:13:602513500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> CLOSED 
+## LOG END -> 2023-08-08 22:00:13:618141500 +05:30[Asia/Calcutta]
+
+## LOG START -> 2023-08-08 22:00:56:615252900 +05:30[Asia/Calcutta]
+2023-08-08 22:00:56:615252900 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2023-08-08 22:00:57:284037300 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS | WindowCount: 1 
+2023-08-08 22:01:24:426806000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Spread Particle (Internal Program) 
+2023-08-08 22:01:24:763919300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Spread Particle (Internal Program)] loaded in 337 ms 
+2023-08-08 22:01:25:289472800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2023-08-08 22:01:25:598166300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : IDLE -> OPEN 
+2023-08-08 22:01:25:598166300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> OPEN 
+2023-08-08 22:01:25:599689600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : OPEN -> PLAYING 
+2023-08-08 22:01:25:599689600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: OPEN -> PLAYING 
+2023-08-08 22:02:47:712126100 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS Canvas | WindowCount: 2 
+2023-08-08 22:02:56:106937400 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS Canvas | WindowCount: 1 
+2023-08-08 22:03:17:616070900 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function runner (ext_path) (External Path) 
+2023-08-08 22:03:18:216988100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [runner (ext_path) (External Path)] loaded in 600 ms 
+2023-08-08 22:04:07:929840700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function treble_clef (ext_path) (External Path) 
+2023-08-08 22:04:08:308929800 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [treble_clef (ext_path) (External Path)] loaded in 378 ms 
+2023-08-08 22:04:56:443773300 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Eighth Note (Internal Path) 
+2023-08-08 22:04:56:765025100 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Eighth Note (Internal Path)] loaded in 322 ms 
+2023-08-08 22:04:57:288493000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: New Etude): IS_CURRENT: true : PLAYING -> ENDED 
+2023-08-08 22:04:57:288493000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 1] 
+2023-08-08 22:04:57:322496500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : IDLE -> OPEN 
+2023-08-08 22:04:57:322496500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : OPEN -> PLAYING 
+2023-08-08 22:05:21:316670100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : PLAYING -> PAUSED 
+2023-08-08 22:05:21:316670100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2023-08-08 22:05:31:19106700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : PAUSED -> PLAYING 
+2023-08-08 22:05:31:19325700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PAUSED -> PLAYING 
+2023-08-08 22:05:47:623499600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : PLAYING -> PAUSED 
+2023-08-08 22:05:47:623499600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2023-08-08 22:05:56:197680800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : PAUSED -> PLAYING 
+2023-08-08 22:05:56:200131200 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PAUSED -> PLAYING 
+2023-08-08 22:06:03:512952700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : PLAYING -> PAUSED 
+2023-08-08 22:06:03:512952700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2023-08-08 22:06:15:877684500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : PAUSED -> PLAYING 
+2023-08-08 22:06:15:880373100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PAUSED -> PLAYING 
+2023-08-08 22:07:10:673742500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : PLAYING -> PAUSED 
+2023-08-08 22:07:10:673742500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2023-08-08 22:07:18:438501800 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS Canvas | WindowCount: 2 
+2023-08-08 22:07:26:618219000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : PAUSED -> PLAYING 
+2023-08-08 22:07:26:618219000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PAUSED -> PLAYING 
+2023-08-08 22:08:36:194441100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : PLAYING -> PAUSED 
+2023-08-08 22:08:36:194539600 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2023-08-08 22:09:07:479968400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : PAUSED -> PLAYING 
+2023-08-08 22:09:07:479968400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PAUSED -> PLAYING 
+2023-08-08 22:10:43:48730900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Clock): IS_CURRENT: true : PLAYING -> ENDED 
+2023-08-08 22:10:43:74909900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 1] -> [Loop: 0, Player: 2] 
+2023-08-08 22:10:43:160377400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : IDLE -> OPEN 
+2023-08-08 22:10:43:197266800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : OPEN -> PLAYING 
+2023-08-08 22:11:03:935298700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : PLAYING -> PAUSED 
+2023-08-08 22:11:03:935298700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2023-08-08 22:11:18:79650800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : PAUSED -> PLAYING 
+2023-08-08 22:11:18:80599300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PAUSED -> PLAYING 
+2023-08-08 22:11:21:191234300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : PLAYING -> PAUSED 
+2023-08-08 22:11:21:191234300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2023-08-08 22:11:22:69903500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : PAUSED -> PLAYING 
+2023-08-08 22:11:22:79642400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PAUSED -> PLAYING 
+2023-08-08 22:11:26:924439900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : PLAYING -> PAUSED 
+2023-08-08 22:11:26:924439900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2023-08-08 22:11:27:527472900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : PAUSED -> PLAYING 
+2023-08-08 22:11:27:527472900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PAUSED -> PLAYING 
+2023-08-08 22:16:29:316222800 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Sixes): IS_CURRENT: true : PLAYING -> ENDED 
+2023-08-08 22:16:29:339983300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 2] -> [Loop: 0, Player: 3] 
+2023-08-08 22:16:29:423059700 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Quaternions): IS_CURRENT: true : IDLE -> OPEN 
+2023-08-08 22:16:29:453610900 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Quaternions): IS_CURRENT: true : OPEN -> PLAYING 
+2023-08-08 22:17:33:289625100 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS Canvas | WindowCount: 1 
+2023-08-08 22:17:33:791616100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Quaternions): IS_CURRENT: true : PLAYING -> PAUSED 
+2023-08-08 22:17:33:791616100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PLAYING -> PAUSED 
+2023-08-08 22:17:35:262705500 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS (Eighth Note) | WindowCount: 0 
+2023-08-08 22:17:35:325683700 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2023-08-08 22:17:35:330920900 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2023-08-08 22:17:35:334702400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: PAUSED -> CLOSED 
+2023-08-08 22:17:35:334702400 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Quaternions): IS_CURRENT: false : PAUSED -> CLOSED 
+## LOG END -> 2023-08-08 22:17:35:335857700 +05:30[Asia/Calcutta]
+
+## LOG START -> 2023-08-08 22:26:21:595878600 +05:30[Asia/Calcutta]
+2023-08-08 22:26:21:595878600 +05:30[Asia/Calcutta]:Verbose: App: Test session starting... 
+2023-08-08 22:26:22:317297400 +05:30[Asia/Calcutta]:Verbose: App: Window Open: Title: RFS | WindowCount: 1 
+2023-08-08 22:27:38:365552600 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Treble Clef (Internal Path) 
+2023-08-08 22:27:38:834750400 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Treble Clef (Internal Path)] loaded in 469 ms 
+2023-08-08 22:27:39:353811000 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerChanged: [Loop: 0, Player: 0] -> [Loop: 0, Player: 0] 
+2023-08-08 22:27:39:575805100 +05:30[Asia/Calcutta]:Err: AudioStreamer: I/O error in initialising Audio Stream
+Audio Source: D:\RC\Projects\Idea\complex\res\sound\music\Wading.m4a 
+java.io.IOException: Resetting to invalid mark
+	at java.base/java.io.BufferedInputStream.implReset(BufferedInputStream.java:545)
+	at java.base/java.io.BufferedInputStream.reset(BufferedInputStream.java:531)
+	at org.tritonus.share.sampled.file.TAudioFileReader.getAudioInputStream(TAudioFileReader.java:333)
+	at javazoom.spi.mpeg.sampled.file.MpegAudioFileReader.getAudioInputStream(MpegAudioFileReader.java:583)
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1008)
+	at source.PathAudioSource.openAudioInputStream(PathAudioSource.java:80)
+	at player.AudioPlayer.openAudioInputStream(AudioPlayer.java:58)
+	at player.AudioStreamer.considerOpen(AudioStreamer.java:214)
+	at player.AudioStreamer.lambda$play$0(AudioStreamer.java:265)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+
+2023-08-08 22:27:39:575805100 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: PlayerStateChanged: AudioStreamer(source: Wading): IS_CURRENT: true : IDLE -> ERROR 
+2023-08-08 22:27:39:591440500 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: IDLE -> ERROR 
+2023-08-08 22:28:59:604420000 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: Loading 200 Rotor States for function Eighth Note (Internal Path) 
+2023-08-08 22:28:59:947032700 +05:30[Asia/Calcutta]:Verbose: StandardRotorStateManager: 200 Rotor States for function [Eighth Note (Internal Path)] loaded in 343 ms 
+2023-08-08 22:30:01:128876100 +05:30[Asia/Calcutta]:Verbose: App: Window Close: Title: RFS (Eighth Note) | WindowCount: 0 
+2023-08-08 22:30:01:327342200 +05:30[Asia/Calcutta]:Verbose: App: Saving Configurations... 
+2023-08-08 22:30:01:337297600 +05:30[Asia/Calcutta]:Verbose: App: Quiting 
+2023-08-08 22:30:01:347042300 +05:30[Asia/Calcutta]:Verbose: MusicPlayer: StateChanged: ERROR -> CLOSED 
+## LOG END -> 2023-08-08 22:30:01:347042300 +05:30[Asia/Calcutta]

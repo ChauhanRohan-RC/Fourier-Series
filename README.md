@@ -1,63 +1,80 @@
-# RFS
+# RFS: Fourier Series And Transform Machine
 (RC @May 17, 2022)
 
-## A mathematical machine based on Fourier Series and Transforms
+#### A software for the simulation and visualization of Fourier Series and Transforms. This program is based on the spring analogy of Fourier Transform and demonstrates the origin of _General and Quantum Uncertainty principle_
 
-![RFS](graphics/pictures/rfs_intro.png?raw=true)
+#### [View Demo on YouTube](https://www.youtube.com/watch?v=eFbR1_0GCGw)
+###### See also
+[3D N*N Rubik's Cube solver-AI](https://github.com/ChauhanRohan-RC/Cube.git)  
+[Online Multiplayer Ping-Pong AI](https://github.com/ChauhanRohan-RC/Ping-Pong-AI.git)  
+[RSA Encryptor](https://github.com/ChauhanRohan-RC/RSA-Encryptor.git)
+
+![RFS](graphics/pictures/rfs_intro_light.png)
 
 ### Overview
-
-1. Approximates any function (real, complex and even discontinuous) in terms of `sines` and `cosines` (rotating vectors)
-![RFS](graphics/pictures/emoji_stars_rotors.png?raw=true)
-
-2. Fourier Transform Visualization with advance controls
-![RFS](graphics/pictures/fourier_transform_ui.png?raw=true)
-
-3. In-built JAVA compiler: supports external JAVA projects! No limits to the type, complexity and data of the functions
-4. Fully extensible: support for external functions, save/load states, modify function definitions etc
-5. FastMath support, File and Console logging, Customizable integration algorithms
-6. Configure Frequency Provider: `Fundamental`, `Centering`, `Fixed Start`, `Bounded`, `Custom Defined`
-7. Customisations: Light/Dark themes, Audio and Music, Animation styles etc
+* Approximates any function (real, complex and even discontinuous) in terms of `sines` and `cosines` (rotating vectors)  
+####
+![Function Approximation](graphics/pictures/emoji_stars_rotors.png)
+####
+* Fourier Transform Visualization with advance controls
+####
+![Fourier Transform Ui](graphics/pictures/fourier_transform_ui.png)
+####
+* In-built JAVA compiler: supports external JAVA projects! No limits to the type, complexity and data of the functions
+* Fully extensible: support for external functions, save/load states, modify function definitions etc
+* FastMath support, File and Console logging, Customizable integration algorithms
+* Configure Frequency Provider: `Fundamental`, `Centering`, `Fixed Start`, `Bounded`, `Custom Defined`
+* Customisations: Light/Dark Material themes, Music and Audio feedback, Animation styles etc
 
 ### Usage
-
-1. Install Java and add it to the environment `PATH` variable
-2. Copy directory `out\artifacts\main_jar` to your computer
-3. click `launch.bat`
+* Install [Java](https://www.oracle.com/in/java/technologies/downloads/) on your computer and add it to the path
+* Clone this repository  
+  `git clone https://github.com/ChauhanRohan-RC/Fourier-Series.git`
+* Navigate to `out\artifacts\main_jar` and run `launch.bat`.  
+  Optionally, open up the terminal and run `java -jar main.jar`
 
 ### External Functions support
-1. External Functions are supported in forms of
+* External Functions are supported in forms of
    * `SVG` vectors
    * `CSV` data
    * `JSON` states
    * `JAVA` projects using core.jar provided with the framework
-2. Draw or modify existing custom functions on canvas
-3. Export/Import custom drawings in form of SVG
+* Draw or modify existing custom functions on canvas
+####
+![Draw Functions](graphics/pictures/drawing_dark.png)
+####
+* Export/Import custom drawings in form of SVG
 
 ### Programmatic Functions (JAVA)
-1. Open `PROGRAMS` folder in any Java IDE
-2. Add `core.jar` to the `classpath`.
-3. Create a function implementing `ComplexDomainFunctionI` interface or any of its sub-interface like `DiscreteFunctionI`, `SignalFunctionI`, `DiscreteSignalI` etc.
-4. Alternatively, create a function extending one of the pre-defined subclasses of `ComplexDomainFunctionI` like `DiscreteFunction`, `SignalFunction`, `DiscreteSignal`, `PathFunction`, `GraphicFunction` etc.
-5. Once you are done with defining the function, start `RFS` by clicking on `launch.bat`.
-6. Go to `Menu > Functions > Program > Load Project`. Alternatively, press `Shift-L`. A dialog box will appear.
-7. Select project root directory for `CLASSPATH` and the `[function].java` file for function source
+* Open `PROGRAMS` folder in any Java IDE
+* Add `core.jar` to the `classpath`.
+* Create a function implementing `ComplexDomainFunctionI` interface or any of its sub-interface like `DiscreteFunctionI`, `SignalFunctionI`, `DiscreteSignalI` etc.
+* Alternatively, create a function extending one of the pre-defined subclasses of `ComplexDomainFunctionI` like `DiscreteFunction`, `SignalFunction`, `DiscreteSignal`, `PathFunction`, `GraphicFunction` etc.
+* Once you are done with defining the function, start `RFS` by clicking on `launch.bat`.
+* Go to `Menu > Functions > Program > Load Project`. Alternatively, press `Shift-L`. A dialog box will appear.
+* Select project root directory for `CLASSPATH` and the `[function].java` file for function source
+####
+![External Java Function](graphics/pictures/load_programmatic_function.png)
+####
 
 ### Save/Load Function State
 
-1. Save Rotor States to as CSV or JSON
-2. Load saved function states from CSV or JSON
-3. Edit saved function data to create and load new functions
-4. Export function plot graphics and data
-   * Real vs Imaginary (output space)
-   * Real (output) vs Input
-   * Imaginary (output) vs input
-   * Magnitude (output) vs input
-   * Phase (output) vs input
+* Save Rotor States to as CSV or JSON
+* Load saved function states from CSV or JSON
+* Edit saved function data to create and load new functions
+* Export function plot graphics and data
+   * `Output Real`  vs  `Output Imaginary`
+   * `Output Real`  vs  `Input`
+   * `Output Imaginary`  vs  `Input`
+   * `Output Magnitude`  vs  `Input`
+   * `Output Phase`  vs  `Input`
 
-### Demo
+![Gallery](graphics/pictures/sprint.png)
 
-1. https://www.youtube.com/watch?v=eFbR1_0GCGw
-2. https://www.youtube.com/watch?v=8WbKhzp2rGw
+## Connect on
+[Twitter](https://twitter.com/0rc_studio)  
+[Youtube](https://www.youtube.com/channel/UCmyvutGWtyBRva_jrZfyORA)  
+[Google Play Store](https://play.google.com/store/apps/dev?id=7315303590538030232)  
+E-mail: com.production.rc@gmail.com
 
-![Have a good day!](graphics/thumbnail/thumbnail.png?raw=true)
+![Extro](graphics/thumbnail/thumbnail.png)
