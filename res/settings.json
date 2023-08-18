@@ -1,6 +1,6 @@
 {
   "appearance": {
-    "theme": "com.formdev.flatlaf.intellijthemes.FlatArcOrangeIJTheme",
+    "theme": "com.formdev.flatlaf.FlatDarkLaf",
     "dynamic_colors": false
   },
   "config": {
@@ -8,8 +8,8 @@
     "numerical_integration_interval_count": 100000
   },
   "sound": {
-    "aux_sounds_enabled": true,
-    "music_enabled": true
+    "aux_sounds_enabled": false,
+    "music_enabled": false
   },
   "logs": {
     "debug": true,

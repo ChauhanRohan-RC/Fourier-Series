@@ -181,7 +181,7 @@ public class App {
     }
 
 
-    public static final boolean TEST = true;
+    public static final boolean TEST = false;
 
     public static void main(String[] args) {
         init();
