@@ -1,8 +1,6 @@
-# RFS: Fourier Series And Transform Machine
+# RFS: Retro Fourier Simulator
 
-(RC @May 17, 2022)
-
-#### A software for the simulation and visualization of Fourier Series and Transforms. This program is based on the spring analogy of Fourier Transform and demonstrates the origin of _General and Quantum Uncertainty principle_
+A mathematical machine for the simulation and visualization of Fourier Series and Transforms. This program is based on the **spring analogy of Fourier Transform** and demonstrates the origin of _**General and Quantum Heisenberg Uncertainty principle**_
 
 ### Video Demonstrations
 * [RFS Playlist](https://www.youtube.com/playlist?list=PL_oeaRvQxDbR0VYYdoNMh3KZO76d03Psq)
