@@ -30,10 +30,17 @@ public class AboutPanel extends JPanel {
             titleFont = titleLabel.getFont();
         titleLabel.setFont(titleFont.deriveFont(26f));
 
-        final JLabel infoLabel = new JLabel("build " + R.BUILD_VERSION + ", built on " + R.BUILD_DATE);
+        final JLabel shortDesLabel = new JLabel(R.APP_SHORT_DESCRIPTION);
+        Font desFont = R.getFontPdSansRegular();
+        if (desFont == null)
+            desFont = shortDesLabel.getFont();
+        shortDesLabel.setFont(desFont.deriveFont(20f));
+
+        final JLabel buildInfoLabel = new JLabel("build " + R.BUILD_VERSION + ", built on " + R.BUILD_DATE);
 
         addComp(titleLabel);
-        addComp(infoLabel);
+        addComp(shortDesLabel);
+        addComp(buildInfoLabel, 14);
 
         final String devUri = R.AUTHOR_DEVELOPER_PAGE_URI;
         addEntry("Author", R.AUTHOR + (Format.notEmpty(devUri)? " (click to see developer page)": ""), Format.notEmpty(devUri)? () -> Ui.browseNoThrow(devUri, "Failed to browse to Developer Page"): null);

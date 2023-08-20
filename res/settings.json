@@ -1,6 +1,6 @@
 {
   "appearance": {
-    "theme": "com.formdev.flatlaf.FlatDarkLaf",
+    "theme": "com.formdev.flatlaf.intellijthemes.FlatArcOrangeIJTheme",
     "dynamic_colors": false
   },
   "config": {
@@ -17,6 +17,6 @@
     "file_logging": true
   },
   "other": {
-    "flags": 1
+    "flags": 0
   }
 }

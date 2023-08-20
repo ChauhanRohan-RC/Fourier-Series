@@ -344,11 +344,12 @@ public class R {
     /* App Resources */
 
     public static final String APP_NAME = "RFS";
+    public static final String APP_SHORT_DESCRIPTION = "RETRO FOURIER SIMULATOR";
     public static final String APP_VERSION = "2023.10.25";
     public static final String BUILD_VERSION = "#IC-223.8214.82";
     public static final String BUILD_DATE = "February 9, 2023";
 
-    public static final String AUTHOR = "Rohan Chauhan";
+    public static final String AUTHOR = "Rohan Singh Chauhan";
     public static final String AUTHOR_EMAIL = "com.production.rc@gmail.com";
     @Nullable
     public static final String AUTHOR_DEVELOPER_PAGE_URI = "https://github.com/ChauhanRohan-RC";
@@ -357,7 +358,7 @@ public class R {
 
     @NotNull
     public static String createAppDescription() {
-        String main = String.format("%s %s\nbuild %s, built on %s\n\nAuthor: %s\nEmail: %s", APP_NAME, APP_VERSION, BUILD_VERSION, BUILD_DATE, AUTHOR, AUTHOR_EMAIL);
+        String main = String.format("%s %s\n%s\nbuild %s, built on %s\n\nAuthor: %s\nEmail: %s", APP_NAME, APP_VERSION, APP_SHORT_DESCRIPTION, BUILD_VERSION, BUILD_DATE, AUTHOR, AUTHOR_EMAIL);
         if (Format.notEmpty(AUTHOR_DEVELOPER_PAGE_URI)) {
             main += String.format("\nDeveloper Page: %s", AUTHOR_DEVELOPER_PAGE_URI);
         }

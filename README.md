@@ -17,9 +17,14 @@ A mathematical machine for the simulation and visualization of Fourier Series an
 
 ![RFS](graphics/pictures/rfs_intro_light.png)
 
-### Overview
+## Overview
 
-* Approximates any function (real, complex and even discontinuous) in terms of `sines` and `cosines` (rotating vectors)
+* Draw any mathematical function or drawing using Fourier Series. The algorithm expresses any given function as a weighed sum of `sines` and `cosines`, which are represented as rotating vectors (or rotors) in the complex plane. These rotors are joined tip-to-tail to trace out the original function / drawing
+* Function types
+  * Real or Complex valued
+  * Continuous or Discrete
+  * Periodic or Aperiodic
+  * Any combination of the above types
 
 ####
 
@@ -27,7 +32,7 @@ A mathematical machine for the simulation and visualization of Fourier Series an
 
 ####
 
-* Fourier Transform Visualization with advance controls
+* Fourier Transform simulation with fine control over the algorithm parameters, visualization graphics and animations
 
 ####
 
@@ -35,19 +40,73 @@ A mathematical machine for the simulation and visualization of Fourier Series an
 
 ####
 
-* In-built JAVA compiler: supports external JAVA projects! No limits to the type, complexity and data of the functions
-* Fully extensible: support for external functions, save/load states, modify function definitions etc
-* FastMath support, File and Console logging, Customizable integration algorithms
-* Configure Frequency Provider: `Fundamental`, `Centering`, `Fixed Start`, `Bounded`, `Custom Defined`
-* Customisations: Light/Dark Material themes, Music and Audio feedback, Animation styles etc
+* Embedded JAVA compiler 
+  * Code math functions in java directly within the simulator
+  * Import external java projects, with no limits on the quantity and nature of the data used to define functions
+* Function operations
+  * Support for external vector functions (`.svg`, `.pd`)
+  * In built canvas: Draw custom math functions, drawings etc
+  * Save / Load / Edit functions and rotor states as `.csv` or `.json`
+  * Modify function definitions, by either modifying rotor states or simulation parameters
+* Customisations
+  * `Light / Dark` Material themes, Dynamic colors
+  * Music and Audio feedback
+  * Several animation styles
 
-### Usage
+## Algorithm
+* Uses a custom integration algorithm, built on top of `Simpson 1/3` and `Simpson 3/8` algorithms 
+* Supports complex valued function with optimizations for discrete / aperiodic function 
+* FastMath support: Fast and efficient computations of `sin`, `cos`, `exp` and other function through _lazily cached lookup tables_
+* File and Console logging for easy debugging and error tracing
+* Customizable integration algorithm parameters (`numerical_integration_intervals`, `tolerance`, `discrete_interpolation` etc)
+
+## Frequency Providers
+* Rotor Frequency provider defines a contract to assign frequency to each rotor. Choice of an optimal frequency provider depends on the specific function being approximated, and significantly affect the approximation accuracy
+* Base interface: [RotorFrequencyProviderI.java](app/core/src/rotor/frequency/RotorFrequencyProviderI.java)
+* Use a custom frequency Provider
+  * Implement [ComplexDomainFunctionI.java](app/core/src/function/definition/ComplexDomainFunctionI.java) and override its `getFunctionDefaultFrequencyProvider()` method to return a custom [RotorFrequencyProviderI](app/core/src/rotor/frequency/RotorFrequencyProviderI.java) object
+  * If you want explicitly defined frequencies, override its `frequenciesExceptExplicitSupported()` method to return `true` and `getExplicitFrequencyProvider()` method to return a custom [ExplicitFrequencyProvider](app/core/src/rotor/frequency/ExplicitFrequencyProvider.java) object
+* Available frequency providers
+  * Fundamental : returns fundamental frequencies of a function
+    * Class: [FundamentalFrequencyProvider.java](app/core/src/rotor/frequency/FundamentalFrequencyProvider.java)
+    * Parameter: `centering`  (boolean, optional)
+    * For a function, fundamental_frequency = `1 / domain_range`
+    * If centering: `rotor_frequency = [rotor_index - (rotor_count / 2)] * fundamental_frequency`
+    * else:  `rotor_frequency = rotor_index * fundamental_frequency`
+  #####
+  * Indices : returns a frequency proportional to the rotor index
+    * Class: [IndexFrequencyProvider.java](app/core/src/rotor/frequency/IndexFrequencyProvider.java)
+    * Parameter: `index_multiplier`  (float, optional)
+    * `rotor_frequency = rotor_index * index_multiplier`
+  #####
+  * Centering : interpolates frequencies in range `(-rotor_count/2, rotor_count/2)`
+    * Class: [CenteringFrequencyProvider.java](app/core/src/rotor/frequency/CenteringFrequencyProvider.java)
+    * Parameter: `frequency_multiplier`  (float, optional)
+    * `rotor_frequency = [rotor_index - (rotor_count / 2)] * frequency_multiplier`
+  #####
+  * Fixed Start : returns frequencies starting from a given value and increment
+    * Class: [FixedStartFrequencyProvider.java](app/core/src/rotor/frequency/FixedStartFrequencyProvider.java)
+    * Parameters: `frequency_start`  (float), `frequency_step`  (float, optional)
+    * `rotor_frequency = frequency_start + (rotor_index * frequency_step)`
+  #####
+  * Bounded : interpolates frequencies within a given range
+    * Class: [BoundedFrequencyProvider.java](app/core/src/rotor/frequency/BoundedFrequencyProvider.java)
+    * Parameters: `frequency_start`  (float), `frequency_stop`  (float, optional)
+    * `rotor_frequency = frequency_start + (frequency_stop - frequency_start) * (rotor_index / rotor_count)`
+  #####
+  * Explicit : returns explicitly defined frequencies
+    * class: [ExplicitFrequencyProvider.java](app/core/src/rotor/frequency/ExplicitFrequencyProvider.java)
+    * Parameters: `frequencies` (float array), `sort` (boolean, optional)
+    * `rotor_frequency = frequencies[rotor_index]`
+
+## Usage
 
 * Install [Java](https://www.oracle.com/in/java/technologies/downloads/) on your computer and add it to the path
 * Clone this repository  
   `git clone https://github.com/ChauhanRohan-RC/Fourier-Series.git`
-* Navigate to `out\artifacts\main_jar` and run `launch.bat`.  
-  Optionally, open up the terminal and run `java -jar main.jar`
+* Navigate to [out > artifacts > main_jar](out/artifacts/main_jar) folder and run [launch.bat](out/artifacts/main_jar/launch.bat)  
+* Alternatively, open up the terminal and run command  
+`java -jar main.jar`
 
 ### External Functions support
 
@@ -68,15 +127,15 @@ A mathematical machine for the simulation and visualization of Fourier Series an
 
 ### Programmatic Functions (JAVA)
 
-* Open `PROGRAMS` folder in any Java IDE
-* Add `core.jar` to the `classpath`.
-* Create a function implementing `ComplexDomainFunctionI` interface or any of its sub-interface
-  like `DiscreteFunctionI`, `SignalFunctionI`, `DiscreteSignalI` etc.
-* Alternatively, create a function extending one of the pre-defined subclasses of `ComplexDomainFunctionI`
-  like `DiscreteFunction`, `SignalFunction`, `DiscreteSignal`, `PathFunction`, `GraphicFunction` etc.
+* Open [PROGRAMS](PROGRAMS) folder in any Java IDE and create a new project
+* Add [core.jar](out/artifacts/core_jar/core.jar) to the project `classpath`.
+* Create a function implementing [ComplexDomainFunctionI](app/core/src/function/definition/ComplexDomainFunctionI.java) interface or any of its sub-interface
+  such as  [DiscreteFunctionI](app/core/src/function/definition/DiscreteFunctionI.java), [SignalFunctionI](app/core/src/function/definition/SignalFunctionI.java), [DiscreteSignalI](app/core/src/function/definition/DiscreteSignalI.java), [PathFunctionI](app/core/src/function/path/PathFunctionI.java) etc.
+* Alternatively, create a function extending one of the pre-defined subclasses of [ComplexDomainFunctionI](app/core/src/function/definition/ComplexDomainFunctionI.java)
+  like [DiscreteFunction](app/core/src/function/definition/DiscreteFunction.java), [DiscreteSignal](app/core/src/function/definition/DiscreteSignal.java), [PathFunction](app/core/src/function/path/PathFunction.java), [GraphicFunction](app/core/src/function/graphic/GraphicFunction.java) etc.
 * Once you are done with defining the function, start `RFS` by clicking on `launch.bat`.
 * Go to `Menu > Functions > Program > Load Project`. Alternatively, press `Shift-L`. A dialog box will appear.
-* Select project root directory for `CLASSPATH` and the `[function].java` file for function source
+* Select project root directory for `CLASSPATH` and the `[function class name].java` file for function source
 
 ####
 
