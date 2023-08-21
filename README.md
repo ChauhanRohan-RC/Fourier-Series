@@ -15,7 +15,7 @@ A mathematical machine for the simulation and visualization of Fourier Series an
 [Times Table Simulator](https://github.com/ChauhanRohan-RC/Times-Table.git)  
 [RSA Encryptor](https://github.com/ChauhanRohan-RC/RSA-Encryptor.git)
 
-![RFS](graphics/pictures/rfs_intro_light.png)
+[![RFS](graphics/pictures/rfs_intro_light.png)](https://www.youtube.com/playlist?list=PL_oeaRvQxDbR0VYYdoNMh3KZO76d03Psq)
 
 ## Overview
 
