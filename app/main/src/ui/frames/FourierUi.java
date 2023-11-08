@@ -1017,8 +1017,8 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
         fsPanel.setRotorStateManager(rotorStateManager);
     }
 
-    //    public void setFunction(@NotNull ComplexDomainFunctionI f, int initialRotorCount) {
-//        setRotorStateManager(new StandardRotorStateManager(f, meta, initialRotorCount));
+    //    public void setFunction(@NotNull ComplexDomainFunctionI f, int defaultInitialRotorCount) {
+//        setRotorStateManager(new StandardRotorStateManager(f, meta, defaultInitialRotorCount));
 //    }
 //
 //    public void setFunction(@NotNull ComplexDomainFunctionI f) {
@@ -1063,7 +1063,7 @@ public class FourierUi extends BaseFrame implements RotorStateManager.Listener, 
             final boolean otherSupported = manager.getFunction().frequenciesExceptExplicitSupported();
             if (otherSupported) {
                 return !confirmModifNoDefinitionFunctions();        // frequencies can still change on low load
-//                final int initialCount = manager.getFunctionMeta().initialRotorCount();
+//                final int initialCount = manager.getFunctionMeta().defaultInitialRotorCount();
 //                if (initialCount < loadCount) {
 //                    return !confirmModifNoDefinitionFunctions();
 //                }

@@ -11,7 +11,7 @@ import java.util.Collection;
 public record FunctionMeta(@NotNull FunctionType functionType,
                            @NotNull String displayName,
                            @Nullable RotorFrequencyProviderI frequencyProvider,
-                           int initialRotorCount,
+                           int defaultInitialRotorCount,
                            boolean hasBaseDefinition,
                            @Nullable Collection<RotorState> preloadedRotorStates) {
 

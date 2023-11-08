@@ -122,7 +122,14 @@ public interface ComplexDomainFunctionI extends ComplexFunctionI, DomainProvider
     }
 
 
-    /* .................... Cache Rotor States .................... */
+    /* .................... Rotor States .................... */
+
+    /**
+     * @return number of rotors (or frequencies) to load initially, or {@code -1} if unspecified
+     * */
+    default int getInitialRotorCount() {
+        return -1;
+    }
 
     @Override
     default boolean containsCachedRotorState(double frequency) {

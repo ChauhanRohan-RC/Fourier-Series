@@ -187,6 +187,15 @@ public class RotorStatesFunction implements ComplexDomainFunctionI {
 
 
     @Override
+    public int getInitialRotorCount() {
+        if (function != null) {
+            return function.getInitialRotorCount();
+        }
+
+        return mFrequenciesExceptExplicitSupported? ComplexDomainFunctionI.super.getInitialRotorCount(): states.size();
+    }
+
+    @Override
     public boolean containsCachedRotorState(double frequency) {
         return states.containsKey(frequency);
     }

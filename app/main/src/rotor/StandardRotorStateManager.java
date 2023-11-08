@@ -71,16 +71,24 @@ public class StandardRotorStateManager extends ComplexDomainFunctionWrapper impl
             throw new IndexOutOfBoundsException("Rotor index is out of bounds. Index: " + index + ", Count: " + count);
     }
 
-    public StandardRotorStateManager(@NotNull ComplexDomainFunctionI f, @NotNull FunctionMeta functionMeta, int initialRotorCount) {
+    private static int getInitialRotorCount(@NotNull ComplexDomainFunctionI f, @NotNull FunctionMeta functionMeta, int defaultInitialRotorCount) {
+        int rotorCount = f.getInitialRotorCount();
+        if (rotorCount < 0) {
+            rotorCount = functionMeta.defaultInitialRotorCount();
+            if (rotorCount < 0) {
+                rotorCount = defaultInitialRotorCount < 0? DEFAULT_INITIAL_ROTOR_COUNT: defaultInitialRotorCount;
+            }
+        }
+
+        return rotorCount;
+    }
+
+    public StandardRotorStateManager(@NotNull ComplexDomainFunctionI f, @NotNull FunctionMeta functionMeta, int defaultInitialRotorCount) {
         super(f);
         this.id = nextId();
         this.functionMeta = functionMeta;
 
-        if (initialRotorCount < 0) {
-            initialRotorCount = functionMeta.initialRotorCount();
-        }
-
-        mInitialRotorCount = initialRotorCount < 0? DEFAULT_INITIAL_ROTOR_COUNT: initialRotorCount;
+        mInitialRotorCount = getInitialRotorCount(f, functionMeta, defaultInitialRotorCount);
         mStore = new ConcurrentHashMap<>(Math.max((int) (mInitialRotorCount * 1.4), 20));       // concurrency
 
         // Meta

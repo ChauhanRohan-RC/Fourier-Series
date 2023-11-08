@@ -39,7 +39,12 @@ public class ComplexDomainFunctionWrapper implements ComplexDomainFunctionI, Col
         return base.compute(input);
     }
 
-    /* Cache Rotor States */
+    /* Rotor States */
+
+    @Override
+    public int getInitialRotorCount() {
+        return base.getInitialRotorCount();
+    }
 
     @Override
     public boolean containsCachedRotorState(double frequency) {
