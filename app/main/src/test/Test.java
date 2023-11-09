@@ -4,6 +4,7 @@ import app.R;
 import app.Settings;
 import function.definition.ComplexDomainFunctionI;
 import function.internal.basic.SineSignal;
+import misc.CollectionUtil;
 import misc.Format;
 import misc.MathUtil;
 import org.apache.commons.math3.complex.Complex;
@@ -13,6 +14,9 @@ import util.main.ComplexUtil;
 import javax.swing.*;
 import java.awt.*;
 import java.text.DecimalFormat;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 
 
 public class Test {
@@ -172,7 +176,30 @@ public class Test {
 //        System.out.print(String.format("%100.2f%n", 1034634734f).length());
     }
 
+
+    private static int cycle(int index, int n) {
+        if (index < n)
+            return index;
+
+        final int d = index / (n - 1);
+        final int r = index % (n - 1);
+
+        if (d % 2 == 0) {
+            index = r;
+        } else {
+            index = n - r - 1;
+        }
+
+        return index;
+    }
+
     public static void main(String[] args) {
+
+
+        for (int i=0; i < 20; i++) {
+            System.out.println(cycle(i, 5));
+        }
+
 //        MathUtil.initFast();
 //
 //        testFft();

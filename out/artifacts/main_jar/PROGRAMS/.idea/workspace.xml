@@ -5,13 +5,49 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="920c81d2-1616-4813-a234-c053d39f4992" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../../../app/core/src/function/ComplexDomainFunctionWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../app/core/src/function/ComplexDomainFunctionWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../PROGRAMS/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../PROGRAMS/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../PROGRAMS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../PROGRAMS/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../PROGRAMS/demo/DiscreteFunctionDemo.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../PROGRAMS/demo/DiscreteFunctionDemo.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../../app/core/src/function/RotorStatesFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../app/core/src/function/RotorStatesFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../../app/core/src/function/definition/ComplexDomainFunctionI.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../app/core/src/function/definition/ComplexDomainFunctionI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../../app/main/src/provider/FunctionMeta.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../app/main/src/provider/FunctionMeta.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../../app/main/src/rotor/StandardRotorStateManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../app/main/src/rotor/StandardRotorStateManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../../app/main/src/ui/frames/FourierUi.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../app/main/src/ui/frames/FourierUi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../app/core/src/function/internal/basic/MergedFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../app/core/src/function/definition/MergedFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../app/core/src/rotor/frequency/ExplicitFrequencyProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../app/core/src/rotor/frequency/ExplicitFrequencyProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../app/core/src/util/main/ComplexUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../app/core/src/util/main/ComplexUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../app/main/src/provider/Providers.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../app/main/src/provider/Providers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../app/main/src/test/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../app/main/src/test/Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../app/main/src/ui/panels/FourierSeriesPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../app/main/src/ui/panels/FourierSeriesPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../app/util/src/misc/CollectionUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../app/util/src/misc/CollectionUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../core_jar/core.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../../core_jar/core.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../core_src_zip/core-src.zip" beforeDir="false" afterPath="$PROJECT_DIR$/../../core_src_zip/core-src.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../core_src_zip/core.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../../core_src_zip/core.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/core/function/RotorStatesFunction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/core/function/RotorStatesFunction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/core/function/internal/basic/MergedFunction$MergeMode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/core/function/internal/basic/MergedFunction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/core/rotor/frequency/ExplicitFrequencyProvider.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/core/rotor/frequency/ExplicitFrequencyProvider.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/core/util/main/ComplexUtil$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/core/util/main/ComplexUtil$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/core/util/main/ComplexUtil$FftTest$SampleProvider$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/core/util/main/ComplexUtil$FftTest$SampleProvider$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/core/util/main/ComplexUtil$FftTest$SampleProvider$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/core/util/main/ComplexUtil$FftTest$SampleProvider$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/core/util/main/ComplexUtil$FftTest$SampleProvider$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/core/util/main/ComplexUtil$FftTest$SampleProvider$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/core/util/main/ComplexUtil$FftTest$SampleProvider.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/core/util/main/ComplexUtil$FftTest$SampleProvider.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/core/util/main/ComplexUtil$FftTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/core/util/main/ComplexUtil$FftTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/core/util/main/ComplexUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/core/util/main/ComplexUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/main/provider/Providers$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/main/provider/Providers$NoOpProviderException.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/main/provider/Providers$NoOpProviderException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/main/provider/Providers$NoopProvider.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/main/provider/Providers$NoopProvider.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/main/provider/Providers.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/main/provider/Providers.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/main/test/Test.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/main/test/Test.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/main/ui/panels/FourierSeriesPanel$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/main/ui/panels/FourierSeriesPanel$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/main/ui/panels/FourierSeriesPanel$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/main/ui/panels/FourierSeriesPanel$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/main/ui/panels/FourierSeriesPanel$ComponentListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/main/ui/panels/FourierSeriesPanel$ComponentListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/main/ui/panels/FourierSeriesPanel$MouseHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/main/ui/panels/FourierSeriesPanel$MouseHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/main/ui/panels/FourierSeriesPanel$PanelListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/main/ui/panels/FourierSeriesPanel$PanelListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/main/ui/panels/FourierSeriesPanel$Strokes.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/main/ui/panels/FourierSeriesPanel$Strokes.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/main/ui/panels/FourierSeriesPanel$WavePoint.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/main/ui/panels/FourierSeriesPanel$WavePoint.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/main/ui/panels/FourierSeriesPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/main/ui/panels/FourierSeriesPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/util/misc/CollectionUtil$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/util/misc/CollectionUtil$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/util/misc/CollectionUtil$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/util/misc/CollectionUtil$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../production/util/misc/CollectionUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../production/util/misc/CollectionUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../res/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../res/settings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

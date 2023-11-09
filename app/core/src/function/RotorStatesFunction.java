@@ -247,6 +247,10 @@ public class RotorStatesFunction implements ComplexDomainFunctionI {
                 fp = explicitFrequencyProvider;
                 if (fp == null) {
                     fp = new ExplicitFrequencyProvider(true, states.keySet());
+                    if (!mFrequenciesExceptExplicitSupported) {
+                        fp.setExtrapolateMode(ExplicitFrequencyProvider.ExtrapolateMode.UNIQUE_CONSTANT);
+                    }
+
                     explicitFrequencyProvider = fp;
                 }
             }

@@ -2,7 +2,7 @@ package provider;
 
 import app.R;
 import function.definition.ComplexDomainFunctionI;
-import function.definition.SignalFunctionI;
+import function.definition.MergedFunction;
 import function.graphic.CharMerger;
 import function.internal.basic.*;
 import function.internal.chars.CharC;
@@ -11,7 +11,6 @@ import misc.CollectionUtil;
 import misc.Log;
 import misc.MathUtil;
 import org.apache.batik.parser.ParseException;
-import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 import test.ParticleWave;
@@ -104,26 +103,6 @@ public class Providers {
 
     /* Static */
 
-    public static final FunctionProviderI TEST_FUNCTION = new SimpleFunctionProvider(
-            new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Test Function"),
-            new SignalFunctionI() {
-                @Override
-                public double getSignalIntensity(double t) {
-                    return Math.cos((MathUtil.TWO_PI * 4 * t) + MathUtil.PI) + 1;
-                }
-
-                @Override
-                public double getDomainStart() {
-                    return 0;
-                }
-
-                @Override
-                public double getDomainEnd() {
-                    return 5;
-                }
-            }
-    );
-
     public static final FunctionProviderI STEP_FUNCTION = new SimpleFunctionProvider(
             new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Step Function"),
             new StepFunction(1)
@@ -135,13 +114,18 @@ public class Providers {
     );
 
     public static final FunctionProviderI SQUARE_FUNCTION = new SimpleFunctionProvider(
-            new FunctionMeta(FunctionType.INTERNAL_PROGRAM,"Rect Function"),
+            new FunctionMeta(FunctionType.INTERNAL_PROGRAM,"Square Function"),
             new RectFunction(20, 20)
     );
 
     public static final FunctionProviderI CIRCLE_FUNCTION = new SimpleFunctionProvider(
             new FunctionMeta(FunctionType.INTERNAL_PROGRAM,"Circle Function"),
             new CircleFunction()
+    );
+
+    public static final FunctionProviderI PI_SIM_FUNCTION = new SimpleFunctionProvider(
+            new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Pi Simulation"),
+            new PiSimulationFunction()
     );
 
     public static final FunctionProviderI SINE_SIGNAL = new SimpleFunctionProvider(new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Sine Signal"), new MergedFunction(MergedFunction.MergeMode.UNION,
@@ -376,10 +360,10 @@ public class Providers {
     @Unmodifiable
     public static final List<FunctionProviderI> INTERNAL_PROGRAMS = List.of(
             NoopProvider.getSingleton(),
-            TEST_FUNCTION,
             STEP_FUNCTION,
             RECT_FUNCTION,
             CIRCLE_FUNCTION,
+            PI_SIM_FUNCTION,
             SINE_SIGNAL,
             RANDOM_SIGNAL,
             PARTICLE_SPREAD,

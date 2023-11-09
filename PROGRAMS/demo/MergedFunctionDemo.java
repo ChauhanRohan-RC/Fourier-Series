@@ -1,7 +1,7 @@
 package demo;
 
 import function.definition.ComplexDomainFunctionI;
-import function.internal.basic.MergedFunction;
+import function.definition.MergedFunction;
 import function.internal.basic.SineSignal;
 import misc.MathUtil;
 import org.jetbrains.annotations.NotNull;

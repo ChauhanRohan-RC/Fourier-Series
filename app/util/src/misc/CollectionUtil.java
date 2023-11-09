@@ -1,5 +1,6 @@
 package misc;
 
+import models.Wrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -211,6 +212,19 @@ public interface CollectionUtil {
         return !(e1.hasNext() || e2.hasNext());
     }
 
+
+    static double generateUniqueDouble(@NotNull Collection<Double> uniqueFrom, double seed, double seedIncrement) {
+        final Set<Double> set = uniqueFrom instanceof Set? (Set<Double>) uniqueFrom: new HashSet<>(uniqueFrom);
+        while (set.contains(seed)) {
+            seed += seedIncrement;
+        }
+
+        return seed;
+    }
+
+    static double generateUniqueDouble(@NotNull Collection<Double> uniqueFrom) {
+        return generateUniqueDouble(uniqueFrom, 0, Double.MIN_VALUE);
+    }
 
 
 }

@@ -1,7 +1,7 @@
 {
   "appearance": {
     "theme": "com.formdev.flatlaf.FlatDarculaLaf",
-    "dynamic_colors": true
+    "dynamic_colors": false
   },
   "config": {
     "fast_math_enabled": true,

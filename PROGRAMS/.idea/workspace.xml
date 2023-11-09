@@ -5,46 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="920c81d2-1616-4813-a234-c053d39f4992" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core-src.zip" beforeDir="false" afterPath="$PROJECT_DIR$/core-src.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core.jar" beforeDir="false" afterPath="$PROJECT_DIR$/core.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/particle/LocalisedParticleSignal.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/particle/LocalisedParticleSignal.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg1/DiscreteSignal.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/pkg/DiscreteSignalTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/pkg/ExtTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/pkg/MergedDiscreteSignalTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/pkg2/ExtTestBase.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/core/src/function/definition/DomainProviderI.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/core/src/function/definition/DomainProviderI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/core_jar/core.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../out/artifacts/core_jar/core.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/core_src_zip/core-src.zip" beforeDir="false" afterPath="$PROJECT_DIR$/../out/artifacts/core_src_zip/core-src.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/core_src_zip/core.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../out/artifacts/core_src_zip/core.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/PROGRAMS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../out/artifacts/main_jar/PROGRAMS/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/PROGRAMS/core-src.zip" beforeDir="false" afterPath="$PROJECT_DIR$/../out/artifacts/main_jar/PROGRAMS/core-src.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/PROGRAMS/core.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../out/artifacts/main_jar/PROGRAMS/core.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/PROGRAMS/pkg1/DiscreteSignal.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/PROGRAMS/test/pkg/DiscreteSignalTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/PROGRAMS/test/pkg/ExtTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/PROGRAMS/test/pkg/MergedDiscreteSignalTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/PROGRAMS/test/pkg2/ExtTestBase.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/main.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../out/artifacts/main_jar/main.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/artifacts/main_jar/res/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../out/artifacts/main_jar/res/settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/core/function/definition/DomainProviderI.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/core/function/definition/DomainProviderI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/frames/MousePathUi$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/frames/MousePathUi$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/frames/MousePathUi$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/frames/MousePathUi$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/frames/MousePathUi$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/frames/MousePathUi$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/frames/MousePathUi$DoneAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/frames/MousePathUi$DoneAction.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/frames/MousePathUi.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/frames/MousePathUi.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/MousePathPanel$ClearAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/MousePathPanel$ClearAction.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/MousePathPanel$EraseAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/MousePathPanel$EraseAction.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/MousePathPanel$JoinPointsAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/MousePathPanel$JoinPointsAction.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/MousePathPanel$MouseHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/MousePathPanel$MouseHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/MousePathPanel$RedoAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/MousePathPanel$RedoAction.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/MousePathPanel$StickMode.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/MousePathPanel$StickMode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/MousePathPanel$UndoAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/MousePathPanel$UndoAction.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/MousePathPanel$UndoRecord.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/MousePathPanel$UndoRecord.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/main/ui/panels/MousePathPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/main/ui/panels/MousePathPanel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../res/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../res/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +25,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 6
+}]]></component>
   <component name="ProjectId" id="2IGTXxQzqAco1dGBDeUlZj4k7dQ" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -71,17 +35,18 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/RC/Projects/Idea/complex/PROGRAMS/core-src.zip&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "D:/RC/Projects/Idea/complex/PROGRAMS/core-src.zip",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

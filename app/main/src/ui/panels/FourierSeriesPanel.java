@@ -67,6 +67,8 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
     @NotNull
     public static final AbstractAnimator.RepeatMode DEFAULT_REPEAT_MODE = AbstractAnimator.RepeatMode.REPEAT;
 
+    public static final boolean DRAW_CIRCULAR_TIP_JOINTS = true;
+
     private static final double DEFAULT_TIP_SIZE_TO_RADIUS_RATIO = 0.1;
     private static final double DEFAULT_TIP_SIZE_TO_RADIUS_RATIO_CENTER = 0.11;
 
@@ -974,11 +976,16 @@ public class FourierSeriesPanel extends JPanel implements Runnable {
                 final double tipY = transformY(sum.getImaginary());
                 final double tipSize = state.getTipSize(baseTipSize);
 
-                final AffineTransform prev = g.getTransform();
-                g.rotate(transform(tipPoint).getArgument() + (Math.PI / 2), tipX, tipY);
                 g.setColor(Colors.getTipColor(graphingInCenter));
-                g.fill(new Triangle(tipX - (tipSize / 2), tipY, tipSize, tipSize));
-                g.setTransform(prev);       // restore
+                if (DRAW_CIRCULAR_TIP_JOINTS && i < count - 1) {
+                    g.fill(new Ellipse2D.Double(tipX - (tipSize / 2), tipY - (tipSize / 2), tipSize, tipSize));
+                } else {
+                    // Last rotor: Triangular tip
+                    final AffineTransform prev = g.getTransform();
+                    g.rotate(transform(tipPoint).getArgument() + (Math.PI / 2), tipX, tipY);
+                    g.fill(new Triangle(tipX - (tipSize / 2), tipY, tipSize, tipSize));
+                    g.setTransform(prev);       // restore
+                }
 
                 // Radius
                 g.setStroke(strokes.rotorRadius);

@@ -7,6 +7,7 @@ import function.definition.DiscreteFunctionI;
 import function.definition.FrequencySupportProviderI;
 import misc.MathUtil;
 import models.ComplexBuilder;
+import models.Wrapper;
 import org.apache.commons.math3.complex.Complex;
 import org.jetbrains.annotations.NotNull;
 
@@ -303,8 +304,11 @@ public class ComplexUtil {
      * */
     @NotNull
     public static Complex fourierTransform(@NotNull ComplexFunctionI f, double frequency, double a, double b, int n) {
-        // If frequency is not supported
-        if (f instanceof FrequencySupportProviderI fsp && !fsp.isFrequencySupported(frequency)) {
+        // Checks
+        if (f instanceof FrequencySupportProviderI fsp && !fsp.isFrequencySupported(frequency)) {    // If frequency is not supported
+//                Double.isNaN(a) || Double.isInfinite(a) ||          // If lower bound is NaN or Infinite
+//                Double.isNaN(b) || Double.isInfinite(b)) {          // If upper bound is NaN or Infinite
+
             return Complex.ZERO;
         }
 
