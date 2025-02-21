@@ -4,16 +4,10 @@ import misc.Log;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
-import provider.FunctionMeta;
-import provider.FunctionProviderI;
-import provider.FunctionType;
-import provider.SimpleFunctionProvider;
-import test.ParticleWave;
 import ui.MusicPlayer;
 import ui.frames.FourierUi;
 import async.Async;
 import async.TaskCompletionListener;
-import ui.panels.AboutPanel;
 import ui.util.Ui;
 
 import javax.swing.*;

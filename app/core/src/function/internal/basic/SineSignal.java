@@ -3,6 +3,7 @@ package function.internal.basic;
 import function.definition.AbstractSignal;
 import misc.MathUtil;
 import org.jetbrains.annotations.Nullable;
+import rotor.frequency.BoundedFrequencyProvider;
 import rotor.frequency.FixedStartFrequencyProvider;
 import rotor.frequency.RotorFrequencyProviderI;
 
@@ -91,7 +92,7 @@ public class SineSignal extends AbstractSignal {
 
     @Override
     public @Nullable RotorFrequencyProviderI getFunctionDefaultFrequencyProvider() {
-        return new FixedStartFrequencyProvider(frequency - 1, 0.05);
+        return new BoundedFrequencyProvider(frequency - 2, frequency + 2);
     }
 
 

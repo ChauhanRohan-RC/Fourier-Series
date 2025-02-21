@@ -1,6 +1,8 @@
 # RFS: Retro Fourier Simulator
 
-A mathematical machine for the simulation and visualization of Fourier Series and Transforms. This program is based on the **spring analogy of Fourier Transform** and demonstrates the origin of _**General and Quantum Heisenberg Uncertainty principle**_
+This is a mathematical machine for the simulation and visualization of Fourier Series and Transforms. It is based on the **mechanical spring model of the Fourier Transform** and demonstrates the physical origin of _**General**_ and _**Quantum Heisenberg Uncertainty principles.**_
+
+#### NOTE: This software is designed for the demonstration of study "Formulating a novel physical model of the Fourier Transform and proving the General and Quantum Uncertainty Principles" R.Singh, P.Biswas.
 
 ### Video Demonstrations
 * [RFS Playlist](https://www.youtube.com/playlist?list=PL_oeaRvQxDbR0VYYdoNMh3KZO76d03Psq)
@@ -16,6 +18,17 @@ A mathematical machine for the simulation and visualization of Fourier Series an
 [RSA Encryptor](https://github.com/ChauhanRohan-RC/RSA-Encryptor.git)
 
 [![RFS](graphics/pictures/rfs_intro_light.png)](https://www.youtube.com/playlist?list=PL_oeaRvQxDbR0VYYdoNMh3KZO76d03Psq)
+
+## Usage
+
+* Install [Java](https://openjdk.org/install/) on your computer and add it to the path
+* Download the latest release from [GitHub](https://github.com/ChauhanRohan-RC/Fourier-Series/releases/latest).  
+  OR  
+  Clone this repository using `git clone https://github.com/ChauhanRohan-RC/Fourier-Series.git`  
+  and navigate to [out > artifacts > main_jar](out/artifacts/cube_jar) folder
+* Open up CMD/Terminal and run command  
+  `java -jar main.jar`
+* `NOTE:` If the program crashes frequently, go to `Settings > Sound` and uncheck `Play Sounds` and `Play Music`.
 
 ## Overview
 
@@ -98,15 +111,6 @@ A mathematical machine for the simulation and visualization of Fourier Series an
     * class: [ExplicitFrequencyProvider.java](app/core/src/rotor/frequency/ExplicitFrequencyProvider.java)
     * Parameters: `frequencies` (float array), `sort` (boolean, optional)
     * `rotor_frequency = frequencies[rotor_index]`
-
-## Usage
-
-* Install [Java](https://www.oracle.com/in/java/technologies/downloads/) on your computer and add it to the path
-* Clone this repository  
-  `git clone https://github.com/ChauhanRohan-RC/Fourier-Series.git`
-* Navigate to [out > artifacts > main_jar](out/artifacts/main_jar) folder and run [launch.bat](out/artifacts/main_jar/launch.bat)  
-* Alternatively, open up the terminal and run command  
-`java -jar main.jar`
 
 ### External Functions support
 

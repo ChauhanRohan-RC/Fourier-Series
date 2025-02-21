@@ -4,12 +4,12 @@
     "dynamic_colors": false
   },
   "config": {
-    "fast_math_enabled": true,
+    "fast_math_enabled": false,
     "numerical_integration_interval_count": 100000
   },
   "sound": {
-    "aux_sounds_enabled": true,
-    "music_enabled": true
+    "aux_sounds_enabled": false,
+    "music_enabled": false
   },
   "logs": {
     "debug": true,

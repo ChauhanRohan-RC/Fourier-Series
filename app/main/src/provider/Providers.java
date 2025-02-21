@@ -50,8 +50,6 @@ public class Providers {
     }
 
 
-
-
     public static class NoopProvider implements FunctionProviderI {
 
         private static NoopProvider sInstance;
@@ -92,7 +90,7 @@ public class Providers {
         final Random r = R.RANDOM;
         final int len = r.nextInt(1, 5);
         final ComplexDomainFunctionI[] functions = new ComplexDomainFunctionI[len];
-        for (int i=0; i < len; i++) {
+        for (int i = 0; i < len; i++) {
             functions[i] = new SineSignal(r.nextFloat(1, 10), r.nextInt(4, 30), r.nextDouble(0, MathUtil.TWO_PI), r.nextFloat(0, 1), r.nextFloat(0.5f, 5f));
         }
 
@@ -109,17 +107,17 @@ public class Providers {
     );
 
     public static final FunctionProviderI RECT_FUNCTION = new SimpleFunctionProvider(
-            new FunctionMeta(FunctionType.INTERNAL_PROGRAM,"Rect Function"),
+            new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Rect Function"),
             new RectFunction(20, 10)
     );
 
     public static final FunctionProviderI SQUARE_FUNCTION = new SimpleFunctionProvider(
-            new FunctionMeta(FunctionType.INTERNAL_PROGRAM,"Square Function"),
+            new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Square Function"),
             new RectFunction(20, 20)
     );
 
     public static final FunctionProviderI CIRCLE_FUNCTION = new SimpleFunctionProvider(
-            new FunctionMeta(FunctionType.INTERNAL_PROGRAM,"Circle Function"),
+            new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Circle Function"),
             new CircleFunction()
     );
 
@@ -128,10 +126,19 @@ public class Providers {
             new PiSimulationFunction()
     );
 
-    public static final FunctionProviderI SINE_SIGNAL = new SimpleFunctionProvider(new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Sine Signal"), new MergedFunction(MergedFunction.MergeMode.UNION,
-            new SineSignal(1, 10, 0, 0, 1),
-            new SineSignal(2, 20, 0, 0, 1)
-    ));
+    public static final FunctionProviderI PURE_COSINE_SIGNAL = new SimpleFunctionProvider(
+            new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Pure Cosine"),
+            new SineSignal(2, 20, MathUtil.HALF_PI, 1, 1)
+    );
+
+    public static final FunctionProviderI MERGED_SINE_SIGNAL = new SimpleFunctionProvider(
+            new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Merged Sine"),
+            new MergedFunction(
+                    MergedFunction.MergeMode.UNION,
+                    new SineSignal(1, 10, 0, 0, 1),
+                    new SineSignal(2, 20, 0, 0, 1)
+            )
+    );
 
     public static final FunctionProviderI RANDOM_SIGNAL = new BaseFunctionProvider(
             new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "Random Signal"),
@@ -152,17 +159,17 @@ public class Providers {
     /* ................. RC ................ */
 
     public static final FunctionProviderI RC_CHARS = new SimpleFunctionProvider(
-            new FunctionMeta(FunctionType.INTERNAL_PROGRAM,"RC (chars)"),
+            new FunctionMeta(FunctionType.INTERNAL_PROGRAM, "RC (chars)"),
             new CharMerger(Arrays.asList(new CharR(), new CharC()), 10, true)
     );
 
     public static final FunctionProviderI RC_CONTINUOUS = new PathFunctionProvider(
-            new FunctionMeta(FunctionType.INTERNAL_PATH,"RC (One Line)"),
+            new FunctionMeta(FunctionType.INTERNAL_PATH, "RC (One Line)"),
             "m 114.56632,253.17963 -67.425992,5.54564 16.75325,-85.97094 -6.542969,35.34395 53.773301,-47.47666 -49.320681,10.12625 49.320681,-10.12625 -53.773301,47.47666 53.644271,57.48545 56.5344,-1.21182 -52.96296,-11.19228 7.002,-77.40808 46.60977,-13.98293 -46.60977,13.98293 z"
     );
 
     public static final FunctionProviderI RC_AQUIRE = new PathFunctionProvider(
-            new FunctionMeta(FunctionType.INTERNAL_PATH,"RC (Aquire)"),
+            new FunctionMeta(FunctionType.INTERNAL_PATH, "RC (Aquire)"),
             "m 112.18345,156.63332 c -5.84213,-4.83313 2.78768,-6.42478 5.71501,-9.94835 16.73067,-14.16886 26.15375,-36.51953 24.34171,-58.42009 -38.87618,0 -77.752351,0 -116.628526,0 0,46.99008 0,93.98015 0,140.97023 6.773344,0 13.546689,0 20.320033,0 0,-21.87226 0," +
                     "-43.74451 0,-65.61677 14.620869,-0.49717 29.535934,1.44514 43.81507,-2.11667 3.33665,-0.3306 4.306734,5.84622 6.620487,8.16853 12.115976,19.85497 24.231946,39.70994 36.347916,59.56491 7.90223,0 15.80447,0 23.7067,0 -14.74613,-24.2006 -29.49227,-48.40119 -44.2384,-72.60179 z " +
                     "M 91.863417,139.27663 c -14.066254,6.23062 -29.713188,3.35854 -44.602511,4.02167 -3.022389,-0.63445 -0.504735,-6.80895 -1.329229,-9.64129 0,-8.35737 0,-16.71473 0,-25.0721 24.623928,0 49.247855,0 73.871783,0 -4.43851,13.57705 -14.68836,25.1757 -27.940043,30.69172 z",
@@ -206,8 +213,8 @@ public class Providers {
     public static final FunctionProviderI DKV_AQUIRE = new PathFunctionProvider(
             new FunctionMeta(FunctionType.INTERNAL_PATH, "DKV (Aquire)"),
             "M 68.090704,145.00749 C 66.480726,131.47518 53.25553,121.01899 39.74509,122.22687 c -6.29417,0 -12.588341,0 -18.882511,0 0,2.54 0,5.08 0,7.62 8.004421,0.14336 " +
-            "16.044655,-0.30105 24.024444,0.24958 11.418501,1.44098 19.133702,14.69805 14.616143,25.30436 -2.792155,7.6895 -10.994565,12.91613 -19.140657,11.99043 -3.959976,0 -7.919953,0 -11.87993,0 " +
-            "0,-11.24479 0,-22.48958 0,-33.73437 -2.54,0 -5.08,0 -7.62,0 0,13.75833 0,27.51667 0,41.275 8.460001,-0.10003 16.9485,0.20289 25.390153,-0.15657 13.852489,-2.00932 24.09646,-15.9331 21.837972,-29.76781 z",
+                    "16.044655,-0.30105 24.024444,0.24958 11.418501,1.44098 19.133702,14.69805 14.616143,25.30436 -2.792155,7.6895 -10.994565,12.91613 -19.140657,11.99043 -3.959976,0 -7.919953,0 -11.87993,0 " +
+                    "0,-11.24479 0,-22.48958 0,-33.73437 -2.54,0 -5.08,0 -7.62,0 0,13.75833 0,27.51667 0,41.275 8.460001,-0.10003 16.9485,0.20289 25.390153,-0.15657 13.852489,-2.00932 24.09646,-15.9331 21.837972,-29.76781 z",
             "m 83.568696,145.56312 c 0,-7.77875 0,-15.5575 0,-23.33625 -2.54,0 -5.08,0 -7.62,0 0,10.31875 0,20.6375 0,30.95625 2.54,-2.54 5.08,-5.08 7.62,-7.62 z m 13.096875,3.01625 " +
                     "c 8.784169,-8.78417 17.568329,-17.56833 26.352499,-26.3525 -3.57187,0 -7.14375,0 -10.71562,0 -12.11953,12.08984 -24.17334,24.24574 -36.353754,36.27437 0,5.47688 0,10.95375 " +
                     "0,16.43063 2.54,0 5.08,0 7.62,0 0,-4.39208 0,-8.78417 0,-13.17625 2.566458,-2.59292 5.132917,-5.18583 7.699375,-7.77875 7.01146,6.985 14.022919,13.97 21.034379,20.955 3.57187,0 " +
@@ -229,16 +236,16 @@ public class Providers {
 
     public static final FunctionProviderI TREBLE_CLEF = new PathFunctionProvider(
             new FunctionMeta(FunctionType.INTERNAL_PATH, "Treble Clef"),
-    "M 51.688,5.25 C 44.547587,7.2709829 42.752854,15.397359 40.869726,21.595636 38.982039,30.834543 41.447267,40.141606 42.906,49.25 34.108088,58.50372 23.480548,67.729961 21.148778,80.956504 c -2.048685,13.006751 " +
-            "4.779029,28.222686 17.946078,32.314966 4.866906,3.33948 13.716403,-1.72244 16.641421,2.4086 1.125095,7.84217 4.006805,16.11122 1.373048,23.91484 -2.868007,5.71961 -11.462642,8.58611 -16.493864,3.96825 -0.902355," +
-            "-4.96892 9.53925,-5.42143 5.403732,-11.67442 -1.998765,-6.01347 -12.265833,-5.86804 -13.599447,0.50958 -2.98276,6.7666 3.335319,13.70933 9.860651,14.8617 6.80251,2.18261 15.980353,-0.81063 17.571245,-8.45859 2.202277," +
-            "-8.10503 -1.050045,-16.31557 -2.143852,-24.25654 2.85667,-4.9573 10.290242,-6.26184 11.518192,-12.81784 C 73.268887,91.935514 68.948253,78.698375 58.513381,75.138459 53.891516,75.304881 47.60321,75.308545 48.195605," +
-            "69.076071 45.300349,62.613251 48.92385,56.250104 53.566812,51.981779 61.340363,39.390222 62.0357,22.941859 56.419282,9.3964764 55.473838,7.4829681 53.90198,5.6207176 51.688,5.25 Z m 1.281,11.719 c 7.076539,2.471362 " +
-            "4.425838,11.796662 1.997544,16.885032 C 52.350675,39.12513 48.324358,43.487499 44.344,47.75 42.268156,37.667919 42.440311,25.291188 50.623363,17.879301 51.325154,17.410799 52.123981,17.063292 52.969,16.969 Z M 45.25," +
-            "61.656 c 0.218244,5.490995 5.828742,13.784623 -1.966625,16.477025 -7.125651,4.782636 -10.002295,16.280999 -3.240171,22.598905 1.750699,2.16512 8.829261,6.12311 3.942277,1.54463 -3.874005,-4.958126 -3.864756,-12.995897 " +
-            "1.418656,-16.988056 6.106089,-4.187332 5.35819,5.268137 6.295084,8.882397 C 52.827296,99.878522 53.93748,105.58977 55,111.31 42.848715,115.98597 26.959923,107.31605 26.163833,93.85488 24.722539,83.583652 30.491072,73.641845 " +
-            "38.532331,67.628107 40.771979,65.637949 43.065054,63.707109 45.25,61.656 Z m 6.094,21.469 c 9.438159,-0.813941 15.809813,10.447145 12.953949,18.75772 -0.151321,4.9237 -8.805972,11.63335 -8.419708,3.05093 C 54.396934,97.657876 " +
-            "52.865542,90.392433 51.344,83.125 Z"
+            "M 51.688,5.25 C 44.547587,7.2709829 42.752854,15.397359 40.869726,21.595636 38.982039,30.834543 41.447267,40.141606 42.906,49.25 34.108088,58.50372 23.480548,67.729961 21.148778,80.956504 c -2.048685,13.006751 " +
+                    "4.779029,28.222686 17.946078,32.314966 4.866906,3.33948 13.716403,-1.72244 16.641421,2.4086 1.125095,7.84217 4.006805,16.11122 1.373048,23.91484 -2.868007,5.71961 -11.462642,8.58611 -16.493864,3.96825 -0.902355," +
+                    "-4.96892 9.53925,-5.42143 5.403732,-11.67442 -1.998765,-6.01347 -12.265833,-5.86804 -13.599447,0.50958 -2.98276,6.7666 3.335319,13.70933 9.860651,14.8617 6.80251,2.18261 15.980353,-0.81063 17.571245,-8.45859 2.202277," +
+                    "-8.10503 -1.050045,-16.31557 -2.143852,-24.25654 2.85667,-4.9573 10.290242,-6.26184 11.518192,-12.81784 C 73.268887,91.935514 68.948253,78.698375 58.513381,75.138459 53.891516,75.304881 47.60321,75.308545 48.195605," +
+                    "69.076071 45.300349,62.613251 48.92385,56.250104 53.566812,51.981779 61.340363,39.390222 62.0357,22.941859 56.419282,9.3964764 55.473838,7.4829681 53.90198,5.6207176 51.688,5.25 Z m 1.281,11.719 c 7.076539,2.471362 " +
+                    "4.425838,11.796662 1.997544,16.885032 C 52.350675,39.12513 48.324358,43.487499 44.344,47.75 42.268156,37.667919 42.440311,25.291188 50.623363,17.879301 51.325154,17.410799 52.123981,17.063292 52.969,16.969 Z M 45.25," +
+                    "61.656 c 0.218244,5.490995 5.828742,13.784623 -1.966625,16.477025 -7.125651,4.782636 -10.002295,16.280999 -3.240171,22.598905 1.750699,2.16512 8.829261,6.12311 3.942277,1.54463 -3.874005,-4.958126 -3.864756,-12.995897 " +
+                    "1.418656,-16.988056 6.106089,-4.187332 5.35819,5.268137 6.295084,8.882397 C 52.827296,99.878522 53.93748,105.58977 55,111.31 42.848715,115.98597 26.959923,107.31605 26.163833,93.85488 24.722539,83.583652 30.491072,73.641845 " +
+                    "38.532331,67.628107 40.771979,65.637949 43.065054,63.707109 45.25,61.656 Z m 6.094,21.469 c 9.438159,-0.813941 15.809813,10.447145 12.953949,18.75772 -0.151321,4.9237 -8.805972,11.63335 -8.419708,3.05093 C 54.396934,97.657876 " +
+                    "52.865542,90.392433 51.344,83.125 Z"
     );
 
     public static final FunctionProviderI HILBERT_CURVE = new PathFunctionProvider(
@@ -353,7 +360,7 @@ public class Providers {
      * A fallback function to load in case of error
      * <p>
      * Must always be asserted without errors
-     * */
+     */
     public static final FunctionProviderI FALLBACK_PROVIDER = RC_CHARS;
 
     @NotNull
@@ -363,11 +370,12 @@ public class Providers {
             STEP_FUNCTION,
             RECT_FUNCTION,
             CIRCLE_FUNCTION,
-            PI_SIM_FUNCTION,
-            SINE_SIGNAL,
+            PURE_COSINE_SIGNAL,
+            MERGED_SINE_SIGNAL,
             RANDOM_SIGNAL,
             PARTICLE_SPREAD,
             PARTICLE_LOCALISED,
+            PI_SIM_FUNCTION,
             RC_CHARS
     );
 
@@ -401,8 +409,6 @@ public class Providers {
 
         ALL_INTERNAL_FUNCTIONS = allInternals;
     }
-
-
 
 
 //    @NotNull
